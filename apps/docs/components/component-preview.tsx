@@ -4,8 +4,8 @@ import { highlight } from 'fumadocs-core/highlight';
 import { CodeBlock, Pre } from 'fumadocs-ui/components/codeblock';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import type { ReactNode } from 'react';
-import { registry } from '../registry';
 import { cn } from '../lib/utils';
+import { registry } from '../registry';
 
 interface ComponentPreviewProps {
   /**
@@ -51,10 +51,7 @@ export async function ComponentPreview({
   }
 
   const { Component, folder } = entry;
-  const source = await readFile(
-    join(process.cwd(), 'registry', folder, `${name}.tsx`),
-    'utf-8',
-  );
+  const source = await readFile(join(process.cwd(), 'registry', folder, `${name}.tsx`), 'utf-8');
 
   const highlighted = await highlight(source, {
     lang: 'tsx',

@@ -1,40 +1,40 @@
 ---
-title: Color
-description: The Uranus cosmic palette — Azul Profundo, Azul Marinho, Azul Turquesa, Lilás Claro — and the gradients that bind them.
+title: Cor
+description: A paleta cósmica Uranus — Azul Profundo, Azul Marinho, Azul Turquesa, Lilás Claro — e os gradientes que as unem.
 ---
 
-Color is the most loaded decision in the Uranus brand. The 2026 manual frames it this way:
+Cor é a decisão mais carregada da marca Uranus. O manual 2026 a enquadra assim:
 
 > _"A identidade visual utiliza uma escala cromática baseada em tons cósmicos para reforçar sua autoridade tecnológica. A combinação entre o preto, o azul marinho e o turquesa permite a criação de gradientes com profundidade tridimensional."_
 
-Every ramp is expressed in hex at the brand stops and interpolated smoothly between them so the `cosmic`, `aurora`, `nebula`, and `galaxy` gradients stay on-brand at any angle.
+Cada rampa é expressa em hex nos stops da marca e interpolada suavemente entre eles, de modo que os gradientes `cosmic`, `aurora`, `nebula` e `galaxy` permaneçam fiéis à marca em qualquer ângulo.
 
-## Brand palette
+## Paleta da marca
 
-| Name | HEX | Token | CSS variable | Role |
+| Nome | HEX | Token | Variável CSS | Papel |
 | --- | --- | --- | --- | --- |
-| Azul Profundo | `#000328` | `brand.950` | `--color-brand-950` | Deep space / dark surfaces |
-| Azul Marinho | `#082d71` | `brand.800` | `--color-brand-800` | Wordmark, primary CTA, focus trails |
-| Azul Turquesa | `#5dddfa` | `brand.400` | `--color-brand-400` | Accent, focus ring, highlights, glows |
-| Lilás Claro | `#f8ddfc` | `accent.200` | `--color-accent-200` | Decorative highlight, halos |
-| Preto Clássico | `#000000` | `neutral.950` | `--color-neutral-950` | Base black |
-| Branco Puro | `#ffffff` | `neutral.50` | `--color-neutral-50` | Base white |
+| Azul Profundo | `#000328` | `brand.950` | `--color-brand-950` | Espaço profundo / superfícies escuras |
+| Azul Marinho | `#082d71` | `brand.800` | `--color-brand-800` | Wordmark, CTA primário, trilhas de foco |
+| Azul Turquesa | `#5dddfa` | `brand.400` | `--color-brand-400` | Acento, anel de foco, destaques, brilhos |
+| Lilás Claro | `#f8ddfc` | `accent.200` | `--color-accent-200` | Highlight decorativo, halos |
+| Preto Clássico | `#000000` | `neutral.950` | `--color-neutral-950` | Preto base |
+| Branco Puro | `#ffffff` | `neutral.50` | `--color-neutral-50` | Branco base |
 
-In addition to the six pinned brand stops, the `brand` and `accent` ramps expose eleven hand-tuned steps (`50`–`950`) for gradients and hover states.
+Além dos seis stops fixos da marca, as rampas `brand` e `accent` expõem onze passos (`50`–`950`) ajustados à mão para gradientes e estados de hover.
 
-## Semantic tokens
+## Tokens semânticos
 
-Consume colors through semantic tokens, **never** raw ramp steps. This keeps dark mode, high-contrast, and future rebrands free.
+Consuma cores por tokens semânticos, **nunca** por passos brutos da rampa. Isso mantém modo escuro, alto contraste e futuros rebrands livres.
 
-| Semantic | Maps to | Light | Dark |
+| Semântico | Mapeia para | Claro | Escuro |
 | --- | --- | --- | --- |
-| `background` | surface | `neutral.50` | `brand.950` |
-| `foreground` | text | `brand.950` | `neutral.50` |
+| `background` | superfície | `neutral.50` | `brand.950` |
+| `foreground` | texto | `brand.950` | `neutral.50` |
 | `primary` | CTAs | `brand.800` (Azul Marinho) | `brand.400` (Azul Turquesa) |
-| `accent` | highlights | `brand.400` (Azul Turquesa) | `brand.400` |
-| `highlight` | decorative | `accent.200` (Lilás Claro) | `accent.200` |
-| `ring` | focus | `brand.400` | `brand.400` |
-| `destructive` | errors | `danger.600` | `danger.500` |
+| `accent` | destaques | `brand.400` (Azul Turquesa) | `brand.400` |
+| `highlight` | decorativo | `accent.200` (Lilás Claro) | `accent.200` |
+| `ring` | foco | `brand.400` | `brand.400` |
+| `destructive` | erros | `danger.600` | `danger.500` |
 | `success` / `warning` | status | `success.600` / `warning.500` | `success.400` / `warning.400` |
 
 ```tsx
@@ -43,9 +43,9 @@ Consume colors through semantic tokens, **never** raw ramp steps. This keeps dar
 </button>
 ```
 
-## Gradients
+## Gradientes
 
-The brand gradients live as CSS variables and are exposed as Tailwind utilities (`bg-cosmic`, `bg-aurora`, `bg-nebula`, `bg-galaxy`, `bg-horizon`, `bg-halo`). They are the preferred background for hero moments, login screens, and brand storytelling surfaces.
+Os gradientes da marca vivem como variáveis CSS e são expostos como utilitários do Tailwind (`bg-cosmic`, `bg-aurora`, `bg-nebula`, `bg-galaxy`, `bg-horizon`, `bg-halo`). São o fundo preferido para hero moments, telas de login e superfícies de brand storytelling.
 
 ```tsx
 <section className="bg-cosmic text-white">
@@ -57,15 +57,15 @@ The brand gradients live as CSS variables and are exposed as Tailwind utilities 
 <section className="bg-nebula text-white">...</section>
 ```
 
-| Utility | Stops | Use it for |
+| Utilitário | Stops | Use para |
 | --- | --- | --- |
-| `bg-cosmic` | `#000` → `#000328` → `#082d71` | Primary hero, login surfaces |
-| `bg-aurora` | Radial turquoise + radial navy over deep space | Feature panels, empty states |
+| `bg-cosmic` | `#000` → `#000328` → `#082d71` | Hero principal, superfícies de login |
+| `bg-aurora` | Radial turquesa + radial marinho sobre espaço profundo | Painéis de destaque, empty states |
 | `bg-nebula` | `#000328` → `#082d71` → `#5dddfa` → `#f8ddfc` | Brand storytelling, marketing |
-| `bg-galaxy` | `#000` → `#000328` → `#5dddfa` | Call-out banners |
-| `bg-horizon` | `#082d71` → `#000328` | Subtle cards on dark surfaces |
-| `bg-halo` | Radial lilac highlight | Soft focal glow layered above other gradients |
+| `bg-galaxy` | `#000` → `#000328` → `#5dddfa` | Banners de chamada |
+| `bg-horizon` | `#082d71` → `#000328` | Cards sutis em superfícies escuras |
+| `bg-halo` | Radial lilás de highlight | Brilho focal suave aplicado sobre outros gradientes |
 
-## Incorrect usage
+## Uso incorreto
 
-From the brand manual: avoid yellow+blue or amber+blue pairings outside very specific contexts, never recolor the logo into orange or green, and do not substitute turquoise with aqua/teal. When in doubt, use navy on white or white on cosmic.
+Do manual de marca: evite pares amarelo+azul ou âmbar+azul fora de contextos muito específicos, nunca recoloque o logo em laranja ou verde, e não substitua o turquesa por aqua/teal. Na dúvida, use marinho sobre branco ou branco sobre cósmico.

@@ -1,30 +1,30 @@
 ---
-title: Motion
-description: Duration, easing, and reduced-motion principles powered by Motion.
+title: Movimento
+description: Princípios de duração, easing e reduced-motion com Motion.
 ---
 
-Motion in Uranus is functional: it communicates continuity, hierarchy, and feedback — never decoration. All animation runs through the `motion` library (the successor to Framer Motion), using shared variants exported from `@uranus-workspace/design-system`:
+Movimento na Uranus é funcional: ele comunica continuidade, hierarquia e feedback — nunca decoração. Toda animação passa pela biblioteca `motion` (sucessora do Framer Motion), usando variantes compartilhadas exportadas pelo `@uranus-workspace/design-system`:
 
 ```ts
 import { fadeVariants, slideUpVariants, scaleInVariants } from '@uranus-workspace/design-system';
 ```
 
-## Durations
+## Durações
 
-| Token | Value | Use for |
+| Token | Valor | Use para |
 |---|---|---|
-| instant | 0ms | Hard state swaps |
-| fast | 120ms | Hover, focus, small tint changes |
-| base | 200ms | Most UI transitions |
-| slow | 320ms | Dialogs, bottom sheets |
-| slower | 480ms | Celebratory or onboarding moments |
+| instant | 0ms | Trocas de estado instantâneas |
+| fast | 120ms | Hover, foco, pequenas mudanças de tint |
+| base | 200ms | A maioria das transições de UI |
+| slow | 320ms | Diálogos, bottom sheets |
+| slower | 480ms | Momentos de celebração ou onboarding |
 
 ## Easings
 
-- `standard` — default curve, `cubic-bezier(0.2, 0, 0, 1)`
+- `standard` — curva padrão, `cubic-bezier(0.2, 0, 0, 1)`
 - `emphasized` — `cubic-bezier(0.3, 0, 0, 1)`
-- `decelerate`, `accelerate` — directional transitions
+- `decelerate`, `accelerate` — transições direcionais
 
 ## Reduced motion
 
-Every animation **must** respect `prefers-reduced-motion`. Use `respectReducedMotion()` from `@uranus-workspace/design-system` to wrap variants, and rely on the CSS media query declared in the Tailwind preset for anything not driven by Motion.
+Toda animação **precisa** respeitar `prefers-reduced-motion`. Use `respectReducedMotion()` do `@uranus-workspace/design-system` para envelopar variantes, e confie na media query CSS declarada no preset do Tailwind para o que não é dirigido pelo Motion.

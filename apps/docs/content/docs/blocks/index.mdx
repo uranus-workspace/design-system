@@ -1,17 +1,17 @@
 ---
-title: Blocks
-description: Composite layouts built by combining core primitives.
+title: Blocos
+description: Layouts compostos construídos a partir dos primitivos do core.
 ---
 
-Blocks live in `@uranus-workspace/blocks` and are opinionated compositions of the primitives in `@uranus-workspace/design-system`. They exist so product teams don't re-implement the same `PageHeader` or `EmptyState` across five apps with five different spacings.
+Blocos vivem em `@uranus-workspace/blocks` e são composições opinativas dos primitivos do `@uranus-workspace/design-system`. Eles existem para que times de produto não reimplementem o mesmo `PageHeader` ou `EmptyState` em cinco apps com cinco espaçamentos diferentes.
 
-A block is the right abstraction when:
+Um bloco é a abstração certa quando:
 
-- Multiple products need the same layout shape.
-- The layout has an accessibility contract worth centralizing (landmarks, heading order).
-- It composes **only** existing primitives — a block never redefines a button or an input.
+- Múltiplos produtos precisam do mesmo formato de layout.
+- O layout tem um contrato de acessibilidade que vale a pena centralizar (landmarks, ordem de headings).
+- Ele compõe **apenas** primitivos existentes — um bloco nunca redefine um botão ou um input.
 
-Initial blocks:
+## Blocos documentados
 
 - [PageHeader](/docs/blocks/page-header)
 - [EmptyState](/docs/blocks/empty-state)

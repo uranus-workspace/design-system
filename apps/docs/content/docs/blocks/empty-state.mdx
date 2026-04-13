@@ -1,11 +1,13 @@
 ---
 title: EmptyState
-description: A placeholder surface shown when a list, table, or section has no content yet.
+description: Superfície placeholder mostrada quando uma lista, tabela ou seção ainda não tem conteúdo.
 ---
 
-`EmptyState` communicates **why** a region is empty and **what to do next**. It's announced as a `role="status"` landmark so assistive technology knows it's reporting a current condition.
+`EmptyState` comunica **por que** uma região está vazia e **o que fazer em seguida**. Ele é anunciado como `role="status"` para que tecnologias assistivas saibam que está reportando uma condição corrente.
 
-## Usage
+<ComponentPreview name="empty-state-default" />
+
+## Uso
 
 ```tsx
 import { EmptyState } from '@uranus-workspace/blocks';
@@ -14,19 +16,19 @@ import { FolderPlus } from 'lucide-react';
 
 <EmptyState
   icon={<FolderPlus aria-hidden />}
-  title="No projects yet"
-  description="Create your first project to start collaborating with your team."
+  title="Nenhum projeto ainda"
+  description="Crie seu primeiro projeto para começar a colaborar com sua equipe."
   actions={
     <>
-      <Button variant="outline">Learn more</Button>
-      <Button>New project</Button>
+      <Button variant="outline">Saiba mais</Button>
+      <Button>Novo projeto</Button>
     </>
   }
 />
 ```
 
-## Guidance
+## Diretrizes
 
-- Always give users a next action — an `EmptyState` without `actions` is a dead end.
-- The description explains **why** there's nothing here, not **what** will be here. ("Create your first project", not "Your projects will appear here".)
-- Keep the icon decorative (`aria-hidden`) — the title carries the semantic weight.
+- Sempre ofereça ao usuário uma próxima ação — um `EmptyState` sem `actions` é um beco sem saída.
+- A descrição explica **por que** não há nada aqui, não **o que** estará aqui. ("Crie seu primeiro projeto", não "Seus projetos aparecerão aqui".)
+- Mantenha o ícone decorativo (`aria-hidden`) — o título carrega o peso semântico.

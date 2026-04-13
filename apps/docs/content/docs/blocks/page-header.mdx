@@ -1,30 +1,32 @@
 ---
 title: PageHeader
-description: The top-of-page banner that names a view and surfaces its primary actions.
+description: O banner superior de uma tela que dá nome à vista e expõe as ações primárias.
 ---
 
-`PageHeader` renders as a `<header>` landmark (`role="banner"` when used at the top of a view) containing an `<h1>`, an optional description, optional breadcrumbs, and a slot for actions.
+`PageHeader` renderiza como um landmark `<header>` contendo um `<h1>`, uma descrição opcional, breadcrumbs opcionais e um slot para ações.
 
-## Usage
+<ComponentPreview name="page-header-default" align="start" />
+
+## Uso
 
 ```tsx
 import { PageHeader } from '@uranus-workspace/blocks';
 import { Button } from '@uranus-workspace/design-system';
 
 <PageHeader
-  title="Projects"
-  description="Manage every project inside your Uranus workspace."
+  title="Projetos"
+  description="Gerencie todos os projetos dentro do seu workspace Uranus."
   actions={
     <>
-      <Button variant="outline">Import</Button>
-      <Button>New project</Button>
+      <Button variant="outline">Importar</Button>
+      <Button>Novo projeto</Button>
     </>
   }
 />
 ```
 
-## Guidance
+## Diretrizes
 
-- Each view has **one** `PageHeader` and **one** `<h1>`. Don't nest PageHeaders.
-- Put navigation context (breadcrumbs) in the `breadcrumbs` slot, not as part of the title.
-- Keep actions to at most two visible; overflow into a menu when there are more.
+- Cada tela tem **um** `PageHeader` e **um** `<h1>`. Não aninhe PageHeaders.
+- Coloque contexto de navegação (breadcrumbs) no slot `breadcrumbs`, não como parte do título.
+- Limite a no máximo duas ações visíveis; transborde o restante em um menu.

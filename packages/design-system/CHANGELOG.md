@@ -1,3 +1,10 @@
+# [@uranus-workspace/design-system-v1.0.1](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/design-system@1.0.0...@uranus-workspace/design-system@1.0.1) (2026-04-13)
+
+
+### Bug Fixes
+
+* **release:** stop committing package.json back through @semantic-release/git ([e1cbb19](https://github.com/uranus-workspace/design-system/commit/e1cbb193ffc368139eaba59fe7f961778adce7bf))
+
 # @uranus-workspace/design-system-v1.0.0 (2026-04-13)
 
 

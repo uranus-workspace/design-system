@@ -1,21 +1,26 @@
 ---
-title: Components
-description: Core UI primitives shipped by @uranus-workspace/design-system.
+title: Componentes
+description: Primitivos de UI entregues pelo @uranus-workspace/design-system.
 ---
 
-Components live in `@uranus-workspace/design-system` and are sourced from [shadcn/ui](https://ui.shadcn.com/docs/components). We own the code — `pnpm dlx shadcn@latest add <name>` writes new primitives directly into `packages/design-system/src/components/`, where we customize them to match Uranus tokens and branding.
+Os componentes vivem em `@uranus-workspace/design-system` e têm origem em [shadcn/ui](https://ui.shadcn.com/docs/components). Nós somos donos do código — `pnpm dlx shadcn@latest add <nome>` escreve novos primitivos direto em `packages/design-system/src/components/`, onde customizamos para casar com os tokens e a marca Uranus.
 
-Every component ships with:
+Todo componente chega com:
 
-1. A strict TypeScript implementation
-2. `jest-axe` unit tests
-3. Storybook stories with a11y addon errors
-4. An MDX documentation page (this section)
+1. Uma implementação TypeScript estrita
+2. Testes `jest-axe`
+3. Stories do Storybook com o addon a11y em `error`
+4. Uma página de documentação MDX (esta seção)
 
-Initial primitives:
+## Primitivos documentados
 
+- [Alert](/docs/components/alert)
+- [Badge](/docs/components/badge)
 - [Button](/docs/components/button)
-- [Input](/docs/components/input)
 - [Card](/docs/components/card)
+- [Dialog](/docs/components/dialog)
+- [Input](/docs/components/input)
+- [Tabs](/docs/components/tabs)
+- [Tooltip](/docs/components/tooltip)
 
-More are added continuously via the shadcn CLI.
+Mais primitivos entram continuamente via o CLI do shadcn. O pacote exporta todo o catálogo base — 54+ componentes — mesmo que nem todos tenham uma página curada aqui ainda.

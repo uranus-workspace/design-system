@@ -1,11 +1,13 @@
 ---
 title: Card
-description: A surface that groups related information and actions.
+description: Superfície que agrupa informações e ações relacionadas.
 ---
 
-`Card` is a composition of small, slot-like subcomponents: `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`. You assemble them yourself — the component doesn't dictate layout beyond the outer surface.
+`Card` é uma composição de sub-componentes tipo slot: `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`. Você os monta manualmente — o componente não dita o layout além da superfície externa.
 
-## Usage
+<ComponentPreview name="card-default" />
+
+## Uso
 
 ```tsx
 import {
@@ -20,23 +22,23 @@ import {
 
 <Card>
   <CardHeader>
-    <CardTitle>Project Apollo</CardTitle>
-    <CardDescription>A brand-new launch on the Uranus platform.</CardDescription>
+    <CardTitle>Projeto Apollo</CardTitle>
+    <CardDescription>Um novo lançamento na plataforma Uranus.</CardDescription>
   </CardHeader>
-  <CardContent>Body content goes here.</CardContent>
+  <CardContent>Conteúdo do corpo vai aqui.</CardContent>
   <CardFooter className="justify-end gap-2">
-    <Button variant="ghost">Cancel</Button>
-    <Button>Continue</Button>
+    <Button variant="ghost">Cancelar</Button>
+    <Button>Continuar</Button>
   </CardFooter>
 </Card>
 ```
 
-## When to use
+## Quando usar
 
-- Listing items of the same kind (projects, users, invoices).
-- Grouping a single task with its actions into a bounded surface.
+- Listar itens do mesmo tipo (projetos, usuários, faturas).
+- Agrupar uma única tarefa com suas ações em uma superfície delimitada.
 
-## When not to use
+## Quando não usar
 
-- **Not a replacement for layout.** If you find yourself nesting cards inside cards, reach for spacing, dividers, or a `PageHeader` instead.
-- **Not for navigation.** A clickable card is fine, but wrap it in a real `<a>` or `<button>` so keyboard users can reach it.
+- **Não é substituto para layout.** Se você se pegar aninhando cards dentro de cards, prefira espaçamento, divisores ou um `PageHeader`.
+- **Não é para navegação.** Um card clicável é aceitável, mas envolva-o em um `<a>` ou `<button>` real para que usuários de teclado consigam alcançá-lo.

@@ -1,29 +1,33 @@
 ---
 title: Input
-description: A single-line text field.
+description: Campo de texto de uma única linha.
 ---
 
-`Input` is a thin, token-driven wrapper over the native `<input>` element. It inherits every standard HTML attribute, so `type`, `required`, `pattern`, `aria-*`, and form integration all work out of the box.
+`Input` é um wrapper fino, guiado por tokens, sobre o elemento `<input>` nativo. Ele herda todo atributo HTML padrão, então `type`, `required`, `pattern`, `aria-*` e integração com formulário funcionam imediatamente.
 
-## Usage
+<ComponentPreview name="input-default" />
+
+## Uso
 
 ```tsx
-import { Input } from '@uranus-workspace/design-system';
+import { Input, Label } from '@uranus-workspace/design-system';
 
-<label className="flex flex-col gap-2 text-sm">
-  Email
-  <Input type="email" name="email" required />
-</label>
+<div className="grid gap-2">
+  <Label htmlFor="email">Email</Label>
+  <Input id="email" type="email" name="email" required />
+</div>
 ```
 
-## States
+## Estados
 
-- **Default** — enabled, empty or filled.
-- **Disabled** — use `disabled`. Avoid disabling inputs without explaining why nearby.
-- **Invalid** — set `aria-invalid="true"`. The border and focus ring turn destructive red. Pair with a visible error message referenced by `aria-describedby`.
+- **Padrão** — habilitado, vazio ou preenchido.
+- **Desabilitado** — use `disabled`. Evite desabilitar inputs sem explicar o motivo por perto.
+- **Inválido** — defina `aria-invalid="true"`. A borda e o anel de foco viram destrutivos. Combine com uma mensagem de erro visível referenciada por `aria-describedby`.
 
-## Accessibility
+<ComponentPreview name="input-states" />
 
-- Every input must have a label. Either wrap it in `<label>` or use `aria-labelledby` / `aria-label`.
-- Error messages belong in the accessible tree via `aria-describedby`, not as a tooltip.
-- Never rely on placeholder text as the only label.
+## Acessibilidade
+
+- Todo input precisa de um rótulo. Envelope em `<label>` ou use `aria-labelledby` / `aria-label`.
+- Mensagens de erro pertencem à árvore acessível via `aria-describedby`, não como tooltip.
+- Nunca dependa do placeholder como único rótulo — ele some quando o campo é preenchido.

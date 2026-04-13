@@ -1,3 +1,23 @@
+# [@uranus-workspace/design-system-v2.0.0](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/design-system@1.0.2...@uranus-workspace/design-system@2.0.0) (2026-04-13)
+
+
+* feat(tokens)!: drop Lexend Exa, standardize on Poppins everywhere ([8f07539](https://github.com/uranus-workspace/design-system/commit/8f07539f1de8ecb7f1e459b96ba1cb48ab0d31ae))
+
+
+### Features
+
+* **design-system:** re-export toast helper from sonner module ([032bcd1](https://github.com/uranus-workspace/design-system/commit/032bcd1ff40cd2c8e2c6dc652efd6d8f71d6c8b9))
+
+
+### BREAKING CHANGES
+
+* consumers that explicitly imported or relied on
+Lexend Exa being loaded by @uranus-workspace/design-system need to
+load it themselves. The design system no longer ships or references
+the Lexend Exa family.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
 # [@uranus-workspace/design-system-v1.0.2](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/design-system@1.0.1...@uranus-workspace/design-system@1.0.2) (2026-04-13)
 
 

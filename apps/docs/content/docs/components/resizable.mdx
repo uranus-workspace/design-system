@@ -9,11 +9,11 @@ description: Painéis divididos e redimensionáveis para layouts densos de aplic
 
 ## Anatomia
 
-- **ResizablePanelGroup** — raiz que aceita `direction="horizontal"` ou `"vertical"`. Define o sentido do arraste.
+- **ResizablePanelGroup** — raiz que aceita `orientation="horizontal"` ou `"vertical"`. Define o sentido do arraste.
 - **ResizablePanel** — cada painel. Aceita `defaultSize`, `minSize`, `maxSize` (percentuais), `collapsible` e `onResize`.
 - **ResizableHandle** — a divisória. Passe `withHandle` para exibir o "puxador" visual no centro.
 
-Grupos podem ser aninhados para criar layouts em T ou em cruz, como no exemplo acima.
+Grupos podem ser aninhados para criar layouts em T ou em cruz.
 
 ## Uso
 
@@ -26,7 +26,7 @@ import {
   ResizablePanelGroup,
 } from '@uranus-workspace/design-system';
 
-<ResizablePanelGroup direction="horizontal">
+<ResizablePanelGroup orientation="horizontal">
   <ResizablePanel defaultSize={25} minSize={15}>
     Sidebar
   </ResizablePanel>

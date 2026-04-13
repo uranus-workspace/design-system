@@ -1,48 +1,84 @@
 /**
- * Uranus Tailwind v4 preset — consumed by apps/packages via `@import "@uranus-workspace/tailwind-config";`
+ * Uranus Tailwind v4 preset — consumed by apps/packages via
+ * `@import "@uranus-workspace/tailwind-config";`.
  *
- * The @theme block maps design tokens to Tailwind utilities. Values come from
- * @uranus-workspace/tokens (generated CSS variables in dist/tokens.css).
- * Import order: tokens first, then this preset, then dark.css if needed.
+ * Semantic tokens map Uranus brand primitives (from the 2026 brand manual)
+ * into the names shadcn/ui components read. Raw ramps live in
+ * @uranus-workspace/tokens — never reference `--color-brand-*` inside
+ * component code; always go through the semantic layer below.
  */
 
 @import "tailwindcss";
 @import "@uranus-workspace/tokens/css";
 
 @theme {
-  /* Colors — surface */
+  /* Surface — light theme. Uranus leans white/neutral for content surfaces so
+     the cosmic gradients can shine on hero moments without fatigue. */
   --color-background: var(--color-neutral-50);
-  --color-foreground: var(--color-neutral-950);
+  --color-foreground: var(--color-brand-950);
   --color-muted: var(--color-neutral-100);
-  --color-muted-foreground: var(--color-neutral-500);
+  --color-muted-foreground: var(--color-brand-700);
   --color-border: var(--color-neutral-200);
   --color-input: var(--color-neutral-200);
-  --color-ring: var(--color-brand-500);
+  --color-ring: var(--color-brand-400);
 
-  /* Colors — semantic */
-  --color-primary: var(--color-brand-600);
+  /* Primary = Azul Marinho (#082d71). Logo wordmark & CTAs. */
+  --color-primary: var(--color-brand-800);
   --color-primary-foreground: var(--color-neutral-50);
+
+  /* Secondary = soft neutral that pairs with navy. */
   --color-secondary: var(--color-neutral-100);
-  --color-secondary-foreground: var(--color-neutral-900);
-  --color-accent: var(--color-brand-100);
-  --color-accent-foreground: var(--color-brand-900);
+  --color-secondary-foreground: var(--color-brand-900);
+
+  /* Accent = Azul Turquesa (#5dddfa). Highlights, focus, hero glows. */
+  --color-accent: var(--color-brand-400);
+  --color-accent-foreground: var(--color-brand-950);
+
+  /* Highlight = Lilás Claro (#f8ddfc). Reserved for decorative highlights. */
+  --color-highlight: var(--color-accent-200);
+  --color-highlight-foreground: var(--color-brand-950);
+
+  /* Status tokens */
   --color-destructive: var(--color-danger-600);
   --color-destructive-foreground: var(--color-neutral-50);
   --color-success: var(--color-success-600);
   --color-success-foreground: var(--color-neutral-50);
   --color-warning: var(--color-warning-500);
-  --color-warning-foreground: var(--color-neutral-950);
+  --color-warning-foreground: var(--color-brand-950);
+  --color-info: var(--color-brand-400);
+  --color-info-foreground: var(--color-brand-950);
 
-  /* Colors — card/popover */
+  /* Card / popover surfaces */
   --color-card: var(--color-neutral-50);
-  --color-card-foreground: var(--color-neutral-950);
+  --color-card-foreground: var(--color-brand-950);
   --color-popover: var(--color-neutral-50);
-  --color-popover-foreground: var(--color-neutral-950);
+  --color-popover-foreground: var(--color-brand-950);
+
+  /* Sidebar tokens used by shadcn `sidebar` primitive */
+  --color-sidebar: var(--color-neutral-50);
+  --color-sidebar-foreground: var(--color-brand-950);
+  --color-sidebar-primary: var(--color-brand-800);
+  --color-sidebar-primary-foreground: var(--color-neutral-50);
+  --color-sidebar-accent: var(--color-neutral-100);
+  --color-sidebar-accent-foreground: var(--color-brand-900);
+  --color-sidebar-border: var(--color-neutral-200);
+  --color-sidebar-ring: var(--color-brand-400);
+
+  /* Chart palette built from the cosmic ramp */
+  --color-chart-1: var(--color-brand-400);
+  --color-chart-2: var(--color-brand-800);
+  --color-chart-3: var(--color-accent-300);
+  --color-chart-4: var(--color-brand-600);
+  --color-chart-5: var(--color-brand-950);
 
   /* Radii */
-  --radius: var(--radius-md);
+  --radius: var(--radius-lg);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
 
-  /* Font families */
+  /* Font families — Lexend Exa / Poppins from the brand manual */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-display: var(--font-display);
@@ -64,10 +100,19 @@
     color: var(--color-foreground);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
+  }
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-brand-400) 40%, transparent);
+    color: var(--color-brand-950);
   }
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -79,6 +124,26 @@
       scroll-behavior: auto !important;
     }
   }
+}
+
+/* Utility helpers for the Uranus cosmic gradient backgrounds. */
+@utility bg-cosmic {
+  background-image: var(--gradient-cosmic);
+}
+@utility bg-aurora {
+  background-image: var(--gradient-aurora);
+}
+@utility bg-nebula {
+  background-image: var(--gradient-nebula);
+}
+@utility bg-galaxy {
+  background-image: var(--gradient-galaxy);
+}
+@utility bg-horizon {
+  background-image: var(--gradient-horizon);
+}
+@utility bg-halo {
+  background-image: var(--gradient-halo);
 }
 
 @keyframes fade-in {
@@ -107,5 +172,13 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+@keyframes shimmer {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: -200% 0;
   }
 }

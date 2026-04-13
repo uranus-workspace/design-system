@@ -1,27 +1,56 @@
 /**
- * Dark mode overrides — apply via `<html class="dark">` or a `@media (prefers-color-scheme: dark)` wrapper.
+ * Dark mode overrides — apply via `<html class="dark">` or a
+ * `@media (prefers-color-scheme: dark)` wrapper.
+ *
+ * The Uranus dark theme is cosmic by default: surfaces fade through Azul
+ * Profundo (#000328) and Azul Marinho (#082d71), with Azul Turquesa (#5dddfa)
+ * reserved for focus, accents, and highlights.
  */
 
 .dark {
-  --color-background: var(--color-neutral-950);
+  --color-background: var(--color-brand-950);
   --color-foreground: var(--color-neutral-50);
-  --color-muted: var(--color-neutral-900);
-  --color-muted-foreground: var(--color-neutral-400);
-  --color-border: var(--color-neutral-800);
-  --color-input: var(--color-neutral-800);
+  --color-muted: var(--color-brand-900);
+  --color-muted-foreground: var(--color-brand-200);
+  --color-border: color-mix(in oklab, var(--color-brand-700) 45%, transparent);
+  --color-input: color-mix(in oklab, var(--color-brand-800) 55%, transparent);
   --color-ring: var(--color-brand-400);
 
-  --color-primary: var(--color-brand-500);
-  --color-primary-foreground: var(--color-neutral-950);
-  --color-secondary: var(--color-neutral-800);
+  --color-primary: var(--color-brand-400);
+  --color-primary-foreground: var(--color-brand-950);
+  --color-secondary: var(--color-brand-900);
   --color-secondary-foreground: var(--color-neutral-50);
-  --color-accent: var(--color-brand-900);
-  --color-accent-foreground: var(--color-brand-100);
+  --color-accent: var(--color-brand-400);
+  --color-accent-foreground: var(--color-brand-950);
+  --color-highlight: var(--color-accent-200);
+  --color-highlight-foreground: var(--color-brand-950);
+
   --color-destructive: var(--color-danger-500);
   --color-destructive-foreground: var(--color-neutral-50);
+  --color-success: var(--color-success-400);
+  --color-success-foreground: var(--color-brand-950);
+  --color-warning: var(--color-warning-400);
+  --color-warning-foreground: var(--color-brand-950);
+  --color-info: var(--color-brand-400);
+  --color-info-foreground: var(--color-brand-950);
 
-  --color-card: var(--color-neutral-900);
+  --color-card: var(--color-brand-900);
   --color-card-foreground: var(--color-neutral-50);
-  --color-popover: var(--color-neutral-900);
+  --color-popover: var(--color-brand-900);
   --color-popover-foreground: var(--color-neutral-50);
+
+  --color-sidebar: var(--color-brand-950);
+  --color-sidebar-foreground: var(--color-neutral-50);
+  --color-sidebar-primary: var(--color-brand-400);
+  --color-sidebar-primary-foreground: var(--color-brand-950);
+  --color-sidebar-accent: var(--color-brand-900);
+  --color-sidebar-accent-foreground: var(--color-neutral-50);
+  --color-sidebar-border: color-mix(in oklab, var(--color-brand-700) 45%, transparent);
+  --color-sidebar-ring: var(--color-brand-400);
+
+  --color-chart-1: var(--color-brand-400);
+  --color-chart-2: var(--color-accent-300);
+  --color-chart-3: var(--color-neutral-50);
+  --color-chart-4: var(--color-brand-600);
+  --color-chart-5: var(--color-accent-200);
 }

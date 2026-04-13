@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
 import { CopyMarkdownButton } from '../../../components/copy-markdown-button';
@@ -15,13 +16,19 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   // Read the raw .mdx from disk so the copy-markdown button can hand the
   // original source (frontmatter + body) to AI assistants without a fetch.
   // This runs once per page at build time — no runtime IO.
+  //
+  // page.file.path is the path relative to the content directory
+  // (e.g. "components/button.mdx"), so we rebuild the absolute path from
+  // the docs app root. fumadocs-core exposes an `absolutePath` on the file
+  // object at runtime too, but it's missing from its TypeScript types.
   let rawMarkdown = '';
-  if (page.file.absolutePath) {
-    try {
-      rawMarkdown = await readFile(page.file.absolutePath, 'utf-8');
-    } catch {
-      rawMarkdown = '';
-    }
+  try {
+    rawMarkdown = await readFile(
+      join(process.cwd(), 'content/docs', page.file.path),
+      'utf-8',
+    );
+  } catch {
+    rawMarkdown = '';
   }
 
   return (

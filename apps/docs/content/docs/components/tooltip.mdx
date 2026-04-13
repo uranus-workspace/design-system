@@ -1,0 +1,58 @@
+---
+title: Tooltip
+description: Dica visual breve que explica um controle ao passar o mouse ou focar.
+---
+
+`Tooltip` mostra um pedaço de texto curto quando o usuário passa o cursor ou dá foco a um elemento. É uma dica, não conteúdo essencial — se a informação é necessária para decidir a ação, coloque no rótulo, não em um tooltip.
+
+<ComponentPreview name="tooltip-default" />
+
+## Anatomia
+
+- **TooltipProvider** — envelopa a árvore (geralmente na raiz do app) e define delay padrão.
+- **Tooltip** — o container local que mantém o estado.
+- **TooltipTrigger** — o elemento que dispara o tooltip. Use `asChild` para herdar um botão existente.
+- **TooltipContent** — o balão em si, portal para o body.
+
+## Uso
+
+```tsx
+import {
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@uranus-workspace/design-system';
+import { Info } from 'lucide-react';
+
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button variant="ghost" size="icon" aria-label="Mais informações">
+        <Info />
+      </Button>
+    </TooltipTrigger>
+    <TooltipContent>Publicado a 3 horas atrás</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
+
+## Faça
+
+- Use tooltips em botões apenas de ícone para revelar o nome acessível visível.
+- Mantenha o texto curto — uma frase, idealmente uma linha.
+- Aparecem com delay (~500ms) para não atrapalhar o usuário em trânsito.
+
+## Não faça
+
+- Não coloque conteúdo interativo dentro de um tooltip (link, input). Use `Popover` para isso.
+- Não use tooltip para informação que decide a ação — rótulos precisam ser visíveis.
+- Não substitua `aria-label` por tooltip — eles resolvem necessidades diferentes.
+
+## Acessibilidade
+
+- Radix Tooltip garante foco por teclado: dar `focus` ao trigger também abre o tooltip.
+- O texto do tooltip é associado via `aria-describedby`, não `aria-labelledby` — ele descreve, não nomeia.
+- Botões apenas de ícone **precisam** de `aria-label` no trigger. O tooltip é dica visual, não substitui o nome acessível.
+- Usuários com `prefers-reduced-motion` recebem uma entrada instantânea em vez de animação.

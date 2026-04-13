@@ -1,0 +1,56 @@
+---
+title: Alert
+description: Mensagem curta e estática que chama atenção para uma condição do sistema.
+---
+
+`Alert` é a forma canônica de comunicar uma condição importante que o usuário precisa notar mas que **não** interrompe o fluxo — diferente de `Dialog`, que exige atenção, o `Alert` vive dentro da página. Use-o para status, confirmações suaves, avisos de versão e recuperação de erros não bloqueantes.
+
+<ComponentPreview name="alert-default" />
+
+## Anatomia
+
+- **Ícone** (opcional) — pequeno, decorativo, posicionado à esquerda.
+- **AlertTitle** — o rótulo curto e acionável.
+- **AlertDescription** — explicação em uma ou duas frases, nunca parágrafo longo.
+
+## Variantes
+
+| Variante | Quando usar |
+|---|---|
+| `default` | Informação neutra, dica, avisos suaves. |
+| `destructive` | Erros, falhas, ações que deram errado. |
+
+<ComponentPreview name="alert-destructive" />
+
+## Uso
+
+```tsx
+import { Alert, AlertDescription, AlertTitle } from '@uranus-workspace/design-system';
+import { Info } from 'lucide-react';
+
+<Alert>
+  <Info />
+  <AlertTitle>Atualização disponível</AlertTitle>
+  <AlertDescription>
+    A versão 2.4 do workspace acabou de ser publicada.
+  </AlertDescription>
+</Alert>
+```
+
+## Faça
+
+- Deixe o título curto e acionável: "Falha ao salvar", não "Uma falha ocorreu ao tentar salvar".
+- Use `destructive` apenas para erros reais. Avisos informativos pedem `default`.
+- Posicione o alerta próximo do contexto que ele descreve, não no topo da página.
+
+## Não faça
+
+- Não empilhe vários alertas seguidos — priorize um ou dois por superfície.
+- Não use `Alert` para notificações toast efêmeras — use `Sonner` ou equivalente.
+- Não coloque ações primárias dentro do alerta; o alerta é texto, não widget interativo.
+
+## Acessibilidade
+
+- O componente usa `role="alert"` nativamente, então leitores de tela anunciam a mudança imediatamente.
+- Mantenha o ícone decorativo (`aria-hidden` implícito) — o texto é a carga semântica.
+- Em erros de formulário, prefira apontar o campo inválido via `aria-describedby` em vez de um alerta flutuante.

@@ -1,0 +1,47 @@
+---
+title: Badge
+description: Rótulo compacto para status, contagem ou categoria.
+---
+
+`Badge` é um rótulo pequeno que resume um estado (`Publicado`, `Rascunho`), uma contagem (`12`) ou uma categoria (`Beta`). Ele é intencionalmente pequeno e silencioso — se o seu badge está gritando, provavelmente deveria ser um `Alert`.
+
+<ComponentPreview name="badge-default" />
+
+## Variantes
+
+<ComponentPreview name="badge-variants" />
+
+| Variante | Quando usar |
+|---|---|
+| `default` | Ênfase neutra — estado principal de um item. |
+| `secondary` | Atributos de apoio (tags, metadados). |
+| `outline` | Discreto, para UI densa e listas longas. |
+| `destructive` | Sinaliza problema, bloqueio ou cancelamento. |
+
+## Uso
+
+```tsx
+import { Badge } from '@uranus-workspace/design-system';
+
+<Badge>Publicado</Badge>
+<Badge variant="secondary">Beta</Badge>
+<Badge variant="outline">v2.4</Badge>
+<Badge variant="destructive">Falhou</Badge>
+```
+
+## Faça
+
+- Mantenha o texto curto: uma ou duas palavras, ou um número.
+- Alinhe com o texto adjacente verticalmente — badges nunca ficam sozinhos soltos.
+- Use a mesma variante para o mesmo estado em toda a interface.
+
+## Não faça
+
+- Não transforme badges em botões clicáveis — se a intenção é ação, use `Button`.
+- Não combine mais de dois badges no mesmo item; vira ruído visual.
+- Não coloque texto longo dentro de um badge — ele quebra a escala.
+
+## Acessibilidade
+
+- Badges são elementos decorativos. Se o estado for essencial, exponha-o também no texto adjacente.
+- Para contagens (notificações, novos itens), considere `aria-label` no container pai: `<button aria-label="3 notificações não lidas">`.

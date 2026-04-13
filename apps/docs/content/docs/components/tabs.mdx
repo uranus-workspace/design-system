@@ -1,0 +1,50 @@
+---
+title: Tabs
+description: Alterna entre seções relacionadas dentro do mesmo contexto.
+---
+
+`Tabs` organiza conteúdo peer-to-peer — seções que pertencem à mesma "coisa" mas que você não quer mostrar ao mesmo tempo. Use tabs quando a navegação entre as seções não muda a URL semanticamente e quando o usuário provavelmente vai alternar entre elas. Se cada aba tiver uma URL própria, prefira navegação real.
+
+<ComponentPreview name="tabs-default" />
+
+## Anatomia
+
+- **Tabs** — o container que mantém o estado ativo (`value`).
+- **TabsList** — a linha horizontal de gatilhos.
+- **TabsTrigger** — um gatilho por aba. Usa `value` como identificador.
+- **TabsContent** — o conteúdo que aparece quando a aba correspondente está ativa.
+
+## Uso
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@uranus-workspace/design-system';
+
+<Tabs defaultValue="visao-geral">
+  <TabsList>
+    <TabsTrigger value="visao-geral">Visão geral</TabsTrigger>
+    <TabsTrigger value="atividade">Atividade</TabsTrigger>
+    <TabsTrigger value="equipe">Equipe</TabsTrigger>
+  </TabsList>
+  <TabsContent value="visao-geral">…</TabsContent>
+  <TabsContent value="atividade">…</TabsContent>
+  <TabsContent value="equipe">…</TabsContent>
+</Tabs>
+```
+
+## Faça
+
+- Use rótulos curtos, substantivos ("Visão geral", "Atividade") em vez de verbos.
+- Mantenha entre 2 e 5 abas visíveis. Mais que isso, considere uma sidebar ou uma página própria.
+- Persista a aba selecionada na URL se o conteúdo for compartilhável (`?tab=atividade`).
+
+## Não faça
+
+- Não coloque conteúdo interativo longo atrás de tabs — usuário precisa lembrar onde estava.
+- Não aninhe tabs dentro de tabs. Se precisar, repense a IA da tela.
+- Não use tabs para steps de formulário — use `Stepper` ou uma sequência explícita.
+
+## Acessibilidade
+
+- Construído sobre Radix Tabs — navegação por setas (esquerda/direita) funciona automaticamente.
+- `aria-controls` e `aria-labelledby` são conectados sem esforço: cada `TabsTrigger` referencia o `TabsContent` correspondente.
+- Por padrão, apenas a aba ativa está na ordem de tab; use `Home` e `End` para pular para a primeira/última.

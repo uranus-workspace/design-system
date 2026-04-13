@@ -1,0 +1,66 @@
+---
+title: Dialog
+description: Janela modal que foca o usuário em uma única tarefa ou decisão.
+---
+
+`Dialog` bloqueia o fundo da página e exige atenção — use-o apenas para fluxos que precisam de interação sincrônica, como confirmar uma ação destrutiva, editar um recurso pequeno ou pedir informação obrigatória. Para ações não críticas, prefira `Popover`, `Drawer` ou uma seção inline.
+
+<ComponentPreview name="dialog-default" />
+
+## Anatomia
+
+- **DialogTrigger** — elemento que abre o diálogo (geralmente um botão).
+- **DialogContent** — a janela em si, portal para `body`, com overlay escurecido.
+- **DialogHeader** → **DialogTitle** + **DialogDescription** — o que e por quê.
+- **DialogFooter** — ações, alinhadas à direita por padrão.
+
+## Uso
+
+```tsx
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@uranus-workspace/design-system';
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Excluir projeto</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Excluir Projeto Apollo?</DialogTitle>
+      <DialogDescription>
+        Esta ação é permanente e não pode ser desfeita.
+      </DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <Button variant="outline">Cancelar</Button>
+      <Button variant="destructive">Excluir</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## Faça
+
+- Escreva títulos como perguntas diretas quando o diálogo confirma uma decisão: "Excluir projeto?", "Sair sem salvar?".
+- Mantenha o corpo curto — se você precisa de vários parágrafos, talvez deveria ser uma página.
+- Posicione a ação primária à direita e a secundária (geralmente "Cancelar") à esquerda.
+
+## Não faça
+
+- Não aninhe diálogos. Se um passo leva a outro, considere um fluxo com `Tabs` ou uma nova rota.
+- Não use `Dialog` para mensagens efêmeras — `Sonner` toast é o canal certo.
+- Não esconda a ação de fechar (o `X` no canto) nem remova o close via `Esc`.
+
+## Acessibilidade
+
+- Construído sobre Radix Dialog — foco é preso automaticamente, `Esc` fecha, `aria-labelledby` e `aria-describedby` vêm do `DialogTitle` / `DialogDescription`.
+- Sempre inclua um `DialogTitle`, mesmo que visualmente escondido (use `className="sr-only"`) — leitores de tela precisam dele.
+- O fundo por trás vira `inert`: usuários de teclado não conseguem tabular para fora enquanto o diálogo está aberto.

@@ -1,0 +1,45 @@
+{
+  "name": "@uranus-workspace/storybook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "test-storybook": "test-storybook",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf storybook-static .turbo"
+  },
+  "dependencies": {
+    "@uranus-workspace/blocks": "workspace:*",
+    "@uranus-workspace/design-system": "workspace:*",
+    "@uranus-workspace/tailwind-config": "workspace:*",
+    "@uranus-workspace/tokens": "workspace:*",
+    "lucide-react": "^0.469.0",
+    "motion": "^11.15.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^8.4.7",
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/addon-interactions": "^8.4.7",
+    "@storybook/addon-themes": "^8.4.7",
+    "@storybook/blocks": "^8.4.7",
+    "@storybook/react": "^8.4.7",
+    "@storybook/react-vite": "^8.4.7",
+    "@storybook/test": "^8.4.7",
+    "@storybook/test-runner": "^0.21.0",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "@uranus-workspace/biome-config": "workspace:*",
+    "@uranus-workspace/tsconfig": "workspace:*",
+    "@vitejs/plugin-react": "^4.3.4",
+    "storybook": "^8.4.7",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3"
+  }
+}

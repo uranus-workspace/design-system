@@ -1,0 +1,8 @@
+@import "@uranus-workspace/tailwind-config";
+@import "@uranus-workspace/tailwind-config/dark";
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}

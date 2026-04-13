@@ -11,6 +11,15 @@
 @source "../../../packages/blocks/src/**/*.{ts,tsx,mdx}";
 @source "../../src/**/*.{ts,tsx}";
 
+/* Uranus is a single-typeface system on Poppins. Storybook pulls the font
+   from Google Fonts via preview-head.html, then exposes it through the
+   shared --font-sans/--font-display tokens so every component inherits it. */
+:root {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
+}
+
 body {
   background: var(--color-background);
   color: var(--color-foreground);

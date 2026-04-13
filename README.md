@@ -7,7 +7,7 @@
 <h1 align="center">Uranus Design System</h1>
 
 <p align="center">
-  The design system monorepo for <a href="https://uranus.com.br/">Uranus Technologies</a>. Cosmic tokens, Lexend Exa + Poppins, and production-ready React primitives.
+  The design system monorepo for <a href="https://uranus.com.br/">Uranus Technologies</a>. Cosmic tokens, Poppins typography, and production-ready React primitives.
 </p>
 
 <p align="center">
@@ -76,7 +76,7 @@ The visual identity is codified in the **Uranus Manual de Marca 2026**. The cosm
 | Preto Clássico | `#000000` | `neutral.950` |
 | Branco Puro | `#ffffff` | `neutral.50` |
 
-Typography pairs **Lexend Exa** (display) with **Poppins** (body). Cosmic gradient utilities (`bg-cosmic`, `bg-aurora`, `bg-nebula`, `bg-galaxy`, `bg-horizon`, `bg-halo`) ship with the Tailwind preset.
+Typography is a single-family system built on **Poppins** — used from body copy through display headings. Cosmic gradient utilities (`bg-cosmic`, `bg-aurora`, `bg-nebula`, `bg-galaxy`, `bg-horizon`, `bg-halo`) ship with the Tailwind preset.
 
 ## Stack
 

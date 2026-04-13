@@ -18,8 +18,8 @@ export default function HomePage() {
           </h1>
           <p className="max-w-2xl font-sans text-lg text-white/80 md:text-xl">
             Tokens, foundations, componentes e blocos prontos para produção. Construídos sobre
-            shadcn/ui, Tailwind CSS v4 e Motion — alinhados à paleta cósmica e à tipografia Lexend
-            Exa + Poppins definidas pelo manual de marca da{' '}
+            shadcn/ui, Tailwind CSS v4 e Motion — alinhados à paleta cósmica e à tipografia Poppins
+            definidas pelo manual de marca da{' '}
             <a
               href="https://uranus.com.br"
               className="underline decoration-[#5dddfa]/60 underline-offset-4 hover:decoration-[#5dddfa]"

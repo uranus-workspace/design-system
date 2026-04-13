@@ -1,14 +1,7 @@
 import { RootProvider } from 'fumadocs-ui/provider';
-import { Lexend_Exa, Poppins } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import type { ReactNode } from 'react';
 import './global.css';
-
-const lexendExa = Lexend_Exa({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
-  variable: '--font-lexend-exa',
-  display: 'swap',
-});
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -28,7 +21,7 @@ export const metadata = {
   openGraph: {
     title: 'Uranus Design System',
     description:
-      'The Uranus Technologies design system — cosmic tokens, Lexend Exa typography, and production-ready React components.',
+      'The Uranus Technologies design system — cosmic tokens, Poppins typography, and production-ready React components.',
     url: 'https://uranus.com.br',
     siteName: 'Uranus',
     locale: 'pt_BR',
@@ -38,11 +31,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="pt-BR"
-      suppressHydrationWarning
-      className={`${lexendExa.variable} ${poppins.variable}`}
-    >
+    <html lang="pt-BR" suppressHydrationWarning className={poppins.variable}>
       <body className="flex min-h-dvh flex-col font-sans antialiased">
         <RootProvider>{children}</RootProvider>
       </body>

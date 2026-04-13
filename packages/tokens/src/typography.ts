@@ -8,9 +8,12 @@ export type TypographyToken = {
 /**
  * Uranus typography tokens.
  *
- * Per Uranus_Manual_de_Marca_2026.pdf (page 06):
- *   Lexend Exa — primary / display (headings, brand moments)
- *   Poppins    — secondary / body (UI, paragraphs)
+ * Uranus ships a single-typeface system built on Poppins. The display token
+ * exists as an abstraction (headings, brand moments) but currently resolves
+ * to the same stack as body — apps and components opted out of Lexend Exa
+ * because its wide counterforms hurt legibility at UI sizes. Keeping the
+ * token around means we can reintroduce a distinct display face later
+ * without touching every component.
  *
  * Fonts are loaded in the apps (docs, storybook) via next/font or a link tag,
  * then referenced here with safe system fallbacks.
@@ -18,8 +21,7 @@ export type TypographyToken = {
 
 const sansStack =
   '"Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
-const displayStack =
-  '"Lexend Exa", "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+const displayStack = sansStack;
 const monoStack =
   'ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono", "Roboto Mono", monospace';
 

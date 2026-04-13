@@ -1,21 +1,20 @@
 ---
 title: Tipografia
-description: Lexend Exa pareada com Poppins — o sistema tipográfico Uranus.
+description: Poppins como tipografia única do Uranus — uma família, várias hierarquias.
 ---
 
-O manual de marca Uranus 2026 pareia duas famílias:
+Uranus adota um sistema de **uma única família tipográfica**: **Poppins**. Uma sans-serif geométrica que equilibra sofisticação e utilidade em UI densa, do corpo do texto até os títulos de marca.
 
-- **Lexend Exa** — primária / display. Escolhida pela amplitude horizontal ("imensidão do horizonte espacial"). Usada em headings, momentos de marca e exibições numéricas.
-- **Poppins** — secundária / corpo. Uma sans-serif geométrica que equilibra sofisticação e utilidade em UI densa.
+> Anteriormente o sistema pareava Lexend Exa (display) com Poppins (corpo). A versão atual migrou para Poppins em todas as situações — os contraforma largos da Lexend Exa comprometiam a legibilidade em tamanhos de UI e o ganho de marca não compensava. O token `font-display` continua existindo como abstração, apontando hoje para o mesmo stack de `font-sans`, para que uma futura família display possa ser introduzida sem tocar em nenhum componente.
 
-Ambas são carregadas via Google Fonts. Em apps Next.js usamos `next/font/google` para inline; no Storybook elas vêm de um link de CDN no `preview-head.html`.
+Poppins é carregada via `next/font/google` nas apps Next.js e via link de CDN no `preview-head.html` do Storybook.
 
 ## Famílias
 
 | Papel | Token | Stack |
 | --- | --- | --- |
-| Display | `font-display` | `Lexend Exa, Poppins, system-ui` |
-| Corpo | `font-sans` | `Poppins, system-ui` |
+| Corpo (padrão) | `font-sans` | `Poppins, system-ui` |
+| Display | `font-display` | `Poppins, system-ui` (alias de `font-sans`) |
 | Mono | `font-mono` | `ui-monospace, SF Mono, Menlo…` |
 
 ```tsx
@@ -43,18 +42,17 @@ Ambas são carregadas via Google Fonts. Em apps Next.js usamos `next/font/google
 
 ## Pesos
 
-Lexend Exa: `300`, `400`, `500`, `600`, `700`, `800`.
-Poppins: `300`, `400`, `500`, `600`, `700`.
+Poppins entrega seis pesos utilizáveis em produto: `300` (light), `400` (regular), `500` (medium), `600` (semibold), `700` (bold). Use as classes do Tailwind `font-light`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`.
 
-Use as classes do Tailwind `font-light`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`, `font-extrabold`.
+Em headings prefira `font-semibold` ou `font-bold` — `font-medium` não cria contraste suficiente com o corpo.
 
 ## Espaçamento entre letras
 
-Headings display usam por padrão `-0.02em` (apertado) para um tom disciplinado e técnico. Em momentos de marca onde Lexend Exa é protagonista, permita `-0.04em` (mais apertado) para respeitar os contraformas largos.
+Headings usam por padrão `-0.02em` (apertado) para um tom disciplinado e técnico. Em momentos de marca ou exibições numéricas grandes, permita `-0.04em` (mais apertado). Em corpo de texto, mantenha `normal` (0).
 
 ## Faça / Não faça
 
-- **Faça** o par entre headings Lexend Exa e corpo Poppins em conteúdo longo.
-- **Faça** uso de `font-display` em exibições numéricas (dashboards, KPIs) para reforçar a marca.
-- **Não** misture Lexend Exa com uma terceira tipografia display. O par é intencional.
-- **Não** use Lexend Exa em caixa alta em tamanhos pequenos — a legibilidade sofre abaixo de 14px.
+- **Faça** pareamentos dentro da mesma família — variação de peso + tamanho é suficiente para criar hierarquia.
+- **Faça** uso consistente de `font-semibold` em headings para manter a tensão visual.
+- **Não** reintroduza Lexend Exa em componentes — se uma nova família display entrar, ela vira o `font-display` token de uma vez.
+- **Não** misture Poppins com uma segunda família. O sistema é intencionalmente mono-familiar.

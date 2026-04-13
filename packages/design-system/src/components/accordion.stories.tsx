@@ -27,7 +27,7 @@ export const Single: Story = {
       </AccordionItem>
       <AccordionItem value="c">
         <AccordionTrigger>Quais fontes usamos?</AccordionTrigger>
-        <AccordionContent>Lexend Exa (display) + Poppins (body).</AccordionContent>
+        <AccordionContent>Poppins — família única para todo o sistema.</AccordionContent>
       </AccordionItem>
     </Accordion>
   ),

@@ -78,7 +78,7 @@
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
 
-  /* Font families — Lexend Exa / Poppins from the brand manual */
+  /* Font family — Poppins. Uranus runs a single-typeface system. */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-display: var(--font-display);

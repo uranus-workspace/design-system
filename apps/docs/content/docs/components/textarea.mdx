@@ -1,0 +1,49 @@
+---
+title: Textarea
+description: Campo de texto multi-linha para conteúdos longos
+---
+
+`Textarea` é um wrapper fino sobre o elemento `<textarea>` nativo. Use quando o conteúdo esperado pode ultrapassar uma linha — mensagens, descrições, observações. Para uma única linha, use [Input](/docs/components/input).
+
+<ComponentPreview name="textarea-default" />
+
+## Anatomia
+
+- **Campo** — a área escrita, com altura mínima de 80px e borda em `border-input`.
+- **Placeholder** — texto efêmero para orientar o usuário. Nunca serve como rótulo.
+- **Rótulo** — obrigatório, associado via `htmlFor`/`id`.
+
+## Estados
+
+O `Textarea` herda todos os atributos nativos: `disabled`, `readOnly`, `required`, `maxLength`, `rows`.
+
+<ComponentPreview name="textarea-disabled" />
+
+## Uso
+
+```tsx
+import { Label, Textarea } from '@uranus-workspace/design-system';
+
+<div className="grid gap-2">
+  <Label htmlFor="feedback">Seu feedback</Label>
+  <Textarea id="feedback" rows={5} placeholder="Conte o que achou…" />
+</div>
+```
+
+## Faça
+
+- Use `rows` para controlar a altura inicial — um `Textarea` de três linhas para comentário curto, cinco ou mais para descrição.
+- Combine com `maxLength` e mostre um contador quando houver um limite rígido.
+- Sinalize campos inválidos com `aria-invalid="true"` e uma mensagem descrita por `aria-describedby`.
+
+## Não faça
+
+- Não use `Textarea` para uma única linha — o `Input` é mais compacto e tem o `type` correto.
+- Não esconda o rótulo apoiando-se apenas no `placeholder`; ele some ao digitar.
+- Não desabilite o redimensionamento nativo sem um bom motivo.
+
+## Acessibilidade
+
+- O componente é um `<textarea>` nativo, então toda a semântica vem de graça.
+- Associe sempre um `Label`, ou em último caso `aria-labelledby`/`aria-label`.
+- Mensagens de erro e ajuda pertencem à árvore acessível via `aria-describedby`.

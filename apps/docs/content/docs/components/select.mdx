@@ -1,0 +1,60 @@
+---
+title: Select
+description: Escolha única em uma lista dentro de um popover
+---
+
+`Select` é um dropdown compacto construído sobre `@radix-ui/react-select`. Use quando há mais de cinco opções e você quer economizar espaço vertical — caso contrário, prefira [RadioGroup](/docs/components/radio-group).
+
+<ComponentPreview name="select-default" />
+
+## Anatomia
+
+- **Select** — a raiz que gerencia o estado aberto/fechado e o valor.
+- **SelectTrigger** — o botão que o usuário clica. Recebe um `id` para emparelhar com o `Label`.
+- **SelectValue** — renderiza o valor selecionado ou o `placeholder`.
+- **SelectContent** — o popover com a lista. Renderizado num portal.
+- **SelectGroup** + **SelectLabel** — agrupamentos opcionais para listas grandes.
+- **SelectItem** — cada opção, identificada por `value`.
+- **SelectSeparator** — uma linha divisória entre grupos.
+
+## Uso
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@uranus-workspace/design-system';
+
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Selecione" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="sp">São Paulo</SelectItem>
+    <SelectItem value="rj">Rio de Janeiro</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+Este componente precisa rodar no cliente — coloque `'use client'` no topo do arquivo que o consome.
+
+## Faça
+
+- Forneça sempre um `placeholder` no `SelectValue` quando não há valor padrão.
+- Associe um `Label` ao `SelectTrigger` via `htmlFor` + `id`.
+- Agrupe opções relacionadas com `SelectGroup` + `SelectLabel` quando a lista passar de oito itens.
+
+## Não faça
+
+- Não use `Select` para escolhas binárias — prefira `Switch` ou `Checkbox`.
+- Não recrie um `Select` com `DropdownMenu`; o menu não expõe a semântica de listbox.
+- Não deixe o `SelectTrigger` sem rótulo visível.
+
+## Acessibilidade
+
+- Teclado: `Espaço`/`Enter` abre, setas navegam, `Esc` fecha, letras iniciam busca incremental.
+- O componente expõe `role="combobox"` no trigger e `role="listbox"` no conteúdo, com `aria-expanded` e `aria-activedescendant` gerenciados automaticamente.
+- Rotule sempre o trigger — sem rótulo acessível, o campo é inutilizável com leitores de tela.

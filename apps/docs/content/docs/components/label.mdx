@@ -1,0 +1,44 @@
+---
+title: Label
+description: Rótulo acessível para controles de formulário
+---
+
+`Label` é um wrapper sobre `@radix-ui/react-label` que acopla um texto descritivo a um controle de formulário. Ele é a peça que garante que clicar no rótulo foca o input e que leitores de tela anunciam o rótulo ao focar o campo.
+
+<ComponentPreview name="label-default" />
+
+## Anatomia
+
+- **Texto** — a única parte obrigatória. Curto, sem pontuação final.
+- **Associação** — feita pelo par `htmlFor` (no `Label`) + `id` (no controle).
+
+## Uso
+
+```tsx
+import { Input, Label } from '@uranus-workspace/design-system';
+
+<div className="grid gap-2">
+  <Label htmlFor="email">Email</Label>
+  <Input id="email" type="email" />
+</div>
+```
+
+O `Label` também funciona perfeitamente com [Checkbox](/docs/components/checkbox), [Switch](/docs/components/switch), [RadioGroup](/docs/components/radio-group), [Select](/docs/components/select) e [Textarea](/docs/components/textarea).
+
+## Faça
+
+- Use sempre `htmlFor` apontando para o `id` do controle — mesmo quando o `Label` envolve o controle.
+- Escreva o rótulo como substantivo curto, no caso reto: "Email", "Nome completo", "Fuso horário".
+- Mantenha o rótulo visível — rótulos ocultos quebram usabilidade em teclado e voz.
+
+## Não faça
+
+- Não use `<label>` cru no lugar de `Label`; você perde a peer-interaction `peer-disabled` que já vem estilizada.
+- Não termine o rótulo com dois pontos (`:`) — é ruído visual.
+- Não use um `Label` como título de seção; prefira um heading (`<h2>`, `<h3>`).
+
+## Acessibilidade
+
+- Clicar no `Label` foca o controle associado automaticamente.
+- Quando o controle está desabilitado, o estilo `peer-disabled:opacity-70` suaviza o rótulo para refletir o estado.
+- Leitores de tela anunciam o texto do `Label` junto com o tipo do controle.

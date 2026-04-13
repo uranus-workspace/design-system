@@ -1,0 +1,63 @@
+---
+title: Field
+description: Composição padrão de rótulo, controle, descrição e erro para formulários
+---
+
+`Field` é um conjunto de componentes de composição que padroniza a estrutura de um campo de formulário: rótulo, controle, texto auxiliar e mensagem de erro. Use-o sempre que um controle ([Input](/docs/components/input), [Textarea](/docs/components/textarea), [Select](/docs/components/select), [Checkbox](/docs/components/checkbox)…) aparecer dentro de um formulário real.
+
+<ComponentPreview name="field-default" />
+
+## Anatomia
+
+- **FieldGroup** — contêiner vertical que controla o espaçamento entre vários `Field`s.
+- **Field** — um campo individual. Aceita `orientation="vertical" | "horizontal" | "responsive"`.
+- **FieldLabel** — o rótulo do campo, equivalente a [Label](/docs/components/label), mas com estilos extras para agrupar controles "card-like".
+- **FieldContent** — wrapper opcional quando você precisa combinar controle + erro + descrição.
+- **FieldDescription** — texto auxiliar secundário, abaixo do controle.
+- **FieldError** — mensagem de erro vermelha com `role="alert"`. Aceita `children` ou um array `errors={[{ message }]}`.
+- **FieldSet** + **FieldLegend** — para grupos semânticos (ex: um `RadioGroup` inteiro).
+- **FieldSeparator** — linha divisória opcional entre campos ou seções.
+
+## Erro e descrição
+
+Quando um campo falha na validação, marque o controle com `aria-invalid="true"` e adicione um `FieldError` dentro de um `FieldContent`. O `FieldError` já tem `role="alert"` e é anunciado por leitores de tela.
+
+<ComponentPreview name="field-error" />
+
+## Uso
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  Input,
+} from '@uranus-workspace/design-system';
+
+<FieldGroup>
+  <Field>
+    <FieldLabel htmlFor="email">Email</FieldLabel>
+    <Input id="email" type="email" />
+    <FieldDescription>Nunca compartilhamos com terceiros.</FieldDescription>
+  </Field>
+</FieldGroup>
+```
+
+## Faça
+
+- Use `FieldGroup` como raiz do formulário — ele garante o ritmo vertical correto.
+- Combine `FieldLegend` + `FieldSet` ao redor de um `RadioGroup` ou grupo de `Checkbox`es.
+- Coloque mensagens de erro dentro de `FieldError`, nunca soltas em um `<p>` qualquer.
+
+## Não faça
+
+- Não aninhe `Field`s arbitrariamente — um campo, um `Field`.
+- Não estilize o erro com cor apenas; o texto em si deve deixar claro o que precisa ser corrigido.
+- Não esconda a descrição em um tooltip se ela for necessária para preencher o campo corretamente.
+
+## Acessibilidade
+
+- Cada `Field` recebe `role="group"`, o que ajuda leitores de tela a navegar formulários longos.
+- O `FieldError` tem `role="alert"`, então mudanças de estado são anunciadas.
+- Associe sempre o `FieldLabel` ao controle via `htmlFor`/`id`.

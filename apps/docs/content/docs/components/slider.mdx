@@ -1,0 +1,64 @@
+---
+title: Slider
+description: Seleciona um valor numérico dentro de uma faixa contínua
+---
+
+`Slider` permite escolher um valor numérico arrastando um controle ao longo de uma trilha. Use-o quando a precisão exata não importa tanto quanto a escala relativa — volume, zoom, brilho, opacidade.
+
+<ComponentPreview name="slider-default" />
+
+## Anatomia
+
+- **Track** — a trilha cinza que representa o intervalo total.
+- **Range** — a porção colorida entre o início e o valor atual.
+- **Thumb** — o círculo arrastável, focável por teclado.
+
+## Props principais
+
+| Prop | Descrição |
+|---|---|
+| `value` / `defaultValue` | Array com o valor atual. Para um único thumb, passe `[valor]`. |
+| `min` / `max` | Limites da escala. Padrão: `0` e `100`. |
+| `step` | Incremento mínimo entre valores. |
+| `onValueChange` | Callback disparado a cada mudança. Recebe um `number[]`. |
+| `disabled` | Bloqueia interação e reduz a opacidade. |
+
+## Estado desabilitado
+
+<ComponentPreview name="slider-disabled" />
+
+## Uso
+
+```tsx
+'use client';
+
+import { Slider } from '@uranus-workspace/design-system';
+import { useState } from 'react';
+
+export function VolumeControl() {
+  const [value, setValue] = useState([60]);
+  return (
+    <Slider value={value} onValueChange={setValue} max={100} step={1} aria-label="Volume" />
+  );
+}
+```
+
+O `Slider` precisa rodar no cliente quando você controla o valor com estado — não esqueça do `'use client'`.
+
+## Faça
+
+- Mostre o valor numérico atual ao lado da trilha, em tipografia tabular (`tabular-nums`).
+- Use `step` compatível com a precisão real esperada — não force `step={0.01}` num controle de volume.
+- Forneça um `aria-label` ou associe um `Label` via `id`.
+
+## Não faça
+
+- Não use `Slider` para escolhas discretas com três ou menos opções — prefira `RadioGroup` ou `ToggleGroup`.
+- Não esconda o valor atual — o usuário precisa saber o que está escolhendo.
+- Não dependa apenas da cor do `Range` para comunicar o valor; adicione um número visível.
+
+## Acessibilidade
+
+- Teclado: setas `←`/`→` (ou `↑`/`↓`) incrementam pelo `step`, `Home`/`End` saltam para os extremos, `PageUp`/`PageDown` avançam em passos maiores.
+- O componente é construído sobre `@radix-ui/react-slider`, que expõe `role="slider"`, `aria-valuemin`, `aria-valuemax` e `aria-valuenow`.
+- Respeite `prefers-reduced-motion`: o componente não anima a posição do thumb entre teclas.

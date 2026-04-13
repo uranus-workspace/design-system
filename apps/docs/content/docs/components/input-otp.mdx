@@ -1,0 +1,68 @@
+---
+title: InputOTP
+description: Entrada para códigos curtos de verificação em slots individuais
+---
+
+`InputOTP` é um controle especializado para códigos de uso único — SMS, TOTP, email de confirmação. Construído sobre [`input-otp`](https://github.com/guilhermerodz/input-otp), expõe a experiência correta de um slot por dígito, mantendo o foco gerenciado automaticamente.
+
+<ComponentPreview name="input-otp-default" />
+
+## Anatomia
+
+- **InputOTP** — a raiz. Define `maxLength` com o número total de dígitos.
+- **InputOTPGroup** — agrupa slots contíguos. Você normalmente usa dois grupos com um separador no meio.
+- **InputOTPSlot** — cada "caixa" visual que mostra um dígito. Obrigatório passar `index`.
+- **InputOTPSeparator** — um divisor visual com `role="separator"`, decorativo.
+
+## Uso
+
+```tsx
+'use client';
+
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from '@uranus-workspace/design-system';
+import { useState } from 'react';
+
+export function VerifyCode() {
+  const [value, setValue] = useState('');
+  return (
+    <InputOTP maxLength={6} value={value} onChange={setValue}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  );
+}
+```
+
+O componente precisa de estado do cliente — sempre marque o arquivo consumidor com `'use client'`.
+
+## Faça
+
+- Use seis dígitos como padrão; TOTP e códigos bancários convencionam esse tamanho.
+- Submeta o formulário automaticamente quando o último slot for preenchido (verifique `value.length === maxLength`).
+- Permita colagem do código inteiro — a biblioteca lida com isso automaticamente.
+
+## Não faça
+
+- Não use `InputOTP` para senhas, CPFs ou qualquer entrada arbitrária longa — use `Input`.
+- Não quebre o grupo em mais de dois blocos sem um motivo de leitura forte.
+- Não desabilite o autocomplete de SMS em dispositivos móveis — o componente respeita `autocomplete="one-time-code"` por padrão.
+
+## Acessibilidade
+
+- Teclado: digitar avança o foco, `Backspace` volta, `Esquerda`/`Direita` navegam, colar preenche todos os slots.
+- Cada slot respeita `prefers-reduced-motion` — o cursor piscante usa uma animação simples.
+- Associe sempre um `Label` ou `aria-label` ao `InputOTP` raiz.

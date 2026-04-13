@@ -1,0 +1,48 @@
+---
+title: Checkbox
+description: Seleção binária independente, usada em listas de opções e aceites
+---
+
+`Checkbox` representa uma escolha booleana isolada. Use quando o usuário pode ativar ou desativar uma opção sem que isso afete outras escolhas — para alternativas mutuamente exclusivas, prefira [RadioGroup](/docs/components/radio-group).
+
+<ComponentPreview name="checkbox-default" />
+
+## Anatomia
+
+- **Indicador** — o quadrado que mostra o estado (vazio ou marcado com o ícone de check).
+- **Rótulo** — um [Label](/docs/components/label) associado via `htmlFor`. Obrigatório para que o componente seja acessível.
+
+## Estados
+
+O `Checkbox` aceita todos os estados de um input nativo: padrão, marcado, desabilitado e marcado+desabilitado. Use `defaultChecked` para um componente não controlado ou `checked` + `onCheckedChange` para um controlado.
+
+<ComponentPreview name="checkbox-states" />
+
+## Uso
+
+```tsx
+import { Checkbox, Label } from '@uranus-workspace/design-system';
+
+<div className="flex items-center gap-2">
+  <Checkbox id="terms" />
+  <Label htmlFor="terms">Aceitar os termos</Label>
+</div>
+```
+
+## Faça
+
+- Sempre associe o checkbox a um `Label` clicável via `htmlFor`/`id`.
+- Mantenha o rótulo no lado direito, alinhado ao centro vertical do indicador.
+- Use em listas verticais quando houver mais de duas opções independentes.
+
+## Não faça
+
+- Não use `Checkbox` para alternativas mutuamente exclusivas — é trabalho de `RadioGroup`.
+- Não remova o rótulo visível apoiando-se apenas em `aria-label`, exceto em tabelas com cabeçalho claro.
+- Não desabilite um checkbox sem explicar por que, em texto próximo, ele não está disponível.
+
+## Acessibilidade
+
+- Teclado: `Tab` move o foco, `Espaço` alterna o estado.
+- O componente é construído sobre `@radix-ui/react-checkbox`, então expõe `role="checkbox"` e `aria-checked` automaticamente.
+- O anel de foco (`focus-visible:ring-2`) é obrigatório — não o remova.

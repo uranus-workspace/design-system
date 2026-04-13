@@ -1,0 +1,55 @@
+---
+title: Switch
+description: Alterna imediatamente uma configuração binária do sistema
+---
+
+`Switch` é usado quando alternar o controle produz efeito imediato — ligar notificações, ativar um modo, habilitar uma integração. Se o valor só é aplicado após um botão de submit, prefira [Checkbox](/docs/components/checkbox).
+
+<ComponentPreview name="switch-default" />
+
+## Anatomia
+
+- **Trilho** — a base arredondada que indica o estado ligado/desligado pela cor.
+- **Polegar** — o círculo que desliza entre as duas posições.
+- **Rótulo** — um [Label](/docs/components/label) associado via `htmlFor`, sempre visível.
+
+## Estados
+
+<ComponentPreview name="switch-states" />
+
+## Uso
+
+```tsx
+import { Label, Switch } from '@uranus-workspace/design-system';
+
+<div className="flex items-center gap-3">
+  <Switch id="notifications" />
+  <Label htmlFor="notifications">Receber notificações push</Label>
+</div>
+```
+
+## Switch versus Checkbox
+
+| Quando usar | Componente |
+|---|---|
+| O efeito é imediato (ligar/desligar um recurso) | `Switch` |
+| Só aplica depois do submit de um formulário | `Checkbox` |
+| Parte de um grupo de opções selecionáveis | `Checkbox` |
+
+## Faça
+
+- Escreva o rótulo no infinitivo/substantivo descrevendo o estado positivo: "Modo escuro", "Sincronizar com Google".
+- Deixe o `Switch` à esquerda do rótulo em formulários verticais, à direita em listas de configurações.
+- Aplique a mudança imediatamente, sem exigir um botão "Salvar".
+
+## Não faça
+
+- Não use `Switch` dentro de um formulário cujos valores só vão para o servidor no submit.
+- Não inverta a semântica do rótulo ("Desativar notificações" + estado ligado = bug).
+- Não adicione um segundo rótulo "Ligado"/"Desligado" ao lado — o próprio componente já comunica isso.
+
+## Acessibilidade
+
+- Teclado: `Tab` para focar, `Espaço` para alternar.
+- O componente usa `@radix-ui/react-switch`, que define `role="switch"` e `aria-checked`.
+- Garanta contraste suficiente entre o trilho ligado (`bg-primary`) e o fundo da superfície — os tokens padrão já cuidam disso.

@@ -1,0 +1,59 @@
+---
+title: InputGroup
+description: Input com adornos inline ou block para ícones, prefixos e ações
+---
+
+`InputGroup` compõe um [Input](/docs/components/input) com adornos — ícones, texto descritivo, botões inline ou controles adjacentes — mantendo uma única borda visual e um único anel de foco. Use sempre que o campo precisar de uma afordance extra que não caiba dentro do input cru.
+
+<ComponentPreview name="input-group-default" />
+
+## Anatomia
+
+- **InputGroup** — contêiner raiz com `role="group"`. Renderiza a borda e o foco compartilhado.
+- **InputGroupInput** — o `Input` interno, sem borda própria.
+- **InputGroupTextarea** — variante para quando o controle é multi-linha.
+- **InputGroupAddon** — um slot para ícone, texto ou botão. Aceita `align="inline-start" | "inline-end" | "block-start" | "block-end"`.
+- **InputGroupText** — um `span` com tipografia `text-muted-foreground` para prefixos/sufixos textuais.
+- **InputGroupButton** — um botão compacto otimizado para caber dentro do grupo. Aceita `size="xs" | "sm" | "icon-xs" | "icon-sm"`.
+
+## Ícones, prefixos e ações
+
+O alinhamento do `InputGroupAddon` determina se o adorno fica antes ou depois do input. Combine um ícone do Lucide com um `InputGroupText` para prefixos como `https://`, ou coloque um `InputGroupButton` no final para ações inline.
+
+<ComponentPreview name="input-group-button" />
+
+## Uso
+
+```tsx
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@uranus-workspace/design-system';
+import { Search } from 'lucide-react';
+
+<InputGroup>
+  <InputGroupAddon>
+    <Search className="size-4" />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Buscar…" />
+</InputGroup>
+```
+
+## Faça
+
+- Use um único adorno de cada lado — dois ícones no mesmo lado tornam o campo ilegível.
+- Prefira `InputGroupButton` sobre um `Button` solto — ele já tem os tamanhos certos para caber no grupo.
+- Mantenha o `Label` fora do `InputGroup`, acima dele, associado ao `InputGroupInput` via `id`/`htmlFor`.
+
+## Não faça
+
+- Não empilhe vários `InputGroup`s lado a lado sem gap — eles precisam de espaço para respirar.
+- Não use adornos apenas decorativos sem `aria-hidden` quando forem puramente visuais.
+- Não duplique a borda passando `border` no `InputGroupInput` — o grupo já renderiza a borda única.
+
+## Acessibilidade
+
+- O contêiner tem `role="group"`, então leitores de tela anunciam o conjunto como uma unidade.
+- O foco visível é compartilhado: qualquer controle interno focado produz o mesmo `ring`, evitando duas bordas de foco conflitantes.
+- Quando o input é inválido (`aria-invalid="true"`), o grupo inteiro adota o estilo destrutivo.

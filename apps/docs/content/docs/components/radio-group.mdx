@@ -1,0 +1,55 @@
+---
+title: RadioGroup
+description: Conjunto de opções mutuamente exclusivas
+---
+
+`RadioGroup` agrupa várias opções das quais exatamente uma pode ser selecionada. Prefira sobre um [Select](/docs/components/select) quando a lista tem até cinco opções e faz sentido deixá-las todas visíveis ao mesmo tempo.
+
+<ComponentPreview name="radio-group-default" />
+
+## Anatomia
+
+- **RadioGroup** — o contêiner raiz que gerencia o estado da seleção.
+- **RadioGroupItem** — cada botão de rádio individual. Usa `value` como identificador.
+- **Label** — um [Label](/docs/components/label) associado a cada item via `htmlFor`.
+
+## Orientação
+
+Por padrão os itens empilham verticalmente. Para grupos curtos com rótulos curtos, uma orientação horizontal reduz a altura do formulário. Passe `orientation="horizontal"` para que leitores de tela usem as setas esquerda/direita.
+
+<ComponentPreview name="radio-group-horizontal" />
+
+## Uso
+
+```tsx
+import { Label, RadioGroup, RadioGroupItem } from '@uranus-workspace/design-system';
+
+<RadioGroup defaultValue="monthly">
+  <div className="flex items-center gap-2">
+    <RadioGroupItem value="monthly" id="r1" />
+    <Label htmlFor="r1">Mensal</Label>
+  </div>
+  <div className="flex items-center gap-2">
+    <RadioGroupItem value="yearly" id="r2" />
+    <Label htmlFor="r2">Anual</Label>
+  </div>
+</RadioGroup>
+```
+
+## Faça
+
+- Sempre declare um valor padrão com `defaultValue` ou `value` — nenhum rádio selecionado é um estado confuso.
+- Mantenha os rótulos curtos e paralelos entre si (mesmas classes gramaticais).
+- Use um `FieldLegend` ou título acima do grupo descrevendo o que está sendo escolhido.
+
+## Não faça
+
+- Não use `RadioGroup` para mais de cinco opções — prefira `Select`.
+- Não misture rádios com checkboxes dentro do mesmo grupo visual.
+- Não dependa de cor para indicar qual opção está selecionada — o ícone interno já cumpre esse papel.
+
+## Acessibilidade
+
+- Teclado: `Tab` entra no grupo, as setas (`↑`/`↓` ou `←`/`→` no horizontal) movem entre os itens e já selecionam automaticamente.
+- O componente é construído sobre `@radix-ui/react-radio-group`, que expõe `role="radiogroup"` e `aria-checked` nativamente.
+- Associe o grupo a um rótulo visível via `FieldLegend` ou `aria-labelledby`.

@@ -1,6 +1,8 @@
+import { resolve } from 'node:path';
 import type { StorybookConfig } from '@storybook/react-vite';
 import tailwind from '@tailwindcss/vite';
 import { mergeConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 const config: StorybookConfig = {
   framework: {
@@ -25,7 +27,15 @@ const config: StorybookConfig = {
   },
   async viteFinal(baseConfig) {
     return mergeConfig(baseConfig, {
-      plugins: [tailwind()],
+      plugins: [
+        tailwind(),
+        tsconfigPaths({
+          projects: [
+            resolve(__dirname, '../../../packages/design-system/tsconfig.json'),
+            resolve(__dirname, '../../../packages/blocks/tsconfig.json'),
+          ],
+        }),
+      ],
     });
   },
 };

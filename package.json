@@ -22,15 +22,20 @@
     "docs:dev": "turbo run docs:dev --filter=@uranus-workspace/docs",
     "docs:build": "turbo run docs:build --filter=@uranus-workspace/docs",
     "clean": "turbo run clean && rm -rf node_modules",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "release": "turbo run build --filter='./packages/*' && changeset publish"
+    "release": "turbo run build --filter='./packages/*' && pnpm -r --filter='./packages/design-system' --filter='./packages/blocks' exec semantic-release"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@changesets/cli": "^2.27.11",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/npm": "^13.1.5",
+    "@semantic-release/release-notes-generator": "^14.1.0",
     "@uranus-workspace/biome-config": "workspace:*",
     "@uranus-workspace/tsconfig": "workspace:*",
+    "semantic-release": "^25.0.3",
+    "semantic-release-monorepo": "^8.0.2",
     "turbo": "^2.3.3",
     "typescript": "^5.7.2"
   },

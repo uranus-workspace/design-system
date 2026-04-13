@@ -1,71 +1,79 @@
 ---
 title: Button
-description: Triggers an action. The most common interactive element.
+description: Dispara uma ação. O elemento interativo mais comum da interface.
 ---
 
-`Button` is the canonical way to trigger an action. For navigation, prefer an anchor inside `<Button asChild>` rather than wiring `onClick` to `router.push`.
+`Button` é a forma canônica de disparar uma ação. Para navegação, prefira colocar um `<a>` (ou `<Link />`) dentro de um `<Button asChild>` ao invés de ligar `onClick` a um `router.push`.
 
-## Anatomy
+<ComponentPreview name="button-default" />
 
-- **Label** — the only required part. Always human-readable.
-- **Leading or trailing icon** (optional) — keep it small, never replace the label with an icon unless the button uses `size="icon"` and an `aria-label`.
+## Anatomia
 
-## Variants
+- **Rótulo** — a única parte obrigatória. Sempre legível por humanos.
+- **Ícone (leading ou trailing)** — opcional. Mantenha-o pequeno e nunca substitua o rótulo por um ícone sem usar `size="icon"` combinado a um `aria-label`.
 
-| Variant | When to use |
+## Variantes
+
+<ComponentPreview name="button-variants" />
+
+| Variante | Quando usar |
 |---|---|
-| `primary` | The default. The most prominent action on a surface. |
-| `secondary` | Supporting actions that still deserve emphasis. |
-| `outline` | Lower-emphasis alternatives, often paired with `primary`. |
-| `ghost` | Toolbar actions, inline icons, tertiary affordances. |
-| `destructive` | Irreversible or high-consequence actions. |
-| `link` | Inline navigation that reads as prose. |
+| `primary` | Padrão. A ação mais proeminente de uma superfície. |
+| `secondary` | Ações de apoio que ainda merecem ênfase. |
+| `outline` | Alternativas de menor ênfase, geralmente pareadas com `primary`. |
+| `ghost` | Toolbar, ícones inline, afordances terciárias. |
+| `destructive` | Ações irreversíveis ou de alta consequência. |
+| `link` | Navegação inline que se lê como texto corrido. |
 
-## Sizes
+## Tamanhos
 
-`sm`, `md` (default), `lg`, and `icon` (square, for icon-only buttons with an accessible name).
+Os tamanhos disponíveis são `sm`, `md` (padrão), `lg` e `icon` (quadrado, para botões apenas de ícone com nome acessível).
 
-## Usage
+<ComponentPreview name="button-sizes" />
 
-```tsx
-import { Button } from '@uranus-workspace/design-system';
-import { Plus } from 'lucide-react';
+## Com ícone
 
-<Button>
-  <Plus /> New project
-</Button>
-```
+Ícones do Lucide ficam automaticamente dimensionados em `size-4` graças ao seletor `[&_svg]` nas variantes. Não precisa aplicar classes no ícone.
 
-### As a link
+<ComponentPreview name="button-with-icon" />
 
-Pass `asChild` to render the immediate child element with the button's classes and behavior. This is the correct way to make a button navigate:
+## Estado de carregamento
+
+Combine `disabled` com um `Spinner` para indicar que uma ação assíncrona está em andamento. Mantenha o rótulo — trocar por "Carregando…" confunde leitores de tela.
+
+<ComponentPreview name="button-loading" />
+
+## Como link
+
+Use `asChild` para renderizar o filho imediato com as classes e o comportamento do botão. Essa é a forma correta de fazer um botão navegar:
 
 ```tsx
 import Link from 'next/link';
+import { Button } from '@uranus-workspace/design-system';
 
 <Button asChild>
-  <Link href="/projects">Go to projects</Link>
+  <Link href="/projetos">Ir para projetos</Link>
 </Button>
 ```
 
-## Do
+## Faça
 
-- Use **one** primary button per view — it's the visual hook for the main task.
-- Put destructive actions in a confirmation dialog, not directly on the surface.
-- Keep labels imperative: "Create project", not "Creation".
+- Use **apenas um** botão `primary` por tela — ele é a âncora visual da tarefa principal.
+- Coloque ações destrutivas dentro de um diálogo de confirmação, nunca soltas na superfície.
+- Mantenha rótulos no imperativo: "Criar projeto", não "Criação".
 
-## Don't
+## Não faça
 
-- Don't stack two primary buttons side by side.
-- Don't use `destructive` for actions that are reversible.
-- Don't remove the focus ring.
+- Não empilhe dois botões `primary` lado a lado.
+- Não use `destructive` para ações reversíveis.
+- Não remova o anel de foco (`focus-visible:ring`).
 
-## Accessibility
+## Acessibilidade
 
-- Keyboard: `Enter` and `Space` both activate.
-- Disabled buttons are announced as disabled by AT; prefer hiding rather than disabling if the action isn't available at all.
-- Icon-only buttons (`size="icon"`) must have an `aria-label`.
+- Teclado: `Enter` e `Espaço` ativam o botão.
+- Botões desabilitados são anunciados como tal por tecnologias assistivas. Prefira ocultar em vez de desabilitar quando a ação não fizer sentido naquele contexto.
+- Botões apenas de ícone (`size="icon"`) precisam obrigatoriamente de um `aria-label`.
 
 ## API
 
-See the generated TypeScript definitions in `@uranus-workspace/design-system`. `ButtonProps` extends `ButtonHTMLAttributes<HTMLButtonElement>`, so every native button attribute works.
+Consulte as definições TypeScript geradas em `@uranus-workspace/design-system`. `ButtonProps` estende `ButtonHTMLAttributes<HTMLButtonElement>`, então todos os atributos nativos de botão funcionam.

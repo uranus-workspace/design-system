@@ -33,5 +33,11 @@
     "@uranus-workspace/tsconfig": "workspace:*",
     "turbo": "^2.3.3",
     "typescript": "^5.7.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild@<0.25.0": ">=0.25.0",
+      "vite@<6.4.2": ">=6.4.2"
+    }
   }
 }

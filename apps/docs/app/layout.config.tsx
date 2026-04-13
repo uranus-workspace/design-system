@@ -10,11 +10,13 @@ export const baseOptions: BaseLayoutProps = {
     ),
     url: '/',
   },
+  // Fumadocs renders a GitHub icon link in the nav when this is set.
+  githubUrl: 'https://github.com/uranus-workspace/design-system',
   links: [
-    { text: 'Docs', url: '/docs', active: 'nested-url' },
-    { text: 'Foundations', url: '/docs/foundations', active: 'nested-url' },
-    { text: 'Components', url: '/docs/components/button', active: 'nested-url' },
-    { text: 'Blocks', url: '/docs/blocks/page-header', active: 'nested-url' },
+    { text: 'Documentação', url: '/docs', active: 'nested-url' },
+    { text: 'Fundamentos', url: '/docs/foundations', active: 'nested-url' },
+    { text: 'Componentes', url: '/docs/components/button', active: 'nested-url' },
+    { text: 'Blocos', url: '/docs/blocks/page-header', active: 'nested-url' },
     { text: 'uranus.com.br', url: 'https://uranus.com.br', external: true },
   ],
 };

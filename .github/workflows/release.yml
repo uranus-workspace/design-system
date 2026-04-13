@@ -59,6 +59,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      # Matrix legs run sequentially (max-parallel: 1). If an earlier leg's
+      # semantic-release @git plugin pushed a [skip ci] commit to main, this
+      # leg's checkout (pinned to head_sha) would be stale and semantic-release
+      # would bail with "local branch is behind the remote one". Fast-forward
+      # to origin/main before each release.
+      - name: Sync with latest main
+        run: git pull --rebase --autostash origin main
+
       - name: Release ${{ matrix.package.name }}
         working-directory: ${{ matrix.package.dir }}
         env:

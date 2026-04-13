@@ -1,3 +1,10 @@
+# [@uranus-workspace/blocks-v1.0.1](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/blocks@1.0.0...@uranus-workspace/blocks@1.0.1) (2026-04-13)
+
+
+### Bug Fixes
+
+* **blocks:** publish to public npm registry ([a618457](https://github.com/uranus-workspace/design-system/commit/a61845739294b47a6dbc5d02f09a7a2d9ae1883a))
+
 # @uranus-workspace/blocks-v1.0.0 (2026-04-13)
 
 

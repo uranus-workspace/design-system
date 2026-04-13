@@ -1,0 +1,59 @@
+---
+title: Popover
+description: Camada flutuante ancorada a um gatilho para exibir conteúdo rico ou controles secundários
+---
+
+`Popover` abre um painel flutuante ancorado a um elemento da página. Use-o para conteúdo interativo que cabe em uma área pequena — filtros, formulários curtos, configurações rápidas. Para dicas de texto não-interativas prefira [`Tooltip`](/docs/components/tooltip); para fluxos que exigem atenção exclusiva prefira [`Dialog`](/docs/components/dialog).
+
+<ComponentPreview name="popover-default" />
+
+## Anatomia
+
+- **Popover** — raiz que mantém o estado de aberto/fechado.
+- **PopoverTrigger** — elemento que alterna o popover. Use `asChild` para herdar um botão existente.
+- **PopoverContent** — o painel flutuante. Renderizado em um portal e posicionado automaticamente dentro da viewport.
+
+## Formulário inline
+
+Popovers são ótimos para micro-formulários que não merecem um diálogo completo: compartilhar um link, adicionar uma etiqueta, filtrar uma lista.
+
+<ComponentPreview name="popover-form" />
+
+## Uso
+
+```tsx
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@uranus-workspace/design-system';
+
+<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Preferências</Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-72">
+    <p className="text-sm">Conteúdo do popover.</p>
+  </PopoverContent>
+</Popover>
+```
+
+## Faça
+
+- Mantenha o conteúdo focado — uma tarefa, um grupo de controles.
+- Use `align` e `side` para ancorar o popover de forma previsível em relação ao trigger.
+- Feche o popover depois de uma ação bem-sucedida para devolver o foco ao trigger.
+
+## Não faça
+
+- Não coloque um popover dentro de outro — isso confunde o gerenciamento de foco.
+- Não use popover para informação essencial: se o usuário precisa dela para decidir, coloque no fluxo principal.
+- Não substitua `Tooltip` por `Popover` apenas para mostrar texto. Popovers abrem no clique; tooltips abrem no hover/foco.
+
+## Acessibilidade
+
+- Construído sobre Radix Popover — o foco vai automaticamente para o primeiro elemento focável dentro do conteúdo quando abre e retorna ao trigger ao fechar.
+- `Esc` fecha o popover. Clicar fora também fecha.
+- O trigger recebe `aria-expanded` e `aria-controls` automaticamente.
+- Se o popover abriga um formulário, combine com componentes de [`Field`](/docs/components/field) e `Label` para manter a leitura por tecnologias assistivas consistente.

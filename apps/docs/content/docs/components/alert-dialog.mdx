@@ -1,0 +1,75 @@
+---
+title: AlertDialog
+description: Diálogo modal que exige confirmação explícita antes de executar uma ação consequente
+---
+
+`AlertDialog` interrompe o usuário e exige uma escolha explícita antes de continuar. Use-o para ações irreversíveis ou de alta consequência — excluir um recurso, sair de uma sessão, descartar trabalho não salvo. Para fluxos menos críticos, prefira [`Dialog`](/docs/components/dialog).
+
+<ComponentPreview name="alert-dialog-default" />
+
+## Anatomia
+
+- **AlertDialogTrigger** — elemento que abre o diálogo, normalmente um `Button`.
+- **AlertDialogContent** — a janela modal em si, renderizada em um portal com overlay escurecido.
+- **AlertDialogHeader** → **AlertDialogTitle** + **AlertDialogDescription** — explicam o que vai acontecer e por quê.
+- **AlertDialogFooter** → **AlertDialogCancel** + **AlertDialogAction** — a saída segura sempre vem antes da ação confirmadora.
+
+## Confirmação destrutiva
+
+Para ações irreversíveis, combine um trigger `destructive` com uma `AlertDialogAction` estilizada com a mesma variante. O texto do botão deve descrever o que será feito ("Excluir definitivamente"), nunca apenas "OK" ou "Confirmar".
+
+<ComponentPreview name="alert-dialog-destructive" />
+
+## Uso
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
+} from '@uranus-workspace/design-system';
+
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="destructive">Excluir projeto</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Excluir Projeto Apollo?</AlertDialogTitle>
+      <AlertDialogDescription>
+        Esta ação é permanente e não pode ser desfeita.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+      <AlertDialogAction>Excluir</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Faça
+
+- Escreva o título como uma pergunta direta: "Excluir projeto?", "Descartar rascunho?".
+- Deixe claro na descrição o que é reversível e o que não é.
+- Sempre ofereça uma saída segura com `AlertDialogCancel`, escrita como um verbo ("Cancelar", "Manter").
+
+## Não faça
+
+- Não use `AlertDialog` para formulários ou conteúdo longo — isso é trabalho de [`Dialog`](/docs/components/dialog) ou [`Sheet`](/docs/components/sheet).
+- Não abra dois `AlertDialog` empilhados — reescreva o fluxo.
+- Não remova o botão de cancelar nem torne a ação destrutiva o foco inicial.
+
+## Acessibilidade
+
+- Construído sobre Radix AlertDialog — a `role="alertdialog"` é aplicada automaticamente e o foco fica preso dentro do conteúdo enquanto ele está aberto.
+- `AlertDialogTitle` e `AlertDialogDescription` ficam associados via `aria-labelledby` e `aria-describedby`. Sempre inclua os dois.
+- `Esc` fecha o diálogo. Clicar no overlay também fecha — se isso for indesejado para uma confirmação crítica, intercepte `onOpenChange` no lado do consumidor.
+- Por padrão, o foco inicial vai para o primeiro botão focável do footer — posicione `Cancelar` antes da ação confirmadora para que usuários de teclado não disparem a ação consequente por engano.

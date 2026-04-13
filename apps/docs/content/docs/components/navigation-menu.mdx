@@ -1,0 +1,74 @@
+---
+title: NavigationMenu
+description: Navegação horizontal com painéis ricos abertos a partir de cada item de topo
+---
+
+`NavigationMenu` é a navegação horizontal pensada para headers de site e apps — cada item do topo pode abrir um painel rico embaixo com links, descrições e ícones. Use-o para estruturas de navegação amplas ou com dezenas de destinos. Para menus de ações (não de navegação) prefira [`DropdownMenu`](/docs/components/dropdown-menu).
+
+<ComponentPreview name="navigation-menu-default" />
+
+## Anatomia
+
+- **NavigationMenu** — raiz que inclui automaticamente o `NavigationMenuViewport` para animar os painéis.
+- **NavigationMenuList** — a lista horizontal dos itens de topo.
+- **NavigationMenuItem** — um item da lista. Pode ter trigger + content ou ser um link direto.
+- **NavigationMenuTrigger** — botão que abre o painel. Mostra um `ChevronDown` animado.
+- **NavigationMenuContent** — o painel que aparece abaixo do trigger, com animação de slide lateral entre menus vizinhos.
+- **NavigationMenuLink** — link, focável e anunciado como tal. Use `asChild` para renderizar um `<a>` do Next.js.
+- **navigationMenuTriggerStyle** — helper para aplicar o visual de trigger a um link que não tem submenu.
+
+## Uso
+
+```tsx
+import Link from 'next/link';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from '@uranus-workspace/design-system';
+
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Produtos</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <ul className="grid w-[320px] gap-2 p-3">
+          <li>
+            <NavigationMenuLink asChild>
+              <Link href="/design-system">Design System</Link>
+            </NavigationMenuLink>
+          </li>
+        </ul>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/precos">
+        Preços
+      </NavigationMenuLink>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+## Faça
+
+- Mantenha o número de itens de topo entre três e sete — mais que isso empurra o usuário para uma busca ou um menu hierárquico.
+- Dentro do `NavigationMenuContent`, agrupe links por tarefa com descrições curtas ao lado do rótulo.
+- Para destinos sem submenu, use um `NavigationMenuLink` com `navigationMenuTriggerStyle()` para manter o visual alinhado.
+
+## Não faça
+
+- Não use `NavigationMenu` para ações — ele é para navegação. Ações vão em [`DropdownMenu`](/docs/components/dropdown-menu) ou em um botão explícito.
+- Não coloque formulários dentro do painel — ele é um container de navegação, não de interação.
+- Não esconda o `ChevronDown` do trigger — ele comunica que há mais conteúdo abaixo.
+
+## Acessibilidade
+
+- Construído sobre Radix NavigationMenu — segue o padrão [WAI-ARIA Disclosure Navigation](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+- Teclado: `Tab` move entre triggers e links; `Enter`/`Espaço` abrem o painel; `Setas esquerda/direita` navegam entre os menus de topo; `Esc` fecha e devolve o foco ao trigger.
+- Cada painel é anunciado como uma região colapsável via `aria-expanded`.
+- `NavigationMenuLink` é um link semântico (`<a>` por baixo). Use sempre `asChild` em volta de um `<Link>` do Next para preservar prefetch e navegação client-side.

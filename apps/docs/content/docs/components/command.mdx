@@ -1,0 +1,71 @@
+---
+title: Command
+description: Paleta de comandos com busca, agrupamento e navegação por teclado
+---
+
+`Command` é o primitivo para paletas de comandos estilo `⌘K` — uma busca com resultados filtrados, agrupados e navegáveis por teclado. É construído sobre [`cmdk`](https://cmdk.paco.me/) e pode ser usado inline em uma página ou dentro de um [`Dialog`](/docs/components/dialog) para virar uma paleta global.
+
+<ComponentPreview name="command-default" />
+
+## Anatomia
+
+- **Command** — raiz que mantém o estado do filtro e do item selecionado.
+- **CommandInput** — o campo de busca no topo, já inclui um ícone de lupa.
+- **CommandList** — o container rolável dos resultados.
+- **CommandEmpty** — mensagem exibida quando nenhum item corresponde à busca.
+- **CommandGroup** — agrupa itens relacionados sob um `heading`.
+- **CommandItem** — linha individual, selecionável via teclado ou mouse.
+- **CommandSeparator** — divisor entre grupos.
+- **CommandShortcut** — texto alinhado à direita, para atalhos.
+- **CommandDialog** — wrapper que renderiza o `Command` dentro de um diálogo modal.
+
+## Uso
+
+```tsx
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from '@uranus-workspace/design-system';
+
+<Command>
+  <CommandInput placeholder="Buscar…" />
+  <CommandList>
+    <CommandEmpty>Nenhum resultado.</CommandEmpty>
+    <CommandGroup heading="Sugestões">
+      <CommandItem>Novo documento</CommandItem>
+      <CommandItem>Criar projeto</CommandItem>
+    </CommandGroup>
+    <CommandSeparator />
+    <CommandGroup heading="Configurações">
+      <CommandItem>Perfil</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+Para transformá-lo em uma paleta global disparada por `⌘K`, envolva em `CommandDialog` e controle `open` a partir de um `useEffect` que ouve o atalho.
+
+## Faça
+
+- Use `CommandGroup` com `heading` para dar contexto aos resultados.
+- Escreva rótulos no imperativo ("Criar projeto", "Abrir configurações"), igual aos demais menus.
+- Inclua sempre um `CommandEmpty` — a paleta fica quebrada sem feedback de "nada encontrado".
+- Mostre o atalho global (`⌘K`) na UI para que o usuário descubra a paleta.
+
+## Não faça
+
+- Não use `Command` para listas curtas e estáticas — um `Select` ou `DropdownMenu` serve melhor.
+- Não coloque mais do que umas poucas dezenas de itens visíveis de uma vez; confie no filtro por busca.
+- Não esconda o `CommandInput` — a paleta sem busca é apenas uma lista.
+
+## Acessibilidade
+
+- `cmdk` expõe o input como `role="combobox"` e a lista como `role="listbox"`, seguindo o padrão [WAI-ARIA Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/).
+- Teclado: `Setas cima/baixo` movem o item selecionado, `Enter` dispara, `Esc` fecha (quando dentro de `CommandDialog`).
+- O item ativo tem `aria-selected="true"` e um `data-selected="true"` para estilo.
+- Quando usado dentro de `CommandDialog`, o foco fica preso e retorna ao trigger ao fechar, como qualquer diálogo.

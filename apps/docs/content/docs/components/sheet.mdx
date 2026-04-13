@@ -1,0 +1,67 @@
+---
+title: Sheet
+description: Painel lateral que desliza a partir da borda da viewport para acomodar fluxos secundários
+---
+
+`Sheet` é um painel modal que desliza a partir de uma borda da tela. Use-o quando o fluxo principal precisa continuar visível por contexto, mas a tarefa atual é longa demais para um [`Popover`](/docs/components/popover) — edição de perfil, filtros de uma lista, navegação lateral em telas estreitas. Para um painel que sobe a partir do rodapé em mobile prefira [`Drawer`](/docs/components/drawer).
+
+<ComponentPreview name="sheet-default" />
+
+## Anatomia
+
+- **SheetTrigger** — elemento que abre o painel.
+- **SheetContent** — o painel em si. Aceita a prop `side` (`"top" | "right" | "bottom" | "left"`, padrão `"right"`).
+- **SheetHeader** → **SheetTitle** + **SheetDescription** — título e contexto.
+- **SheetFooter** — área para ações principais.
+- **SheetClose** — botão para fechar explicitamente. Um `X` no canto superior direito já é incluído por padrão.
+
+## Ancorado à esquerda
+
+Use `side="left"` para navegação mobile ou árvores de conteúdo que normalmente ficam fixas à esquerda em telas maiores.
+
+<ComponentPreview name="sheet-left" />
+
+## Uso
+
+```tsx
+import {
+  Button,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@uranus-workspace/design-system';
+
+<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="outline">Abrir painel</Button>
+  </SheetTrigger>
+  <SheetContent side="right">
+    <SheetHeader>
+      <SheetTitle>Editar perfil</SheetTitle>
+      <SheetDescription>Atualize suas informações pessoais.</SheetDescription>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+## Faça
+
+- Use `side="right"` para ações secundárias em desktop e `side="left"` para navegação.
+- Mantenha sempre um `SheetTitle`, mesmo que visualmente escondido com `className="sr-only"` — leitores de tela precisam dele.
+- Posicione ações principais no `SheetFooter` para que não desçam junto ao conteúdo.
+
+## Não faça
+
+- Não use `Sheet` para confirmações curtas — use [`AlertDialog`](/docs/components/alert-dialog).
+- Não aninhe sheets dentro de sheets.
+- Não esconda o botão de fechar — ele é parte do contrato de acessibilidade.
+
+## Acessibilidade
+
+- Construído sobre Radix Dialog — foco fica preso, `Esc` fecha e o fundo recebe `inert` enquanto o sheet está aberto.
+- `SheetTitle` e `SheetDescription` são associados via `aria-labelledby` e `aria-describedby` automaticamente.
+- O botão de fechar padrão inclui um `span` com `sr-only` garantindo nome acessível.
+- Respeita `prefers-reduced-motion` — o slide é substituído por um fade simples.

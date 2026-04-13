@@ -1,0 +1,68 @@
+---
+title: Menubar
+description: Barra de menus horizontal estilo aplicativo desktop, com múltiplos menus agrupados
+---
+
+`Menubar` é a barra de menus persistente no estilo de aplicativos desktop — pense em "Arquivo", "Editar", "Exibir" no topo de uma janela. Use-o em aplicações internas ou editores onde o usuário precisa de acesso rápido a uma hierarquia ampla de comandos. Para um único menu ancorado a um botão, prefira [`DropdownMenu`](/docs/components/dropdown-menu).
+
+<ComponentPreview name="menubar-default" />
+
+## Anatomia
+
+- **Menubar** — a raiz horizontal que contém os menus.
+- **MenubarMenu** — um menu individual da barra.
+- **MenubarTrigger** — o rótulo clicável do menu (por exemplo, "Arquivo").
+- **MenubarContent** — o painel que abre abaixo do trigger.
+- **MenubarItem** — ação individual dentro de um menu.
+- **MenubarCheckboxItem** / **MenubarRadioItem** — itens com estado binário ou exclusivo.
+- **MenubarLabel** — cabeçalho de grupo não-interativo.
+- **MenubarSeparator** — divisor entre grupos.
+- **MenubarSub** → **MenubarSubTrigger** + **MenubarSubContent** — submenu.
+- **MenubarShortcut** — texto alinhado à direita, para atalhos de teclado.
+
+## Uso
+
+```tsx
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from '@uranus-workspace/design-system';
+
+<Menubar>
+  <MenubarMenu>
+    <MenubarTrigger>Arquivo</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>
+        Novo
+        <MenubarShortcut>⌘N</MenubarShortcut>
+      </MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>Exportar como PDF</MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>
+```
+
+## Faça
+
+- Agrupe comandos relacionados em menus nomeados como verbos ou substantivos curtos: "Arquivo", "Editar", "Exibir".
+- Coloque os menus mais comuns à esquerda — é onde o olho do usuário vai primeiro.
+- Expose atalhos com `MenubarShortcut`, mas só se eles realmente funcionam globalmente no app.
+
+## Não faça
+
+- Não use `Menubar` em sites públicos ou landing pages — a linguagem é de aplicativo, não de marketing.
+- Não coloque ações destrutivas no primeiro item de um menu. Empurre-as para o final, depois de um separador.
+- Não aninhe submenus mais de um nível.
+
+## Acessibilidade
+
+- Construído sobre Radix Menubar — segue o padrão [WAI-ARIA Menubar](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/).
+- Teclado: `Tab` entra no menubar, `Setas esquerda/direita` navegam entre menus, `Seta para baixo` ou `Enter` abrem o menu focado, `Setas cima/baixo` movem entre itens, `Esc` fecha.
+- Quando um menu está aberto, `Setas esquerda/direita` saltam para o menu vizinho da barra — comportamento idêntico ao de macOS/Windows.
+- Typeahead por primeira letra está disponível dentro de cada menu.

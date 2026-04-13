@@ -1,0 +1,64 @@
+---
+title: HoverCard
+description: Prévia contextual que aparece ao passar o mouse sobre um link ou menção
+---
+
+`HoverCard` mostra uma prévia rica de um recurso quando o usuário passa o cursor ou dá foco a um elemento. O caso canônico é uma menção a usuário: nome, avatar, bio curta e metadados. É puramente informativo — qualquer conteúdo interativo dentro dele deve ir para um [`Popover`](/docs/components/popover).
+
+<ComponentPreview name="hover-card-default" />
+
+## Anatomia
+
+- **HoverCard** — raiz que controla o estado e os delays.
+- **HoverCardTrigger** — elemento que dispara a prévia. Use `asChild` para herdar um link ou botão.
+- **HoverCardContent** — o cartão flutuante, portal para o body, com posicionamento automático.
+
+## Uso
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@uranus-workspace/design-system';
+
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <a href="/users/gustavo">@gustavo</a>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <div className="flex gap-3">
+      <Avatar>
+        <AvatarImage src="/gustavo.png" alt="Gustavo Bertoi" />
+        <AvatarFallback>GB</AvatarFallback>
+      </Avatar>
+      <div>
+        <p className="font-semibold">Gustavo Bertoi</p>
+        <p className="text-sm text-muted-foreground">Engenheiro na Uranus.</p>
+      </div>
+    </div>
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Faça
+
+- Use para prévias opcionais — o usuário deve conseguir continuar sua tarefa sem abrir o cartão.
+- Mantenha o conteúdo curto e escaneável: título, uma linha de descrição, metadado.
+- Combine com [`Avatar`](/docs/components/badge) e tipografia suave para criar hierarquia.
+
+## Não faça
+
+- Não coloque botões, links ou formulários dentro de um `HoverCard` — o cursor pode sair do alvo antes de clicar. Use `Popover` para qualquer coisa interativa.
+- Não use em mobile: toque não dispara hover e usuários não verão o cartão.
+- Não substitua `Tooltip` para dicas de texto simples — tooltips são mais leves e têm `aria-describedby` nativo.
+
+## Acessibilidade
+
+- Construído sobre Radix HoverCard — abre tanto em hover quanto em foco por teclado.
+- O conteúdo é apresentado como informação complementar; **não** é anunciado automaticamente por leitores de tela quando aparece. Por isso, não coloque informação essencial lá dentro.
+- Em dispositivos touch o componente não abre — sempre garanta uma forma alternativa de acessar a mesma informação (por exemplo, uma página dedicada).
+- Respeita `prefers-reduced-motion` automaticamente.

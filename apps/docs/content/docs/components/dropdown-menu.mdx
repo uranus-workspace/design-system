@@ -1,0 +1,80 @@
+---
+title: DropdownMenu
+description: Menu de ações disparado por um botão, com suporte a itens, separadores, atalhos e submenus
+---
+
+`DropdownMenu` é o componente canônico para uma lista de ações associada a um botão: menu de conta, "mais opções" em um card, overflow em uma toolbar. Para menu ancorado ao clique direito use [`ContextMenu`](/docs/components/context-menu); para barra de menus estilo desktop use [`Menubar`](/docs/components/menubar).
+
+<ComponentPreview name="dropdown-menu-default" />
+
+## Anatomia
+
+- **DropdownMenu** — raiz que mantém o estado.
+- **DropdownMenuTrigger** — o botão que abre o menu. Use `asChild` para herdar um `Button`.
+- **DropdownMenuContent** — o painel flutuante, renderizado em portal.
+- **DropdownMenuLabel** — cabeçalho de grupo, não é interativo.
+- **DropdownMenuItem** — ação individual. Pode conter ícones do Lucide e um `DropdownMenuShortcut`.
+- **DropdownMenuCheckboxItem** / **DropdownMenuRadioItem** — itens com estado binário ou exclusivo.
+- **DropdownMenuSeparator** — linha divisória entre grupos.
+- **DropdownMenuSub** → **DropdownMenuSubTrigger** + **DropdownMenuSubContent** — submenu lateral.
+- **DropdownMenuShortcut** — texto alinhado à direita, usado para exibir atalhos de teclado.
+
+## Uso
+
+```tsx
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from '@uranus-workspace/design-system';
+import { LogOut, Settings, User } from 'lucide-react';
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Minha conta</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Gustavo Bertoi</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>
+      <User />
+      Perfil
+      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuItem>
+      <Settings />
+      Configurações
+    </DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>
+      <LogOut />
+      Sair
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Faça
+
+- Mantenha os rótulos no imperativo ("Duplicar", "Mover para…", "Excluir").
+- Agrupe itens relacionados e separe grupos com `DropdownMenuSeparator`.
+- Mostre atalhos de teclado com `DropdownMenuShortcut` apenas quando o atalho realmente funciona no app.
+- Posicione ações destrutivas no final do menu, depois de um separador.
+
+## Não faça
+
+- Não use `DropdownMenu` para navegação entre páginas — prefira [`NavigationMenu`](/docs/components/navigation-menu).
+- Não aninhe submenus mais de um nível. Em vez disso, refatore para um diálogo ou uma página.
+- Não esconda rótulos essenciais atrás de ícones sem nome acessível.
+
+## Acessibilidade
+
+- Construído sobre Radix DropdownMenu — o trigger recebe `aria-expanded`, `aria-haspopup="menu"` e `aria-controls` automaticamente.
+- Teclado: `Enter`/`Espaço`/`Seta para baixo` abrem o menu; `Setas` movem o foco; `Esc` fecha; primeiras letras fazem typeahead.
+- Submenus abrem com `Seta direita` e fecham com `Seta esquerda`.
+- Itens desabilitados recebem `aria-disabled` e são pulados pela navegação por teclado.

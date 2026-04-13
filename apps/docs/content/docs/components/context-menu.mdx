@@ -1,0 +1,65 @@
+---
+title: ContextMenu
+description: Menu de ações disparado pelo clique com o botão direito sobre uma área específica
+---
+
+`ContextMenu` replica o comportamento nativo do sistema operacional: clicar com o botão direito (ou fazer long-press em touch) sobre um alvo abre um menu ancorado ao ponteiro. Use-o para ações contextuais em listas, tabelas, áreas de canvas ou cartões. Para ações ancoradas a um botão visível, prefira [`DropdownMenu`](/docs/components/dropdown-menu).
+
+<ComponentPreview name="context-menu-default" />
+
+## Anatomia
+
+- **ContextMenu** — raiz que mantém o estado.
+- **ContextMenuTrigger** — área clicável. Geralmente envolve uma linha de lista, uma célula ou um card inteiro.
+- **ContextMenuContent** — o painel flutuante, renderizado em portal.
+- **ContextMenuLabel** — cabeçalho não-interativo de um grupo.
+- **ContextMenuItem** — ação individual, com ícones e `ContextMenuShortcut` opcional.
+- **ContextMenuCheckboxItem** / **ContextMenuRadioItem** — itens com estado.
+- **ContextMenuSeparator** — divisor entre grupos.
+- **ContextMenuSub** → **ContextMenuSubTrigger** + **ContextMenuSubContent** — submenu lateral.
+
+## Uso
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from '@uranus-workspace/design-system';
+
+<ContextMenu>
+  <ContextMenuTrigger>Clique com o botão direito aqui</ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>
+      Duplicar
+      <ContextMenuShortcut>⌘D</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem className="text-destructive focus:text-destructive">
+      Excluir
+    </ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+## Faça
+
+- Replique sempre as ações do `ContextMenu` em outro lugar visível (toolbar, botão "mais"). Usuários de teclado e touch precisam de uma forma alternativa.
+- Ordene as ações da mais comum para a menos comum.
+- Mantenha ações destrutivas no final, depois de um separador.
+
+## Não faça
+
+- Não use `ContextMenu` como único caminho para uma ação — ele é uma afordance de atalho, não de descoberta.
+- Não coloque muitos itens. Se passar de sete opções, considere agrupar em submenus ou promover para um [`Dialog`](/docs/components/dialog).
+- Não aninhe submenus mais de um nível de profundidade.
+
+## Acessibilidade
+
+- Construído sobre Radix ContextMenu — suporta teclado nativamente: a tecla "Menu" do Windows e `Shift+F10` abrem o menu.
+- Leitores de tela anunciam o menu como `role="menu"` com itens `role="menuitem"`. `Esc` fecha.
+- Em touch, o menu abre com long-press, mas esse gesto não é descoberto por todos os usuários — sempre ofereça um ponto de entrada visível alternativo.
+- Itens com navegação por typeahead (digitar a primeira letra para pular) são suportados automaticamente.

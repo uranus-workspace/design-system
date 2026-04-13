@@ -1,0 +1,70 @@
+---
+title: Drawer
+description: Painel que sobe a partir do rodapé da tela, otimizado para interações mobile
+---
+
+`Drawer` é um painel que desliza a partir da base da viewport. É construído sobre [`vaul`](https://vaul.emilkowal.ski/) e oferece gestos nativos de arrastar: o usuário pode puxar a borda superior para fechar, como em apps nativos. Use-o em vez de [`Sheet`](/docs/components/sheet) quando o conteúdo é principalmente consumido em dispositivos móveis.
+
+<ComponentPreview name="drawer-default" />
+
+## Anatomia
+
+- **Drawer** — raiz que controla o estado. A prop `shouldScaleBackground` (ativada por padrão) reduz levemente o fundo enquanto o drawer está aberto.
+- **DrawerTrigger** — elemento que abre o drawer.
+- **DrawerContent** — o painel. Já inclui a "handle" cinza no topo.
+- **DrawerHeader** → **DrawerTitle** + **DrawerDescription** — título e contexto.
+- **DrawerFooter** — área para ações primárias, sempre empilhadas verticalmente.
+- **DrawerClose** — botão de fechar explícito.
+
+## Uso
+
+```tsx
+import {
+  Button,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@uranus-workspace/design-system';
+
+<Drawer>
+  <DrawerTrigger asChild>
+    <Button variant="outline">Abrir</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Detalhes do pedido</DrawerTitle>
+      <DrawerDescription>Criado em 14 de abril.</DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <Button>Confirmar</Button>
+      <DrawerClose asChild>
+        <Button variant="outline">Fechar</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+```
+
+## Faça
+
+- Use em fluxos mobile onde o gesto de arrastar é esperado.
+- Empilhe ações no `DrawerFooter` — a ação primária fica em cima, a de cancelar embaixo, alinhadas à largura total.
+- Limite a altura do conteúdo para que a "handle" fique sempre visível e alcançável com o polegar.
+
+## Não faça
+
+- Não use `Drawer` como navegação principal em desktop — ele bloqueia toda a largura da tela. Use [`Sheet`](/docs/components/sheet) nesses casos.
+- Não encha o drawer de formulário longo sem scroll — lembre-se de que o usuário pode arrastar para fechar por acidente.
+- Não remova a "handle" visual: ela é a afordance que comunica o gesto.
+
+## Acessibilidade
+
+- `vaul` expõe `role="dialog"` e gerencia trap de foco, `Esc` e retorno de foco ao trigger.
+- `DrawerTitle` e `DrawerDescription` são associados ao container via `aria-labelledby`/`aria-describedby` automaticamente.
+- Em dispositivos com teclado, o gesto de arrastar é substituído pelo botão `DrawerClose` — por isso ele é obrigatório em qualquer drawer não trivial.
+- Respeita `prefers-reduced-motion`.

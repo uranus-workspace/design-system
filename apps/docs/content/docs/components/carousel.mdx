@@ -1,0 +1,84 @@
+---
+title: Carousel
+description: Carrossel deslizante construído sobre Embla com navegação por teclado
+---
+
+`Carousel` é um wrapper sobre [`embla-carousel-react`](https://www.embla-carousel.com/) que traz navegação por teclado, botões de passo e acessibilidade pronta. Use para galerias, onboarding em páginas internas e recomendações horizontais. Evite usá-lo como container principal de uma landing — usuários frequentemente ignoram slides além do primeiro.
+
+<ComponentPreview name="carousel-default" />
+
+## Anatomia
+
+- **Carousel** — container raiz. Aceita `orientation="horizontal"` (padrão) ou `"vertical"`, além de `opts` (passados para o Embla) e `plugins`.
+- **CarouselContent** — wrapper flex dos slides. Deve conter apenas `CarouselItem`.
+- **CarouselItem** — slide individual. Por padrão, ocupa `basis-full`; use `basis-1/2`, `basis-1/3` para mostrar múltiplos por vez.
+- **CarouselPrevious** / **CarouselNext** — botões flutuantes com ícone de seta. Automaticamente ficam desabilitados quando não há mais slides.
+
+## Uso
+
+```tsx
+'use client';
+
+import {
+  Card,
+  CardContent,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@uranus-workspace/design-system';
+
+<Carousel className="w-full max-w-xs">
+  <CarouselContent>
+    {items.map((item) => (
+      <CarouselItem key={item.id}>
+        <Card>
+          <CardContent>{item.title}</CardContent>
+        </Card>
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+### Múltiplos slides visíveis
+
+```tsx
+<CarouselItem className="md:basis-1/2 lg:basis-1/3">
+  {/* ... */}
+</CarouselItem>
+```
+
+### Acessar a API do Embla
+
+```tsx
+const [api, setApi] = useState<CarouselApi>();
+
+<Carousel setApi={setApi}>
+  {/* ... */}
+</Carousel>
+
+// api.scrollTo(index), api.scrollNext(), api.on('select', ...)
+```
+
+## Faça
+
+- Mostre claramente que há mais slides — mantenha `CarouselPrevious` / `CarouselNext` visíveis, ou use indicadores.
+- Pause loops automáticos quando o usuário passa o mouse ou dá foco em um slide.
+- Use `basis-*` para exibir parcialmente o próximo slide — o "espia" convida o usuário a arrastar.
+
+## Não faça
+
+- Não use carrossel para conteúdo crítico da página. Se o usuário precisa ler tudo, use uma lista.
+- Não esconda os botões de navegação em desktop — eles são o principal affordance de teclado e mouse.
+- Não coloque carrossel dentro de carrossel. O foco e a rolagem ficam ambíguos.
+
+## Acessibilidade
+
+- O container emite `role="region"` com `aria-roledescription="carousel"`, e cada `CarouselItem` expõe `role="group"` com `aria-roledescription="slide"`.
+- Teclado: `←` e `→` navegam entre slides quando o carrossel ou seus filhos estão focados.
+- Os botões `CarouselPrevious` / `CarouselNext` têm texto `sr-only` ("Previous slide" / "Next slide") — sobrescreva com `aria-label` para localizar em pt-BR.
+- Respeita `prefers-reduced-motion` via animação do Embla.

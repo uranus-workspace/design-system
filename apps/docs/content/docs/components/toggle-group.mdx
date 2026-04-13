@@ -1,0 +1,66 @@
+---
+title: ToggleGroup
+description: Conjunto de toggles coordenados com seleção única ou múltipla
+---
+
+`ToggleGroup` agrupa múltiplos [`Toggle`](/docs/components/toggle) num único conjunto com seleção única (`type="single"`) ou múltipla (`type="multiple"`). Ideal para toolbars de formatação, filtros segmentados e alinhamento de texto.
+
+<ComponentPreview name="toggle-group-default" />
+
+## Anatomia
+
+- **ToggleGroup** — container que gerencia o estado do grupo. Define `type`, `variant` e `size` propagados para os filhos via contexto.
+- **ToggleGroupItem** — item individual. Precisa de `value` único.
+
+## Tipos
+
+| Tipo | Comportamento |
+|---|---|
+| `single` | Um único item selecionado por vez, como um radio group — retorna `string`. |
+| `multiple` | Vários itens ativos simultaneamente — retorna `string[]`. |
+
+## Uso
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from '@uranus-workspace/design-system';
+import { Bold, Italic, Underline } from 'lucide-react';
+
+<ToggleGroup type="multiple" variant="outline" aria-label="Formatação de texto">
+  <ToggleGroupItem value="bold" aria-label="Alternar negrito">
+    <Bold />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="italic" aria-label="Alternar itálico">
+    <Italic />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="underline" aria-label="Alternar sublinhado">
+    <Underline />
+  </ToggleGroupItem>
+</ToggleGroup>
+```
+
+Controle com estado externo quando precisar persistir a seleção:
+
+```tsx
+const [formats, setFormats] = useState<string[]>([]);
+
+<ToggleGroup type="multiple" value={formats} onValueChange={setFormats}>
+  {/* ... */}
+</ToggleGroup>
+```
+
+## Faça
+
+- Dê um `aria-label` ao container que descreva o propósito do grupo ("Formatação de texto", "Alinhamento").
+- Cada `ToggleGroupItem` precisa de `value` único e `aria-label` quando o conteúdo é só ícone.
+- Use `type="single"` para controles mutuamente exclusivos como alinhamento (esquerda, centro, direita).
+
+## Não faça
+
+- Não misture toggles e botões de ação no mesmo grupo — o usuário espera que tudo ali seja alternável.
+- Não deixe o grupo sem `aria-label`. Sem ele, leitores de tela anunciam apenas os itens, fora de contexto.
+
+## Acessibilidade
+
+- Construído sobre Radix Toggle Group — navegação com setas, `Home`/`End`, `Espaço` e `Enter`.
+- Roving tabindex: o `Tab` entra no grupo uma única vez e as setas movem dentro dele.
+- Cada item expõe `aria-pressed` (ou `aria-checked` em modo `single`) automaticamente.

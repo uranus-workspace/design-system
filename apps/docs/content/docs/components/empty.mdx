@@ -1,0 +1,64 @@
+---
+title: Empty
+description: Estado vazio primitivo para listas, painéis e superfícies sem conteúdo
+---
+
+`Empty` é o primitivo de baixo nível para montar estados vazios — um container centralizado, balanceado e pronto para receber ícone, título, descrição e ações. Para um bloco pronto com layout e variantes, use [`EmptyState`](/docs/blocks/empty-state).
+
+<ComponentPreview name="empty-default" />
+
+## Anatomia
+
+- **Empty** — container flex vertical, centraliza e aplica o `border-dashed` opcional.
+- **EmptyHeader** — agrupa mídia, título e descrição em uma coluna.
+- **EmptyMedia** — wrapper do ícone. Aceita `variant="default"` ou `variant="icon"` (quadrado com fundo `bg-muted`).
+- **EmptyTitle** — título curto, uma linha.
+- **EmptyDescription** — texto de apoio. Aceita links inline já estilizados.
+- **EmptyContent** — área de ações abaixo do header, tipicamente um `Button` primário.
+
+## Uso
+
+```tsx
+import {
+  Button,
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@uranus-workspace/design-system';
+import { Inbox } from 'lucide-react';
+
+<Empty className="border">
+  <EmptyHeader>
+    <EmptyMedia variant="icon">
+      <Inbox />
+    </EmptyMedia>
+    <EmptyTitle>Nenhuma mensagem ainda</EmptyTitle>
+    <EmptyDescription>
+      Quando alguém te enviar algo, ele aparece aqui.
+    </EmptyDescription>
+  </EmptyHeader>
+  <EmptyContent>
+    <Button>Convidar um colega</Button>
+  </EmptyContent>
+</Empty>
+```
+
+## Faça
+
+- Ofereça **sempre** uma ação concreta — um botão, um link ou uma instrução clara.
+- Explique o motivo do vazio, não só o fato. "Nenhum projeto ainda — crie o primeiro" é melhor que "Lista vazia".
+- Use ícones neutros e monocromáticos, condizentes com o resto da interface.
+
+## Não faça
+
+- Não escreva mensagens de erro em `Empty`. Para erros, use [`Alert`](/docs/components/alert).
+- Não deixe o estado vazio sem ação quando há algo que o usuário pode fazer.
+- Não confunda `Empty` (primitivo) com `EmptyState` (bloco) — o bloco já compõe estas partes com layout pronto.
+
+## Acessibilidade
+
+- `Empty` é um `div` semanticamente neutro; o `EmptyTitle` deve ser o cabeçalho lógico da região. Se o estado vazio é a única coisa na tela, considere envolvê-lo em uma landmark com `role="region"` e `aria-labelledby`.
+- Ícones decorativos herdam `aria-hidden` do Lucide quando não têm rótulo — mantenha assim e deixe o título carregar o significado.

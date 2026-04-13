@@ -1,0 +1,58 @@
+---
+title: Avatar
+description: Representação visual de uma pessoa, organização ou entidade
+---
+
+`Avatar` mostra a imagem de uma pessoa com fallback automático para iniciais quando a imagem falha ou não existe. É construído sobre Radix Avatar — resiliente a imagens quebradas, assíncronas e ausentes.
+
+<ComponentPreview name="avatar-default" />
+
+## Anatomia
+
+- **Avatar** — container circular com `overflow: hidden`. Define o tamanho (padrão `h-10 w-10`) via classes.
+- **AvatarImage** — a imagem em si. Aceita `src` e `alt` (obrigatório). Desaparece graciosamente quando falha.
+- **AvatarFallback** — conteúdo mostrado durante a carga da imagem ou quando ela falha. Geralmente as iniciais do nome; pode ser um ícone.
+
+## Grupo de avatares
+
+Para representar múltiplas pessoas (equipes, colaboradores), combine vários `Avatar` com `-space-x` e `ring-background`:
+
+<ComponentPreview name="avatar-group" />
+
+## Uso
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from '@uranus-workspace/design-system';
+
+<Avatar>
+  <AvatarImage src="/users/gustavo.png" alt="Gustavo Bertoi" />
+  <AvatarFallback>GB</AvatarFallback>
+</Avatar>
+```
+
+Controle o tamanho com classes Tailwind:
+
+```tsx
+<Avatar className="h-14 w-14">
+  {/* ... */}
+</Avatar>
+```
+
+## Faça
+
+- **Sempre** forneça `alt` na `AvatarImage` — descreva a pessoa, não diga "avatar de...".
+- Use iniciais de no máximo 2 caracteres no fallback.
+- Para grupos, sobreponha os avatares (`-space-x-2`) e aplique `ring-2 ring-background` para separar visualmente.
+- Se o avatar é clicável (abre perfil), envolva em um [`Button`](/docs/components/button) com `variant="ghost"` ou em um link.
+
+## Não faça
+
+- Não coloque texto longo no fallback — use no máximo 2 caracteres.
+- Não omita o `alt` nem coloque `alt=""` — isso torna o usuário invisível para leitores de tela.
+- Não use avatares quadrados para pessoas. Reserve formas quadradas para organizações.
+
+## Acessibilidade
+
+- `AvatarImage` requer `alt` — use o nome completo da pessoa.
+- O `AvatarFallback` herda do `alt` da imagem implicitamente: leitores de tela anunciam o `alt`, não as iniciais.
+- Quando múltiplos avatares representam uma lista (colaboradores), use um label agregado: `<div aria-label="4 colaboradores">`.

@@ -1,0 +1,69 @@
+---
+title: Sonner
+description: Sistema de toasts transitórios para feedback pós-ação
+---
+
+`Sonner` é a integração do Uranus com a lib `sonner` — um toaster moderno, empilhável e acessível. Use para confirmar ações concluídas, mostrar erros recuperáveis ou anunciar eventos assíncronos sem roubar o foco do usuário. Para mensagens persistentes, use [`Alert`](/docs/components/alert).
+
+<ComponentPreview name="sonner-default" />
+
+## Anatomia
+
+- **Toaster** — componente de provider que deve ser renderizado uma única vez por app, tipicamente no layout raiz. Recebe tema, ícones padrão do Lucide e classes do design system.
+- **toast** — função imperativa usada para disparar notificações. Re-exportada do pacote `sonner` via `@uranus-workspace/design-system`. Métodos disponíveis: `toast()`, `toast.success()`, `toast.error()`, `toast.info()`, `toast.warning()`, `toast.loading()` e `toast.promise()`.
+
+## Uso
+
+Monte o `Toaster` uma vez no layout da aplicação:
+
+```tsx
+// app/layout.tsx
+import { Toaster } from '@uranus-workspace/design-system';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
+```
+
+Depois, dispare toasts de qualquer client component:
+
+```tsx
+'use client';
+
+import { Button, toast } from '@uranus-workspace/design-system';
+
+<Button
+  onClick={() =>
+    toast.success('Projeto salvo', {
+      description: 'Todas as mudanças foram publicadas com sucesso.',
+    })
+  }
+>
+  Salvar
+</Button>
+```
+
+## Faça
+
+- Use `toast.success` e `toast.error` para confirmar ou reportar o resultado de uma ação do usuário.
+- Escreva mensagens curtas e orientadas ao resultado — "Projeto salvo", não "A operação foi concluída com sucesso".
+- Use `toast.promise` para encadear loading → sucesso/erro em uma única chamada.
+
+## Não faça
+
+- Não use toasts para mensagens críticas que o usuário precisa reter — eles desaparecem. Para isso use [`Dialog`](/docs/components/dialog) ou [`Alert`](/docs/components/alert).
+- Não empilhe múltiplos toasts simultâneos para a mesma ação.
+- Não esconda erros importantes num toast de 3 segundos.
+
+## Acessibilidade
+
+- O provider do `sonner` anuncia as mensagens em uma região `aria-live` apropriada (`role="status"` para info, `role="alert"` para erros).
+- Respeita `prefers-reduced-motion` automaticamente.
+- Mantém o foco intacto — toasts nunca interrompem o fluxo de teclado.

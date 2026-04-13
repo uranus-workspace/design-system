@@ -23,10 +23,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   // object at runtime too, but it's missing from its TypeScript types.
   let rawMarkdown = '';
   try {
-    rawMarkdown = await readFile(
-      join(process.cwd(), 'content/docs', page.file.path),
-      'utf-8',
-    );
+    rawMarkdown = await readFile(join(process.cwd(), 'content/docs', page.file.path), 'utf-8');
   } catch {
     rawMarkdown = '';
   }

@@ -1,0 +1,51 @@
+---
+title: Spinner
+description: Indicador de carregamento indeterminado, compacto e reutilizável
+---
+
+`Spinner` é um indicador circular que gira enquanto uma operação sem tempo conhecido acontece. Use dentro de botões, ao lado de rótulos ou como fallback em regiões que ainda não tem dados. Para operações com porcentagem conhecida, prefira [`Progress`](/docs/components/progress).
+
+<ComponentPreview name="spinner-default" />
+
+## Uso
+
+```tsx
+import { Spinner } from '@uranus-workspace/design-system';
+
+<Spinner />
+<Spinner className="size-6 text-primary" />
+```
+
+O `Spinner` é um SVG do Lucide (`Loader2`) com `animate-spin` aplicado. Controle o tamanho e a cor com classes Tailwind (`size-*`, `text-*`). O tamanho padrão é `size-4` para casar com ícones dentro de `Button`.
+
+## Dentro de um botão
+
+Combine `disabled` com `Spinner` para indicar que uma ação assíncrona está em andamento — este padrão também é mostrado em [`Button`](/docs/components/button#estado-de-carregamento).
+
+```tsx
+<Button disabled>
+  <Spinner />
+  Salvando
+</Button>
+```
+
+## Faça
+
+- Use spinner para esperas curtas (~200ms a 3s). Para esperas longas, use [`Skeleton`](/docs/components/skeleton) ou [`Progress`](/docs/components/progress).
+- Mantenha o rótulo do botão durante o loading — não troque por "Carregando…".
+- Centralize o spinner verticalmente em relação ao texto acompanhante.
+
+## Não faça
+
+- Não use spinner como placeholder de conteúdo com layout conhecido. Skeleton é melhor.
+- Não encha uma tela inteira com um único spinner — sinaliza falha de design de carga.
+
+## Acessibilidade
+
+- O componente já expõe `role="status"` e `aria-label="Loading"`. Para localizar a mensagem, sobrescreva o `aria-label` em `pt-BR`:
+
+```tsx
+<Spinner aria-label="Carregando" />
+```
+
+- A animação usa `animate-spin` do Tailwind, que é desativada automaticamente em `prefers-reduced-motion`.

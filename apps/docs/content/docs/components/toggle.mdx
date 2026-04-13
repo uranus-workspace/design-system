@@ -1,0 +1,60 @@
+---
+title: Toggle
+description: Botão de dois estados para alternar uma opção binária
+---
+
+`Toggle` é um botão pressionável que mantém estado "ligado" ou "desligado" — clássico de barras de formatação (negrito, itálico) e filtros rápidos. Para grupos mutuamente exclusivos ou múltiplos toggles coordenados, use [`ToggleGroup`](/docs/components/toggle-group).
+
+<ComponentPreview name="toggle-default" />
+
+## Variantes
+
+O `Toggle` tem duas variantes visuais:
+
+- **`default`** — fundo transparente, ganha `bg-accent` quando pressionado. Ideal para toolbars densas.
+- **`outline`** — borda visível em todos os estados. Ideal quando o toggle aparece isolado ou sobre fundos coloridos.
+
+<ComponentPreview name="toggle-outline" />
+
+## Tamanhos
+
+`size="sm" | "default" | "lg"` — segue as mesmas proporções do `Button`.
+
+## Uso
+
+```tsx
+import { Toggle } from '@uranus-workspace/design-system';
+import { Bold } from 'lucide-react';
+
+<Toggle aria-label="Alternar negrito">
+  <Bold />
+</Toggle>
+```
+
+Controle o estado com `pressed` e `onPressedChange` quando precisar sincronizar com estado externo:
+
+```tsx
+const [isBold, setIsBold] = useState(false);
+
+<Toggle pressed={isBold} onPressedChange={setIsBold} aria-label="Alternar negrito">
+  <Bold />
+</Toggle>
+```
+
+## Faça
+
+- Dê um `aria-label` claro em toggles apenas de ícone — o leitor de tela precisa saber o que está sendo alternado.
+- Use `variant="default"` em toolbars e `variant="outline"` em formulários isolados.
+- Mantenha o ícone estável entre os dois estados — a mudança de cor já comunica o estado.
+
+## Não faça
+
+- Não use `Toggle` para ações que disparam algo imediatamente sem guardar estado — use [`Button`](/docs/components/button).
+- Não troque o ícone entre estados pressionado/não pressionado. Isso confunde.
+- Não remova o `aria-label` em toggles apenas de ícone.
+
+## Acessibilidade
+
+- Construído sobre Radix Toggle — emite `aria-pressed="true" | "false"` automaticamente.
+- Teclado: `Espaço` e `Enter` alternam o estado. Foco visível via `ring`.
+- Toggles apenas de ícone **precisam** de `aria-label`.

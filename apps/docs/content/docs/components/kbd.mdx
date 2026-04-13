@@ -1,0 +1,41 @@
+---
+title: Kbd
+description: Indicador visual de uma tecla ou atalho de teclado
+---
+
+`Kbd` representa visualmente uma tecla física — geralmente dentro de descrições de atalhos, tooltips ou menus. É um wrapper sobre o elemento nativo `<kbd>` com tipografia e tamanho calibrados para a grid do sistema.
+
+<ComponentPreview name="kbd-default" />
+
+## Anatomia
+
+- **Kbd** — uma única tecla. Renderiza como `<kbd>` nativo.
+- **KbdGroup** — agrupa várias teclas em linha com `gap` consistente, útil para atalhos compostos como `⌘ + K`.
+
+## Uso
+
+```tsx
+import { Kbd, KbdGroup } from '@uranus-workspace/design-system';
+
+<KbdGroup>
+  <Kbd>⌘</Kbd>
+  <span>+</span>
+  <Kbd>K</Kbd>
+</KbdGroup>
+```
+
+## Faça
+
+- Use símbolos reais para teclas modificadoras no macOS (`⌘`, `⌥`, `⇧`, `⌃`) e nomes curtos em outras plataformas (`Ctrl`, `Alt`).
+- Coloque `Kbd` dentro de tooltips em botões de toolbar para revelar o atalho.
+- Combine com [`Tooltip`](/docs/components/tooltip) e com [`Command`](/docs/components) para atalhos globais.
+
+## Não faça
+
+- Não use `Kbd` como botão clicável — ele é `pointer-events-none` por design.
+- Não misture símbolos e palavras na mesma tecla ("⌘Cmd"). Escolha um.
+
+## Acessibilidade
+
+- Usa o elemento HTML semântico `<kbd>`, anunciado pelos leitores de tela como uma tecla de entrada.
+- Garanta que o atalho esteja de fato registrado no nível do app — `Kbd` é apenas visual.

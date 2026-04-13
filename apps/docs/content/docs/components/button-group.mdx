@@ -1,0 +1,60 @@
+---
+title: ButtonGroup
+description: Agrupa botões relacionados num único bloco coeso e segmentado
+---
+
+`ButtonGroup` une múltiplos [`Button`](/docs/components/button) num bloco horizontal ou vertical contínuo — bordas são compartilhadas, cantos internos ficam retos. Ideal para paginação, navegação entre passos e controles segmentados. Para alternância de estado, use [`ToggleGroup`](/docs/components/toggle-group).
+
+<ComponentPreview name="button-group-default" />
+
+## Anatomia
+
+- **ButtonGroup** — container `role="group"` que aplica o tratamento de bordas compartilhadas. Aceita `orientation="horizontal"` (padrão) ou `"vertical"`.
+- **ButtonGroupText** — bloco de texto que se comporta como "botão desabilitado" dentro do grupo (rótulo, contador). Aceita `asChild` para usar com spans, links etc.
+- **ButtonGroupSeparator** — separador vertical (ou horizontal, em grupos verticais) entre itens.
+
+## Uso
+
+```tsx
+import { Button, ButtonGroup } from '@uranus-workspace/design-system';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+<ButtonGroup>
+  <Button variant="outline">
+    <ChevronLeft />
+    Anterior
+  </Button>
+  <Button variant="outline">
+    Próxima
+    <ChevronRight />
+  </Button>
+</ButtonGroup>
+```
+
+Grupos verticais seguem o mesmo padrão:
+
+```tsx
+<ButtonGroup orientation="vertical">
+  <Button variant="outline">Editar</Button>
+  <Button variant="outline">Duplicar</Button>
+  <Button variant="outline">Arquivar</Button>
+</ButtonGroup>
+```
+
+## Faça
+
+- Use a mesma `variant` para todos os botões do grupo — `outline` é a escolha mais comum.
+- Mantenha os rótulos curtos para não quebrar a grid.
+- Para grupos semanticamente "um único controle" (como alinhamento), prefira [`ToggleGroup`](/docs/components/toggle-group).
+
+## Não faça
+
+- Não misture `variant="primary"` com `variant="outline"` no mesmo grupo — a ênfase fica inconsistente.
+- Não coloque botões não relacionados num grupo. A proximidade visual implica relação funcional.
+- Não use `ButtonGroup` como barra de ferramentas complexa — use [`Toolbar`](/docs/components) quando houver.
+
+## Acessibilidade
+
+- O container emite `role="group"`. Dê um `aria-label` descritivo quando o grupo não estiver ligado a um label visível.
+- Cada botão mantém seu próprio nome acessível, estado de foco e atalho de teclado.
+- Em grupos verticais, a ordem do DOM deve espelhar a ordem visual para leitores de tela.

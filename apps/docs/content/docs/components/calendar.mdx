@@ -1,0 +1,70 @@
+---
+title: Calendar
+description: Calendário acessível para seleção de data única ou intervalo
+---
+
+`Calendar` é um wrapper do [`react-day-picker`](https://daypicker.dev) v9 com o tema e a tipografia do Uranus. Serve como base para pickers de data, pickers de intervalo e interfaces de agendamento. Para um campo com popover, combine com [`Popover`](/docs/components/popover).
+
+<ComponentPreview name="calendar-default" />
+
+## Modos
+
+O componente herda todos os modos do `react-day-picker`:
+
+| Mode | Tipo de `selected` | Uso comum |
+|---|---|---|
+| `single` | `Date \| undefined` | Escolher uma data única (padrão de DatePicker). |
+| `multiple` | `Date[] \| undefined` | Escolher múltiplas datas independentes. |
+| `range` | `{ from?: Date; to?: Date }` | Escolher um intervalo (padrão de filtros e reservas). |
+
+## Seleção de intervalo
+
+<ComponentPreview name="calendar-range" />
+
+## Uso
+
+```tsx
+'use client';
+
+import { Calendar } from '@uranus-workspace/design-system';
+import { useState } from 'react';
+
+export function Example() {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  return (
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      className="rounded-md border"
+    />
+  );
+}
+```
+
+Props adicionais úteis herdadas do `DayPicker`:
+
+- `numberOfMonths` — mostra múltiplos meses lado a lado.
+- `captionLayout` — `"label"` (padrão) ou `"dropdown"` para seletor de mês/ano.
+- `disabled` — função ou matcher para desabilitar datas.
+- `fromDate` / `toDate` — limita o intervalo navegável.
+- `buttonVariant` — variante dos botões de navegação (padrão `"ghost"`).
+
+## Faça
+
+- Use `mode="single"` para DatePickers; `mode="range"` para filtros de período e reservas.
+- Em mobile, force `numberOfMonths={1}` — dois meses lado a lado não cabem.
+- Use `disabled={{ before: new Date() }}` para impedir datas passadas em agendamentos.
+
+## Não faça
+
+- Não deixe o calendário solto numa tela sem contexto — envolva num [`Popover`](/docs/components/popover) ou [`Dialog`](/docs/components/dialog) quando disparado por um input.
+- Não formate datas manualmente dentro do componente — use a prop `formatters`.
+- Não desabilite a animação de troca de mês — ela ajuda a entender a direção da navegação.
+
+## Acessibilidade
+
+- `react-day-picker` v9 é totalmente acessível: grade com `role="grid"`, `aria-selected` nas células e navegação por teclado completa (`←` `→` `↑` `↓`, `Home`, `End`, `PageUp`, `PageDown`).
+- Os botões de navegação entre meses são renderizados com a variante `ghost` do [`Button`](/docs/components/button) e expõem `aria-label` automaticamente.
+- Datas desabilitadas recebem `aria-disabled="true"`.

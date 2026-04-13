@@ -1,0 +1,38 @@
+---
+title: Progress
+description: Barra de progresso determinada para tarefas com duração conhecida
+---
+
+`Progress` mostra o avanço de uma operação com uma porcentagem conhecida — upload de arquivo, importação, checkout. Para estados indeterminados (tempo desconhecido), prefira [`Spinner`](/docs/components/spinner) ou [`Skeleton`](/docs/components/skeleton).
+
+<ComponentPreview name="progress-default" />
+
+## Anatomia
+
+- **Progress** — container da barra. Aceita `value` de `0` a `100`. Por baixo, é um `ProgressPrimitive.Root` do Radix.
+- **Indicador** — preenchimento animado via `transform: translateX(...)`. Sem partes expostas — a API é só o `value`.
+
+## Uso
+
+```tsx
+import { Progress } from '@uranus-workspace/design-system';
+
+<Progress value={60} aria-label="Progresso do envio" />
+```
+
+## Faça
+
+- Acompanhe a barra com um rótulo de texto. A barra sozinha é ambígua.
+- Use `aria-label` ou `aria-labelledby` para que o valor seja anunciado por leitores de tela.
+- Anime o valor suavemente — mudanças abruptas parecem bugs.
+
+## Não faça
+
+- Não use `Progress` para tempo desconhecido. Se você não pode calcular porcentagem, não mostre uma.
+- Não inverta a direção nem esconda o indicador com `overflow`.
+- Não deixe a barra parada no mesmo valor por muito tempo — se travar, mostre um erro.
+
+## Acessibilidade
+
+- Radix Progress emite automaticamente `role="progressbar"` e expõe `aria-valuenow` a partir do `value`.
+- Forneça um nome acessível — `aria-label` ou texto visível ligado por `aria-labelledby` — para que o leitor de tela anuncie o que está progredindo.

@@ -1,0 +1,41 @@
+---
+title: Skeleton
+description: Placeholder animado que preserva o layout enquanto o conteúdo carrega
+---
+
+`Skeleton` reduz a percepção de latência mostrando um esqueleto do layout enquanto os dados chegam. Use para conteúdo com estrutura previsível — cards, listas, tabelas. Para operações sem layout definido, prefira [`Spinner`](/docs/components/spinner).
+
+<ComponentPreview name="skeleton-default" />
+
+## Uso
+
+```tsx
+import { Skeleton } from '@uranus-workspace/design-system';
+
+<div className="flex items-center gap-3">
+  <Skeleton className="h-10 w-10 rounded-full" />
+  <div className="flex flex-1 flex-col gap-2">
+    <Skeleton className="h-3 w-3/5" />
+    <Skeleton className="h-3 w-2/5" />
+  </div>
+</div>
+```
+
+Skeleton é intencionalmente simples — apenas um `div` com `animate-pulse` e `bg-muted`. Controle o tamanho com classes utilitárias (`h-*`, `w-*`, `rounded-*`).
+
+## Faça
+
+- Espelhe o **layout real** do conteúdo final — mesma altura, largura aproximada, mesma forma.
+- Use skeletons para cargas rápidas (~200ms a 2s). Para cargas mais longas, mostre progresso real.
+- Agrupe múltiplos `Skeleton` para reconstruir uma linha, card ou célula.
+
+## Não faça
+
+- Não use skeleton como placeholder permanente de conteúdo indefinido — isso engana.
+- Não empilhe vários `animate-pulse` desalinhados — a pulsação deve parecer síncrona.
+- Não use skeleton quando o conteúdo já pode ser exibido com valores otimistas.
+
+## Acessibilidade
+
+- Skeleton é decorativo. Anuncie a carga do conteúdo de outra forma — um `aria-live="polite"` na região que será preenchida, ou um `Spinner` com `role="status"`.
+- Respeite `prefers-reduced-motion`: a animação `animate-pulse` do Tailwind já é desativada automaticamente.

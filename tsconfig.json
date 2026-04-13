@@ -1,0 +1,5 @@
+{
+  "extends": "@uranus-workspace/tsconfig/base.json",
+  "files": [],
+  "include": []
+}

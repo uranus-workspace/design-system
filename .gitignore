@@ -1,0 +1,33 @@
+# deps
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+build/
+out/
+.next/
+.turbo/
+storybook-static/
+.source/
+*.tsbuildinfo
+
+# tests / coverage
+coverage/
+.vitest-cache/
+
+# env
+.env
+.env.*
+!.env.example
+
+# editor / os
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.log
+
+# brand assets (large binaries — store in LFS or a separate drive)
+*.pdf

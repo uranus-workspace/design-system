@@ -1,0 +1,19 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [],
+  "linked": [["@uranus-workspace/design-system", "@uranus-workspace/blocks"]],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "@uranus-workspace/docs",
+    "@uranus-workspace/storybook",
+    "@uranus-workspace/biome-config",
+    "@uranus-workspace/tsconfig",
+    "@uranus-workspace/tailwind-config",
+    "@uranus-workspace/tokens",
+    "@uranus-workspace/test-config"
+  ]
+}

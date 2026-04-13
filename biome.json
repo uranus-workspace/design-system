@@ -1,0 +1,16 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "extends": ["@uranus-workspace/biome-config"],
+  "files": {
+    "ignore": [
+      "**/node_modules",
+      "**/dist",
+      "**/.next",
+      "**/.turbo",
+      "**/storybook-static",
+      "**/coverage",
+      "**/.source",
+      "pnpm-lock.yaml"
+    ]
+  }
+}

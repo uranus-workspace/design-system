@@ -1,0 +1,43 @@
+---
+title: ScrollArea
+description: Região com rolagem customizada que substitui a barra nativa do sistema
+---
+
+`ScrollArea` encapsula conteúdo que ultrapassa seu contêiner e exibe uma barra de rolagem fina e consistente entre sistemas operacionais. Use em sidebars de navegação, listas longas, logs e qualquer painel com altura fixa.
+
+<ComponentPreview name="scroll-area-default" />
+
+## Anatomia
+
+- **ScrollArea** — raiz que define a janela visível. Aplique altura ou largura via className.
+- **ScrollBar** — barra de rolagem. Renderizada automaticamente pelo `ScrollArea`, mas pode ser reutilizada para barras horizontais adicionais com `orientation="horizontal"`.
+
+## Uso
+
+```tsx
+import { ScrollArea } from '@uranus-workspace/design-system';
+
+<ScrollArea className="h-72 w-full rounded-md border">
+  <div className="p-4">{/* conteúdo longo */}</div>
+</ScrollArea>
+```
+
+Sem altura no contêiner o conteúdo nunca rola — a viewport interna herda a altura do `ScrollArea`.
+
+## Faça
+
+- Defina sempre uma altura explícita (ou max-height) no `ScrollArea`.
+- Use em sidebars para que o menu não empurre o footer para fora da tela.
+- Combine com `Separator` dentro da lista para preservar a leitura em rolagens longas.
+
+## Não faça
+
+- Não use para páginas inteiras. O scroll nativo da janela é sempre melhor.
+- Não esconda o thumb com `opacity: 0`. A barra é o único afordance de que há mais conteúdo.
+- Não aninhe `ScrollArea` dentro de `ScrollArea` — a UX de rolagem aninhada é ruim.
+
+## Acessibilidade
+
+- A viewport interna é scrollable por teclado (`PageUp`, `PageDown`, `Home`, `End`, setas) exatamente como um contêiner nativo com `overflow: auto`.
+- Leitores de tela tratam o conteúdo como parte do fluxo — não é um landmark próprio.
+- Para listas importantes, considere adicionar um `role="region"` e um `aria-label` no `ScrollArea`.

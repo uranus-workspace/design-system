@@ -1,0 +1,70 @@
+---
+title: Breadcrumb
+description: Trilha de navegação que mostra a posição da página atual na hierarquia do site
+---
+
+`Breadcrumb` ajuda o usuário a se localizar quando a aplicação tem hierarquias profundas. Use quando a estrutura de URLs é significativa e o usuário pode querer voltar a um nível intermediário. Para navegação principal, prefira uma [Sidebar](/docs/components/sidebar) ou uma barra de navegação.
+
+<ComponentPreview name="breadcrumb-default" />
+
+## Anatomia
+
+- **Breadcrumb** — elemento `<nav aria-label="breadcrumb">` que delimita a trilha.
+- **BreadcrumbList** — a lista ordenada que agrupa os itens.
+- **BreadcrumbItem** — cada segmento da trilha.
+- **BreadcrumbLink** — um link navegável para um nível anterior. Aceita `asChild` para integrar com `next/link`.
+- **BreadcrumbPage** — o segmento atual, marcado com `aria-current="page"`, não clicável.
+- **BreadcrumbSeparator** — separador visual entre segmentos. Usa um chevron por padrão.
+- **BreadcrumbEllipsis** — comprime segmentos intermediários em trilhas longas.
+
+## Trilhas longas
+
+Para hierarquias muito profundas, substitua os segmentos do meio por um `BreadcrumbEllipsis`. Mantenha visíveis pelo menos o primeiro nível, o pai imediato e a página atual.
+
+<ComponentPreview name="breadcrumb-ellipsis" />
+
+## Uso
+
+```tsx
+import Link from 'next/link';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@uranus-workspace/design-system';
+
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink asChild>
+        <Link href="/">Início</Link>
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Projeto atual</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+## Faça
+
+- Comece a trilha no nível raiz relevante (geralmente "Início").
+- Use `BreadcrumbPage` para o segmento atual — nunca um link clicável que aponta para a própria página.
+- Para nomes longos, trunque com ellipsis CSS em vez de abreviar manualmente.
+
+## Não faça
+
+- Não use breadcrumb como navegação principal. Ele complementa, não substitui.
+- Não inclua a trilha em páginas de topo (landing, dashboard raiz) — não há para onde voltar.
+- Não invente níveis que não existem na URL apenas para preencher a trilha.
+
+## Acessibilidade
+
+- O componente já renderiza `<nav aria-label="breadcrumb">` e marca o item atual com `aria-current="page"`.
+- Os separadores recebem `role="presentation"` e `aria-hidden="true"` para não poluírem leitores de tela.
+- Prefira sempre `BreadcrumbLink asChild` com `next/link` para navegação cliente a cliente.

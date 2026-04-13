@@ -1,0 +1,54 @@
+---
+title: Resizable
+description: Painéis divididos e redimensionáveis para layouts densos de aplicação
+---
+
+`Resizable` cria layouts tipo IDE onde o usuário pode ajustar a largura ou altura de cada painel arrastando a divisória. Use em editores, consoles, explorações de dados e qualquer contexto em que o usuário precisa balancear espaço entre regiões concorrentes.
+
+<ComponentPreview name="resizable-default" />
+
+## Anatomia
+
+- **ResizablePanelGroup** — raiz que aceita `direction="horizontal"` ou `"vertical"`. Define o sentido do arraste.
+- **ResizablePanel** — cada painel. Aceita `defaultSize`, `minSize`, `maxSize` (percentuais), `collapsible` e `onResize`.
+- **ResizableHandle** — a divisória. Passe `withHandle` para exibir o "puxador" visual no centro.
+
+Grupos podem ser aninhados para criar layouts em T ou em cruz, como no exemplo acima.
+
+## Uso
+
+```tsx
+'use client';
+
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@uranus-workspace/design-system';
+
+<ResizablePanelGroup direction="horizontal">
+  <ResizablePanel defaultSize={25} minSize={15}>
+    Sidebar
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize={75}>Conteúdo</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Faça
+
+- Defina `minSize` em todos os painéis — impede que o usuário colapse acidentalmente a região a zero.
+- Use `withHandle` quando a divisória precisa ser descoberta; esconda o puxador em layouts densos onde o hover é o afordance esperado.
+- Persista as dimensões com a prop `autoSaveId` no `ResizablePanelGroup` quando o usuário deve retomar o layout entre sessões.
+
+## Não faça
+
+- Não use Resizable para layouts simples de página — prefira Tailwind + flex/grid.
+- Não aninhe mais de dois níveis. Passa disso, o mental model quebra.
+- Não esconda conteúdo crítico atrás de um painel que o usuário pode colapsar sem querer.
+
+## Acessibilidade
+
+- A divisória (`ResizableHandle`) é um `<div role="separator">` com foco por teclado.
+- Teclado: `Tab` foca a divisória; `Setas` a movem em incrementos de 10%; `Home` e `End` a levam aos extremos; `Enter` alterna um painel colapsado.
+- Garanta contraste suficiente na divisória — o estado de foco usa `focus-visible:ring-ring` por padrão.

@@ -1,0 +1,43 @@
+---
+title: Separator
+description: Linha horizontal ou vertical para dividir grupos de conteúdo
+---
+
+`Separator` é uma divisória visual leve. Use para separar seções relacionadas dentro de uma mesma superfície — dentro de um card, entre itens de um menu, ou como delimitador inline numa toolbar.
+
+<ComponentPreview name="separator-default" />
+
+## Anatomia
+
+- **Separator** — um único componente. Aceita `orientation="horizontal"` (padrão) ou `"vertical"` e a prop `decorative`.
+
+## Uso
+
+```tsx
+import { Separator } from '@uranus-workspace/design-system';
+
+<Separator className="my-4" />
+
+<div className="flex h-5 items-center space-x-4">
+  <span>Docs</span>
+  <Separator orientation="vertical" />
+  <span>GitHub</span>
+</div>
+```
+
+Separadores verticais precisam de um pai com altura definida — normalmente um `flex` com altura explícita ou `items-center`.
+
+## Faça
+
+- Use `decorative={false}` quando a linha separa genuinamente dois grupos semânticos (ex.: entre campos obrigatórios e opcionais de um formulário). Por padrão o Separator é decorativo.
+- Prefira espaçamento (margin/padding) para hierarquia de conteúdo — a linha entra apenas quando o espaço já está tenso.
+
+## Não faça
+
+- Não use separadores múltiplos empilhados como "linha mais grossa" — ajuste a cor via token.
+- Não substitua headings por separadores. Separador não é hierarquia.
+
+## Acessibilidade
+
+- Quando `decorative` é `true` (padrão), o componente recebe `role="none"` — não aparece no rascunho de acessibilidade.
+- Quando `decorative={false}`, vira `role="separator"` com a orientação correta.

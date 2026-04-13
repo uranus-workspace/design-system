@@ -1,0 +1,97 @@
+---
+title: Form
+description: Wrapper acessível para react-hook-form com validação Zod e mensagens automáticas
+---
+
+`Form` é uma camada fina sobre [react-hook-form](https://react-hook-form.com/) que conecta rótulos, controles, descrições e mensagens de erro via contexto — sem precisar gerenciar `id`, `aria-describedby` e `aria-invalid` manualmente. Combine com [Zod](https://zod.dev/) (via `@hookform/resolvers/zod`) para validação declarativa.
+
+<ComponentPreview name="form-default" />
+
+## Anatomia
+
+- **Form** — reexporta `FormProvider` do react-hook-form. Espalhe `{...form}` nele.
+- **FormField** — wrapper do `Controller` que registra o campo e provê contexto para os filhos. A prop `render` recebe `{ field }` para ligar ao input.
+- **FormItem** — agrupa label + controle + descrição + mensagem. Gera um `id` único por item.
+- **FormLabel** — rótulo que herda o `htmlFor` correto automaticamente; vira vermelho quando há erro.
+- **FormControl** — `Slot` que injeta `id`, `aria-describedby` e `aria-invalid` no input real (`Input`, `Textarea`, `Select`, etc.).
+- **FormDescription** — texto auxiliar, referenciado via `aria-describedby`.
+- **FormMessage** — mensagem de erro do campo. Renderiza `null` quando não há erro; quando há, exibe `error.message` do resolver.
+- **useFormField** — hook interno que expõe `id`, `name`, `error` e os `*Id` do item atual. Útil se você construir controles compostos.
+
+## Uso
+
+```tsx
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '@uranus-workspace/design-system';
+
+const schema = z.object({
+  email: z.string().email('Informe um e-mail válido.'),
+  password: z.string().min(8, 'Mínimo de 8 caracteres.'),
+});
+
+type FormValues = z.infer<typeof schema>;
+
+export function LoginForm() {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { email: '', password: '' },
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit((values) => console.log(values))}>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>E-mail</FormLabel>
+              <FormControl>
+                <Input type="email" {...field} />
+              </FormControl>
+              <FormDescription>Usamos para entrar no workspace.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Entrar</Button>
+      </form>
+    </Form>
+  );
+}
+```
+
+## Faça
+
+- Sempre defina um schema Zod e passe via `zodResolver` — as mensagens viram a fonte da verdade.
+- Use `defaultValues` em todos os campos para garantir que eles sejam controlados desde o mount (evita warnings do React).
+- Mantenha o `FormMessage` ao lado de cada campo — ele só renderiza quando há erro.
+- Dispare `form.handleSubmit` no `onSubmit` do `<form>`, nunca chame o handler direto.
+
+## Não faça
+
+- Não combine `Form` com `useState` para valores — o react-hook-form já gerencia o estado.
+- Não faça validação manual dentro do `render`. Coloque toda regra no schema.
+- Não omita `FormControl`. Sem ele, os atributos de acessibilidade não são aplicados no input.
+
+## Acessibilidade
+
+- `FormLabel` recebe `htmlFor` automaticamente com base no `id` do `FormItem`.
+- `FormControl` injeta `aria-describedby` apontando para o `FormDescription` e, quando há erro, também para o `FormMessage`.
+- `aria-invalid` é setado quando o resolver marca o campo como inválido.
+- Mensagens de erro são renderizadas como `<p role="alert">` de fato via o elemento parágrafo — para anúncios mais agressivos em fluxos críticos, adicione `role="alert"` manualmente no `FormMessage`.
+- Ao enviar o formulário, foque o primeiro campo inválido com `form.setFocus(name)` para ajudar usuários de teclado e leitores de tela.

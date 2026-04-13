@@ -1,0 +1,66 @@
+---
+title: Table
+description: Tabela responsiva para exibir dados tabulares com cabeçalhos, corpo e rodapé
+---
+
+`Table` é o bloco de apresentação mais denso do design system. Use para dados genuinamente tabulares — onde as colunas representam atributos comparáveis e as linhas representam registros. Para listas simples, prefira um layout em cards ou itens.
+
+<ComponentPreview name="table-default" />
+
+## Anatomia
+
+- **Table** — o `<table>` wrapado em um contêiner `overflow-auto` para rolagem horizontal em telas estreitas.
+- **TableHeader** / **TableBody** / **TableFooter** — `<thead>`, `<tbody>`, `<tfoot>` respectivamente. Use `TableFooter` para totais e subtotais.
+- **TableRow** — uma linha. Tem hover e suporta `data-state="selected"` para destacar linhas selecionadas.
+- **TableHead** — célula de cabeçalho (`<th>`). Alinhada à esquerda por padrão.
+- **TableCell** — célula de dados (`<td>`).
+- **TableCaption** — legenda semântica `<caption>` posicionada abaixo da tabela por padrão.
+
+## Uso
+
+```tsx
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@uranus-workspace/design-system';
+
+<Table>
+  <TableCaption>Faturas do último trimestre.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Fatura</TableHead>
+      <TableHead className="text-right">Valor</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>INV-001</TableCell>
+      <TableCell className="text-right">R$ 2.500,00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## Faça
+
+- Alinhe colunas numéricas à direita com `className="text-right"` — facilita a comparação de magnitudes.
+- Use `TableCaption` ou um `aria-label` descritivo para que leitores de tela anunciem o propósito da tabela.
+- Para tabelas com muitas colunas, mantenha a primeira coluna "sticky" ou forneça busca e filtros.
+
+## Não faça
+
+- Não use tabela para layout. Use `grid` ou `flex`.
+- Não misture tipos de conteúdo em uma mesma coluna — quebra a varredura visual.
+- Não omita o cabeçalho. Leitores de tela dependem dele para associar células a colunas.
+
+## Acessibilidade
+
+- O wrapper externo é um `<div class="overflow-auto">`, então o foco de teclado continua dentro da tabela para rolagem.
+- Sempre inclua um `TableCaption` ou um `aria-label` no `Table` — o componente não adiciona um por você.
+- Para tabelas interativas (seleção, expansão), combine com `aria-sort`, `aria-selected` e `aria-expanded` conforme o padrão WAI-ARIA.
+- Para conjuntos de dados grandes, considere paginar via [Pagination](/docs/components/pagination) ou virtualizar as linhas.

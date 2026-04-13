@@ -1,0 +1,42 @@
+---
+title: AspectRatio
+description: Reserva um espaço proporcional para que o conteúdo carregue sem reflow
+---
+
+`AspectRatio` garante uma proporção fixa para mídia responsiva — imagens, vídeos, embeds — evitando que o layout pule quando o conteúdo ainda não carregou. Indispensável para o Largest Contentful Paint e para eliminar layout shift.
+
+<ComponentPreview name="aspect-ratio-default" />
+
+## Anatomia
+
+- **AspectRatio** — um wrapper que aceita a prop `ratio` (ex.: `16 / 9`, `4 / 3`, `1`) e força o filho a ocupar toda a área reservada.
+
+## Uso
+
+```tsx
+import Image from 'next/image';
+import { AspectRatio } from '@uranus-workspace/design-system';
+
+<div className="w-[420px]">
+  <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-lg">
+    <Image src="/hero.jpg" alt="Equipe Uranus" fill className="object-cover" />
+  </AspectRatio>
+</div>
+```
+
+A largura é determinada pelo contêiner pai; o componente só garante a altura proporcional.
+
+## Faça
+
+- Use `ratio` como expressão (`16 / 9`) para deixar a intenção clara no código.
+- Combine com `overflow-hidden` no wrapper quando o conteúdo é uma imagem com `object-cover`.
+- Sempre envolva imagens remotas — previne layout shift antes do carregamento.
+
+## Não faça
+
+- Não defina uma altura fixa no elemento interno; deixe o `AspectRatio` comandar a proporção.
+- Não use para ícones ou avatares pequenos — tamanho fixo é mais simples.
+
+## Acessibilidade
+
+- O componente é puramente estrutural e não adiciona landmarks. Qualquer imagem dentro precisa de `alt` significativo, e vídeos devem trazer legendas e controles acessíveis.

@@ -1,0 +1,57 @@
+---
+title: Collapsible
+description: Revela ou oculta uma região de conteúdo a partir de um trigger
+---
+
+`Collapsible` é a primitiva mais leve para mostrar e esconder conteúdo. Diferente de [Accordion](/docs/components/accordion), que coordena uma lista de itens, Collapsible controla um único bloco — útil para "ver mais", detalhes opcionais ou configurações avançadas.
+
+<ComponentPreview name="collapsible-default" />
+
+## Anatomia
+
+- **Collapsible** — raiz controlada ou não-controlada. Aceita `open` / `onOpenChange` ou `defaultOpen`.
+- **CollapsibleTrigger** — elemento que alterna o estado. Use `asChild` para delegar a um `Button` próprio.
+- **CollapsibleContent** — o bloco que é revelado. Recebe `hidden` automaticamente quando fechado.
+
+## Uso
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import {
+  Button,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@uranus-workspace/design-system';
+
+const [open, setOpen] = useState(false);
+
+<Collapsible open={open} onOpenChange={setOpen}>
+  <CollapsibleTrigger asChild>
+    <Button variant="outline">Opções avançadas</Button>
+  </CollapsibleTrigger>
+  <CollapsibleContent>
+    Campos adicionais que a maioria dos usuários não precisa.
+  </CollapsibleContent>
+</Collapsible>
+```
+
+## Faça
+
+- Use para conteúdo opcional que só interessa a alguns usuários.
+- Combine com `asChild` no `CollapsibleTrigger` para manter o estilo do seu `Button`.
+- Mantenha sempre ao menos uma linha de conteúdo visível antes do collapsible, para ancorar o trigger.
+
+## Não faça
+
+- Não use para uma lista de itens coordenados — esse é o papel do `Accordion`.
+- Não esconda conteúdo crítico ou campos obrigatórios de formulários.
+- Não anime manualmente o `CollapsibleContent` — o Radix já cuida do estado para você.
+
+## Acessibilidade
+
+- Construído sobre Radix Collapsible: o trigger recebe `aria-expanded` e `aria-controls` automaticamente.
+- Teclado: `Enter` ou `Espaço` sobre o trigger alterna o estado.
+- Quando fechado, o conteúdo é `hidden` de verdade — leitores de tela e navegação por tab pulam ele.

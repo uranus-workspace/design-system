@@ -1,10 +1,15 @@
 import type { ComponentType } from 'react';
+import AccordionDefault from './accordion/accordion-default';
+import AccordionMultiple from './accordion/accordion-multiple';
 import AlertDefault from './alert/alert-default';
 import AlertDestructive from './alert/alert-destructive';
 import AlertDialogDefault from './alert-dialog/alert-dialog-default';
 import AlertDialogDestructive from './alert-dialog/alert-dialog-destructive';
+import AspectRatioDefault from './aspect-ratio/aspect-ratio-default';
 import BadgeDefault from './badge/badge-default';
 import BadgeVariants from './badge/badge-variants';
+import BreadcrumbDefault from './breadcrumb/breadcrumb-default';
+import BreadcrumbEllipsisExample from './breadcrumb/breadcrumb-ellipsis';
 import ButtonDefault from './button/button-default';
 import ButtonLoading from './button/button-loading';
 import ButtonSizes from './button/button-sizes';
@@ -13,6 +18,7 @@ import ButtonWithIcon from './button/button-with-icon';
 import CardDefault from './card/card-default';
 import CheckboxDefault from './checkbox/checkbox-default';
 import CheckboxStates from './checkbox/checkbox-states';
+import CollapsibleDefault from './collapsible/collapsible-default';
 import CommandDefault from './command/command-default';
 import ContextMenuDefault from './context-menu/context-menu-default';
 import DialogDefault from './dialog/dialog-default';
@@ -21,6 +27,7 @@ import DropdownMenuDefault from './dropdown-menu/dropdown-menu-default';
 import EmptyStateDefault from './empty-state/empty-state-default';
 import FieldDefault from './field/field-default';
 import FieldErrorExample from './field/field-error';
+import FormDefault from './form/form-default';
 import HoverCardDefault from './hover-card/hover-card-default';
 import InputDefault from './input/input-default';
 import InputGroupButtonExample from './input-group/input-group-button';
@@ -31,17 +38,23 @@ import LabelDefault from './label/label-default';
 import MenubarDefault from './menubar/menubar-default';
 import NavigationMenuDefault from './navigation-menu/navigation-menu-default';
 import PageHeaderDefault from './page-header/page-header-default';
+import PaginationDefault from './pagination/pagination-default';
 import PopoverDefault from './popover/popover-default';
 import PopoverForm from './popover/popover-form';
 import RadioGroupDefault from './radio-group/radio-group-default';
 import RadioGroupHorizontal from './radio-group/radio-group-horizontal';
+import ResizableDefault from './resizable/resizable-default';
+import ScrollAreaDefault from './scroll-area/scroll-area-default';
 import SelectDefault from './select/select-default';
+import SeparatorDefault from './separator/separator-default';
 import SheetDefault from './sheet/sheet-default';
 import SheetLeft from './sheet/sheet-left';
+import SidebarDefault from './sidebar/sidebar-default';
 import SliderDefault from './slider/slider-default';
 import SliderDisabled from './slider/slider-disabled';
 import SwitchDefault from './switch/switch-default';
 import SwitchStates from './switch/switch-states';
+import TableDefault from './table/table-default';
 import TabsDefault from './tabs/tabs-default';
 import TextareaDefault from './textarea/textarea-default';
 import TextareaDisabled from './textarea/textarea-disabled';
@@ -61,12 +74,17 @@ interface RegistryEntry {
  * imports are avoided so the bundler can tree-shake deterministically.
  */
 export const registry: Record<string, RegistryEntry> = {
+  'accordion-default': { Component: AccordionDefault, folder: 'accordion' },
+  'accordion-multiple': { Component: AccordionMultiple, folder: 'accordion' },
   'alert-default': { Component: AlertDefault, folder: 'alert' },
   'alert-destructive': { Component: AlertDestructive, folder: 'alert' },
   'alert-dialog-default': { Component: AlertDialogDefault, folder: 'alert-dialog' },
   'alert-dialog-destructive': { Component: AlertDialogDestructive, folder: 'alert-dialog' },
+  'aspect-ratio-default': { Component: AspectRatioDefault, folder: 'aspect-ratio' },
   'badge-default': { Component: BadgeDefault, folder: 'badge' },
   'badge-variants': { Component: BadgeVariants, folder: 'badge' },
+  'breadcrumb-default': { Component: BreadcrumbDefault, folder: 'breadcrumb' },
+  'breadcrumb-ellipsis': { Component: BreadcrumbEllipsisExample, folder: 'breadcrumb' },
   'button-default': { Component: ButtonDefault, folder: 'button' },
   'button-variants': { Component: ButtonVariants, folder: 'button' },
   'button-sizes': { Component: ButtonSizes, folder: 'button' },
@@ -75,6 +93,7 @@ export const registry: Record<string, RegistryEntry> = {
   'card-default': { Component: CardDefault, folder: 'card' },
   'checkbox-default': { Component: CheckboxDefault, folder: 'checkbox' },
   'checkbox-states': { Component: CheckboxStates, folder: 'checkbox' },
+  'collapsible-default': { Component: CollapsibleDefault, folder: 'collapsible' },
   'command-default': { Component: CommandDefault, folder: 'command' },
   'context-menu-default': { Component: ContextMenuDefault, folder: 'context-menu' },
   'dialog-default': { Component: DialogDefault, folder: 'dialog' },
@@ -83,6 +102,7 @@ export const registry: Record<string, RegistryEntry> = {
   'empty-state-default': { Component: EmptyStateDefault, folder: 'empty-state' },
   'field-default': { Component: FieldDefault, folder: 'field' },
   'field-error': { Component: FieldErrorExample, folder: 'field' },
+  'form-default': { Component: FormDefault, folder: 'form' },
   'hover-card-default': { Component: HoverCardDefault, folder: 'hover-card' },
   'input-default': { Component: InputDefault, folder: 'input' },
   'input-group-default': { Component: InputGroupDefault, folder: 'input-group' },
@@ -93,17 +113,23 @@ export const registry: Record<string, RegistryEntry> = {
   'menubar-default': { Component: MenubarDefault, folder: 'menubar' },
   'navigation-menu-default': { Component: NavigationMenuDefault, folder: 'navigation-menu' },
   'page-header-default': { Component: PageHeaderDefault, folder: 'page-header' },
+  'pagination-default': { Component: PaginationDefault, folder: 'pagination' },
   'popover-default': { Component: PopoverDefault, folder: 'popover' },
   'popover-form': { Component: PopoverForm, folder: 'popover' },
   'radio-group-default': { Component: RadioGroupDefault, folder: 'radio-group' },
   'radio-group-horizontal': { Component: RadioGroupHorizontal, folder: 'radio-group' },
+  'resizable-default': { Component: ResizableDefault, folder: 'resizable' },
+  'scroll-area-default': { Component: ScrollAreaDefault, folder: 'scroll-area' },
   'select-default': { Component: SelectDefault, folder: 'select' },
+  'separator-default': { Component: SeparatorDefault, folder: 'separator' },
   'sheet-default': { Component: SheetDefault, folder: 'sheet' },
   'sheet-left': { Component: SheetLeft, folder: 'sheet' },
+  'sidebar-default': { Component: SidebarDefault, folder: 'sidebar' },
   'slider-default': { Component: SliderDefault, folder: 'slider' },
   'slider-disabled': { Component: SliderDisabled, folder: 'slider' },
   'switch-default': { Component: SwitchDefault, folder: 'switch' },
   'switch-states': { Component: SwitchStates, folder: 'switch' },
+  'table-default': { Component: TableDefault, folder: 'table' },
   'tabs-default': { Component: TabsDefault, folder: 'tabs' },
   'textarea-default': { Component: TextareaDefault, folder: 'textarea' },
   'textarea-disabled': { Component: TextareaDisabled, folder: 'textarea' },

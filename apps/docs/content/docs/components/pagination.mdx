@@ -1,0 +1,74 @@
+---
+title: Pagination
+description: Navegação entre páginas numeradas de uma lista grande de itens
+---
+
+`Pagination` divide listas longas em páginas navegáveis. Use em tabelas, resultados de busca e qualquer coleção grande demais para renderizar de uma vez. Para feeds contínuos, prefira scroll infinito ou um botão "Carregar mais".
+
+<ComponentPreview name="pagination-default" />
+
+## Anatomia
+
+- **Pagination** — `<nav aria-label="pagination">` que delimita o controle.
+- **PaginationContent** — a lista `<ul>` que agrupa os itens.
+- **PaginationItem** — cada `<li>` da lista.
+- **PaginationLink** — um número de página clicável. Use `isActive` para marcar a página atual.
+- **PaginationPrevious** / **PaginationNext** — atalhos para a página anterior e seguinte, com ícones e rótulos.
+- **PaginationEllipsis** — substitui a faixa de páginas ocultas em paginações longas.
+
+## Uso
+
+```tsx
+import Link from 'next/link';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@uranus-workspace/design-system';
+
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="?page=1" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="?page=1">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="?page=2" isActive>
+        2
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="?page=3" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+`PaginationLink` e os botões Previous/Next renderizam um `<a>`. Para usar com `next/link`, combine com `asChild` no componente pai ou substitua o `href` pelo valor apropriado.
+
+## Faça
+
+- Sempre marque a página ativa com `isActive` — o componente aplica `aria-current="page"`.
+- Colapse o intervalo do meio com `PaginationEllipsis` quando houver mais de 7 páginas.
+- Mantenha Previous e Next visíveis mesmo quando desativados nas extremidades, para ancorar o layout.
+
+## Não faça
+
+- Não esconda a indicação da página atual — o usuário perde o senso de posição.
+- Não use apenas Previous/Next em listas longas: números aceleram saltos grandes.
+- Não coloque paginação no topo e no rodapé com estados diferentes.
+
+## Acessibilidade
+
+- O `<nav aria-label="pagination">` é aplicado automaticamente, então a região é anunciada por leitores de tela.
+- O link ativo ganha `aria-current="page"` via `isActive`.
+- Previous e Next incluem `aria-label` em inglês — ajuste para pt-BR passando `aria-label="Ir para a página anterior"` se o produto exigir.

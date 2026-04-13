@@ -1,0 +1,57 @@
+---
+title: Accordion
+description: Lista vertical de seções que expandem e recolhem para revelar conteúdo
+---
+
+`Accordion` organiza blocos relacionados em um espaço compacto, deixando o usuário abrir apenas o que precisa. Use quando o conteúdo é opcional ou hierárquico — se o usuário precisa ler tudo, prefira seções abertas ou [Tabs](/docs/components/tabs).
+
+<ComponentPreview name="accordion-default" />
+
+## Anatomia
+
+- **Accordion** — raiz que controla o modo de expansão (`single` ou `multiple`).
+- **AccordionItem** — cada seção da lista, identificada por `value`.
+- **AccordionTrigger** — cabeçalho clicável que abre ou fecha o item. Renderiza um chevron animado.
+- **AccordionContent** — o corpo revelado quando o item está aberto.
+
+## Modos
+
+O `type` define como os itens se comportam. Em `type="single"` apenas um item fica aberto por vez — passe `collapsible` para permitir que todos os itens fiquem fechados. Em `type="multiple"` vários itens podem ficar abertos simultaneamente.
+
+<ComponentPreview name="accordion-multiple" />
+
+## Uso
+
+```tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@uranus-workspace/design-system';
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Pergunta</AccordionTrigger>
+    <AccordionContent>Resposta.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Faça
+
+- Use rótulos curtos no `AccordionTrigger` — eles precisam ser escaneáveis.
+- Prefira `type="single" collapsible` para FAQs e configurações.
+- Mantenha o conteúdo de cada item autocontido: o usuário não deveria precisar abrir outros itens para entender.
+
+## Não faça
+
+- Não coloque ações primárias dentro de um item fechado — o usuário pode não abri-lo.
+- Não aninhe accordions em mais de um nível. Se a hierarquia é profunda, reconsidere a navegação.
+- Não use accordion para conteúdo obrigatório de leitura.
+
+## Acessibilidade
+
+- Construído sobre Radix Accordion: os triggers são `<button>` com `aria-expanded` e `aria-controls` corretos.
+- Teclado: `Tab` navega entre triggers; `Enter` ou `Espaço` alterna o item; `Home` / `End` pulam para o primeiro ou último item.
+- O chevron é decorativo e tem `aria-hidden`. O estado aberto/fechado é comunicado pelo `aria-expanded` do trigger.

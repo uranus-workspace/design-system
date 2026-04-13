@@ -1,0 +1,98 @@
+---
+title: Sidebar
+description: Navegação lateral completa com grupos, ações e estado colapsável persistente
+---
+
+`Sidebar` é o esqueleto da navegação principal em aplicações Uranus. Ele coordena provider, conteúdo rolável, grupos de menu, rodapé, trigger e um `SidebarInset` para a área de conteúdo — tudo com estado colapsável persistente via cookie e atalho de teclado.
+
+<ComponentPreview name="sidebar-default" minHeight={500} />
+
+## Anatomia
+
+- **SidebarProvider** — raiz obrigatória. Guarda o estado `open`/`collapsed`, persiste em cookie (`sidebar_state`) e registra o atalho `Cmd/Ctrl + B`.
+- **Sidebar** — o contêiner lateral. Aceita `side="left" | "right"`, `variant="sidebar" | "floating" | "inset"` e `collapsible="offcanvas" | "icon" | "none"`.
+- **SidebarHeader** / **SidebarFooter** — regiões fixas no topo e rodapé.
+- **SidebarContent** — área rolável do meio.
+- **SidebarGroup** + **SidebarGroupLabel** + **SidebarGroupContent** — agrupam itens relacionados sob um título.
+- **SidebarMenu** → **SidebarMenuItem** → **SidebarMenuButton** — a lista navegável. O botão aceita `isActive`, `tooltip` (mostrado quando a sidebar está em modo icon) e `asChild` para integrar com `next/link`.
+- **SidebarMenuSub** / **SidebarMenuSubItem** / **SidebarMenuSubButton** — submenus aninhados.
+- **SidebarTrigger** — botão que alterna aberto/fechado. Tipicamente vai no header do `SidebarInset`.
+- **SidebarInset** — `<main>` que encapsula o conteúdo da página ao lado da sidebar. No modo `variant="inset"` ganha cantos arredondados e sombra.
+- **SidebarRail** — faixa invisível na borda para redimensionar/colapsar por hover.
+- **SidebarInput** / **SidebarSeparator** / **SidebarMenuBadge** / **SidebarMenuAction** / **SidebarMenuSkeleton** — utilitários para busca, separação, contadores, ações inline e estados de loading.
+- **useSidebar()** — hook que expõe `open`, `setOpen`, `toggleSidebar`, `state` e `isMobile`.
+
+## Uso mínimo
+
+```tsx
+'use client';
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@uranus-workspace/design-system';
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton isActive>Dashboard</SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <header className="flex h-14 items-center gap-2 border-b px-4">
+          <SidebarTrigger />
+        </header>
+        {children}
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}
+```
+
+## Modos de colapso
+
+- `collapsible="offcanvas"` (padrão) — a sidebar desliza para fora da tela no estado recolhido. Ideal para desktop.
+- `collapsible="icon"` — permanece visível como uma faixa estreita com ícones. Use quando o produto precisa de acesso rápido mesmo com a sidebar "recolhida". Combine com a prop `tooltip` em `SidebarMenuButton`.
+- `collapsible="none"` — desativa o toggle. Útil para o embutido da documentação e para testes.
+
+No mobile, o componente automaticamente substitui o layout por um `Sheet` lateral — o mesmo código funciona em ambas as larguras.
+
+## Faça
+
+- Coloque o `SidebarTrigger` dentro do header do `SidebarInset`, próximo ao título da página.
+- Agrupe itens com `SidebarGroup` + `SidebarGroupLabel` para criar hierarquia legível.
+- Use `SidebarMenuButton asChild` com `next/link` para navegação real.
+- Marque exatamente um item como `isActive` por rota.
+
+## Não faça
+
+- Não use `Sidebar` sem envolver a aplicação com `SidebarProvider` — o hook `useSidebar()` vai lançar.
+- Não coloque ações destrutivas soltas no `SidebarFooter`. Agrupe dentro de um menu com confirmação.
+- Não repita a mesma navegação em `Sidebar` e numa `navigation-menu` no topo. Escolha um.
+
+## Acessibilidade
+
+- A `Sidebar` é renderizada dentro de um wrapper `<nav>` semântico automaticamente e cada `SidebarMenuButton` é um `<button>` focável.
+- Atalho de teclado global: `Cmd+B` (macOS) ou `Ctrl+B` (Windows/Linux) alterna a sidebar.
+- No modo icon, o `tooltip` é anunciado quando o botão recebe foco pelo teclado — via Radix Tooltip.
+- No mobile o `Sheet` aplica focus trap e `Esc` fecha.

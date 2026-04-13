@@ -5,8 +5,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/uranus-tech/design-system.git",
+    "url": "https://github.com/uranus-workspace/design-system.git",
     "directory": "packages/design-system"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
   },
   "type": "module",
   "main": "./dist/index.js",
@@ -21,7 +25,7 @@
     },
     "./styles.css": "./dist/styles.css"
   },
-  "files": ["dist", "src", "components.json"],
+  "files": ["dist", "src", "components.json", "CHANGELOG.md"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

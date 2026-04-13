@@ -1,0 +1,4 @@
+@import "@uranus-workspace/tailwind-config";
+@import "@uranus-workspace/tailwind-config/dark";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";

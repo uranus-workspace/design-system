@@ -1,0 +1,71 @@
+---
+title: Button
+description: Triggers an action. The most common interactive element.
+---
+
+`Button` is the canonical way to trigger an action. For navigation, prefer an anchor inside `<Button asChild>` rather than wiring `onClick` to `router.push`.
+
+## Anatomy
+
+- **Label** — the only required part. Always human-readable.
+- **Leading or trailing icon** (optional) — keep it small, never replace the label with an icon unless the button uses `size="icon"` and an `aria-label`.
+
+## Variants
+
+| Variant | When to use |
+|---|---|
+| `primary` | The default. The most prominent action on a surface. |
+| `secondary` | Supporting actions that still deserve emphasis. |
+| `outline` | Lower-emphasis alternatives, often paired with `primary`. |
+| `ghost` | Toolbar actions, inline icons, tertiary affordances. |
+| `destructive` | Irreversible or high-consequence actions. |
+| `link` | Inline navigation that reads as prose. |
+
+## Sizes
+
+`sm`, `md` (default), `lg`, and `icon` (square, for icon-only buttons with an accessible name).
+
+## Usage
+
+```tsx
+import { Button } from '@uranus-workspace/design-system';
+import { Plus } from 'lucide-react';
+
+<Button>
+  <Plus /> New project
+</Button>
+```
+
+### As a link
+
+Pass `asChild` to render the immediate child element with the button's classes and behavior. This is the correct way to make a button navigate:
+
+```tsx
+import Link from 'next/link';
+
+<Button asChild>
+  <Link href="/projects">Go to projects</Link>
+</Button>
+```
+
+## Do
+
+- Use **one** primary button per view — it's the visual hook for the main task.
+- Put destructive actions in a confirmation dialog, not directly on the surface.
+- Keep labels imperative: "Create project", not "Creation".
+
+## Don't
+
+- Don't stack two primary buttons side by side.
+- Don't use `destructive` for actions that are reversible.
+- Don't remove the focus ring.
+
+## Accessibility
+
+- Keyboard: `Enter` and `Space` both activate.
+- Disabled buttons are announced as disabled by AT; prefer hiding rather than disabling if the action isn't available at all.
+- Icon-only buttons (`size="icon"`) must have an `aria-label`.
+
+## API
+
+See the generated TypeScript definitions in `@uranus-workspace/design-system`. `ButtonProps` extends `ButtonHTMLAttributes<HTMLButtonElement>`, so every native button attribute works.

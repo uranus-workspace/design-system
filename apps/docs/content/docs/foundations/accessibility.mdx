@@ -1,0 +1,14 @@
+---
+title: Accessibility
+description: The non-negotiables every Uranus component and page must meet.
+---
+
+Every component in `@uranus-workspace/design-system` and `@uranus-workspace/blocks` ships with `jest-axe` unit tests and Storybook's `@storybook/addon-a11y` configured to **error**, not warn. New components must land with passing a11y tests or they do not merge.
+
+## Baseline targets
+
+- **WCAG 2.2 AA** — text contrast, focus visibility, target size, resize.
+- **Keyboard first** — every interactive element is reachable and operable via keyboard. No mouse-only affordances.
+- **Semantic HTML** — favor native elements (`<button>`, `<nav>`, `<dialog>`) over ARIA reinvention.
+- **Focus appearance** — 2px outline with `--color-ring`, 2px offset, applied via `:focus-visible`. Never remove outlines without replacing them.
+- **Reduced motion** — honor `prefers-reduced-motion: reduce` in every animation.

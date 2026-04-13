@@ -1,0 +1,32 @@
+---
+title: EmptyState
+description: A placeholder surface shown when a list, table, or section has no content yet.
+---
+
+`EmptyState` communicates **why** a region is empty and **what to do next**. It's announced as a `role="status"` landmark so assistive technology knows it's reporting a current condition.
+
+## Usage
+
+```tsx
+import { EmptyState } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+import { FolderPlus } from 'lucide-react';
+
+<EmptyState
+  icon={<FolderPlus aria-hidden />}
+  title="No projects yet"
+  description="Create your first project to start collaborating with your team."
+  actions={
+    <>
+      <Button variant="outline">Learn more</Button>
+      <Button>New project</Button>
+    </>
+  }
+/>
+```
+
+## Guidance
+
+- Always give users a next action — an `EmptyState` without `actions` is a dead end.
+- The description explains **why** there's nothing here, not **what** will be here. ("Create your first project", not "Your projects will appear here".)
+- Keep the icon decorative (`aria-hidden`) — the title carries the semantic weight.

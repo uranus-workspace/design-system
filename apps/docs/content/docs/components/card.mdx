@@ -1,0 +1,42 @@
+---
+title: Card
+description: A surface that groups related information and actions.
+---
+
+`Card` is a composition of small, slot-like subcomponents: `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`. You assemble them yourself — the component doesn't dictate layout beyond the outer surface.
+
+## Usage
+
+```tsx
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@uranus-workspace/design-system';
+
+<Card>
+  <CardHeader>
+    <CardTitle>Project Apollo</CardTitle>
+    <CardDescription>A brand-new launch on the Uranus platform.</CardDescription>
+  </CardHeader>
+  <CardContent>Body content goes here.</CardContent>
+  <CardFooter className="justify-end gap-2">
+    <Button variant="ghost">Cancel</Button>
+    <Button>Continue</Button>
+  </CardFooter>
+</Card>
+```
+
+## When to use
+
+- Listing items of the same kind (projects, users, invoices).
+- Grouping a single task with its actions into a bounded surface.
+
+## When not to use
+
+- **Not a replacement for layout.** If you find yourself nesting cards inside cards, reach for spacing, dividers, or a `PageHeader` instead.
+- **Not for navigation.** A clickable card is fine, but wrap it in a real `<a>` or `<button>` so keyboard users can reach it.

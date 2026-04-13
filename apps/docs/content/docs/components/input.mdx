@@ -1,0 +1,29 @@
+---
+title: Input
+description: A single-line text field.
+---
+
+`Input` is a thin, token-driven wrapper over the native `<input>` element. It inherits every standard HTML attribute, so `type`, `required`, `pattern`, `aria-*`, and form integration all work out of the box.
+
+## Usage
+
+```tsx
+import { Input } from '@uranus-workspace/design-system';
+
+<label className="flex flex-col gap-2 text-sm">
+  Email
+  <Input type="email" name="email" required />
+</label>
+```
+
+## States
+
+- **Default** — enabled, empty or filled.
+- **Disabled** — use `disabled`. Avoid disabling inputs without explaining why nearby.
+- **Invalid** — set `aria-invalid="true"`. The border and focus ring turn destructive red. Pair with a visible error message referenced by `aria-describedby`.
+
+## Accessibility
+
+- Every input must have a label. Either wrap it in `<label>` or use `aria-labelledby` / `aria-label`.
+- Error messages belong in the accessible tree via `aria-describedby`, not as a tooltip.
+- Never rely on placeholder text as the only label.

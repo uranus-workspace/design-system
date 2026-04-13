@@ -1,0 +1,26 @@
+---
+title: Resources
+description: Branding manual, changelog, roadmap, and how to contribute.
+---
+
+## Branding manual
+
+The Uranus branding manual PDF is the source of truth for visual identity. Every token in `@uranus-workspace/tokens` should eventually trace back to a value in the manual. Until the manual is ingested, the design system ships with neutral placeholder values clearly marked as such in source.
+
+## Changelog
+
+Releases are driven by [Changesets](https://github.com/changesets/changesets). Add a changeset with `pnpm changeset` before merging any PR that touches `@uranus-workspace/design-system` or `@uranus-workspace/blocks`.
+
+## Roadmap
+
+1. Ingest the branding manual → replace placeholder tokens.
+2. Add the remaining shadcn/ui primitives via `pnpm dlx shadcn@latest add <name>`.
+3. Grow the blocks catalog (AppShell, DataTable, Hero, FeatureGrid, StatCard, CTASection).
+4. Write the foundations pages from the branding manual content.
+5. Turn on Chromatic for visual regression.
+
+## Contributing
+
+- Every new component lands with tests (`*.test.tsx`), a story (`*.stories.tsx`), and an MDX page under `apps/docs/content/docs/`.
+- Run `pnpm lint && pnpm typecheck && pnpm test` before opening a PR.
+- Use `pnpm changeset` to describe user-facing changes.

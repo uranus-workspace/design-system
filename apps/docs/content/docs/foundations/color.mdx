@@ -1,0 +1,22 @@
+---
+title: Color
+description: Placeholder brand, neutral, and semantic palettes — replaced with Uranus branding manual values.
+---
+
+Color tokens are expressed in OKLCH so lightness and chroma remain perceptually uniform across ramps. Every color has 11 steps (`50`–`950`).
+
+## Ramps
+
+We ship five ramps:
+
+- **neutral** — surfaces, borders, body copy.
+- **brand** — primary interactive color.
+- **success**, **warning**, **danger** — semantic feedback.
+
+## Usage
+
+Consume colors through semantic tokens (`--color-primary`, `--color-foreground`, `--color-destructive`, etc.) exposed by the Tailwind v4 preset. Never reference raw ramp steps in component code — that breaks dark mode and future rebrands.
+
+```tsx
+<button className="bg-primary text-primary-foreground">OK</button>
+```

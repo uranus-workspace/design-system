@@ -1,0 +1,43 @@
+---
+title: Installation
+description: Add the Uranus design system to a React or Next.js project.
+---
+
+## Install the packages
+
+```bash
+pnpm add @uranus-workspace/design-system @uranus-workspace/blocks motion
+```
+
+`@uranus-workspace/design-system` is the core primitives package. `@uranus-workspace/blocks` ships higher-level layouts that compose those primitives. `motion` is a peer dependency and must be installed explicitly.
+
+## Wire up styles
+
+Import the shared stylesheet once at your app's entry point:
+
+```ts
+import '@uranus-workspace/design-system/styles.css';
+```
+
+This brings in the Tailwind v4 preset, the token layer, and the dark mode overrides.
+
+## Use a component
+
+```tsx
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@uranus-workspace/design-system';
+import { PageHeader } from '@uranus-workspace/blocks';
+
+export default function Page() {
+  return (
+    <>
+      <PageHeader title="Projects" actions={<Button>New project</Button>} />
+      <Card>
+        <CardHeader>
+          <CardTitle>Welcome</CardTitle>
+        </CardHeader>
+        <CardContent>Ready to build.</CardContent>
+      </Card>
+    </>
+  );
+}
+```

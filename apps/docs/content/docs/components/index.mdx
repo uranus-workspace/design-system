@@ -1,0 +1,21 @@
+---
+title: Components
+description: Core UI primitives shipped by @uranus-workspace/design-system.
+---
+
+Components live in `@uranus-workspace/design-system` and are sourced from [shadcn/ui](https://ui.shadcn.com/docs/components). We own the code — `pnpm dlx shadcn@latest add <name>` writes new primitives directly into `packages/design-system/src/components/`, where we customize them to match Uranus tokens and branding.
+
+Every component ships with:
+
+1. A strict TypeScript implementation
+2. `jest-axe` unit tests
+3. Storybook stories with a11y addon errors
+4. An MDX documentation page (this section)
+
+Initial primitives:
+
+- [Button](/docs/components/button)
+- [Input](/docs/components/input)
+- [Card](/docs/components/card)
+
+More are added continuously via the shadcn CLI.

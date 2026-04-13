@@ -1,0 +1,30 @@
+---
+title: Motion
+description: Duration, easing, and reduced-motion principles powered by Motion.
+---
+
+Motion in Uranus is functional: it communicates continuity, hierarchy, and feedback — never decoration. All animation runs through the `motion` library (the successor to Framer Motion), using shared variants exported from `@uranus-workspace/design-system`:
+
+```ts
+import { fadeVariants, slideUpVariants, scaleInVariants } from '@uranus-workspace/design-system';
+```
+
+## Durations
+
+| Token | Value | Use for |
+|---|---|---|
+| instant | 0ms | Hard state swaps |
+| fast | 120ms | Hover, focus, small tint changes |
+| base | 200ms | Most UI transitions |
+| slow | 320ms | Dialogs, bottom sheets |
+| slower | 480ms | Celebratory or onboarding moments |
+
+## Easings
+
+- `standard` — default curve, `cubic-bezier(0.2, 0, 0, 1)`
+- `emphasized` — `cubic-bezier(0.3, 0, 0, 1)`
+- `decelerate`, `accelerate` — directional transitions
+
+## Reduced motion
+
+Every animation **must** respect `prefers-reduced-motion`. Use `respectReducedMotion()` from `@uranus-workspace/design-system` to wrap variants, and rely on the CSS media query declared in the Tailwind preset for anything not driven by Motion.

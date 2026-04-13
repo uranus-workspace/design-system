@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "cd ../.. && pnpm turbo run docs:build --filter=@uranus-workspace/docs",
+  "installCommand": "cd ../.. && pnpm install --frozen-lockfile --ignore-scripts=false",
+  "outputDirectory": ".next",
+  "ignoreCommand": "cd ../.. && npx turbo-ignore @uranus-workspace/docs"
+}

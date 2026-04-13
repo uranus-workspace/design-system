@@ -1,0 +1,63 @@
+{
+  "name": "@uranus-workspace/blocks",
+  "version": "0.0.1",
+  "description": "Uranus Technologies composite blocks — higher-level layouts built on @uranus-workspace/design-system.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uranus-tech/design-system.git",
+    "directory": "packages/blocks"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist .turbo coverage"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "tailwind-merge": "^2.5.5"
+  },
+  "peerDependencies": {
+    "@uranus-workspace/design-system": "workspace:*",
+    "motion": "^11.15.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@uranus-workspace/biome-config": "workspace:*",
+    "@uranus-workspace/design-system": "workspace:*",
+    "@uranus-workspace/test-config": "workspace:*",
+    "@uranus-workspace/tsconfig": "workspace:*",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "jest-axe": "^9.0.0",
+    "jsdom": "^25.0.1",
+    "motion": "^11.15.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

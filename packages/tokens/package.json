@@ -1,0 +1,32 @@
+{
+  "name": "@uranus-workspace/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Uranus design tokens — source of truth for colors, typography, spacing, radii, shadows, and motion.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./css": "./dist/tokens.css"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts && tsx scripts/build-css.ts",
+    "dev": "tsup src/index.ts --format esm --dts --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "@uranus-workspace/tsconfig": "workspace:*",
+    "@uranus-workspace/biome-config": "workspace:*",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

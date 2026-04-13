@@ -1,0 +1,27 @@
+/**
+ * Dark mode overrides — apply via `<html class="dark">` or a `@media (prefers-color-scheme: dark)` wrapper.
+ */
+
+.dark {
+  --color-background: var(--color-neutral-950);
+  --color-foreground: var(--color-neutral-50);
+  --color-muted: var(--color-neutral-900);
+  --color-muted-foreground: var(--color-neutral-400);
+  --color-border: var(--color-neutral-800);
+  --color-input: var(--color-neutral-800);
+  --color-ring: var(--color-brand-400);
+
+  --color-primary: var(--color-brand-500);
+  --color-primary-foreground: var(--color-neutral-950);
+  --color-secondary: var(--color-neutral-800);
+  --color-secondary-foreground: var(--color-neutral-50);
+  --color-accent: var(--color-brand-900);
+  --color-accent-foreground: var(--color-brand-100);
+  --color-destructive: var(--color-danger-500);
+  --color-destructive-foreground: var(--color-neutral-50);
+
+  --color-card: var(--color-neutral-900);
+  --color-card-foreground: var(--color-neutral-50);
+  --color-popover: var(--color-neutral-900);
+  --color-popover-foreground: var(--color-neutral-50);
+}

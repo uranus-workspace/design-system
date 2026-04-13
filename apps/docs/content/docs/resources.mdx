@@ -1,28 +1,29 @@
 ---
-title: Resources
-description: Branding manual, changelog, roadmap, and how to contribute.
+title: Recursos
+description: Manual de marca, changelog, roadmap e como contribuir.
 ---
 
-## Branding manual
+## Manual de marca
 
-The **Uranus Manual de Marca 2026** is the source of truth for visual identity. Every token in `@uranus-workspace/tokens` traces back to a value in the manual — the cosmic palette (Azul Profundo, Azul Marinho, Azul Turquesa, Lilás Claro) and the Lexend Exa / Poppins type pairing live in `packages/tokens/src/colors.ts` and `typography.ts`.
+O **Manual de Marca Uranus 2026** é a fonte da verdade para a identidade visual. Todo token em `@uranus-workspace/tokens` remete a um valor do manual — a paleta cósmica (Azul Profundo, Azul Marinho, Azul Turquesa, Lilás Claro) e o par tipográfico Lexend Exa / Poppins vivem em `packages/tokens/src/colors.ts` e `typography.ts`.
 
-The live brand site is [uranus.com.br](https://uranus.com.br/). When the brand team updates the manual, values flow one direction: `packages/tokens/src/*.ts` → generated CSS → every app and component.
+O site vivo da marca é [uranus.com.br](https://uranus.com.br/). Quando o time de marca atualiza o manual, os valores fluem em uma única direção: `packages/tokens/src/*.ts` → CSS gerado → todo app e componente.
 
 ## Changelog
 
-Releases are driven by [Changesets](https://github.com/changesets/changesets). Add a changeset with `pnpm changeset` before merging any PR that touches `@uranus-workspace/design-system` or `@uranus-workspace/blocks`.
+Releases são automatizados via [semantic-release](https://semantic-release.gitbook.io/). Commits convencionais (`feat:`, `fix:`, `perf:`, ou algum com `BREAKING CHANGE:`) tocando um pacote publicável disparam o pipeline de release.
 
 ## Roadmap
 
-1. ✅ Ingest the 2026 branding manual → cosmic palette + Lexend Exa / Poppins wired up.
-2. ✅ Install the full shadcn/ui primitive catalog (54 components).
-3. Author curated MDX pages for every primitive (anatomy, do/don't, a11y).
-4. Grow the blocks catalog (AppShell, DataTable, Hero, FeatureGrid, StatCard, CTASection).
-5. Turn on Chromatic for visual regression.
+1. ✅ Ingerir o manual de marca 2026 → paleta cósmica + Lexend Exa / Poppins conectados.
+2. ✅ Instalar o catálogo completo de primitivos shadcn/ui (54 componentes).
+3. ✅ Publicar no npm público como `@uranus-workspace/*`.
+4. Escrever páginas MDX curadas para cada primitivo (anatomia, do/don't, a11y).
+5. Crescer o catálogo de blocos (AppShell, DataTable, Hero, FeatureGrid, StatCard, CTASection).
+6. Ligar o Chromatic para regressão visual.
 
-## Contributing
+## Contribuindo
 
-- Every new component lands with tests (`*.test.tsx`), a story (`*.stories.tsx`), and an MDX page under `apps/docs/content/docs/`.
-- Run `pnpm lint && pnpm typecheck && pnpm test` before opening a PR.
-- Use `pnpm changeset` to describe user-facing changes.
+- Todo componente novo chega com testes (`*.test.tsx`), uma story (`*.stories.tsx`) e uma página MDX sob `apps/docs/content/docs/`.
+- Rode `pnpm lint && pnpm typecheck && pnpm test` antes de abrir um PR.
+- Use commits convencionais para descrever mudanças visíveis pro usuário final.

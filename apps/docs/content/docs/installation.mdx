@@ -1,27 +1,29 @@
 ---
-title: Installation
-description: Add the Uranus design system to a React or Next.js project.
+title: Instalação
+description: Adicione o design system Uranus a um projeto React ou Next.js.
 ---
 
-## Install the packages
+## Instale os pacotes
+
+Os dois pacotes são públicos no [npm](https://www.npmjs.com/org/uranus-workspace) — sem `.npmrc`, sem token de autenticação.
 
 ```bash
 pnpm add @uranus-workspace/design-system @uranus-workspace/blocks motion
 ```
 
-`@uranus-workspace/design-system` is the core primitives package. `@uranus-workspace/blocks` ships higher-level layouts that compose those primitives. `motion` is a peer dependency and must be installed explicitly.
+`@uranus-workspace/design-system` é o pacote de primitivos. `@uranus-workspace/blocks` traz layouts de nível mais alto compostos a partir desses primitivos. `motion` é uma peer dependency e precisa ser instalada explicitamente.
 
-## Wire up styles
+## Conecte os estilos
 
-Import the shared stylesheet once at your app's entry point:
+Importe a folha de estilo compartilhada uma única vez no ponto de entrada do seu app:
 
 ```ts
 import '@uranus-workspace/design-system/styles.css';
 ```
 
-This brings in the Tailwind v4 preset, the token layer, and the dark mode overrides.
+Isso traz o preset do Tailwind v4, a camada de tokens e os overrides de modo escuro.
 
-## Use a component
+## Use um componente
 
 ```tsx
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@uranus-workspace/design-system';
@@ -30,12 +32,12 @@ import { PageHeader } from '@uranus-workspace/blocks';
 export default function Page() {
   return (
     <>
-      <PageHeader title="Projects" actions={<Button>New project</Button>} />
+      <PageHeader title="Projetos" actions={<Button>Novo projeto</Button>} />
       <Card>
         <CardHeader>
-          <CardTitle>Welcome</CardTitle>
+          <CardTitle>Boas-vindas</CardTitle>
         </CardHeader>
-        <CardContent>Ready to build.</CardContent>
+        <CardContent>Tudo pronto para construir.</CardContent>
       </Card>
     </>
   );

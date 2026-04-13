@@ -1,23 +1,60 @@
 ---
 title: Typography
-description: Type scale, font families, and weight tokens for Uranus interfaces.
+description: Lexend Exa paired with Poppins — the Uranus type system.
 ---
 
-Type is rendered with the system font stack until the Uranus branding manual defines a display typeface. The scale ranges from `xs` to `6xl`, expressed in `rem` so it adapts to the user's root font size.
+The Uranus 2026 brand manual pairs two typefaces:
+
+- **Lexend Exa** — primary / display. Selected for its wide horizontal amplitude ("imensidão do horizonte espacial"). Used for headings, brand moments, and numerical displays.
+- **Poppins** — secondary / body. A geometric sans-serif that balances sophistication and utility across dense UI.
+
+Both families are loaded via Google Fonts. In Next.js apps we use `next/font/google` to inline them; in Storybook they come from a CDN link in `preview-head.html`.
+
+## Families
+
+| Role | Token | Stack |
+| --- | --- | --- |
+| Display | `font-display` | `Lexend Exa, Poppins, system-ui` |
+| Body | `font-sans` | `Poppins, system-ui` |
+| Mono | `font-mono` | `ui-monospace, SF Mono, Menlo…` |
+
+```tsx
+<h1 className="font-display text-5xl tracking-tight">Uranus</h1>
+<p className="font-sans text-base text-muted-foreground">
+  Um hub de serviços flexível e escalável.
+</p>
+```
 
 ## Scale
 
 | Token | Size | Line height |
-|---|---|---|
-| xs | 0.75rem | 1rem |
-| sm | 0.875rem | 1.25rem |
-| base | 1rem | 1.5rem |
-| lg | 1.125rem | 1.75rem |
-| xl | 1.25rem | 1.75rem |
-| 2xl | 1.5rem | 2rem |
-| 3xl | 1.875rem | 2.25rem |
-| 4xl | 2.25rem | 2.5rem |
-| 5xl | 3rem | 1.1 |
-| 6xl | 3.75rem | 1.05 |
+| --- | --- | --- |
+| `xs` | 0.75rem | 1rem |
+| `sm` | 0.875rem | 1.25rem |
+| `base` | 1rem | 1.5rem |
+| `lg` | 1.125rem | 1.75rem |
+| `xl` | 1.25rem | 1.75rem |
+| `2xl` | 1.5rem | 2rem |
+| `3xl` | 1.875rem | 2.25rem |
+| `4xl` | 2.25rem | 2.5rem |
+| `5xl` | 3rem | 1.1 |
+| `6xl` | 3.75rem | 1.05 |
+| `7xl` | 4.5rem | 1 |
 
-Weights available: `400`, `500`, `600`, `700`.
+## Weights
+
+Lexend Exa: `300`, `400`, `500`, `600`, `700`, `800`.
+Poppins: `300`, `400`, `500`, `600`, `700`.
+
+Reference via the Tailwind classes `font-light`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`, `font-extrabold`.
+
+## Letter spacing
+
+Display headings default to `-0.02em` (tight) for a disciplined, technical tone. For brand moments where Lexend Exa takes center stage, allow `-0.04em` (tighter) to respect the wide counterforms.
+
+## Do / Don't
+
+- **Do** pair display Lexend Exa headings with Poppins body for long-form content.
+- **Do** use `font-display` for numeric displays (dashboards, KPIs) to reinforce the brand.
+- **Don't** mix Lexend Exa with a third display typeface. The pairing is intentional.
+- **Don't** use all-caps Lexend Exa at small sizes — legibility suffers below 14px.

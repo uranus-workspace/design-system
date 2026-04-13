@@ -1,20 +1,37 @@
 ---
 title: Overview
-description: The Uranus Technologies design system — tokens, foundations, components, blocks, and guidelines.
+description: The Uranus Technologies design system — tokens, foundations, components, blocks, and guidelines for uranus.com.br.
 ---
 
-The Uranus Design System is the single source of truth for how Uranus Technologies products look, feel, and behave. It is a living system: documentation, code, and design artifacts evolve together.
+The **Uranus Design System** is the single source of truth for how [Uranus Technologies](https://uranus.com.br/) products look, feel, and behave. Every surface — the marketing site at [uranus.com.br](https://uranus.com.br/), the OmniFisco product, internal tools — pulls from the same tokens, components, and motion language documented here.
+
+> _"Mais do que estética, a nova Uranus se posiciona como um hub de serviços flexível e escalável."_ — Manual de Marca Uranus, 2026
+
+## Brand at a glance
+
+The Uranus identity is built around a **cosmic palette** and a modernist type pairing, codified in the 2026 brand manual:
+
+| Token | HEX | Role |
+| --- | --- | --- |
+| Azul Profundo | `#000328` | Primary dark surface (`brand-950`) |
+| Azul Marinho | `#082d71` | Primary brand / wordmark (`brand-800`) |
+| Azul Turquesa | `#5dddfa` | Accent, focus, highlights (`brand-400`) |
+| Lilás Claro | `#f8ddfc` | Decorative highlight (`accent-200`) |
+| Preto Clássico | `#000000` | Base neutral (`neutral-950`) |
+| Branco Puro | `#ffffff` | Base neutral (`neutral-50`) |
+
+Typography is **Lexend Exa** (display, headings, brand moments) paired with **Poppins** (body, UI). Backgrounds blend Preto Clássico with the three blues through the `bg-cosmic`, `bg-aurora`, `bg-nebula`, and `bg-galaxy` gradient utilities.
 
 ## What's inside
 
-- **Foundations** — the visual and behavioral primitives (color, typography, spacing, motion, accessibility, voice) that every interface shares.
-- **Components** — focused, reusable UI primitives (`@uranus-workspace/design-system`) built on shadcn/ui, Tailwind CSS v4, and Motion.
+- **Foundations** — visual and behavioral primitives (color, typography, spacing, motion, accessibility, voice) shared by every interface.
+- **Components** — focused, reusable UI primitives (`@uranus-workspace/design-system`) built on shadcn/ui, Tailwind CSS v4, and Motion. The full shadcn/ui catalog (54+ components) ships out of the box.
 - **Blocks** — higher-level composite layouts (`@uranus-workspace/blocks`) assembled from primitives.
 - **Patterns** — opinionated guidance for recurring flows like forms, empty states, and navigation.
 
-## Inspiration
+## Information architecture
 
-The structure and depth of this documentation draws from systems we admire:
+The depth and structure of this documentation draws from systems we admire:
 
 - [Carbon Design System](https://carbondesignsystem.com/) — IBM
 - [Olist Design System](https://designsystem.olist.io/)
@@ -23,4 +40,4 @@ The structure and depth of this documentation draws from systems we admire:
 - [Samsung One UI](https://developer.samsung.com/one-ui/index.html)
 - [Wise Design](https://wise.design/design-at-wise)
 
-Visual identity — color, typography, motion personality — comes from the Uranus branding manual, not from these references.
+Visual identity — color, typography, motion personality — always comes from the **Uranus Manual de Marca 2026**, never from these references.

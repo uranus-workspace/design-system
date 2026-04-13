@@ -1,22 +1,71 @@
 ---
 title: Color
-description: Placeholder brand, neutral, and semantic palettes — replaced with Uranus branding manual values.
+description: The Uranus cosmic palette — Azul Profundo, Azul Marinho, Azul Turquesa, Lilás Claro — and the gradients that bind them.
 ---
 
-Color tokens are expressed in OKLCH so lightness and chroma remain perceptually uniform across ramps. Every color has 11 steps (`50`–`950`).
+Color is the most loaded decision in the Uranus brand. The 2026 manual frames it this way:
 
-## Ramps
+> _"A identidade visual utiliza uma escala cromática baseada em tons cósmicos para reforçar sua autoridade tecnológica. A combinação entre o preto, o azul marinho e o turquesa permite a criação de gradientes com profundidade tridimensional."_
 
-We ship five ramps:
+Every ramp is expressed in hex at the brand stops and interpolated smoothly between them so the `cosmic`, `aurora`, `nebula`, and `galaxy` gradients stay on-brand at any angle.
 
-- **neutral** — surfaces, borders, body copy.
-- **brand** — primary interactive color.
-- **success**, **warning**, **danger** — semantic feedback.
+## Brand palette
 
-## Usage
+| Name | HEX | Token | CSS variable | Role |
+| --- | --- | --- | --- | --- |
+| Azul Profundo | `#000328` | `brand.950` | `--color-brand-950` | Deep space / dark surfaces |
+| Azul Marinho | `#082d71` | `brand.800` | `--color-brand-800` | Wordmark, primary CTA, focus trails |
+| Azul Turquesa | `#5dddfa` | `brand.400` | `--color-brand-400` | Accent, focus ring, highlights, glows |
+| Lilás Claro | `#f8ddfc` | `accent.200` | `--color-accent-200` | Decorative highlight, halos |
+| Preto Clássico | `#000000` | `neutral.950` | `--color-neutral-950` | Base black |
+| Branco Puro | `#ffffff` | `neutral.50` | `--color-neutral-50` | Base white |
 
-Consume colors through semantic tokens (`--color-primary`, `--color-foreground`, `--color-destructive`, etc.) exposed by the Tailwind v4 preset. Never reference raw ramp steps in component code — that breaks dark mode and future rebrands.
+In addition to the six pinned brand stops, the `brand` and `accent` ramps expose eleven hand-tuned steps (`50`–`950`) for gradients and hover states.
+
+## Semantic tokens
+
+Consume colors through semantic tokens, **never** raw ramp steps. This keeps dark mode, high-contrast, and future rebrands free.
+
+| Semantic | Maps to | Light | Dark |
+| --- | --- | --- | --- |
+| `background` | surface | `neutral.50` | `brand.950` |
+| `foreground` | text | `brand.950` | `neutral.50` |
+| `primary` | CTAs | `brand.800` (Azul Marinho) | `brand.400` (Azul Turquesa) |
+| `accent` | highlights | `brand.400` (Azul Turquesa) | `brand.400` |
+| `highlight` | decorative | `accent.200` (Lilás Claro) | `accent.200` |
+| `ring` | focus | `brand.400` | `brand.400` |
+| `destructive` | errors | `danger.600` | `danger.500` |
+| `success` / `warning` | status | `success.600` / `warning.500` | `success.400` / `warning.400` |
 
 ```tsx
-<button className="bg-primary text-primary-foreground">OK</button>
+<button className="bg-primary text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring">
+  Entrar na Uranus
+</button>
 ```
+
+## Gradients
+
+The brand gradients live as CSS variables and are exposed as Tailwind utilities (`bg-cosmic`, `bg-aurora`, `bg-nebula`, `bg-galaxy`, `bg-horizon`, `bg-halo`). They are the preferred background for hero moments, login screens, and brand storytelling surfaces.
+
+```tsx
+<section className="bg-cosmic text-white">
+  <h1 className="font-display text-5xl">Bem-vindo ao universo Uranus</h1>
+</section>
+
+<section className="bg-aurora text-white">...</section>
+
+<section className="bg-nebula text-white">...</section>
+```
+
+| Utility | Stops | Use it for |
+| --- | --- | --- |
+| `bg-cosmic` | `#000` → `#000328` → `#082d71` | Primary hero, login surfaces |
+| `bg-aurora` | Radial turquoise + radial navy over deep space | Feature panels, empty states |
+| `bg-nebula` | `#000328` → `#082d71` → `#5dddfa` → `#f8ddfc` | Brand storytelling, marketing |
+| `bg-galaxy` | `#000` → `#000328` → `#5dddfa` | Call-out banners |
+| `bg-horizon` | `#082d71` → `#000328` | Subtle cards on dark surfaces |
+| `bg-halo` | Radial lilac highlight | Soft focal glow layered above other gradients |
+
+## Incorrect usage
+
+From the brand manual: avoid yellow+blue or amber+blue pairings outside very specific contexts, never recolor the logo into orange or green, and do not substitute turquoise with aqua/teal. When in doubt, use navy on white or white on cosmic.

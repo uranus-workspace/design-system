@@ -1,7 +1,15 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { colors, motion, radii, shadows, spacing, typography } from '../src/index.js';
+import {
+  colors,
+  gradients,
+  motion,
+  radii,
+  shadows,
+  spacing,
+  typography,
+} from '../src/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, '../dist/tokens.css');
@@ -33,6 +41,10 @@ for (const [key, value] of Object.entries(motion.duration)) {
 }
 for (const [key, value] of Object.entries(motion.easing)) {
   lines.push(`  --ease-${key}: ${value};`);
+}
+
+for (const [key, value] of Object.entries(gradients)) {
+  lines.push(`  --gradient-${key}: ${value};`);
 }
 
 lines.push(`  --font-sans: ${typography.fontFamily.sans};`);

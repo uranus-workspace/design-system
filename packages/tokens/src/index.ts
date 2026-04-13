@@ -4,5 +4,7 @@ export { spacing } from './spacing.js';
 export { radii } from './radii.js';
 export { shadows } from './shadows.js';
 export { motion } from './motion.js';
+export { gradients } from './gradients.js';
 export type { ColorScale, ColorToken } from './colors.js';
 export type { TypographyToken } from './typography.js';
+export type { GradientToken } from './gradients.js';

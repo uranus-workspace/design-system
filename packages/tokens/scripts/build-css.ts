@@ -1,15 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-  colors,
-  gradients,
-  motion,
-  radii,
-  shadows,
-  spacing,
-  typography,
-} from '../src/index.js';
+import { colors, gradients, motion, radii, shadows, spacing, typography } from '../src/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, '../dist/tokens.css');

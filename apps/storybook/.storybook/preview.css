@@ -1,6 +1,16 @@
 @import "@uranus-workspace/tailwind-config";
 @import "@uranus-workspace/tailwind-config/dark";
 
+/*
+ * Tailwind v4 auto-detects content from the CSS file's package root. In this
+ * monorepo the stories and their class usages live in sibling workspace
+ * packages, so we need to declare them explicitly here — otherwise the
+ * generated stylesheet would only contain classes used inside apps/storybook.
+ */
+@source "../../../packages/design-system/src/**/*.{ts,tsx,mdx}";
+@source "../../../packages/blocks/src/**/*.{ts,tsx,mdx}";
+@source "../../src/**/*.{ts,tsx}";
+
 body {
   background: var(--color-background);
   color: var(--color-foreground);

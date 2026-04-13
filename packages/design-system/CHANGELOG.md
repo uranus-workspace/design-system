@@ -1,3 +1,10 @@
+# [@uranus-workspace/design-system-v1.0.2](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/design-system@1.0.1...@uranus-workspace/design-system@1.0.2) (2026-04-13)
+
+
+### Bug Fixes
+
+* **design-system:** publish to public npm registry ([adc2797](https://github.com/uranus-workspace/design-system/commit/adc27971232d609ddc56e7867da07bfe7f87d2f7))
+
 # [@uranus-workspace/design-system-v1.0.1](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/design-system@1.0.0...@uranus-workspace/design-system@1.0.1) (2026-04-13)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@uranus-workspace/design-system",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Uranus Technologies core design system — primitives built on shadcn/ui + Tailwind v4 + Motion.",
   "license": "MIT",
   "repository": {
@@ -16,7 +16,9 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "sideEffects": ["**/*.css"],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -25,7 +27,12 @@
     },
     "./styles.css": "./dist/styles.css"
   },
-  "files": ["dist", "src", "components.json", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "src",
+    "components.json",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

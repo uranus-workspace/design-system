@@ -18,6 +18,10 @@ export const metadata = {
   },
   description:
     'The Uranus Technologies design system — tokens, foundations, components, blocks, and guidelines. Built for uranus.com.br.',
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: 'Uranus Design System',
     description:
@@ -26,6 +30,9 @@ export const metadata = {
     siteName: 'Uranus',
     locale: 'pt_BR',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
   },
 };
 

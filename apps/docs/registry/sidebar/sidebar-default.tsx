@@ -40,7 +40,7 @@ const account = [
 
 export default function SidebarDefault() {
   return (
-    <div className="h-[460px] w-[760px] overflow-hidden rounded-lg border">
+    <div className="h-[460px] w-full overflow-hidden rounded-lg border">
       <SidebarProvider className="min-h-full">
         <Sidebar collapsible="none" className="border-r">
           <SidebarHeader>

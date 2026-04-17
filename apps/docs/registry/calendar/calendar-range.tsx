@@ -13,12 +13,14 @@ export default function CalendarRange() {
   );
 
   return (
-    <Calendar
-      mode="range"
-      selected={range}
-      onSelect={setRange}
-      numberOfMonths={2}
-      className="rounded-md border"
-    />
+    <div className="overflow-x-auto">
+      <Calendar
+        mode="range"
+        selected={range}
+        onSelect={setRange}
+        numberOfMonths={2}
+        className="rounded-md border"
+      />
+    </div>
   );
 }

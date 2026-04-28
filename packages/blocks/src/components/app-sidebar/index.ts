@@ -1,8 +1,12 @@
 export {
   AppSidebar,
+  AppSidebarBrand,
+  AppSidebarSearch,
   AppSidebarNavLink,
   type AppSidebarProps,
   type AppSidebarNavLinkProps,
+  type AppSidebarBrandProps,
+  type AppSidebarSearchProps,
   type AppSidebarHeaderProps,
   type AppSidebarContentProps,
   type AppSidebarFooterProps,

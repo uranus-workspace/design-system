@@ -12,4 +12,23 @@ export const authLayoutVariants = cva('grid min-h-svh w-full bg-background', {
   },
 });
 
+/** Brand gradients from the Uranus preset (`packages/tailwind-config/preset.css`). */
+export const authLayoutBrandPanelVariants = cva(
+  'hidden flex-col justify-between p-10 text-primary-foreground lg:flex',
+  {
+    variants: {
+      brandTone: {
+        cosmic: 'bg-cosmic',
+        aurora: 'bg-aurora',
+        nebula: 'bg-nebula',
+        galaxy: 'bg-galaxy',
+      },
+    },
+    defaultVariants: {
+      brandTone: 'cosmic',
+    },
+  },
+);
+
 export type AuthLayoutVariantProps = VariantProps<typeof authLayoutVariants>;
+export type AuthLayoutBrandToneProps = VariantProps<typeof authLayoutBrandPanelVariants>;

@@ -18,8 +18,9 @@ const meta: Meta<typeof AppShell> = {
 export default meta;
 type Story = StoryObj<typeof AppShell>;
 
+/** In-flow sidebar so the chrome stays inside the Storybook canvas (production apps use the default collapsible sidebar). */
 const SampleSidebar = () => (
-  <Sidebar>
+  <Sidebar collapsible="none" className="border-r border-sidebar-border">
     <SidebarHeader>
       <span className="px-2 text-sm font-semibold">Uranus</span>
     </SidebarHeader>
@@ -37,36 +38,61 @@ const SampleSidebar = () => (
 );
 
 export const Default: Story = {
-  args: {
-    sidebar: <SampleSidebar />,
-    header: (
-      <header className="flex h-12 items-center border-b px-4 text-sm">App header slot</header>
-    ),
-    children: <div className="p-6">Main content area</div>,
-  },
-};
-
-export const NoHeader: Story = {
-  args: {
-    sidebar: <SampleSidebar />,
-    children: <div className="p-6">Just content, no header</div>,
-  },
-};
-
-export const Compound: Story = {
   render: () => (
-    <AppShell defaultSidebarOpen>
+    <AppShell defaultSidebarOpen className="min-h-[480px]">
       <AppShell.Sidebar>
         <SampleSidebar />
       </AppShell.Sidebar>
       <AppShell.Inset>
         <AppShell.Header>
-          <header className="flex h-12 items-center border-b px-4 text-sm">Compound header slot</header>
+          <header className="flex h-12 shrink-0 items-center border-b px-4 text-sm">
+            App header slot
+          </header>
         </AppShell.Header>
         <AppShell.Content>
-          <div className="p-6">Main content via AppShell.Content</div>
+          <div className="p-6">Main content area — scrolls independently of the header.</div>
         </AppShell.Content>
       </AppShell.Inset>
+    </AppShell>
+  ),
+};
+
+export const NoHeader: Story = {
+  render: () => (
+    <AppShell defaultSidebarOpen className="min-h-[420px]">
+      <AppShell.Sidebar>
+        <SampleSidebar />
+      </AppShell.Sidebar>
+      <AppShell.Inset>
+        <AppShell.Content>
+          <div className="p-6">Content only — no header row.</div>
+        </AppShell.Content>
+      </AppShell.Inset>
+    </AppShell>
+  ),
+};
+
+export const WithRightPanel: Story = {
+  render: () => (
+    <AppShell defaultSidebarOpen className="min-h-[480px]">
+      <AppShell.Sidebar>
+        <SampleSidebar />
+      </AppShell.Sidebar>
+      <AppShell.Inset>
+        <AppShell.Header>
+          <header className="flex h-12 shrink-0 items-center border-b px-4 text-sm">
+            Detail view
+          </header>
+        </AppShell.Header>
+        <AppShell.Content>
+          <div className="p-6">Primary pane</div>
+        </AppShell.Content>
+      </AppShell.Inset>
+      <AppShell.RightPanel>
+        <aside className="flex h-full min-h-0 w-72 flex-col border-l bg-muted/30 p-4 text-sm">
+          Secondary panel
+        </aside>
+      </AppShell.RightPanel>
     </AppShell>
   ),
 };

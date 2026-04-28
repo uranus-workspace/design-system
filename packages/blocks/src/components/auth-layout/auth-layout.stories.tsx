@@ -11,31 +11,76 @@ const meta: Meta<typeof AuthLayout> = {
 export default meta;
 type Story = StoryObj<typeof AuthLayout>;
 
-const SampleForm = () => (
-  <form className="flex flex-col gap-4" aria-label="Sign in form">
-    <h1 className="text-2xl font-semibold">Welcome back</h1>
-    <div className="flex flex-col gap-1.5">
-      <Label htmlFor="email">Email</Label>
-      <Input id="email" type="email" placeholder="you@uranus.com.br" />
+const BrandMark = () => (
+  <div className="flex h-full min-h-[240px] flex-col justify-between gap-6">
+    <div>
+      <p className="text-xs font-medium uppercase tracking-wider text-primary-foreground/80">
+        Uranus Technologies
+      </p>
+      <p className="mt-3 max-w-sm text-balance text-2xl font-semibold leading-tight text-primary-foreground">
+        Design system que escala com o produto.
+      </p>
     </div>
-    <div className="flex flex-col gap-1.5">
-      <Label htmlFor="password">Password</Label>
-      <Input id="password" type="password" />
-    </div>
-    <Button type="submit">Sign in</Button>
-  </form>
+    <p className="max-w-xs text-sm text-primary-foreground/85">
+      Gradientes de marca via tokens — sem hex solto nos componentes.
+    </p>
+  </div>
 );
 
-export const Split: Story = {
-  args: {
-    brandPanel: (
-      <div className="flex h-full flex-col justify-between">
-        <span className="text-xl font-semibold">Uranus</span>
-        <p className="max-w-xs text-balance text-sm">
-          O hub de serviços flexível e escalável da Uranus Technologies.
-        </p>
+const SampleForm = ({ title = 'Welcome back' }: { title?: string }) => (
+  <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+    <form className="flex flex-col gap-5" aria-label="Sign in form">
+      <div>
+        <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Sign in to continue.</p>
       </div>
-    ),
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" type="email" placeholder="you@uranus.com.br" autoComplete="email" />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="password">Password</Label>
+        <Input id="password" type="password" autoComplete="current-password" />
+      </div>
+      <Button type="submit" className="w-full">
+        Sign in
+      </Button>
+    </form>
+  </div>
+);
+
+export const SplitCosmic: Story = {
+  name: 'Split · cosmic',
+  args: {
+    brandTone: 'cosmic',
+    brandPanel: <BrandMark />,
+    children: <SampleForm />,
+  },
+};
+
+export const SplitNebula: Story = {
+  name: 'Split · nebula',
+  args: {
+    brandTone: 'nebula',
+    brandPanel: <BrandMark />,
+    children: <SampleForm title="Create account" />,
+  },
+};
+
+export const SplitAurora: Story = {
+  name: 'Split · aurora',
+  args: {
+    brandTone: 'aurora',
+    brandPanel: <BrandMark />,
+    children: <SampleForm />,
+  },
+};
+
+export const SplitGalaxy: Story = {
+  name: 'Split · galaxy',
+  args: {
+    brandTone: 'galaxy',
+    brandPanel: <BrandMark />,
     children: <SampleForm />,
   },
 };
@@ -43,6 +88,6 @@ export const Split: Story = {
 export const Centered: Story = {
   args: {
     variant: 'centered',
-    children: <SampleForm />,
+    children: <SampleForm title="Verify email" />,
   },
 };

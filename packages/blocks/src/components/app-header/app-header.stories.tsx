@@ -1,6 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Avatar, AvatarFallback, Button, SidebarProvider } from '@uranus-workspace/design-system';
-import { Bell, Search } from 'lucide-react';
+import {
+  Avatar,
+  AvatarFallback,
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Separator,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@uranus-workspace/design-system';
+import { Bell, ChevronRight, Search } from 'lucide-react';
 import type { ReactElement } from 'react';
 import { AppHeader } from './app-header.js';
 
@@ -11,24 +24,28 @@ const meta: Meta<typeof AppHeader> = {
   tags: ['autodocs'],
   decorators: [
     (Story: () => ReactElement) => (
-      <SidebarProvider>
-        <Story />
-      </SidebarProvider>
+      <div className="w-full min-w-0 overflow-hidden rounded-lg border bg-background">
+        <SidebarProvider className="min-h-0 w-full">
+          <Story />
+        </SidebarProvider>
+      </div>
     ),
   ],
 };
 export default meta;
 type Story = StoryObj<typeof AppHeader>;
 
+const crumb = (
+  <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5 text-sm">
+    <span className="text-muted-foreground">Workspace</span>
+    <ChevronRight aria-hidden className="size-4 shrink-0 text-muted-foreground" />
+    <span className="truncate font-medium text-foreground">Dashboard</span>
+  </nav>
+);
+
 export const Default: Story = {
   args: {
-    breadcrumbs: (
-      <ol className="flex items-center gap-2 text-sm text-muted-foreground">
-        <li>Workspace</li>
-        <li aria-hidden>/</li>
-        <li className="font-medium text-foreground">Dashboard</li>
-      </ol>
-    ),
+    breadcrumbs: crumb,
     searchTrigger: (
       <Button variant="outline" size="sm" className="gap-2">
         <Search aria-hidden className="size-4" />
@@ -41,11 +58,23 @@ export const Default: Story = {
       </Button>
     ),
     userMenu: (
-      <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
-        <Avatar className="size-8">
-          <AvatarFallback>UT</AvatarFallback>
-        </Avatar>
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="size-9 rounded-full p-0" aria-label="Account menu">
+            <Avatar className="size-9">
+              <AvatarFallback className="text-xs">UT</AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-52">
+          <DropdownMenuLabel className="font-normal">
+            <span className="text-sm font-medium">Signed in</span>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Sign out</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     ),
   },
 };
@@ -54,4 +83,33 @@ export const Minimal: Story = {
   args: {
     breadcrumbs: <span className="text-sm text-muted-foreground">Dashboard</span>,
   },
+};
+
+export const NoSidebarChrome: Story = {
+  name: 'Marketing route (no sidebar trigger)',
+  args: {
+    hideSidebarTrigger: true,
+    breadcrumbs: <span className="text-sm font-medium text-foreground">Marketing · Pricing</span>,
+    searchTrigger: (
+      <Button variant="outline" size="sm" className="gap-2">
+        <Search aria-hidden className="size-4" />
+        Search
+      </Button>
+    ),
+  },
+};
+
+export const Composition: Story = {
+  render: () => (
+    <header className="sticky top-0 z-30 flex h-14 w-full shrink-0 items-center gap-2 border-b bg-background/95 px-4 backdrop-blur md:gap-3">
+      <SidebarTrigger />
+      <Separator orientation="vertical" className="h-5" />
+      <AppHeader.Breadcrumbs>{crumb}</AppHeader.Breadcrumbs>
+      <AppHeader.Actions>
+        <Button variant="outline" size="sm">
+          Action
+        </Button>
+      </AppHeader.Actions>
+    </header>
+  ),
 };

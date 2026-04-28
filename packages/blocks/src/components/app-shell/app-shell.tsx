@@ -9,21 +9,6 @@ import {
 import { cn } from '../../lib/cn.js';
 
 export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * Legacy slot: primary navigation (e.g. `<AppSidebar />`).
-   * Omit when using the compound API — use `<AppShell.Sidebar>` instead.
-   */
-  sidebar?: ReactNode;
-  /**
-   * Legacy slot: sticky header inside the inset.
-   * Omit when using `<AppShell.Header>` inside `<AppShell.Inset>`.
-   */
-  header?: ReactNode;
-  /**
-   * Legacy slot: optional right panel (e.g. `<DetailDrawer />`).
-   * Omit when using `<AppShell.RightPanel>`.
-   */
-  rightPanel?: ReactNode;
   /** Persists sidebar collapse via cookie when uncontrolled. Defaults to `true`. */
   defaultSidebarOpen?: boolean;
   /** Controlled sidebar open state. */
@@ -31,8 +16,7 @@ export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   /** Controlled sidebar onChange handler. */
   onSidebarOpenChange?: (open: boolean) => void;
   /**
-   * Legacy: main scrollable page body (when `sidebar` is passed).
-   * Compound: full shell tree — `<AppShell.Sidebar>`, `<AppShell.Inset>`, optional `<AppShell.RightPanel>`.
+   * Shell tree — `<AppShell.Sidebar>`, `<AppShell.Inset>` (`Header`, `Content`), optional `<AppShell.RightPanel>`.
    */
   children: ReactNode;
 }
@@ -50,12 +34,7 @@ export interface AppShellSidebarProps extends HTMLAttributes<HTMLDivElement> {
 export const AppShellSidebar = forwardRef<HTMLDivElement, AppShellSidebarProps>(
   function AppShellSidebar({ children, className, ...props }, ref) {
     return (
-      <div
-        ref={ref}
-        data-slot="app-shell-sidebar"
-        className={cn(contents, className)}
-        {...props}
-      >
+      <div ref={ref} data-slot="app-shell-sidebar" className={cn(contents, className)} {...props}>
         {children}
       </div>
     );
@@ -143,51 +122,20 @@ export const AppShellRightPanel = forwardRef<HTMLDivElement, AppShellRightPanelP
 );
 
 const AppShellRoot = forwardRef<HTMLDivElement, AppShellProps>(function AppShell(
-  {
-    sidebar,
-    header,
-    rightPanel,
-    defaultSidebarOpen = true,
-    sidebarOpen,
-    onSidebarOpenChange,
-    children,
-    className,
-    ...props
-  },
+  { defaultSidebarOpen = true, sidebarOpen, onSidebarOpenChange, children, className, ...props },
   ref,
 ) {
-  const legacyLayout = sidebar !== undefined;
-
   return (
     <SidebarProvider
       ref={ref}
       defaultOpen={defaultSidebarOpen}
       open={sidebarOpen}
       onOpenChange={onSidebarOpenChange}
-      className={cn('min-h-svh', className)}
+      className={cn('min-h-svh w-full', className)}
       data-slot="app-shell"
       {...props}
     >
-      {legacyLayout ? (
-        <>
-          {sidebar}
-          <SidebarInset
-            data-slot="app-shell-main"
-            className="min-h-0 flex-1 overflow-hidden"
-          >
-            {header}
-            <div
-              data-slot="app-shell-content"
-              className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain"
-            >
-              {children}
-            </div>
-          </SidebarInset>
-          {rightPanel}
-        </>
-      ) : (
-        children
-      )}
+      {children}
     </SidebarProvider>
   );
 });
@@ -199,12 +147,7 @@ AppShellHeader.displayName = 'AppShell.Header';
 AppShellContent.displayName = 'AppShell.Content';
 AppShellRightPanel.displayName = 'AppShell.RightPanel';
 
-/**
- * Dashboard chrome — wraps `SidebarProvider` and either:
- *
- * - **Compound (recommended):** `AppShell` → `Sidebar` → `Inset` → `Header` / `Content` → optional `RightPanel`.
- * - **Legacy:** pass `sidebar`, optional `header` / `rightPanel`, and `children` as the scroll body.
- */
+/** Dashboard chrome — wraps `SidebarProvider`; compose `Sidebar`, `Inset`, `Header`, `Content`, optional `RightPanel`. */
 export const AppShell = Object.assign(AppShellRoot, {
   Sidebar: AppShellSidebar,
   Inset: AppShellInset,

@@ -25,6 +25,22 @@ describe('AuthLayout', () => {
     expect(screen.getByTestId('brand').parentElement).toHaveAttribute('aria-hidden', 'true');
   });
 
+  it('applies brand gradient utilities from brandTone', () => {
+    const { rerender, container } = render(
+      <AuthLayout brandTone="nebula" brandPanel={<div>Brand</div>}>
+        <span>form</span>
+      </AuthLayout>,
+    );
+    expect(container.querySelector('[data-slot="auth-layout-brand"]')).toHaveClass('bg-nebula');
+
+    rerender(
+      <AuthLayout brandTone="aurora" brandPanel={<div>Brand</div>}>
+        <span>form</span>
+      </AuthLayout>,
+    );
+    expect(container.querySelector('[data-slot="auth-layout-brand"]')).toHaveClass('bg-aurora');
+  });
+
   it('omits the brand panel in centered variant', () => {
     render(
       <AuthLayout variant="centered" brandPanel={<div data-testid="brand">Brand</div>}>

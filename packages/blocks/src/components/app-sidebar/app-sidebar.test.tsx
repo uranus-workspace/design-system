@@ -45,6 +45,17 @@ describe('AppSidebar', () => {
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
 
+  it('renders optional search below header in declarative mode', () => {
+    renderWithProvider(
+      <AppSidebar
+        logo={<span>Uranus</span>}
+        search={<AppSidebar.Search placeholder="Find…" />}
+        groups={groups}
+      />,
+    );
+    expect(screen.getByPlaceholderText('Find…')).toBeInTheDocument();
+  });
+
   it('marks the active item with aria-current="page"', () => {
     renderWithProvider(<AppSidebar groups={groups} />);
     expect(screen.getByRole('link', { name: 'Dashboard' })).toHaveAttribute('aria-current', 'page');

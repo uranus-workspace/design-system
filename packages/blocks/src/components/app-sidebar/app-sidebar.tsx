@@ -6,20 +6,25 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarInput,
   SidebarMenu,
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@uranus-workspace/design-system';
+import { Search } from 'lucide-react';
 import {
   type AnchorHTMLAttributes,
   type ComponentProps,
+  type ElementRef,
   type ElementType,
+  type HTMLAttributes,
   type ReactNode,
   createContext,
   forwardRef,
   useContext,
 } from 'react';
+import { cn } from '../../lib/cn.js';
 import { BlockLink } from '../../lib/link.js';
 
 export interface SidebarNavItem {
@@ -45,16 +50,84 @@ export interface AppSidebarHeaderProps extends ComponentProps<typeof SidebarHead
   children?: ReactNode;
 }
 
-/**
- * Brand / top region of the sidebar (fixed height row inside `SidebarHeader`).
- */
+/** Top region of the sidebar — wraps `SidebarHeader` (padding/gap come from the primitive). */
 export function AppSidebarHeader({ children, className, ...props }: AppSidebarHeaderProps) {
   return (
     <SidebarHeader data-slot="app-sidebar-header" className={className} {...props}>
-      <div className="flex h-12 min-h-12 items-center gap-2 px-2">{children}</div>
+      {children}
     </SidebarHeader>
   );
 }
+
+export interface AppSidebarBrandProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  /** Left mark — icon or monogram (centered in a rounded square). */
+  icon?: ReactNode;
+  title: ReactNode;
+  subtitle?: ReactNode;
+  /** Trailing control (e.g. workspace/version `DropdownMenu` trigger). */
+  action?: ReactNode;
+}
+
+/**
+ * Docs-style brand row — title + optional subtitle + optional action (matches shadcn sidebar-01 header density).
+ */
+export function AppSidebarBrand({
+  icon,
+  title,
+  subtitle,
+  action,
+  className,
+  ...props
+}: AppSidebarBrandProps) {
+  return (
+    <div
+      data-slot="app-sidebar-brand"
+      className={cn('flex w-full min-w-0 items-center gap-2', className)}
+      {...props}
+    >
+      {icon ? (
+        <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground [&_svg]:size-4">
+          {icon}
+        </div>
+      ) : null}
+      <div className="grid min-w-0 flex-1 gap-0.5 text-left leading-tight">
+        <span className="truncate font-semibold text-sidebar-foreground">{title}</span>
+        {subtitle ? (
+          <span className="truncate text-xs text-sidebar-foreground/70">{subtitle}</span>
+        ) : null}
+      </div>
+      {action ? <div className="flex shrink-0 items-center">{action}</div> : null}
+    </div>
+  );
+}
+
+export type AppSidebarSearchProps = ComponentProps<typeof SidebarInput>;
+
+/**
+ * Search field with leading icon — uses `SidebarInput` token styling.
+ */
+export const AppSidebarSearch = forwardRef<ElementRef<typeof SidebarInput>, AppSidebarSearchProps>(
+  function AppSidebarSearch({ className, placeholder = 'Search…', ...props }, ref) {
+    return (
+      <div data-slot="app-sidebar-search" className="px-2 pb-2">
+        <div className="relative">
+          <Search
+            aria-hidden
+            className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-sidebar-foreground/50"
+          />
+          <SidebarInput
+            ref={ref}
+            placeholder={placeholder}
+            className={cn('h-9 bg-background pl-9 shadow-none', className)}
+            {...props}
+          />
+        </div>
+      </div>
+    );
+  },
+);
+
+AppSidebarSearch.displayName = 'AppSidebarSearch';
 
 export interface AppSidebarContentProps extends ComponentProps<typeof SidebarContent> {
   children?: ReactNode;
@@ -119,17 +192,19 @@ export const AppSidebarNavLink = forwardRef<HTMLAnchorElement, AppSidebarNavLink
 );
 
 export interface AppSidebarProps extends Omit<SidebarProps, 'children'> {
-  /** Brand mark — only used with the legacy `groups` API. */
+  /** Brand / logo slot — only used with the declarative `groups` API. */
   logo?: ReactNode;
+  /** Search field below header — prefer `<AppSidebarSearch />` or custom `SidebarInput`. */
+  search?: ReactNode;
   /**
    * Declarative nav config — convenient for static menus.
    * Ignored when `children` is passed; prefer composing with
    * `AppSidebar.Header`, `AppSidebar.Content`, and `AppSidebar.NavLink` for custom structure.
    */
   groups?: SidebarNavGroup[];
-  /** Footer — only used with the legacy `groups` API. */
+  /** Footer — only used with the declarative `groups` API. */
   footer?: ReactNode;
-  /** Override link component for this sidebar instance (and legacy `groups` items). */
+  /** Override link component for this sidebar instance (and declarative `groups` items). */
   linkComponent?: ElementType<AnchorHTMLAttributes<HTMLAnchorElement>>;
   /**
    * Compositional API: `AppSidebar.Header`, `AppSidebar.Content`, `AppSidebar.Footer`,
@@ -139,7 +214,7 @@ export interface AppSidebarProps extends Omit<SidebarProps, 'children'> {
 }
 
 const AppSidebarRoot = forwardRef<HTMLDivElement, AppSidebarProps>(function AppSidebar(
-  { logo, groups, footer, linkComponent, children, ...props },
+  { logo, search, groups, footer, linkComponent, children, ...props },
   ref,
 ) {
   const compositional = children != null;
@@ -152,15 +227,16 @@ const AppSidebarRoot = forwardRef<HTMLDivElement, AppSidebarProps>(function AppS
         ) : (
           <>
             {logo ? <AppSidebarHeader>{logo}</AppSidebarHeader> : null}
-            <SidebarContent>
+            <SidebarContent className="gap-0">
+              {search}
               {(groups ?? []).map((group, groupIndex) => (
                 <SidebarGroup key={group.label ?? `group-${groupIndex}`}>
                   {group.label ? <SidebarGroupLabel>{group.label}</SidebarGroupLabel> : null}
                   <SidebarGroupContent>
                     <SidebarMenu>
-                      {group.items.map((item) => (
+                      {group.items.map((item, itemIndex) => (
                         <AppSidebarNavLink
-                          key={item.href}
+                          key={`${group.label ?? groupIndex}-${itemIndex}-${item.label}`}
                           href={item.href}
                           icon={item.icon}
                           badge={item.badge}
@@ -188,12 +264,14 @@ AppSidebarNavLink.displayName = 'AppSidebarNavLink';
 
 /**
  * Opinionated dashboard sidebar — composes the `Sidebar` primitive with optional
- * compound slots (`Header`, `Content`, `Footer`, `NavLink`) or a legacy `groups` config.
+ * compound slots (`Header`, `Brand`, `Search`, `Content`, `Footer`, `NavLink`) or declarative `groups`.
  *
- * Prefer the compositional API when you need mixed content, non-link rows, or full control.
+ * Prefer composition when you need mixed content; use **`collapsible="none"`** in embedded previews so the rail stays in layout flow (see docs).
  */
 export const AppSidebar = Object.assign(AppSidebarRoot, {
   Header: AppSidebarHeader,
+  Brand: AppSidebarBrand,
+  Search: AppSidebarSearch,
   Content: AppSidebarContent,
   Footer: AppSidebarFooter,
   NavLink: AppSidebarNavLink,

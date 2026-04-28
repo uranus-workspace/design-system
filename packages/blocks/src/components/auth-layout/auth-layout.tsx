@@ -1,8 +1,16 @@
 import { type HTMLAttributes, type ReactNode, forwardRef } from 'react';
 import { cn } from '../../lib/cn.js';
-import { type AuthLayoutVariantProps, authLayoutVariants } from './auth-layout.variants.js';
+import {
+  type AuthLayoutBrandToneProps,
+  type AuthLayoutVariantProps,
+  authLayoutBrandPanelVariants,
+  authLayoutVariants,
+} from './auth-layout.variants.js';
 
-export interface AuthLayoutProps extends HTMLAttributes<HTMLDivElement>, AuthLayoutVariantProps {
+export interface AuthLayoutProps
+  extends HTMLAttributes<HTMLDivElement>,
+    AuthLayoutVariantProps,
+    AuthLayoutBrandToneProps {
   /** Brand panel content (logo, marketing copy, illustration) — only rendered in `split` variant. */
   brandPanel?: ReactNode;
   /** Form content (the actual auth form). */
@@ -17,7 +25,7 @@ export interface AuthLayoutProps extends HTMLAttributes<HTMLDivElement>, AuthLay
  * Renders `<main>` so screen readers can land on the form area directly.
  */
 export const AuthLayout = forwardRef<HTMLDivElement, AuthLayoutProps>(function AuthLayout(
-  { brandPanel, children, variant = 'split', className, ...props },
+  { brandPanel, children, variant = 'split', brandTone, className, ...props },
   ref,
 ) {
   return (
@@ -31,7 +39,7 @@ export const AuthLayout = forwardRef<HTMLDivElement, AuthLayoutProps>(function A
         <aside
           data-slot="auth-layout-brand"
           aria-hidden="true"
-          className="hidden flex-col justify-between bg-cosmic p-10 text-primary-foreground lg:flex"
+          className={cn(authLayoutBrandPanelVariants({ brandTone }))}
         >
           {brandPanel}
         </aside>

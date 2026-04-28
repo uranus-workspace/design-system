@@ -3,7 +3,10 @@ title: AppShell
 description: A casca completa de uma aplicação dashboard - sidebar, header, conteúdo e painel lateral opcional.
 ---
 
-`AppShell` orquestra `SidebarProvider`, `SidebarInset` e os slots de header e painel direito em um único bloco. Cada superfície de produto importa **um** `AppShell` no layout root e injeta nele o `AppSidebar`, `AppHeader` e o conteúdo da página.
+`AppShell` orquestra `SidebarProvider`, `SidebarInset` e os slots de header e painel direito em um único bloco. Cada superfície de produto importa **um** `AppShell` no layout root e injeta nele o `AppSidebar`, `AppHeader` e o conteúdo da página. A área principal (`children`) fica em um contêiner com **rolagem vertical** (`overflow-y-auto`) para o header fixo não competir com o scroll da página.
+
+
+<ComponentPreview name="app-shell-default" align="start" minHeight={480} />
 
 ## Uso
 

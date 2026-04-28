@@ -46,6 +46,20 @@ describe('ConfirmDialog', () => {
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeDisabled();
   });
 
+  it('renders dialogBody between description and actions', () => {
+    render(
+      <ConfirmDialog
+        open
+        onOpenChange={() => {}}
+        title="Confirmar"
+        description="Description here."
+        dialogBody={<p>Extra campo ou copy.</p>}
+        onConfirm={() => {}}
+      />,
+    );
+    expect(screen.getByText('Extra campo ou copy.')).toBeInTheDocument();
+  });
+
   it('has no a11y violations when open', async () => {
     const { container } = render(
       <ConfirmDialog

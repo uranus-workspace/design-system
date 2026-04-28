@@ -1,5 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import { SidebarProvider } from '@uranus-workspace/design-system';
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarProvider,
+} from '@uranus-workspace/design-system';
 import { axe } from 'jest-axe';
 import { describe, expect, it } from 'vitest';
 import { AppSidebar, type SidebarNavGroup } from './app-sidebar.js';
@@ -64,5 +70,36 @@ describe('AppSidebar', () => {
       <AppSidebar logo={<span>Uranus</span>} groups={groups} />,
     );
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('supports compositional API with NavLink and groups', () => {
+    renderWithProvider(
+      <AppSidebar>
+        <AppSidebar.Header>
+          <span>Uranus</span>
+        </AppSidebar.Header>
+        <AppSidebar.Content>
+          <SidebarGroup>
+            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <AppSidebar.NavLink href="/dashboard" active label="Dashboard">
+                  Dashboard
+                </AppSidebar.NavLink>
+                <AppSidebar.NavLink href="/projects" badge="3" label="Projects">
+                  Projects
+                </AppSidebar.NavLink>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </AppSidebar.Content>
+        <AppSidebar.Footer>
+          <span data-testid="footer">v1</span>
+        </AppSidebar.Footer>
+      </AppSidebar>,
+    );
+    expect(screen.getByRole('link', { name: 'Dashboard' })).toHaveAttribute('href', '/dashboard');
+    expect(screen.getByRole('link', { name: /Projects/ })).toBeInTheDocument();
+    expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
 });

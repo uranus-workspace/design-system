@@ -32,7 +32,7 @@ export const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(function AppHea
       ref={ref}
       data-slot="app-header"
       className={cn(
-        'sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+        'sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:gap-3',
         className,
       )}
       {...props}
@@ -47,14 +47,14 @@ export const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(function AppHea
         <nav
           aria-label="Breadcrumb"
           data-slot="app-header-breadcrumbs"
-          className="flex min-w-0 flex-1 items-center"
+          className="flex min-w-0 flex-1 items-center overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {breadcrumbs}
         </nav>
       ) : (
         <div className="flex-1" />
       )}
-      <div className="flex items-center gap-2">
+      <div data-slot="app-header-actions" className="flex shrink-0 items-center gap-2">
         {searchTrigger ? <div data-slot="app-header-search">{searchTrigger}</div> : null}
         {notifications ? <div data-slot="app-header-notifications">{notifications}</div> : null}
         {userMenu ? <div data-slot="app-header-user-menu">{userMenu}</div> : null}

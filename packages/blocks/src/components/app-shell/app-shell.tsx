@@ -53,9 +53,12 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
       {...props}
     >
       {sidebar}
-      <SidebarInset data-slot="app-shell-main">
+      <SidebarInset data-slot="app-shell-main" className="min-h-0 flex-1 overflow-hidden">
         {header}
-        <div data-slot="app-shell-content" className="flex flex-1 flex-col">
+        <div
+          data-slot="app-shell-content"
+          className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain"
+        >
           {children}
         </div>
       </SidebarInset>

@@ -10,6 +10,36 @@ import AvatarDefault from './avatar/avatar-default';
 import AvatarGroup from './avatar/avatar-group';
 import BadgeDefault from './badge/badge-default';
 import BadgeVariants from './badge/badge-variants';
+import ActivityFeedDefault from './blocks/activity-feed-default';
+import AnnouncementBannerDefault from './blocks/announcement-banner-default';
+import AppHeaderDefault from './blocks/app-header-default';
+import AppShellDefault from './blocks/app-shell-default';
+import AppSidebarDefault from './blocks/app-sidebar-default';
+import AuthLayoutDefault from './blocks/auth-layout-default';
+import ChartCardDefault from './blocks/chart-card-default';
+import ConfirmDialogDefault from './blocks/confirm-dialog-default';
+import CTASectionDefault from './blocks/cta-section-default';
+import DangerConfirmDialogDefault from './blocks/danger-confirm-dialog-default';
+import DataTableDefault from './blocks/data-table-default';
+import DetailDrawerDefault from './blocks/detail-drawer-default';
+import ErrorStateDefault from './blocks/error-state-default';
+import FeatureGridDefault from './blocks/feature-grid-default';
+import FilterBarDefault from './blocks/filter-bar-default';
+import ForgotPasswordFormDefault from './blocks/forgot-password-form-default';
+import FormSectionDefault from './blocks/form-section-default';
+import HeroDefault from './blocks/hero-default';
+import NotificationListDefault from './blocks/notification-list-default';
+import OnboardingChecklistDefault from './blocks/onboarding-checklist-default';
+import OtpVerificationFormDefault from './blocks/otp-verification-form-default';
+import ResetPasswordFormDefault from './blocks/reset-password-form-default';
+import SearchCommandDefault from './blocks/search-command-default';
+import SettingsLayoutDefault from './blocks/settings-layout-default';
+import SignInFormDefault from './blocks/sign-in-form-default';
+import SignUpFormDefault from './blocks/sign-up-form-default';
+import StatCardDefault from './blocks/stat-card-default';
+import StatGridDefault from './blocks/stat-grid-default';
+import UpgradePromptDefault from './blocks/upgrade-prompt-default';
+import UsageCardDefault from './blocks/usage-card-default';
 import BreadcrumbDefault from './breadcrumb/breadcrumb-default';
 import BreadcrumbEllipsisExample from './breadcrumb/breadcrumb-ellipsis';
 import ButtonGroupDefault from './button-group/button-group-default';
@@ -91,6 +121,12 @@ interface RegistryEntry {
 export const registry: Record<string, RegistryEntry> = {
   'accordion-default': { Component: AccordionDefault, folder: 'accordion' },
   'accordion-multiple': { Component: AccordionMultiple, folder: 'accordion' },
+  'activity-feed-default': { Component: ActivityFeedDefault, folder: 'blocks' },
+  'announcement-banner-default': { Component: AnnouncementBannerDefault, folder: 'blocks' },
+  'app-header-default': { Component: AppHeaderDefault, folder: 'blocks' },
+  'app-shell-default': { Component: AppShellDefault, folder: 'blocks' },
+  'app-sidebar-default': { Component: AppSidebarDefault, folder: 'blocks' },
+  'auth-layout-default': { Component: AuthLayoutDefault, folder: 'blocks' },
   'alert-default': { Component: AlertDefault, folder: 'alert' },
   'alert-destructive': { Component: AlertDestructive, folder: 'alert' },
   'alert-dialog-default': { Component: AlertDialogDefault, folder: 'alert-dialog' },
@@ -112,8 +148,8 @@ export const registry: Record<string, RegistryEntry> = {
   'calendar-range': { Component: CalendarRange, folder: 'calendar' },
   'card-default': { Component: CardDefault, folder: 'card' },
   'carousel-default': { Component: CarouselDefault, folder: 'carousel' },
+  'chart-card-default': { Component: ChartCardDefault, folder: 'blocks' },
   'checkbox-default': { Component: CheckboxDefault, folder: 'checkbox' },
-  'checkbox-states': { Component: CheckboxStates, folder: 'checkbox' },
   'collapsible-default': { Component: CollapsibleDefault, folder: 'collapsible' },
   'command-default': { Component: CommandDefault, folder: 'command' },
   'context-menu-default': { Component: ContextMenuDefault, folder: 'context-menu' },
@@ -163,5 +199,28 @@ export const registry: Record<string, RegistryEntry> = {
   'toggle-default': { Component: ToggleDefault, folder: 'toggle' },
   'toggle-group-default': { Component: ToggleGroupDefault, folder: 'toggle-group' },
   'toggle-outline': { Component: ToggleOutline, folder: 'toggle' },
+  'confirm-dialog-default': { Component: ConfirmDialogDefault, folder: 'blocks' },
+  'cta-section-default': { Component: CTASectionDefault, folder: 'blocks' },
+  'danger-confirm-dialog-default': { Component: DangerConfirmDialogDefault, folder: 'blocks' },
+  'data-table-default': { Component: DataTableDefault, folder: 'blocks' },
+  'detail-drawer-default': { Component: DetailDrawerDefault, folder: 'blocks' },
+  'error-state-default': { Component: ErrorStateDefault, folder: 'blocks' },
+  'feature-grid-default': { Component: FeatureGridDefault, folder: 'blocks' },
+  'filter-bar-default': { Component: FilterBarDefault, folder: 'blocks' },
+  'forgot-password-form-default': { Component: ForgotPasswordFormDefault, folder: 'blocks' },
+  'form-section-default': { Component: FormSectionDefault, folder: 'blocks' },
+  'hero-default': { Component: HeroDefault, folder: 'blocks' },
+  'notification-list-default': { Component: NotificationListDefault, folder: 'blocks' },
+  'onboarding-checklist-default': { Component: OnboardingChecklistDefault, folder: 'blocks' },
+  'otp-verification-form-default': { Component: OtpVerificationFormDefault, folder: 'blocks' },
+  'reset-password-form-default': { Component: ResetPasswordFormDefault, folder: 'blocks' },
+  'search-command-default': { Component: SearchCommandDefault, folder: 'blocks' },
+  'settings-layout-default': { Component: SettingsLayoutDefault, folder: 'blocks' },
+  'sign-in-form-default': { Component: SignInFormDefault, folder: 'blocks' },
+  'sign-up-form-default': { Component: SignUpFormDefault, folder: 'blocks' },
+  'stat-card-default': { Component: StatCardDefault, folder: 'blocks' },
+  'stat-grid-default': { Component: StatGridDefault, folder: 'blocks' },
+  'upgrade-prompt-default': { Component: UpgradePromptDefault, folder: 'blocks' },
+  'usage-card-default': { Component: UsageCardDefault, folder: 'blocks' },
   'tooltip-default': { Component: TooltipDefault, folder: 'tooltip' },
 };

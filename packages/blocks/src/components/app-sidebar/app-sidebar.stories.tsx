@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SidebarProvider } from '@uranus-workspace/design-system';
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarProvider,
+} from '@uranus-workspace/design-system';
 import { Folder, Home, Settings, Users } from 'lucide-react';
 import type { ReactElement } from 'react';
 import { AppSidebar, type SidebarNavGroup } from './app-sidebar.js';
@@ -48,4 +54,45 @@ export const NoFooter: Story = {
     logo: <span className="text-base font-semibold">Uranus</span>,
     groups,
   },
+};
+
+export const Compositional: Story = {
+  render: () => (
+    <AppSidebar>
+      <AppSidebar.Header>
+        <span className="text-base font-semibold">Uranus</span>
+      </AppSidebar.Header>
+      <AppSidebar.Content>
+        <SidebarGroup>
+          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink href="#" icon={<Home aria-hidden />} active label="Dashboard">
+                Dashboard
+              </AppSidebar.NavLink>
+              <AppSidebar.NavLink href="#" icon={<Folder aria-hidden />} badge="3" label="Projects">
+                Projects
+              </AppSidebar.NavLink>
+              <AppSidebar.NavLink href="#" icon={<Users aria-hidden />} label="Team">
+                Team
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink href="#" icon={<Settings aria-hidden />} label="Settings">
+                Settings
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </AppSidebar.Content>
+      <AppSidebar.Footer>
+        <div className="px-2 py-1 text-xs text-muted-foreground">v0.0.1</div>
+      </AppSidebar.Footer>
+    </AppSidebar>
+  ),
 };

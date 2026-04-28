@@ -40,6 +40,11 @@ export interface ConfirmDialogProps {
   loading?: boolean;
   /** Additional confirm-button props (e.g. `disabled`). */
   confirmButtonProps?: { disabled?: boolean };
+  /**
+   * Optional region between the title/description and the footer — use for
+   * forms, checkboxes, or typed confirmation fields.
+   */
+  dialogBody?: ReactNode;
 }
 
 /**
@@ -60,6 +65,7 @@ export function ConfirmDialog({
   onConfirm,
   loading,
   confirmButtonProps,
+  dialogBody,
 }: ConfirmDialogProps) {
   const confirmClass = cn(
     intent === 'destructive'
@@ -76,11 +82,12 @@ export function ConfirmDialog({
         onOpenChange(next);
       }}
     >
-      <AlertDialogContent {...(description ? {} : { 'aria-describedby': undefined })}>
+      <AlertDialogContent {...(description || dialogBody ? {} : { 'aria-describedby': undefined })}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           {description ? <AlertDialogDescription>{description}</AlertDialogDescription> : null}
         </AlertDialogHeader>
+        {dialogBody ? <div className="flex flex-col gap-4 py-1">{dialogBody}</div> : null}
         <AlertDialogFooter>
           <AlertDialogCancel disabled={loading}>{cancelLabel}</AlertDialogCancel>
           <AlertDialogAction

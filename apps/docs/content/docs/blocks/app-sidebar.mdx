@@ -3,7 +3,10 @@ title: AppSidebar
 description: Navegação lateral opinada para dashboards - logo, grupos, ícones, badges e footer.
 ---
 
-`AppSidebar` é a receita pronta sobre o primitivo `Sidebar` do `@uranus-workspace/design-system`. Recebe `groups` declarativos com items, ícones e badges; renderiza tudo dentro de uma `Sidebar` configurada com tooltips no estado collapsed e marcação de item ativo via `aria-current="page"`.
+`AppSidebar` é a receita pronta sobre o primitivo `Sidebar` do `@uranus-workspace/design-system`. Você pode montar a árvore com **`AppSidebar.Header`**, **`AppSidebar.Content`**, **`AppSidebar.Footer`** e **`AppSidebar.NavLink`** (composição recomendada para itens customizados), ou usar o atalho declarativo **`groups`** + **`logo`** / **`footer`** para menus estáticos. Os itens usam `BlockLink` + `aria-current="page"` no ativo e tooltips quando a sidebar está colapsada.
+
+
+<ComponentPreview name="app-sidebar-default" align="start" minHeight={400} />
 
 ## Uso
 

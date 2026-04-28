@@ -8,12 +8,16 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
 } from '@uranus-workspace/design-system';
 import { Activity, Bell, DollarSign, Folder, Home, Search, Settings, Users } from 'lucide-react';
 import { ActivityFeed, type ActivityItem } from '../components/activity-feed/activity-feed.js';
 import { AppHeader } from '../components/app-header/app-header.js';
 import { AppShell } from '../components/app-shell/app-shell.js';
-import { AppSidebar, type SidebarNavGroup } from '../components/app-sidebar/app-sidebar.js';
+import { AppSidebar } from '../components/app-sidebar/app-sidebar.js';
 import { ChartCard } from '../components/chart-card/chart-card.js';
 import { DataTable } from '../components/data-table/data-table.js';
 import { FilterBar } from '../components/filter-bar/filter-bar.js';
@@ -25,27 +29,50 @@ import { PageHeader } from '../components/page-header/page-header.js';
 import { StatCard } from '../components/stat-card/stat-card.js';
 import { StatGrid } from '../components/stat-grid/stat-grid.js';
 
+function DemoSidebar() {
+  return (
+    <AppSidebar>
+      <AppSidebar.Header>
+        <span className="font-semibold">Uranus</span>
+      </AppSidebar.Header>
+      <AppSidebar.Content>
+        <SidebarGroup>
+          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink href="#" icon={<Home aria-hidden />} active label="Dashboard">
+                Dashboard
+              </AppSidebar.NavLink>
+              <AppSidebar.NavLink href="#" icon={<Folder aria-hidden />} badge="3" label="Projects">
+                Projects
+              </AppSidebar.NavLink>
+              <AppSidebar.NavLink href="#" icon={<Users aria-hidden />} label="Team">
+                Team
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink href="#" icon={<Settings aria-hidden />} label="Settings">
+                Settings
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </AppSidebar.Content>
+    </AppSidebar>
+  );
+}
+
 const meta: Meta = {
   title: 'Blocks/Compositions/Dashboard',
   parameters: { layout: 'fullscreen', a11y: { test: 'error' } },
 };
 export default meta;
 type Story = StoryObj;
-
-const groups: SidebarNavGroup[] = [
-  {
-    label: 'Workspace',
-    items: [
-      { label: 'Dashboard', href: '#', icon: <Home aria-hidden />, active: true },
-      { label: 'Projects', href: '#', icon: <Folder aria-hidden />, badge: '3' },
-      { label: 'Team', href: '#', icon: <Users aria-hidden /> },
-    ],
-  },
-  {
-    label: 'Account',
-    items: [{ label: 'Settings', href: '#', icon: <Settings aria-hidden /> }],
-  },
-];
 
 interface Customer {
   id: string;
@@ -131,7 +158,7 @@ const notifications: NotificationItem[] = [
 export const Empty: Story = {
   render: () => (
     <AppShell
-      sidebar={<AppSidebar logo={<span className="font-semibold">Uranus</span>} groups={groups} />}
+      sidebar={<DemoSidebar />}
       header={
         <AppHeader
           breadcrumbs={
@@ -176,7 +203,7 @@ export const Empty: Story = {
 export const WithData: Story = {
   render: () => (
     <AppShell
-      sidebar={<AppSidebar logo={<span className="font-semibold">Uranus</span>} groups={groups} />}
+      sidebar={<DemoSidebar />}
       header={
         <AppHeader
           breadcrumbs={

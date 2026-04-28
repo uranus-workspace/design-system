@@ -1,34 +1,54 @@
 ---
 title: AppSidebar
-description: Navegação lateral opinada para dashboards - logo, grupos, ícones, badges e footer.
+description: Navegação lateral opinada para dashboards — marca, busca, grupos e footer no padrão sidebar-01 (shadcn).
 ---
 
-`AppSidebar` é a receita pronta sobre o primitivo `Sidebar` do `@uranus-workspace/design-system`. Você pode montar a árvore com **`AppSidebar.Header`**, **`AppSidebar.Content`**, **`AppSidebar.Footer`** e **`AppSidebar.NavLink`** (composição recomendada para itens customizados), ou usar o atalho declarativo **`groups`** + **`logo`** / **`footer`** para menus estáticos. Os itens usam `BlockLink` + `aria-current="page"` no ativo e tooltips quando a sidebar está colapsada.
+`AppSidebar` compõe o primitivo `Sidebar` do `@uranus-workspace/design-system` com:
 
+- **`AppSidebar.Brand`** — linha de produto (ícone em quadrante + título + subtítulo + ação à direita), como em [sidebar-01](https://ui.shadcn.com/blocks/sidebar).
+- **`AppSidebar.Search`** — campo com ícone (`SidebarInput` + token).
+- **`groups`** + **`logo`** / **`search`** / **`footer`** — API declarativa para menus estáticos.
+- **`AppSidebar.NavLink`** — links com `BlockLink`, `aria-current` e tooltip no modo ícone.
 
-<ComponentPreview name="app-sidebar-default" align="start" minHeight={400} />
+Em **docs** ou iframe estreito, o `Sidebar` padrão é fixo na viewport — use **`collapsible="none"`** no preview para o trilho ficar no fluxo (como no exemplo abaixo). Em apps reais deixe o collapsible padrão.
+
+O preview usa **`align="stretch"`** e altura mínima maior para o exemplo ocupar toda a largura útil (sidebar + área principal lado a lado), sem ficar comprimido ao centro.
+
+<ComponentPreview name="app-sidebar-default" align="stretch" minHeight={640} previewClassName="!px-0 !py-0 sm:!px-0 sm:!py-0" />
 
 ## Uso
 
 ```tsx
-import { AppSidebar } from '@uranus-workspace/blocks';
-import { Home, Folder, Settings } from 'lucide-react';
+import { AppSidebar, AppSidebarBrand, AppSidebarSearch } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+import { BookOpen, ChevronsUpDown, Home } from 'lucide-react';
 
 const groups = [
   {
-    label: 'Workspace',
+    label: 'Getting started',
     items: [
-      { label: 'Dashboard', href: '/', icon: <Home aria-hidden />, active: true },
-      { label: 'Projetos', href: '/projects', icon: <Folder aria-hidden />, badge: '3' },
+      { label: 'Installation', href: '/docs/install', icon: <Home aria-hidden className="size-4" /> },
     ],
-  },
-  {
-    label: 'Conta',
-    items: [{ label: 'Configurações', href: '/settings', icon: <Settings aria-hidden /> }],
   },
 ];
 
-<AppSidebar logo={<Logo />} groups={groups} footer={<UserMenu />} />
+<AppSidebar
+  collapsible="none"
+  logo={
+    <AppSidebar.Brand
+      icon={<BookOpen aria-hidden />}
+      title="Documentation"
+      subtitle="v1.0.1"
+      action={
+        <Button type="button" variant="ghost" size="icon" aria-label="Workspace">
+          <ChevronsUpDown aria-hidden className="size-4" />
+        </Button>
+      }
+    />
+  }
+  search={<AppSidebarSearch placeholder="Search the docs…" />}
+  groups={groups}
+/>
 ```
 
 ## Roteamento
@@ -51,6 +71,5 @@ import { LinkProvider } from '@uranus-workspace/blocks';
 ## Diretrizes
 
 - Use **ícones decorativos** (`aria-hidden`) — o label carrega o peso semântico.
-- Não aninhe grupos. Para sub-navegação, considere o `SidebarMenuSub` do primitivo diretamente.
 - `active: true` é responsabilidade do consumidor (geralmente derivado de `usePathname()`).
-- Footer ideal: user menu, link para configurações, ou indicador de versão.
+- Para densidade próxima ao bloco oficial: grupo com label em sentence case, ícones `size-4`, busca logo abaixo do header.

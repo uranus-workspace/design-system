@@ -10,8 +10,12 @@ description: Wrapper para fluxos de autenticação - split-screen com painel de 
 - **`split`** (default) — painel de marca + formulário lado a lado em `lg+`. No mobile só o formulário aparece.
 - **`centered`** — formulário centralizado, sem painel. Use para fluxos curtos como verificação de email.
 
+## Paleta do painel de marca
 
-<ComponentPreview name="auth-layout-default" align="start" minHeight={440} />
+No variant `split`, o painel usa gradientes do preset Uranus (`packages/tailwind-config/preset.css`): **`cosmic`**, **`aurora`**, **`nebula`**, **`galaxy`**. Controle com a prop **`brandTone`** (default `cosmic`). Os utilitários (`bg-cosmic`, etc.) vêm dos tokens — não use hex nos produtos.
+
+
+<ComponentPreview name="auth-layout-default" align="start" minHeight={520} previewClassName="!px-0 !py-0 sm:!px-0 sm:!py-0" />
 
 ## Uso
 
@@ -19,6 +23,7 @@ description: Wrapper para fluxos de autenticação - split-screen com painel de 
 import { AuthLayout, SignInForm } from '@uranus-workspace/blocks';
 
 <AuthLayout
+  brandTone="nebula"
   brandPanel={
     <div className="flex h-full flex-col justify-between">
       <Logo />

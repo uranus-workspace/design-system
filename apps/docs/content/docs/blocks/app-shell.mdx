@@ -3,14 +3,17 @@ title: AppShell
 description: A casca completa de uma aplicação dashboard - sidebar, header, conteúdo e painel lateral opcional.
 ---
 
-`AppShell` orquestra `SidebarProvider`, `SidebarInset` e os slots de header e painel direito. A API **composta** (`AppShell.Sidebar`, `AppShell.Inset`, `AppShell.Header`, `AppShell.Content`, `AppShell.RightPanel`) é a forma recomendada. A API legada (`sidebar`, `header`, `rightPanel` + `children` como corpo) permanece para compatibilidade.
+`AppShell` orquestra `SidebarProvider`, `SidebarInset` e os slots compostos. Monte a árvore com **`AppShell.Sidebar`**, **`AppShell.Inset`**, **`AppShell.Header`**, **`AppShell.Content`** e opcionalmente **`AppShell.RightPanel`**.
 
-A área principal fica em `AppShell.Content` (ou em `children` no modo legado), com **rolagem vertical** (`overflow-y-auto`) para o header fixo não competir com o scroll da página.
+A área principal fica em **`AppShell.Content`**, com **rolagem vertical** (`overflow-y-auto`) para o header não competir com o scroll da página.
 
+Em demos embutidas (docs, Storybook estreito), passe **`collapsible="none"`** no **`AppSidebar`** ou **`Sidebar`** para o painel ficar no fluxo do layout — o modo padrão do primitivo usa posição fixa na viewport, o que pode sair do quadro de preview.
 
-<ComponentPreview name="app-shell-default" align="start" minHeight={480} />
+<ComponentPreview name="app-shell-default" align="stretch" minHeight={640} previewClassName="!px-0 !py-0 sm:!px-0 sm:!py-0" />
 
-## Uso (composto)
+O preview usa **`align="stretch"`** para o exemplo ocupar toda a largura útil (sem ficar como uma faixa estreita no centro).
+
+## Uso
 
 ```tsx
 import { AppHeader, AppShell, AppSidebar } from '@uranus-workspace/blocks';
@@ -29,32 +32,13 @@ import { AppHeader, AppShell, AppSidebar } from '@uranus-workspace/blocks';
 </AppShell>
 ```
 
-## Uso (legado)
-
-```tsx
-import { AppShell } from '@uranus-workspace/blocks';
-
-<AppShell
-  sidebar={<AppSidebar groups={navigationGroups} logo={<Logo />} />}
-  header={<AppHeader breadcrumbs={<Breadcrumbs />} userMenu={<UserMenu />} />}
->
-  {children}
-</AppShell>
-```
-
 ## Anatomia
-
-**Composto**
 
 - `AppShell.Sidebar` — navegação primária (fora do `<main>`).
 - `AppShell.Inset` — região principal ao lado da sidebar (usa `SidebarInset` / `<main>`).
 - `AppShell.Header` — opcional, dentro do inset (sticky quando o conteúdo é `AppHeader`).
 - `AppShell.Content` — corpo rolável da página.
 - `AppShell.RightPanel` — opcional, irmão do inset (painel direito).
-
-**Legado**
-
-- `sidebar`, `header`, `rightPanel`, `children` — mesmo papel que os slots acima.
 
 ## Diretrizes
 

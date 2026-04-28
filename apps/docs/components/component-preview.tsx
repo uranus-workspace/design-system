@@ -15,9 +15,10 @@ interface ComponentPreviewProps {
   name: string;
   /**
    * Cross-axis alignment inside the preview row (`items-*`).
+   * Use **`stretch`** so the example fills the preview width (recommended for AppShell and full-width layouts).
    * @default 'start'
    */
-  align?: 'start' | 'center' | 'end';
+  align?: 'start' | 'center' | 'end' | 'stretch';
   /**
    * Minimum height of the preview pane in pixels. Omit so the frame hugs the
    * example (better for cards and narrow blocks). Pass e.g. 480 for chrome/layout demos.
@@ -33,6 +34,7 @@ const alignClass = {
   start: 'items-start',
   center: 'items-center',
   end: 'items-end',
+  stretch: 'items-stretch',
 } as const;
 
 export async function ComponentPreview({
@@ -77,7 +79,13 @@ export async function ComponentPreview({
             )}
             {...(minHeight != null && minHeight > 0 ? { style: { minHeight } } : {})}
           >
-            <div className="min-w-0 max-w-full">
+            <div
+              className={cn(
+                align === 'stretch'
+                  ? 'flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col'
+                  : 'min-w-0 max-w-full',
+              )}
+            >
               <Component />
             </div>
           </div>

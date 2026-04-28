@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { SearchCommand, type SearchCommandGroup } from './search-command.js';
+import { SearchCommand, type SearchCommandGroupConfig } from './search-command.js';
 
 beforeAll(() => {
   // jsdom does not implement Element.prototype.scrollIntoView; cmdk uses it
@@ -12,7 +12,7 @@ beforeAll(() => {
   }
 });
 
-const buildGroups = (selectSpy: () => void): SearchCommandGroup[] => [
+const buildGroups = (selectSpy: () => void): SearchCommandGroupConfig[] => [
   {
     heading: 'Suggestions',
     items: [
@@ -81,5 +81,23 @@ describe('SearchCommand', () => {
       />,
     );
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('supports compositional Group and Item', async () => {
+    const onOpenChange = vi.fn();
+    const onSelect = vi.fn();
+    const user = userEvent.setup();
+    render(
+      <SearchCommand open onOpenChange={onOpenChange} shortcutBinding={false}>
+        <SearchCommand.Group heading="Suggestions">
+          <SearchCommand.Item value="home" onSelect={onSelect} shortcut="G H">
+            Go home
+          </SearchCommand.Item>
+        </SearchCommand.Group>
+      </SearchCommand>,
+    );
+    await user.click(screen.getByText('Go home'));
+    expect(onSelect).toHaveBeenCalled();
+    expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 });

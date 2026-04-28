@@ -157,96 +157,104 @@ const notifications: NotificationItem[] = [
 
 export const Empty: Story = {
   render: () => (
-    <AppShell
-      sidebar={<DemoSidebar />}
-      header={
-        <AppHeader
-          breadcrumbs={
-            <ol className="flex items-center gap-2 text-sm text-muted-foreground">
-              <li>Workspace</li>
-              <li aria-hidden>/</li>
-              <li className="font-medium text-foreground">Dashboard</li>
-            </ol>
-          }
-          searchTrigger={
-            <Button variant="outline" size="sm" className="gap-2">
-              <Search aria-hidden className="size-4" />
-              <span>Search</span>
-            </Button>
-          }
-          notifications={
-            <Button variant="ghost" size="icon" aria-label="Notifications">
-              <Bell aria-hidden className="size-4" />
-            </Button>
-          }
-          userMenu={
-            <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
-              <Avatar className="size-8">
-                <AvatarFallback>UT</AvatarFallback>
-              </Avatar>
-            </Button>
-          }
-        />
-      }
-    >
-      <PageHeader
-        title="Dashboard"
-        description="A composição completa do shell - chrome + page header. Dados serão adicionados em fases seguintes."
-      />
-      <div className="p-6">
-        <p className="text-sm text-muted-foreground">Conteúdo da página vai aqui.</p>
-      </div>
+    <AppShell>
+      <AppShell.Sidebar>
+        <DemoSidebar />
+      </AppShell.Sidebar>
+      <AppShell.Inset>
+        <AppShell.Header>
+          <AppHeader
+            breadcrumbs={
+              <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+                <li>Workspace</li>
+                <li aria-hidden>/</li>
+                <li className="font-medium text-foreground">Dashboard</li>
+              </ol>
+            }
+            searchTrigger={
+              <Button variant="outline" size="sm" className="gap-2">
+                <Search aria-hidden className="size-4" />
+                <span>Search</span>
+              </Button>
+            }
+            notifications={
+              <Button variant="ghost" size="icon" aria-label="Notifications">
+                <Bell aria-hidden className="size-4" />
+              </Button>
+            }
+            userMenu={
+              <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
+                <Avatar className="size-8">
+                  <AvatarFallback>UT</AvatarFallback>
+                </Avatar>
+              </Button>
+            }
+          />
+        </AppShell.Header>
+        <AppShell.Content>
+          <PageHeader
+            title="Dashboard"
+            description="A composição completa do shell - chrome + page header. Dados serão adicionados em fases seguintes."
+          />
+          <div className="p-6">
+            <p className="text-sm text-muted-foreground">Conteúdo da página vai aqui.</p>
+          </div>
+        </AppShell.Content>
+      </AppShell.Inset>
     </AppShell>
   ),
 };
 
 export const WithData: Story = {
   render: () => (
-    <AppShell
-      sidebar={<DemoSidebar />}
-      header={
-        <AppHeader
-          breadcrumbs={
-            <ol className="flex items-center gap-2 text-sm text-muted-foreground">
-              <li>Workspace</li>
-              <li aria-hidden>/</li>
-              <li className="font-medium text-foreground">Dashboard</li>
-            </ol>
-          }
-          searchTrigger={
-            <Button variant="outline" size="sm" className="gap-2">
-              <Search aria-hidden className="size-4" />
-              <span>Search</span>
-            </Button>
-          }
-          notifications={
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Notifications">
-                  <Bell aria-hidden className="size-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 p-0" align="end">
-                <NotificationList items={notifications} onMarkAllRead={() => {}} />
-              </PopoverContent>
-            </Popover>
-          }
-          userMenu={
-            <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
-              <Avatar className="size-8">
-                <AvatarFallback>UT</AvatarFallback>
-              </Avatar>
-            </Button>
-          }
-        />
-      }
-    >
-      <PageHeader
-        title="Dashboard"
-        description="Visão consolidada do workspace — KPIs, atividade recente e clientes ativos."
-        actions={<Button size="sm">Novo projeto</Button>}
-      />
-      <div className="flex flex-col gap-6 p-6">
+    <AppShell>
+      <AppShell.Sidebar>
+        <DemoSidebar />
+      </AppShell.Sidebar>
+      <AppShell.Inset>
+        <AppShell.Header>
+          <AppHeader
+            breadcrumbs={
+              <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+                <li>Workspace</li>
+                <li aria-hidden>/</li>
+                <li className="font-medium text-foreground">Dashboard</li>
+              </ol>
+            }
+            searchTrigger={
+              <Button variant="outline" size="sm" className="gap-2">
+                <Search aria-hidden className="size-4" />
+                <span>Search</span>
+              </Button>
+            }
+            notifications={
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" size="icon" aria-label="Notifications">
+                    <Bell aria-hidden className="size-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 p-0" align="end">
+                  <NotificationList items={notifications} onMarkAllRead={() => {}} />
+                </PopoverContent>
+              </Popover>
+            }
+            userMenu={
+              <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
+                <Avatar className="size-8">
+                  <AvatarFallback>UT</AvatarFallback>
+                </Avatar>
+              </Button>
+            }
+          />
+        </AppShell.Header>
+        <AppShell.Content>
+          <PageHeader
+            title="Dashboard"
+            description="Visão consolidada do workspace — KPIs, atividade recente e clientes ativos."
+            actions={<Button size="sm">Novo projeto</Button>}
+          />
+          <div className="flex flex-col gap-6 p-6">
         <StatGrid columns={4}>
           <StatCard
             label="Receita do mês"
@@ -307,6 +315,8 @@ export const WithData: Story = {
           />
         </div>
       </div>
+        </AppShell.Content>
+      </AppShell.Inset>
     </AppShell>
   ),
 };

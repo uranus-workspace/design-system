@@ -71,4 +71,17 @@ describe('NotificationList', () => {
     const { container } = render(<NotificationList items={items} onMarkAllRead={vi.fn()} />);
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('supports composition with Header, List, and Item', () => {
+    render(
+      <NotificationList>
+        <NotificationList.Header title="Alerts" unreadCount={1} onMarkAllRead={vi.fn()} />
+        <NotificationList.List>
+          <NotificationList.Item {...items[0]} />
+        </NotificationList.List>
+      </NotificationList>,
+    );
+    expect(screen.getByText('Alerts')).toBeInTheDocument();
+    expect(screen.getByText('New comment on Project Apollo')).toBeInTheDocument();
+  });
 });

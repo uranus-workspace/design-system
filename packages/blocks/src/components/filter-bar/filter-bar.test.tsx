@@ -40,4 +40,27 @@ describe('FilterBar', () => {
     );
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('renders compositional chips when filters are omitted', async () => {
+    const onRemove = vi.fn();
+    const user = userEvent.setup();
+    render(
+      <FilterBar>
+        <FilterBar.Chip id="a" label="A" onRemove={onRemove} />
+        <FilterBar.Chip id="b" label="B" onRemove={onRemove} />
+      </FilterBar>,
+    );
+    expect(screen.getAllByRole('listitem')).toHaveLength(2);
+    await user.click(screen.getByRole('button', { name: 'Remove filter B' }));
+    expect(onRemove).toHaveBeenCalledWith('b');
+  });
+
+  it('has no a11y violations in composition mode', async () => {
+    const { container } = render(
+      <FilterBar leadingSlot={<span>Search</span>}>
+        <FilterBar.Chip id="x" label="Tag" onRemove={vi.fn()} />
+      </FilterBar>,
+    );
+    expect(await axe(container)).toHaveNoViolations();
+  });
 });

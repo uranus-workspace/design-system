@@ -53,4 +53,21 @@ describe('OnboardingChecklist', () => {
     );
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('supports composition with Step children and derives progress', () => {
+    render(
+      <OnboardingChecklist>
+        <OnboardingChecklist.Step id="1" title="Connect your repo" completed />
+        <OnboardingChecklist.Step
+          id="2"
+          title="Invite teammates"
+          completed={false}
+          action={<button type="button">Invite</button>}
+        />
+        <OnboardingChecklist.Step id="3" title="Deploy your first app" completed={false} />
+      </OnboardingChecklist>,
+    );
+    expect(screen.getByText('1/3')).toBeInTheDocument();
+    expect(screen.getByText('Connect your repo')).toBeInTheDocument();
+  });
 });

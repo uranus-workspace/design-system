@@ -50,4 +50,16 @@ describe('ActivityFeed', () => {
     const { container } = render(<ActivityFeed items={items} />);
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('supports composition with Item children', () => {
+    render(
+      <ActivityFeed>
+        <ActivityFeed.Item {...items[0]} />
+        <ActivityFeed.Item {...items[1]} />
+      </ActivityFeed>,
+    );
+    expect(screen.getByRole('list')).toBeInTheDocument();
+    expect(screen.getAllByRole('listitem')).toHaveLength(2);
+    expect(screen.getByText('Alice Costa')).toBeInTheDocument();
+  });
 });

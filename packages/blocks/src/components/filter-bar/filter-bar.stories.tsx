@@ -36,3 +36,26 @@ export const Empty: Story = {
     onRemoveFilter: () => {},
   },
 };
+
+export const Compositional: Story = {
+  render: function Render() {
+    const [ids, setIds] = useState<string[]>(['status', 'plan']);
+    const chips = [
+      { id: 'status', label: 'Status: Active' },
+      { id: 'plan', label: 'Plan: Pro' },
+      { id: 'region', label: 'Region: BR' },
+    ].filter((c) => ids.includes(c.id));
+    return (
+      <FilterBar leadingSlot={<Input placeholder="Buscar…" className="w-48" />}>
+        {chips.map((c) => (
+          <FilterBar.Chip
+            key={c.id}
+            id={c.id}
+            label={c.label}
+            onRemove={(id) => setIds((curr) => curr.filter((x) => x !== id))}
+          />
+        ))}
+      </FilterBar>
+    );
+  },
+};

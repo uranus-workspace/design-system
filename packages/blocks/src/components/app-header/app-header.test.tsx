@@ -49,4 +49,19 @@ describe('AppHeader', () => {
     );
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('exposes Breadcrumbs and Actions for custom compositions', () => {
+    renderWithProvider(
+      <header className="flex w-full items-center gap-2">
+        <AppHeader.Breadcrumbs>
+          <span>Trail</span>
+        </AppHeader.Breadcrumbs>
+        <AppHeader.Actions>
+          <Button>Act</Button>
+        </AppHeader.Actions>
+      </header>,
+    );
+    expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toHaveTextContent('Trail');
+    expect(screen.getByRole('button', { name: 'Act' })).toBeInTheDocument();
+  });
 });

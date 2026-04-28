@@ -21,4 +21,16 @@ describe('FeatureGrid', () => {
     const { container } = render(<FeatureGrid features={features} />);
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('supports composition with Item children', () => {
+    render(
+      <FeatureGrid>
+        {features.map((f) => (
+          <FeatureGrid.Item key={f.id} {...f} />
+        ))}
+      </FeatureGrid>,
+    );
+    expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(3);
+    expect(screen.getByText('Tokens')).toBeInTheDocument();
+  });
 });

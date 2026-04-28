@@ -1,7 +1,8 @@
+import { getSiteUrl } from '@/lib/site';
 import { source } from '@/lib/source';
 import type { MetadataRoute } from 'next';
 
-const BASE = 'https://uranus.com.br';
+const BASE = getSiteUrl();
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = source.getPages();

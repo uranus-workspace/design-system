@@ -52,3 +52,21 @@ export const NoHeader: Story = {
     children: <div className="p-6">Just content, no header</div>,
   },
 };
+
+export const Compound: Story = {
+  render: () => (
+    <AppShell defaultSidebarOpen>
+      <AppShell.Sidebar>
+        <SampleSidebar />
+      </AppShell.Sidebar>
+      <AppShell.Inset>
+        <AppShell.Header>
+          <header className="flex h-12 items-center border-b px-4 text-sm">Compound header slot</header>
+        </AppShell.Header>
+        <AppShell.Content>
+          <div className="p-6">Main content via AppShell.Content</div>
+        </AppShell.Content>
+      </AppShell.Inset>
+    </AppShell>
+  ),
+};

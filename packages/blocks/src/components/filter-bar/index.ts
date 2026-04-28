@@ -1,1 +1,7 @@
-export { FilterBar, type ActiveFilter, type FilterBarProps } from './filter-bar.js';
+export {
+  FilterBar,
+  FilterBarChip,
+  type ActiveFilter,
+  type FilterBarProps,
+  type FilterBarChipProps,
+} from './filter-bar.js';

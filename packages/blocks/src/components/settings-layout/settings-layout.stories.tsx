@@ -50,6 +50,47 @@ const meta: Meta<typeof SettingsLayout> = {
 export default meta;
 type Story = StoryObj<typeof SettingsLayout>;
 
+export const Compound: Story = {
+  render: () => (
+    <SettingsLayout>
+      <SettingsLayout.Header>
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-semibold">Configurações</h1>
+          <p className="text-sm text-muted-foreground">Gerencie a sua conta e o seu workspace.</p>
+        </div>
+      </SettingsLayout.Header>
+      <SettingsLayout.Grid>
+        <SettingsLayout.Nav>
+          <SettingsLayout.Group label="Conta">
+            <SettingsLayout.Link href="#profile" icon={<User aria-hidden className="size-4" />} active>
+              Perfil
+            </SettingsLayout.Link>
+            <SettingsLayout.Link href="#security" icon={<Lock aria-hidden className="size-4" />}>
+              Segurança
+            </SettingsLayout.Link>
+            <SettingsLayout.Link href="#notifications" icon={<Bell aria-hidden className="size-4" />}>
+              Notificações
+            </SettingsLayout.Link>
+          </SettingsLayout.Group>
+          <SettingsLayout.Group label="Workspace">
+            <SettingsLayout.Link href="#team" icon={<Users aria-hidden className="size-4" />}>
+              Time
+            </SettingsLayout.Link>
+          </SettingsLayout.Group>
+        </SettingsLayout.Nav>
+        <SettingsLayout.Panel>
+          <FormSection title="Perfil" description="Informações exibidas na sua conta." layout="split">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <input className="rounded-md border px-3 py-2" defaultValue="Gustavo" />
+              <input className="rounded-md border px-3 py-2" defaultValue="Bertoi" />
+            </div>
+          </FormSection>
+        </SettingsLayout.Panel>
+      </SettingsLayout.Grid>
+    </SettingsLayout>
+  ),
+};
+
 export const Default: Story = {
   args: {
     groups,

@@ -1,13 +1,28 @@
 import { SidebarInset, SidebarProvider } from '@uranus-workspace/design-system';
-import { type HTMLAttributes, type ReactNode, forwardRef } from 'react';
+import {
+  type ComponentProps,
+  type ElementRef,
+  type HTMLAttributes,
+  type ReactNode,
+  forwardRef,
+} from 'react';
 import { cn } from '../../lib/cn.js';
 
 export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
-  /** Sidebar block (typically `<AppSidebar />`). */
-  sidebar: ReactNode;
-  /** Header block (typically `<AppHeader />`) rendered inside the inset main area. */
+  /**
+   * Legacy slot: primary navigation (e.g. `<AppSidebar />`).
+   * Omit when using the compound API — use `<AppShell.Sidebar>` instead.
+   */
+  sidebar?: ReactNode;
+  /**
+   * Legacy slot: sticky header inside the inset.
+   * Omit when using `<AppShell.Header>` inside `<AppShell.Inset>`.
+   */
   header?: ReactNode;
-  /** Optional right-side detail panel (typically `<DetailDrawer />` or a `<Sheet />`). */
+  /**
+   * Legacy slot: optional right panel (e.g. `<DetailDrawer />`).
+   * Omit when using `<AppShell.RightPanel>`.
+   */
   rightPanel?: ReactNode;
   /** Persists sidebar collapse via cookie when uncontrolled. Defaults to `true`. */
   defaultSidebarOpen?: boolean;
@@ -15,20 +30,119 @@ export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   sidebarOpen?: boolean;
   /** Controlled sidebar onChange handler. */
   onSidebarOpenChange?: (open: boolean) => void;
-  /** Main content. */
+  /**
+   * Legacy: main scrollable page body (when `sidebar` is passed).
+   * Compound: full shell tree — `<AppShell.Sidebar>`, `<AppShell.Inset>`, optional `<AppShell.RightPanel>`.
+   */
   children: ReactNode;
 }
 
+const contents = 'contents';
+
+export interface AppShellSidebarProps extends HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
+}
+
 /**
- * The chrome for every dashboard surface — composes `SidebarProvider`,
- * `SidebarInset`, an optional sticky header, the main content area, and an
- * optional right-side detail panel.
- *
- * Renders semantic landmarks (`<main>` via `SidebarInset`) and forwards
- * sidebar state to the design-system primitive so cookie-based persistence
- * keeps working without extra wiring.
+ * Wrapper for the primary sidebar. Uses `display: contents` so layout matches
+ * a direct child of `SidebarProvider`.
  */
-export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppShell(
+export const AppShellSidebar = forwardRef<HTMLDivElement, AppShellSidebarProps>(
+  function AppShellSidebar({ children, className, ...props }, ref) {
+    return (
+      <div
+        ref={ref}
+        data-slot="app-shell-sidebar"
+        className={cn(contents, className)}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+export type AppShellInsetProps = ComponentProps<typeof SidebarInset>;
+
+export const AppShellInset = forwardRef<ElementRef<typeof SidebarInset>, AppShellInsetProps>(
+  function AppShellInset({ className, ...props }, ref) {
+    return (
+      <SidebarInset
+        ref={ref}
+        data-slot="app-shell-main"
+        className={cn('min-h-0 flex-1 overflow-hidden', className)}
+        {...props}
+      />
+    );
+  },
+);
+
+export interface AppShellHeaderProps extends HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
+}
+
+/** Region rendered inside `AppShell.Inset` before the scrollable content. */
+export const AppShellHeader = forwardRef<HTMLDivElement, AppShellHeaderProps>(
+  function AppShellHeader({ children, className, ...props }, ref) {
+    return (
+      <div
+        ref={ref}
+        data-slot="app-shell-header-slot"
+        className={cn(contents, className)}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+export interface AppShellContentProps extends HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
+}
+
+/** Scrollable main area inside `AppShell.Inset`. */
+export const AppShellContent = forwardRef<HTMLDivElement, AppShellContentProps>(
+  function AppShellContent({ children, className, ...props }, ref) {
+    return (
+      <div
+        ref={ref}
+        data-slot="app-shell-content"
+        className={cn(
+          'flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain',
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+export interface AppShellRightPanelProps extends HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
+}
+
+/**
+ * Optional trailing region (e.g. detail drawer shell) as a sibling of the inset.
+ */
+export const AppShellRightPanel = forwardRef<HTMLDivElement, AppShellRightPanelProps>(
+  function AppShellRightPanel({ children, className, ...props }, ref) {
+    return (
+      <div
+        ref={ref}
+        data-slot="app-shell-right-panel"
+        className={cn(contents, className)}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+const AppShellRoot = forwardRef<HTMLDivElement, AppShellProps>(function AppShell(
   {
     sidebar,
     header,
@@ -42,6 +156,8 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
   },
   ref,
 ) {
+  const legacyLayout = sidebar !== undefined;
+
   return (
     <SidebarProvider
       ref={ref}
@@ -52,17 +168,47 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
       data-slot="app-shell"
       {...props}
     >
-      {sidebar}
-      <SidebarInset data-slot="app-shell-main" className="min-h-0 flex-1 overflow-hidden">
-        {header}
-        <div
-          data-slot="app-shell-content"
-          className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain"
-        >
-          {children}
-        </div>
-      </SidebarInset>
-      {rightPanel}
+      {legacyLayout ? (
+        <>
+          {sidebar}
+          <SidebarInset
+            data-slot="app-shell-main"
+            className="min-h-0 flex-1 overflow-hidden"
+          >
+            {header}
+            <div
+              data-slot="app-shell-content"
+              className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain"
+            >
+              {children}
+            </div>
+          </SidebarInset>
+          {rightPanel}
+        </>
+      ) : (
+        children
+      )}
     </SidebarProvider>
   );
+});
+
+AppShellRoot.displayName = 'AppShell';
+AppShellSidebar.displayName = 'AppShell.Sidebar';
+AppShellInset.displayName = 'AppShell.Inset';
+AppShellHeader.displayName = 'AppShell.Header';
+AppShellContent.displayName = 'AppShell.Content';
+AppShellRightPanel.displayName = 'AppShell.RightPanel';
+
+/**
+ * Dashboard chrome — wraps `SidebarProvider` and either:
+ *
+ * - **Compound (recommended):** `AppShell` → `Sidebar` → `Inset` → `Header` / `Content` → optional `RightPanel`.
+ * - **Legacy:** pass `sidebar`, optional `header` / `rightPanel`, and `children` as the scroll body.
+ */
+export const AppShell = Object.assign(AppShellRoot, {
+  Sidebar: AppShellSidebar,
+  Inset: AppShellInset,
+  Header: AppShellHeader,
+  Content: AppShellContent,
+  RightPanel: AppShellRightPanel,
 });

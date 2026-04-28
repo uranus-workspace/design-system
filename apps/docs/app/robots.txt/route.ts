@@ -1,9 +1,11 @@
-const BASE = 'https://uranus.com.br';
+import { getSiteUrl } from '@/lib/site';
 
 export function GET() {
+  const BASE = getSiteUrl();
   const body = [
     'User-agent: *',
     'Allow: /',
+    'Content-Signal: ai-train=no, search=yes, ai-input=no',
     '',
     `Host: ${BASE}`,
     `Sitemap: ${BASE}/sitemap.xml`,

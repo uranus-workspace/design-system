@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@uranus-workspace/design-system';
+import { Button, CommandSeparator } from '@uranus-workspace/design-system';
 import { Bell, Folder, Home, Settings, User } from 'lucide-react';
 import { useState } from 'react';
-import { SearchCommand, type SearchCommandGroup } from './search-command.js';
+import { SearchCommand, type SearchCommandGroupConfig } from './search-command.js';
 
-const groups: SearchCommandGroup[] = [
+const groups: SearchCommandGroupConfig[] = [
   {
     heading: 'Navegação',
     items: [
@@ -66,6 +66,27 @@ export const Open: Story = {
     groups,
     shortcutBinding: false,
   },
+};
+
+export const CompoundOpen: Story = {
+  render: () => (
+    <SearchCommand open onOpenChange={() => {}} shortcutBinding={false}>
+      <SearchCommand.Group heading="Navegação">
+        <SearchCommand.Item value="dashboard" icon={<Home aria-hidden />} shortcut="G H" onSelect={() => {}}>
+          Ir para Dashboard
+        </SearchCommand.Item>
+        <SearchCommand.Item value="projects" icon={<Folder aria-hidden />} shortcut="G P" onSelect={() => {}}>
+          Projetos
+        </SearchCommand.Item>
+      </SearchCommand.Group>
+      <CommandSeparator />
+      <SearchCommand.Group heading="Conta">
+        <SearchCommand.Item value="profile" icon={<User aria-hidden />} onSelect={() => {}}>
+          Meu perfil
+        </SearchCommand.Item>
+      </SearchCommand.Group>
+    </SearchCommand>
+  ),
 };
 
 export const Triggered: Story = {

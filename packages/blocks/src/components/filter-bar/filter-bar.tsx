@@ -1,6 +1,6 @@
 import { Badge, Button } from '@uranus-workspace/design-system';
 import { Plus, X } from 'lucide-react';
-import { type HTMLAttributes, type ReactNode, forwardRef } from 'react';
+import { type HTMLAttributes, type LiHTMLAttributes, type ReactNode, forwardRef } from 'react';
 import { cn } from '../../lib/cn.js';
 
 export interface ActiveFilter {
@@ -10,27 +10,78 @@ export interface ActiveFilter {
   label: ReactNode;
 }
 
-export interface FilterBarProps extends HTMLAttributes<HTMLDivElement> {
-  /** List of currently applied filters. */
-  filters: ActiveFilter[];
-  /** Called when the user removes a single filter. */
-  onRemoveFilter: (id: string) => void;
+type FilterBarSlots = {
   /** Called when the user clears all filters at once. Hidden when omitted. */
   onClearAll?: () => void;
   /** Trigger for adding a new filter (typically a `Popover`). */
   addFilterTrigger?: ReactNode;
   /** Searchbox or other left-aligned slot before the chips. */
   leadingSlot?: ReactNode;
-}
+};
+
+export type FilterBarProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> &
+  FilterBarSlots &
+  (
+    | {
+        /** Legacy: chip list from config. */
+        filters: ActiveFilter[];
+        onRemoveFilter: (id: string) => void;
+        children?: never;
+      }
+    | {
+        filters?: undefined;
+        onRemoveFilter?: undefined;
+        /** Compositional chip row; used when `filters` is omitted. */
+        children?: ReactNode;
+      }
+  );
+
+export type FilterBarChipProps = Omit<LiHTMLAttributes<HTMLLIElement>, 'children'> & {
+  id: string;
+  label: ReactNode;
+  onRemove: (id: string) => void;
+};
 
 /**
- * Chip-row filter UI with a slot for a search input or popover trigger to add
- * new filters. Each chip renders as a removable `Badge` with an `X` button.
+ * Single removable filter chip (`<li>`) for use inside **`FilterBar`** compositional mode.
  */
-export const FilterBar = forwardRef<HTMLDivElement, FilterBarProps>(function FilterBar(
-  { filters, onRemoveFilter, onClearAll, addFilterTrigger, leadingSlot, className, ...props },
+export const FilterBarChip = forwardRef<HTMLLIElement, FilterBarChipProps>(function FilterBarChip(
+  { id, label, onRemove, className, ...props },
   ref,
 ) {
+  return (
+    <li ref={ref} className={cn(className)} {...props}>
+      <Badge variant="secondary" className="gap-1 py-0.5 pl-2.5 pr-1">
+        <span>{label}</span>
+        <button
+          type="button"
+          onClick={() => onRemove(id)}
+          aria-label={`Remove filter ${typeof label === 'string' ? label : ''}`}
+          className="ml-1 rounded-full p-0.5 hover:bg-muted/70"
+        >
+          <X aria-hidden className="size-3" />
+        </button>
+      </Badge>
+    </li>
+  );
+});
+
+const FilterBarRoot = forwardRef<HTMLDivElement, FilterBarProps>(function FilterBar(
+  {
+    filters,
+    onRemoveFilter,
+    onClearAll,
+    addFilterTrigger,
+    leadingSlot,
+    children,
+    className,
+    ...props
+  },
+  ref,
+) {
+  const legacyLayout = filters !== undefined;
+  const chipCount = legacyLayout ? filters.length : 0;
+
   return (
     <div
       ref={ref}
@@ -53,28 +104,36 @@ export const FilterBar = forwardRef<HTMLDivElement, FilterBarProps>(function Fil
       )}
 
       <ul className="flex flex-wrap items-center gap-1.5">
-        {filters.map((filter) => (
-          <li key={filter.id}>
-            <Badge variant="secondary" className="gap-1 py-0.5 pl-2.5 pr-1">
-              <span>{filter.label}</span>
-              <button
-                type="button"
-                onClick={() => onRemoveFilter(filter.id)}
-                aria-label={`Remove filter ${typeof filter.label === 'string' ? filter.label : ''}`}
-                className="ml-1 rounded-full p-0.5 hover:bg-muted/70"
-              >
-                <X aria-hidden className="size-3" />
-              </button>
-            </Badge>
-          </li>
-        ))}
+        {legacyLayout
+          ? filters.map((filter) => (
+              <FilterBarChip
+                key={filter.id}
+                id={filter.id}
+                label={filter.label}
+                onRemove={onRemoveFilter}
+              />
+            ))
+          : children}
       </ul>
 
-      {onClearAll && filters.length > 0 ? (
+      {legacyLayout && onClearAll && chipCount > 0 ? (
         <Button variant="ghost" size="sm" type="button" onClick={onClearAll} className="ml-auto">
           Clear all
         </Button>
       ) : null}
     </div>
   );
+});
+
+FilterBarRoot.displayName = 'FilterBar';
+FilterBarChip.displayName = 'FilterBar.Chip';
+
+/**
+ * Chip-row filter UI with a slot for a search input or popover trigger to add
+ * new filters. Each chip renders as a removable `Badge` with an `X` button.
+ * Pass **`filters`** + **`onRemoveFilter`** for a config array, or omit them and
+ * render **`FilterBar.Chip`** (or custom `<li>` nodes) as **`children`** inside the list.
+ */
+export const FilterBar = Object.assign(FilterBarRoot, {
+  Chip: FilterBarChip,
 });

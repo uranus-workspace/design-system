@@ -12,9 +12,18 @@ import {
   DialogDescription,
   DialogTitle,
 } from '@uranus-workspace/design-system';
-import { type ReactNode, useEffect } from 'react';
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  type ReactNode,
+  createContext,
+  forwardRef,
+  useCallback,
+  useContext,
+  useEffect,
+} from 'react';
 
-export interface SearchCommandItem {
+export interface SearchCommandItemConfig {
   /** Stable id used as React key. */
   id: string;
   label: ReactNode;
@@ -28,45 +37,144 @@ export interface SearchCommandItem {
   onSelect: () => void;
 }
 
-export interface SearchCommandGroup {
+export interface SearchCommandGroupConfig {
   heading: ReactNode;
-  items: SearchCommandItem[];
+  items: SearchCommandItemConfig[];
 }
 
 export interface SearchCommandProps {
-  /** Whether the dialog is currently open. Owned by the consumer. */
   open: boolean;
-  /** Open/close callback. */
   onOpenChange: (open: boolean) => void;
-  /** Grouped command items. */
-  groups: SearchCommandGroup[];
-  /** Placeholder for the search input. Defaults to `"Type a command or search…"`. */
+  /**
+   * Legacy: grouped command items.
+   * Omit when composing with `SearchCommand.Group` and `SearchCommand.Item` as `children` of the list region.
+   */
+  groups?: SearchCommandGroupConfig[];
+  /**
+   * Compositional list body (inside `CommandList`, after `CommandEmpty`).
+   * Used when `groups` is omitted.
+   */
+  children?: ReactNode;
   placeholder?: string;
-  /** Empty-state copy when nothing matches. Defaults to `"No results found."`. */
   emptyState?: ReactNode;
-  /** Auto-bind `cmd+k` / `ctrl+k` to toggle. Defaults to `true`. */
   shortcutBinding?: boolean;
-  /** Visually-hidden dialog title for screen readers. Defaults to `"Command palette"`. */
   ariaLabel?: string;
 }
 
-/**
- * Opinionated `cmd+k` palette over the design-system `command` primitive.
- *
- * Wraps `Command` inside a controlled `Dialog`, owns the `cmd+k`/`ctrl+k`
- * keyboard binding by default, and runs each item's `onSelect` then closes
- * the dialog. The component is controlled — pass `open`/`onOpenChange` from
- * the consumer.
- */
-export function SearchCommand({
+const SearchCommandContext = createContext<{ close: () => void } | null>(null);
+
+function SearchCommandLegacyList({
+  groups,
+  onOpenChange,
+}: {
+  groups: SearchCommandGroupConfig[];
+  onOpenChange: (open: boolean) => void;
+}) {
+  return (
+    <>
+      {groups.map((group, index) => (
+        <div
+          // biome-ignore lint/suspicious/noArrayIndexKey: groups are stable by position
+          key={index}
+        >
+          {index > 0 ? <CommandSeparator /> : null}
+          <CommandGroup heading={group.heading}>
+            {group.items.map((item) => (
+              <CommandItem
+                key={item.id}
+                keywords={item.keywords}
+                onSelect={() => {
+                  item.onSelect();
+                  onOpenChange(false);
+                }}
+              >
+                {item.icon ? (
+                  <span aria-hidden className="mr-2 inline-flex">
+                    {item.icon}
+                  </span>
+                ) : null}
+                <span>{item.label}</span>
+                {item.shortcut ? <CommandShortcut>{item.shortcut}</CommandShortcut> : null}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </div>
+      ))}
+    </>
+  );
+}
+
+export type SearchCommandGroupProps = ComponentPropsWithoutRef<typeof CommandGroup>;
+
+export const SearchCommandGroup = forwardRef<
+  ElementRef<typeof CommandGroup>,
+  SearchCommandGroupProps
+>(function SearchCommandGroup(props, ref) {
+  return <CommandGroup ref={ref} {...props} />;
+});
+
+export type SearchCommandItemSlotProps = Omit<
+  ComponentPropsWithoutRef<typeof CommandItem>,
+  'onSelect'
+> & {
+  onSelect?: () => void;
+  shortcut?: string;
+  icon?: ReactNode;
+};
+
+export const SearchCommandItem = forwardRef<
+  ElementRef<typeof CommandItem>,
+  SearchCommandItemSlotProps
+>(function SearchCommandItem(
+  { onSelect, shortcut, icon, children, className, ...props },
+  ref,
+) {
+  const ctx = useContext(SearchCommandContext);
+  if (!ctx) {
+    throw new Error('SearchCommand.Item must be used within SearchCommand');
+  }
+  return (
+    <CommandItem
+      ref={ref}
+      className={className}
+      {...props}
+      onSelect={() => {
+        onSelect?.();
+        ctx.close();
+      }}
+    >
+      {icon ? (
+        <span aria-hidden className="mr-2 inline-flex">
+          {icon}
+        </span>
+      ) : null}
+      <span>{children}</span>
+      {shortcut ? <CommandShortcut>{shortcut}</CommandShortcut> : null}
+    </CommandItem>
+  );
+});
+
+SearchCommandGroup.displayName = 'SearchCommand.Group';
+SearchCommandItem.displayName = 'SearchCommand.Item';
+
+const commandClassName =
+  '[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5';
+
+function SearchCommandRoot({
   open,
   onOpenChange,
   groups,
+  children,
   placeholder = 'Type a command or search…',
   emptyState = 'No results found.',
   shortcutBinding = true,
   ariaLabel = 'Command palette',
 }: SearchCommandProps) {
+  const legacyLayout = groups !== undefined;
+  const close = useCallback(() => {
+    onOpenChange(false);
+  }, [onOpenChange]);
+
   useEffect(() => {
     if (!shortcutBinding) return;
     function onKeyDown(event: KeyboardEvent) {
@@ -86,41 +194,31 @@ export function SearchCommand({
         <DialogDescription className="sr-only">
           Search through pages, settings, and quick actions.
         </DialogDescription>
-        <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
-          <CommandInput placeholder={placeholder} />
-          <CommandList>
-            <CommandEmpty>{emptyState}</CommandEmpty>
-            {groups.map((group, index) => (
-              <div
-                // biome-ignore lint/suspicious/noArrayIndexKey: groups are stable by position
-                key={index}
-              >
-                {index > 0 ? <CommandSeparator /> : null}
-                <CommandGroup heading={group.heading}>
-                  {group.items.map((item) => (
-                    <CommandItem
-                      key={item.id}
-                      keywords={item.keywords}
-                      onSelect={() => {
-                        item.onSelect();
-                        onOpenChange(false);
-                      }}
-                    >
-                      {item.icon ? (
-                        <span aria-hidden className="mr-2 inline-flex">
-                          {item.icon}
-                        </span>
-                      ) : null}
-                      <span>{item.label}</span>
-                      {item.shortcut ? <CommandShortcut>{item.shortcut}</CommandShortcut> : null}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </div>
-            ))}
-          </CommandList>
-        </Command>
+        <SearchCommandContext.Provider value={{ close }}>
+          <Command className={commandClassName}>
+            <CommandInput placeholder={placeholder} />
+            <CommandList>
+              <CommandEmpty>{emptyState}</CommandEmpty>
+              {legacyLayout ? (
+                <SearchCommandLegacyList groups={groups} onOpenChange={onOpenChange} />
+              ) : (
+                children
+              )}
+            </CommandList>
+          </Command>
+        </SearchCommandContext.Provider>
       </DialogContent>
     </Dialog>
   );
 }
+
+SearchCommandRoot.displayName = 'SearchCommand';
+
+/**
+ * Controlled ⌘K command palette. Pass **`groups`** for a static shape, or omit
+ * **`groups`** and render **`SearchCommand.Group`** / **`SearchCommand.Item`** as children.
+ */
+export const SearchCommand = Object.assign(SearchCommandRoot, {
+  Group: SearchCommandGroup,
+  Item: SearchCommandItem,
+});

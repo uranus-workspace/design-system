@@ -25,10 +25,24 @@ const [filters, setFilters] = useState([
 />
 ```
 
+## Uso (composição)
+
+Para ordem livre de chips ou nós customizados dentro da `<ul>`, omita **`filters`** e **`onRemoveFilter`** e renderize **`FilterBar.Chip`** (ou `<li>`s próprios) como **`children`**. O botão "Clear all" só aparece no modo **`filters`**.
+
+```tsx
+<FilterBar leadingSlot={<Input placeholder="Buscar…" />}>
+  <FilterBar.Chip id="status" label="Status: Ativo" onRemove={(id) => remove(id)} />
+</FilterBar>
+```
+
 ## Slots
 
 - `leadingSlot` — slot antes dos chips. Use para um `Input` de busca.
 - `addFilterTrigger` — botão (geralmente um `Popover.Trigger`) para adicionar novos filtros. Default é um botão `disabled` com texto "Add filter".
+
+## Subcomponentes
+
+- **`FilterBar.Chip`** — um `<li>` com `Badge` removível; use no modo composicional.
 
 ## Diretrizes
 

@@ -1,1 +1,8 @@
-export { AppHeader, type AppHeaderProps } from './app-header.js';
+export {
+  AppHeader,
+  AppHeaderActions,
+  AppHeaderBreadcrumbs,
+  type AppHeaderActionsProps,
+  type AppHeaderBreadcrumbsProps,
+  type AppHeaderProps,
+} from './app-header.js';

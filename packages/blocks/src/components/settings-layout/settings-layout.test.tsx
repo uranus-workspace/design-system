@@ -57,4 +57,30 @@ describe('SettingsLayout', () => {
     );
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('supports the compound API', () => {
+    render(
+      <SettingsLayout>
+        <SettingsLayout.Header>
+          <h1>Settings</h1>
+        </SettingsLayout.Header>
+        <SettingsLayout.Grid>
+          <SettingsLayout.Nav>
+            <SettingsLayout.Group label="Account">
+              <SettingsLayout.Link href="#profile" active>
+                Profile
+              </SettingsLayout.Link>
+              <SettingsLayout.Link href="#security">Security</SettingsLayout.Link>
+            </SettingsLayout.Group>
+          </SettingsLayout.Nav>
+          <SettingsLayout.Panel>
+            <div>panel content</div>
+          </SettingsLayout.Panel>
+        </SettingsLayout.Grid>
+      </SettingsLayout>,
+    );
+    expect(screen.getByRole('navigation', { name: 'Settings' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Profile' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByText('panel content')).toBeInTheDocument();
+  });
 });

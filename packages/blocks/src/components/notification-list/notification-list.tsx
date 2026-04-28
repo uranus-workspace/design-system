@@ -1,5 +1,5 @@
 import { Button } from '@uranus-workspace/design-system';
-import { type HTMLAttributes, type ReactNode, forwardRef } from 'react';
+import { type HTMLAttributes, type LiHTMLAttributes, type ReactNode, forwardRef } from 'react';
 import { cn } from '../../lib/cn.js';
 import { EmptyState } from '../empty-state/empty-state.js';
 
@@ -7,36 +7,170 @@ export interface NotificationItem {
   id: string;
   title: ReactNode;
   description?: ReactNode;
-  /** Pre-formatted timestamp string. */
   timestamp: ReactNode;
-  /** When `true`, the item shows a visible unread dot and `aria-current="true"`. */
   unread?: boolean;
-  /** Optional click handler — when provided, the item renders as a button. */
   onSelect?: () => void;
 }
 
 export interface NotificationListProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
-  items: NotificationItem[];
-  /** Header title shown above the list. Defaults to `"Notifications"`. */
+  /** Legacy: notification rows. Omit when composing with `NotificationList.Item` inside `NotificationList.List`. */
+  items?: NotificationItem[];
+  /** Legacy / optional: header title when not using `NotificationList.Header`. */
   title?: ReactNode;
-  /** Action shown in the header (e.g. mark all as read). */
   onMarkAllRead?: () => void;
-  /** Override the empty state. Defaults to `<EmptyState />` with a generic message. */
   emptyState?: ReactNode;
 }
 
-/**
- * List of notifications used inside a header bell `Popover` or a dedicated
- * notifications page. Composes `EmptyState` for the zero-state and a small
- * `Button` slot for "Mark all as read".
- */
-export const NotificationList = forwardRef<HTMLDivElement, NotificationListProps>(
-  function NotificationList(
-    { items, title = 'Notifications', onMarkAllRead, emptyState, className, ...props },
+function NotificationRowContent({
+  title,
+  description,
+  timestamp,
+  unread,
+}: Pick<NotificationItem, 'title' | 'description' | 'timestamp' | 'unread'>) {
+  return (
+    <>
+      <span className="flex items-center gap-2">
+        {unread ? (
+          <span aria-hidden className="size-2 rounded-full bg-primary" />
+        ) : (
+          <span aria-hidden className="size-2" />
+        )}
+        <span className="text-sm font-medium text-foreground">{title}</span>
+      </span>
+      {description ? (
+        <span className="block pl-4 text-sm text-muted-foreground">{description}</span>
+      ) : null}
+      <time className="block pl-4 text-xs text-muted-foreground">{timestamp}</time>
+    </>
+  );
+}
+
+export interface NotificationListHeaderProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
+  title?: ReactNode;
+  onMarkAllRead?: () => void;
+  /**
+   * Number of unread items — when &gt; 0 with `onMarkAllRead`, shows "Mark all read".
+   * In the legacy API this is derived from `items`.
+   */
+  unreadCount?: number;
+}
+
+export const NotificationListHeader = forwardRef<HTMLElement, NotificationListHeaderProps>(
+  function NotificationListHeader(
+    { title = 'Notifications', onMarkAllRead, unreadCount = 0, className, ...props },
     ref,
   ) {
-    const hasItems = items.length > 0;
-    const unreadCount = items.filter((item) => item.unread).length;
+    return (
+      <header
+        ref={ref}
+        data-slot="notification-list-header"
+        className={cn('flex items-center justify-between border-b px-4 py-3', className)}
+        {...props}
+      >
+        <span className="text-sm font-medium">{title}</span>
+        {onMarkAllRead && unreadCount > 0 ? (
+          <Button variant="ghost" size="sm" onClick={onMarkAllRead}>
+            Mark all read
+          </Button>
+        ) : null}
+      </header>
+    );
+  },
+);
+
+export type NotificationListListProps = HTMLAttributes<HTMLUListElement>;
+
+export const NotificationListList = forwardRef<HTMLUListElement, NotificationListListProps>(
+  function NotificationListList({ className, ...props }, ref) {
+    return (
+      <ul
+        ref={ref}
+        data-slot="notification-list-items"
+        className={cn('max-h-96 overflow-auto', className)}
+        {...props}
+      />
+    );
+  },
+);
+
+export type NotificationListItemProps = NotificationItem &
+  Omit<LiHTMLAttributes<HTMLLIElement>, 'id' | 'title'>;
+
+export const NotificationListItem = forwardRef<HTMLLIElement, NotificationListItemProps>(
+  function NotificationListItem(
+    { id: _id, title, description, timestamp, unread, onSelect, className, ...props },
+    ref,
+  ) {
+    const content = (
+      <NotificationRowContent
+        title={title}
+        description={description}
+        timestamp={timestamp}
+        unread={unread}
+      />
+    );
+    return (
+      <li
+        ref={ref}
+        data-slot="notification-list-item"
+        className={cn('border-b last:border-b-0', className)}
+        aria-current={unread ? 'true' : undefined}
+        {...props}
+      >
+        {onSelect ? (
+          <button
+            type="button"
+            onClick={onSelect}
+            className="flex w-full flex-col gap-1 px-4 py-3 text-left hover:bg-muted/50"
+          >
+            {content}
+          </button>
+        ) : (
+          <div className="flex flex-col gap-1 px-4 py-3">{content}</div>
+        )}
+      </li>
+    );
+  },
+);
+
+const NotificationListRoot = forwardRef<HTMLDivElement, NotificationListProps>(
+  function NotificationList(
+    { items, title = 'Notifications', onMarkAllRead, emptyState, className, children, ...props },
+    ref,
+  ) {
+    const legacyLayout = items !== undefined;
+    const hasItems = legacyLayout && items.length > 0;
+    const unreadCount = legacyLayout ? items.filter((item) => item.unread).length : 0;
+
+    if (legacyLayout) {
+      return (
+        <div
+          ref={ref}
+          data-slot="notification-list"
+          className={cn('flex w-80 flex-col', className)}
+          {...props}
+        >
+          <NotificationListHeader
+            title={title}
+            onMarkAllRead={onMarkAllRead}
+            unreadCount={unreadCount}
+          />
+          {hasItems ? (
+            <NotificationListList>
+              {items.map((item) => (
+                <NotificationListItem key={item.id} {...item} />
+              ))}
+            </NotificationListList>
+          ) : (
+            <div className="px-4 py-6">
+              {emptyState ?? (
+                <EmptyState title="You're all caught up" description="No new notifications." />
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
 
     return (
       <div
@@ -45,65 +179,23 @@ export const NotificationList = forwardRef<HTMLDivElement, NotificationListProps
         className={cn('flex w-80 flex-col', className)}
         {...props}
       >
-        <header className="flex items-center justify-between border-b px-4 py-3">
-          <span className="text-sm font-medium">{title}</span>
-          {onMarkAllRead && unreadCount > 0 ? (
-            <Button variant="ghost" size="sm" onClick={onMarkAllRead}>
-              Mark all read
-            </Button>
-          ) : null}
-        </header>
-
-        {hasItems ? (
-          <ul data-slot="notification-list-items" className="max-h-96 overflow-auto">
-            {items.map((item) => {
-              const content = (
-                <>
-                  <span className="flex items-center gap-2">
-                    {item.unread ? (
-                      <span aria-hidden className="size-2 rounded-full bg-primary" />
-                    ) : (
-                      <span aria-hidden className="size-2" />
-                    )}
-                    <span className="text-sm font-medium text-foreground">{item.title}</span>
-                  </span>
-                  {item.description ? (
-                    <span className="block pl-4 text-sm text-muted-foreground">
-                      {item.description}
-                    </span>
-                  ) : null}
-                  <time className="block pl-4 text-xs text-muted-foreground">{item.timestamp}</time>
-                </>
-              );
-              return (
-                <li
-                  key={item.id}
-                  className="border-b last:border-b-0"
-                  aria-current={item.unread ? 'true' : undefined}
-                >
-                  {item.onSelect ? (
-                    <button
-                      type="button"
-                      onClick={item.onSelect}
-                      className="flex w-full flex-col gap-1 px-4 py-3 text-left hover:bg-muted/50"
-                    >
-                      {content}
-                    </button>
-                  ) : (
-                    <div className="flex flex-col gap-1 px-4 py-3">{content}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        ) : (
-          <div className="px-4 py-6">
-            {emptyState ?? (
-              <EmptyState title="You're all caught up" description="No new notifications." />
-            )}
-          </div>
-        )}
+        {children}
       </div>
     );
   },
 );
+
+NotificationListRoot.displayName = 'NotificationList';
+NotificationListHeader.displayName = 'NotificationList.Header';
+NotificationListList.displayName = 'NotificationList.List';
+NotificationListItem.displayName = 'NotificationList.Item';
+
+/**
+ * Notification dropdown / page list. Use **`items`** for static data or compose
+ * with **`Header`**, **`List`**, and **`Item`**.
+ */
+export const NotificationList = Object.assign(NotificationListRoot, {
+  Header: NotificationListHeader,
+  List: NotificationListList,
+  Item: NotificationListItem,
+});

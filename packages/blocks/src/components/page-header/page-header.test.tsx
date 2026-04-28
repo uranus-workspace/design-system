@@ -31,4 +31,22 @@ describe('PageHeader', () => {
     );
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('exposes compound subcomponents for custom layouts', () => {
+    render(
+      <header>
+        <PageHeader.Breadcrumbs>
+          <span>Home</span>
+        </PageHeader.Breadcrumbs>
+        <PageHeader.Title>Custom</PageHeader.Title>
+        <PageHeader.Description>Desc</PageHeader.Description>
+        <PageHeader.Actions>
+          <Button>Go</Button>
+        </PageHeader.Actions>
+      </header>,
+    );
+    expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Custom' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Go' })).toBeInTheDocument();
+  });
 });

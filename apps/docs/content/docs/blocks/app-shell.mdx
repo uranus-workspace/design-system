@@ -17,14 +17,34 @@ O preview usa **`align="stretch"`** para o exemplo ocupar toda a largura útil (
 
 ```tsx
 import { AppHeader, AppShell, AppSidebar } from '@uranus-workspace/blocks';
+import { Separator, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarTrigger } from '@uranus-workspace/design-system';
 
 <AppShell defaultSidebarOpen>
   <AppShell.Sidebar>
-    <AppSidebar groups={navigationGroups} logo={<Logo />} />
+    <AppSidebar>
+      <AppSidebar.Header>{/* marca */}</AppSidebar.Header>
+      <AppSidebar.Content>
+        <SidebarGroup>
+          <SidebarGroupLabel>Principal</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink href="/dashboard" label="Início">
+                Início
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </AppSidebar.Content>
+    </AppSidebar>
   </AppShell.Sidebar>
   <AppShell.Inset>
     <AppShell.Header>
-      <AppHeader breadcrumbs={<Breadcrumbs />} userMenu={<UserMenu />} />
+      <AppHeader>
+        <SidebarTrigger />
+        <Separator orientation="vertical" className="h-5" />
+        <AppHeader.Breadcrumbs>{/* breadcrumbs */}</AppHeader.Breadcrumbs>
+        <AppHeader.Actions>{/* ações globais */}</AppHeader.Actions>
+      </AppHeader>
     </AppShell.Header>
     <AppShell.Content>{children}</AppShell.Content>
   </AppShell.Inset>

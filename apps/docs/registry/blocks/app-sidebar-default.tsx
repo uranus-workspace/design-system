@@ -1,7 +1,6 @@
 'use client';
-import { AppSidebar, AppSidebarBrand, AppSidebarSearch } from '@uranus-workspace/blocks';
+import { AppHeader, AppSidebar } from '@uranus-workspace/blocks';
 import {
-  Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
@@ -9,7 +8,11 @@ import {
   BreadcrumbSeparator,
   Button,
   Separator,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarInset,
+  SidebarMenu,
   SidebarProvider,
   SidebarTrigger,
 } from '@uranus-workspace/design-system';
@@ -32,13 +35,17 @@ export default function AppSidebarDefault() {
           <AppSidebar
             collapsible="none"
             className="w-[min(100%,19rem)] shrink-0 border-r border-sidebar-border"
-            search={<AppSidebarSearch placeholder="Search the docs…" />}
-            logo={
-              <AppSidebarBrand
-                icon={<BookOpen aria-hidden />}
-                title="Documentation"
-                subtitle="v1.0.1"
-                action={
+          >
+            <AppSidebar.Header>
+              <AppSidebar.Brand>
+                <AppSidebar.Brand.Icon>
+                  <BookOpen aria-hidden />
+                </AppSidebar.Brand.Icon>
+                <AppSidebar.Brand.Body>
+                  <AppSidebar.Brand.Title>Documentation</AppSidebar.Brand.Title>
+                  <AppSidebar.Brand.Subtitle>v1.0.1</AppSidebar.Brand.Subtitle>
+                </AppSidebar.Brand.Body>
+                <AppSidebar.Brand.Action>
                   <Button
                     type="button"
                     variant="ghost"
@@ -48,53 +55,70 @@ export default function AppSidebarDefault() {
                   >
                     <ChevronsUpDown aria-hidden className="size-4 opacity-70" />
                   </Button>
-                }
-              />
-            }
-            groups={[
-              {
-                label: 'Getting started',
-                items: [
-                  {
-                    label: 'Installation',
-                    href: '#installation',
-                    icon: <Rocket aria-hidden className="size-4" />,
-                  },
-                  {
-                    label: 'Project structure',
-                    href: '#structure',
-                    icon: <FolderTree aria-hidden className="size-4" />,
-                  },
-                ],
-              },
-              {
-                label: 'Build your application',
-                items: [
-                  {
-                    label: 'Routing',
-                    href: '#routing',
-                    icon: <Layers aria-hidden className="size-4" />,
-                  },
-                  {
-                    label: 'Data fetching',
-                    href: '#data',
-                    icon: <Code aria-hidden className="size-4" />,
-                    active: true,
-                  },
-                  {
-                    label: 'Rendering',
-                    href: '#rendering',
-                    icon: <FileCode aria-hidden className="size-4" />,
-                  },
-                  {
-                    label: 'Middleware',
-                    href: '#middleware',
-                    icon: <FileText aria-hidden className="size-4" />,
-                  },
-                ],
-              },
-            ]}
-            footer={
+                </AppSidebar.Brand.Action>
+              </AppSidebar.Brand>
+            </AppSidebar.Header>
+            <AppSidebar.Content>
+              <AppSidebar.Search placeholder="Search the docs…" />
+              <SidebarGroup>
+                <SidebarGroupLabel>Getting started</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    <AppSidebar.NavLink
+                      href="#installation"
+                      icon={<Rocket aria-hidden className="size-4" />}
+                      label="Installation"
+                    >
+                      Installation
+                    </AppSidebar.NavLink>
+                    <AppSidebar.NavLink
+                      href="#structure"
+                      icon={<FolderTree aria-hidden className="size-4" />}
+                      label="Project structure"
+                    >
+                      Project structure
+                    </AppSidebar.NavLink>
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+              <SidebarGroup>
+                <SidebarGroupLabel>Build your application</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    <AppSidebar.NavLink
+                      href="#routing"
+                      icon={<Layers aria-hidden className="size-4" />}
+                      label="Routing"
+                    >
+                      Routing
+                    </AppSidebar.NavLink>
+                    <AppSidebar.NavLink
+                      href="#data"
+                      icon={<Code aria-hidden className="size-4" />}
+                      active
+                      label="Data fetching"
+                    >
+                      Data fetching
+                    </AppSidebar.NavLink>
+                    <AppSidebar.NavLink
+                      href="#rendering"
+                      icon={<FileCode aria-hidden className="size-4" />}
+                      label="Rendering"
+                    >
+                      Rendering
+                    </AppSidebar.NavLink>
+                    <AppSidebar.NavLink
+                      href="#middleware"
+                      icon={<FileText aria-hidden className="size-4" />}
+                      label="Middleware"
+                    >
+                      Middleware
+                    </AppSidebar.NavLink>
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </AppSidebar.Content>
+            <AppSidebar.Footer>
               <div className="flex items-center gap-2 border-t border-sidebar-border px-2 py-3">
                 <div
                   className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-xs font-medium text-sidebar-accent-foreground"
@@ -108,13 +132,13 @@ export default function AppSidebarDefault() {
                 </div>
                 <ChevronsUpDown aria-hidden className="size-4 shrink-0 opacity-50" />
               </div>
-            }
-          />
+            </AppSidebar.Footer>
+          </AppSidebar>
           <SidebarInset className="min-h-0 flex min-w-0 flex-1 flex-col overflow-hidden bg-background">
-            <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+            <AppHeader>
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-1 data-[orientation=vertical]:h-4" />
-              <Breadcrumb>
+              <AppHeader.Breadcrumbs>
                 <BreadcrumbList className="text-sm">
                   <BreadcrumbItem className="hidden sm:inline-flex">
                     <BreadcrumbLink href="#">Build your application</BreadcrumbLink>
@@ -124,8 +148,8 @@ export default function AppSidebarDefault() {
                     <BreadcrumbPage>Data fetching</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
-              </Breadcrumb>
-            </header>
+              </AppHeader.Breadcrumbs>
+            </AppHeader>
             <div className="flex flex-1 flex-col gap-4 overflow-auto p-4">
               <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                 <div className="aspect-video rounded-xl bg-muted/60" />

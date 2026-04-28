@@ -9,7 +9,7 @@ import {
 } from '@uranus-workspace/design-system';
 import { BookOpen, ChevronsUpDown, Folder, Home, Layers, Zap } from 'lucide-react';
 import type { ReactElement } from 'react';
-import { AppSidebar, type SidebarNavGroup } from './app-sidebar.js';
+import { AppSidebar } from './app-sidebar.js';
 
 const meta: Meta<typeof AppSidebar> = {
   title: 'Blocks/Chrome/AppSidebar',
@@ -29,126 +29,138 @@ const meta: Meta<typeof AppSidebar> = {
 export default meta;
 type Story = StoryObj<typeof AppSidebar>;
 
-const groups: SidebarNavGroup[] = [
-  {
-    label: 'Getting started',
-    items: [
-      { label: 'Installation', href: '#install', icon: <Home aria-hidden className="size-4" /> },
-      {
-        label: 'Project structure',
-        href: '#structure',
-        icon: <Folder aria-hidden className="size-4" />,
-      },
-    ],
-  },
-  {
-    label: 'Build your application',
-    items: [
-      { label: 'Routing', href: '#routing', icon: <Layers aria-hidden className="size-4" /> },
-      {
-        label: 'Data fetching',
-        href: '#data',
-        icon: <Zap aria-hidden className="size-4" />,
-        active: true,
-      },
-      { label: 'Rendering', href: '#render', icon: <Home aria-hidden className="size-4" /> },
-    ],
-  },
-];
-
-/** Sidebar rail only — brand + search + grouped nav (sidebar-01–style density). */
-export const RailOnly: Story = {
+/** Sidebar rail — brand + search + grouped nav (sidebar-01 density). */
+export const RailSidebar01Style: Story = {
   name: 'Rail · sidebar-01 style',
-  args: {
-    collapsible: 'none',
-    className: 'min-h-0 flex-1 border-r border-sidebar-border',
-    search: <AppSidebar.Search placeholder="Search the docs…" />,
-    logo: (
-      <AppSidebar.Brand
-        icon={<BookOpen aria-hidden />}
-        title="Documentation"
-        subtitle="v1.0.1"
-        action={
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="size-8 shrink-0"
-            aria-label="Switch"
-          >
-            <ChevronsUpDown aria-hidden className="size-4 opacity-70" />
-          </Button>
-        }
-      />
-    ),
-    groups,
-    footer: (
-      <div className="border-t border-sidebar-border px-2 py-2 text-xs text-sidebar-foreground/70">
-        v0.0.1
-      </div>
-    ),
-  },
-};
-
-export const NoFooter: Story = {
-  args: {
-    collapsible: 'none',
-    className: 'min-h-0 flex-1 border-r border-sidebar-border',
-    logo: <span className="text-base font-semibold">Uranus</span>,
-    groups,
-  },
-};
-
-export const Compositional: Story = {
   render: () => (
     <AppSidebar collapsible="none" className="min-h-0 flex-1 border-r border-sidebar-border">
       <AppSidebar.Header>
-        <AppSidebar.Brand
-          icon={<BookOpen aria-hidden />}
-          title="Documentation"
-          subtitle="v1.0.1"
-          action={
+        <AppSidebar.Brand>
+          <AppSidebar.Brand.Icon>
+            <BookOpen aria-hidden />
+          </AppSidebar.Brand.Icon>
+          <AppSidebar.Brand.Body>
+            <AppSidebar.Brand.Title>Documentation</AppSidebar.Brand.Title>
+            <AppSidebar.Brand.Subtitle>v1.0.1</AppSidebar.Brand.Subtitle>
+          </AppSidebar.Brand.Body>
+          <AppSidebar.Brand.Action>
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="size-8"
+              className="size-8 shrink-0"
               aria-label="Switch"
             >
               <ChevronsUpDown aria-hidden className="size-4 opacity-70" />
             </Button>
-          }
-        />
+          </AppSidebar.Brand.Action>
+        </AppSidebar.Brand>
       </AppSidebar.Header>
       <AppSidebar.Content>
-        <AppSidebar.Search placeholder="Search…" />
+        <AppSidebar.Search placeholder="Search the docs…" />
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel>Getting started</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <AppSidebar.NavLink
-                href="#"
+                href="#install"
                 icon={<Home aria-hidden className="size-4" />}
-                active
-                label="Dashboard"
+                label="Installation"
               >
-                Dashboard
+                Installation
               </AppSidebar.NavLink>
               <AppSidebar.NavLink
-                href="#"
+                href="#structure"
                 icon={<Folder aria-hidden className="size-4" />}
-                badge="3"
-                label="Projects"
+                label="Project structure"
               >
-                Projects
+                Project structure
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Build your application</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink
+                href="#routing"
+                icon={<Layers aria-hidden className="size-4" />}
+                label="Routing"
+              >
+                Routing
+              </AppSidebar.NavLink>
+              <AppSidebar.NavLink
+                href="#data"
+                icon={<Zap aria-hidden className="size-4" />}
+                active
+                label="Data fetching"
+              >
+                Data fetching
+              </AppSidebar.NavLink>
+              <AppSidebar.NavLink
+                href="#render"
+                icon={<Home aria-hidden className="size-4" />}
+                label="Rendering"
+              >
+                Rendering
               </AppSidebar.NavLink>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </AppSidebar.Content>
       <AppSidebar.Footer>
-        <div className="text-xs text-sidebar-foreground/70">Footer</div>
+        <div className="border-t border-sidebar-border px-2 py-2 text-xs text-sidebar-foreground/70">
+          v0.0.1
+        </div>
       </AppSidebar.Footer>
+    </AppSidebar>
+  ),
+};
+
+export const NoFooter: Story = {
+  render: () => (
+    <AppSidebar collapsible="none" className="min-h-0 flex-1 border-r border-sidebar-border">
+      <AppSidebar.Header>
+        <span className="text-base font-semibold">Uranus</span>
+      </AppSidebar.Header>
+      <AppSidebar.Content>
+        <SidebarGroup>
+          <SidebarGroupLabel>Getting started</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink
+                href="#install"
+                icon={<Home aria-hidden className="size-4" />}
+                label="Installation"
+              >
+                Installation
+              </AppSidebar.NavLink>
+              <AppSidebar.NavLink
+                href="#structure"
+                icon={<Folder aria-hidden className="size-4" />}
+                label="Project structure"
+              >
+                Project structure
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Build</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink
+                href="#routing"
+                icon={<Layers aria-hidden className="size-4" />}
+                label="Routing"
+              >
+                Routing
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </AppSidebar.Content>
     </AppSidebar>
   ),
 };

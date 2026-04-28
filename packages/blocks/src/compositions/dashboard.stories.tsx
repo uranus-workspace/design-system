@@ -8,10 +8,12 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Separator,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
+  SidebarTrigger,
 } from '@uranus-workspace/design-system';
 import { Activity, Bell, DollarSign, Folder, Home, Search, Settings, Users } from 'lucide-react';
 import { ActivityFeed, type ActivityItem } from '../components/activity-feed/activity-feed.js';
@@ -163,33 +165,31 @@ export const Empty: Story = {
       </AppShell.Sidebar>
       <AppShell.Inset>
         <AppShell.Header>
-          <AppHeader
-            breadcrumbs={
+          <AppHeader>
+            <SidebarTrigger />
+            <Separator orientation="vertical" className="h-5" />
+            <AppHeader.Breadcrumbs>
               <ol className="flex items-center gap-2 text-sm text-muted-foreground">
                 <li>Workspace</li>
                 <li aria-hidden>/</li>
                 <li className="font-medium text-foreground">Dashboard</li>
               </ol>
-            }
-            searchTrigger={
+            </AppHeader.Breadcrumbs>
+            <AppHeader.Actions>
               <Button variant="outline" size="sm" className="gap-2">
                 <Search aria-hidden className="size-4" />
                 <span>Search</span>
               </Button>
-            }
-            notifications={
               <Button variant="ghost" size="icon" aria-label="Notifications">
                 <Bell aria-hidden className="size-4" />
               </Button>
-            }
-            userMenu={
               <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
                 <Avatar className="size-8">
                   <AvatarFallback>UT</AvatarFallback>
                 </Avatar>
               </Button>
-            }
-          />
+            </AppHeader.Actions>
+          </AppHeader>
         </AppShell.Header>
         <AppShell.Content>
           <PageHeader
@@ -213,21 +213,21 @@ export const WithData: Story = {
       </AppShell.Sidebar>
       <AppShell.Inset>
         <AppShell.Header>
-          <AppHeader
-            breadcrumbs={
+          <AppHeader>
+            <SidebarTrigger />
+            <Separator orientation="vertical" className="h-5" />
+            <AppHeader.Breadcrumbs>
               <ol className="flex items-center gap-2 text-sm text-muted-foreground">
                 <li>Workspace</li>
                 <li aria-hidden>/</li>
                 <li className="font-medium text-foreground">Dashboard</li>
               </ol>
-            }
-            searchTrigger={
+            </AppHeader.Breadcrumbs>
+            <AppHeader.Actions>
               <Button variant="outline" size="sm" className="gap-2">
                 <Search aria-hidden className="size-4" />
                 <span>Search</span>
               </Button>
-            }
-            notifications={
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant="ghost" size="icon" aria-label="Notifications">
@@ -238,15 +238,13 @@ export const WithData: Story = {
                   <NotificationList items={notifications} onMarkAllRead={() => {}} />
                 </PopoverContent>
               </Popover>
-            }
-            userMenu={
               <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
                 <Avatar className="size-8">
                   <AvatarFallback>UT</AvatarFallback>
                 </Avatar>
               </Button>
-            }
-          />
+            </AppHeader.Actions>
+          </AppHeader>
         </AppShell.Header>
         <AppShell.Content>
           <PageHeader
@@ -255,66 +253,66 @@ export const WithData: Story = {
             actions={<Button size="sm">Novo projeto</Button>}
           />
           <div className="flex flex-col gap-6 p-6">
-        <StatGrid columns={4}>
-          <StatCard
-            label="Receita do mês"
-            value="R$ 124.880"
-            icon={<DollarSign aria-hidden className="size-4" />}
-            delta={{ value: '+12,4%', direction: 'up', label: 'vs mês passado' }}
-          />
-          <StatCard
-            label="Novos clientes"
-            value="284"
-            icon={<Users aria-hidden className="size-4" />}
-            delta={{ value: '+8,1%', direction: 'up' }}
-          />
-          <StatCard
-            label="Churn"
-            value="2,3%"
-            icon={<Activity aria-hidden className="size-4" />}
-            delta={{ value: '+0,4 p.p.', direction: 'down' }}
-            intent="negative"
-          />
-          <StatCard
-            label="MRR"
-            value="R$ 89.430"
-            icon={<DollarSign aria-hidden className="size-4" />}
-            delta={{ value: '0,0%', direction: 'neutral' }}
-          />
-        </StatGrid>
+            <StatGrid columns={4}>
+              <StatCard
+                label="Receita do mês"
+                value="R$ 124.880"
+                icon={<DollarSign aria-hidden className="size-4" />}
+                delta={{ value: '+12,4%', direction: 'up', label: 'vs mês passado' }}
+              />
+              <StatCard
+                label="Novos clientes"
+                value="284"
+                icon={<Users aria-hidden className="size-4" />}
+                delta={{ value: '+8,1%', direction: 'up' }}
+              />
+              <StatCard
+                label="Churn"
+                value="2,3%"
+                icon={<Activity aria-hidden className="size-4" />}
+                delta={{ value: '+0,4 p.p.', direction: 'down' }}
+                intent="negative"
+              />
+              <StatCard
+                label="MRR"
+                value="R$ 89.430"
+                icon={<DollarSign aria-hidden className="size-4" />}
+                delta={{ value: '0,0%', direction: 'neutral' }}
+              />
+            </StatGrid>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          <ChartCard
-            title="Receita semanal"
-            description="Últimas 8 semanas"
-            className="lg:col-span-2"
-          >
-            <div className="flex h-48 items-end gap-2">
-              {[40, 65, 50, 80, 70, 90, 75, 95].map((height, index) => (
-                <div
-                  // biome-ignore lint/suspicious/noArrayIndexKey: static demo values
-                  key={index}
-                  className="flex-1 rounded bg-primary/80"
-                  style={{ height: `${height}%` }}
-                />
-              ))}
+            <div className="grid gap-6 lg:grid-cols-3">
+              <ChartCard
+                title="Receita semanal"
+                description="Últimas 8 semanas"
+                className="lg:col-span-2"
+              >
+                <div className="flex h-48 items-end gap-2">
+                  {[40, 65, 50, 80, 70, 90, 75, 95].map((height, index) => (
+                    <div
+                      // biome-ignore lint/suspicious/noArrayIndexKey: static demo values
+                      key={index}
+                      className="flex-1 rounded bg-primary/80"
+                      style={{ height: `${height}%` }}
+                    />
+                  ))}
+                </div>
+              </ChartCard>
+              <ChartCard title="Atividade recente" description="Últimas movimentações">
+                <ActivityFeed items={activityItems} />
+              </ChartCard>
             </div>
-          </ChartCard>
-          <ChartCard title="Atividade recente" description="Últimas movimentações">
-            <ActivityFeed items={activityItems} />
-          </ChartCard>
-        </div>
 
-        <div className="flex flex-col gap-3">
-          <FilterBar filters={activeFilters} onRemoveFilter={() => {}} onClearAll={() => {}} />
-          <DataTable
-            data={customers}
-            columns={customerColumns}
-            caption="Clientes ativos"
-            pageSize={5}
-          />
-        </div>
-      </div>
+            <div className="flex flex-col gap-3">
+              <FilterBar filters={activeFilters} onRemoveFilter={() => {}} onClearAll={() => {}} />
+              <DataTable
+                data={customers}
+                columns={customerColumns}
+                caption="Clientes ativos"
+                pageSize={5}
+              />
+            </div>
+          </div>
         </AppShell.Content>
       </AppShell.Inset>
     </AppShell>

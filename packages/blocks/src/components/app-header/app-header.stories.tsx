@@ -36,80 +36,79 @@ export default meta;
 type Story = StoryObj<typeof AppHeader>;
 
 const crumb = (
-  <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5 text-sm">
+  <div className="flex min-w-0 items-center gap-1.5 text-sm">
     <span className="text-muted-foreground">Workspace</span>
     <ChevronRight aria-hidden className="size-4 shrink-0 text-muted-foreground" />
     <span className="truncate font-medium text-foreground">Dashboard</span>
-  </nav>
+  </div>
 );
 
 export const Default: Story = {
-  args: {
-    breadcrumbs: crumb,
-    searchTrigger: (
-      <Button variant="outline" size="sm" className="gap-2">
-        <Search aria-hidden className="size-4" />
-        <span>Search</span>
-      </Button>
-    ),
-    notifications: (
-      <Button variant="ghost" size="icon" aria-label="Notifications">
-        <Bell aria-hidden className="size-4" />
-      </Button>
-    ),
-    userMenu: (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="size-9 rounded-full p-0" aria-label="Account menu">
-            <Avatar className="size-9">
-              <AvatarFallback className="text-xs">UT</AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-52">
-          <DropdownMenuLabel className="font-normal">
-            <span className="text-sm font-medium">Signed in</span>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Sign out</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
-  },
-};
-
-export const Minimal: Story = {
-  args: {
-    breadcrumbs: <span className="text-sm text-muted-foreground">Dashboard</span>,
-  },
-};
-
-export const NoSidebarChrome: Story = {
-  name: 'Marketing route (no sidebar trigger)',
-  args: {
-    hideSidebarTrigger: true,
-    breadcrumbs: <span className="text-sm font-medium text-foreground">Marketing · Pricing</span>,
-    searchTrigger: (
-      <Button variant="outline" size="sm" className="gap-2">
-        <Search aria-hidden className="size-4" />
-        Search
-      </Button>
-    ),
-  },
-};
-
-export const Composition: Story = {
   render: () => (
-    <header className="sticky top-0 z-30 flex h-14 w-full shrink-0 items-center gap-2 border-b bg-background/95 px-4 backdrop-blur md:gap-3">
+    <AppHeader>
       <SidebarTrigger />
       <Separator orientation="vertical" className="h-5" />
       <AppHeader.Breadcrumbs>{crumb}</AppHeader.Breadcrumbs>
       <AppHeader.Actions>
-        <Button variant="outline" size="sm">
-          Action
+        <Button variant="outline" size="sm" type="button" className="gap-2">
+          <Search aria-hidden className="size-4" />
+          <span>Search</span>
+        </Button>
+        <Button variant="ghost" size="icon" type="button" aria-label="Notifications">
+          <Bell aria-hidden className="size-4" />
+        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="size-9 rounded-full p-0"
+              type="button"
+              aria-label="Account menu"
+            >
+              <Avatar className="size-9">
+                <AvatarFallback className="text-xs">UT</AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-52">
+            <DropdownMenuLabel className="font-normal">
+              <span className="text-sm font-medium">Signed in</span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Sign out</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </AppHeader.Actions>
+    </AppHeader>
+  ),
+};
+
+export const Minimal: Story = {
+  render: () => (
+    <AppHeader>
+      <SidebarTrigger />
+      <Separator orientation="vertical" className="h-5" />
+      <AppHeader.Breadcrumbs>
+        <span className="text-sm text-muted-foreground">Dashboard</span>
+      </AppHeader.Breadcrumbs>
+    </AppHeader>
+  ),
+};
+
+export const NoSidebarChrome: Story = {
+  name: 'Marketing route (no sidebar trigger)',
+  render: () => (
+    <AppHeader>
+      <AppHeader.Breadcrumbs>
+        <span className="text-sm font-medium text-foreground">Marketing · Pricing</span>
+      </AppHeader.Breadcrumbs>
+      <AppHeader.Actions>
+        <Button variant="outline" size="sm" type="button" className="gap-2">
+          <Search aria-hidden className="size-4" />
+          Search
         </Button>
       </AppHeader.Actions>
-    </header>
+    </AppHeader>
   ),
 };

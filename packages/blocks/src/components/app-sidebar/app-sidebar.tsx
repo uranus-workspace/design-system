@@ -2,9 +2,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarInput,
   SidebarMenu,
@@ -27,19 +24,6 @@ import {
 import { cn } from '../../lib/cn.js';
 import { BlockLink } from '../../lib/link.js';
 
-export interface SidebarNavItem {
-  label: string;
-  href: string;
-  icon?: ReactNode;
-  badge?: ReactNode;
-  active?: boolean;
-}
-
-export interface SidebarNavGroup {
-  label?: string;
-  items: SidebarNavItem[];
-}
-
 type SidebarProps = ComponentProps<typeof Sidebar>;
 
 const AppSidebarLinkComponentContext = createContext<
@@ -59,47 +43,129 @@ export function AppSidebarHeader({ children, className, ...props }: AppSidebarHe
   );
 }
 
-export interface AppSidebarBrandProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** Left mark — icon or monogram (centered in a rounded square). */
-  icon?: ReactNode;
-  title: ReactNode;
-  subtitle?: ReactNode;
-  /** Trailing control (e.g. workspace/version `DropdownMenu` trigger). */
-  action?: ReactNode;
-}
+export type AppSidebarBrandProps = HTMLAttributes<HTMLDivElement>;
 
-/**
- * Docs-style brand row — title + optional subtitle + optional action (matches shadcn sidebar-01 header density).
- */
-export function AppSidebarBrand({
-  icon,
-  title,
-  subtitle,
-  action,
-  className,
-  ...props
-}: AppSidebarBrandProps) {
+const AppSidebarBrandRoot = forwardRef<HTMLDivElement, AppSidebarBrandProps>(
+  function AppSidebarBrand({ className, children, ...props }, ref) {
+    return (
+      <div
+        ref={ref}
+        data-slot="app-sidebar-brand"
+        className={cn('flex w-full min-w-0 items-center gap-2', className)}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+AppSidebarBrandRoot.displayName = 'AppSidebar.Brand';
+
+export type AppSidebarBrandIconProps = HTMLAttributes<HTMLDivElement>;
+
+/** Left tile — typically a Lucide icon or monogram (sidebar-01 density). */
+export function AppSidebarBrandIcon({ className, children, ...props }: AppSidebarBrandIconProps) {
   return (
     <div
-      data-slot="app-sidebar-brand"
-      className={cn('flex w-full min-w-0 items-center gap-2', className)}
+      data-slot="app-sidebar-brand-icon"
+      className={cn(
+        'flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground [&_svg]:size-4',
+        className,
+      )}
       {...props}
     >
-      {icon ? (
-        <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground [&_svg]:size-4">
-          {icon}
-        </div>
-      ) : null}
-      <div className="grid min-w-0 flex-1 gap-0.5 text-left leading-tight">
-        <span className="truncate font-semibold text-sidebar-foreground">{title}</span>
-        {subtitle ? (
-          <span className="truncate text-xs text-sidebar-foreground/70">{subtitle}</span>
-        ) : null}
-      </div>
-      {action ? <div className="flex shrink-0 items-center">{action}</div> : null}
+      {children}
     </div>
   );
 }
+
+AppSidebarBrandIcon.displayName = 'AppSidebar.Brand.Icon';
+
+export type AppSidebarBrandBodyProps = HTMLAttributes<HTMLDivElement>;
+
+/** Stacks **`Title`** + **`Subtitle`** in the flexible middle column. */
+export function AppSidebarBrandBody({ className, children, ...props }: AppSidebarBrandBodyProps) {
+  return (
+    <div
+      data-slot="app-sidebar-brand-body"
+      className={cn('grid min-w-0 flex-1 gap-0.5 text-left leading-tight', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+AppSidebarBrandBody.displayName = 'AppSidebar.Brand.Body';
+
+export type AppSidebarBrandTitleProps = HTMLAttributes<HTMLSpanElement>;
+
+export function AppSidebarBrandTitle({ className, children, ...props }: AppSidebarBrandTitleProps) {
+  return (
+    <span
+      data-slot="app-sidebar-brand-title"
+      className={cn('truncate font-semibold text-sidebar-foreground', className)}
+      {...props}
+    >
+      {children}
+    </span>
+  );
+}
+
+AppSidebarBrandTitle.displayName = 'AppSidebar.Brand.Title';
+
+export type AppSidebarBrandSubtitleProps = HTMLAttributes<HTMLSpanElement>;
+
+export function AppSidebarBrandSubtitle({
+  className,
+  children,
+  ...props
+}: AppSidebarBrandSubtitleProps) {
+  return (
+    <span
+      data-slot="app-sidebar-brand-subtitle"
+      className={cn('truncate text-xs text-sidebar-foreground/70', className)}
+      {...props}
+    >
+      {children}
+    </span>
+  );
+}
+
+AppSidebarBrandSubtitle.displayName = 'AppSidebar.Brand.Subtitle';
+
+export type AppSidebarBrandActionProps = HTMLAttributes<HTMLDivElement>;
+
+/** Trailing slot — workspace switcher, version menu, etc. */
+export function AppSidebarBrandAction({
+  className,
+  children,
+  ...props
+}: AppSidebarBrandActionProps) {
+  return (
+    <div
+      data-slot="app-sidebar-brand-action"
+      className={cn('flex shrink-0 items-center', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+AppSidebarBrandAction.displayName = 'AppSidebar.Brand.Action';
+
+/**
+ * Brand row (sidebar-01): compose **`Brand.Icon`**, **`Brand.Body`** (**`Title`** / **`Subtitle`**), **`Brand.Action`**.
+ */
+export const AppSidebarBrand = Object.assign(AppSidebarBrandRoot, {
+  Icon: AppSidebarBrandIcon,
+  Body: AppSidebarBrandBody,
+  Title: AppSidebarBrandTitle,
+  Subtitle: AppSidebarBrandSubtitle,
+  Action: AppSidebarBrandAction,
+});
 
 export type AppSidebarSearchProps = ComponentProps<typeof SidebarInput>;
 
@@ -192,68 +258,20 @@ export const AppSidebarNavLink = forwardRef<HTMLAnchorElement, AppSidebarNavLink
 );
 
 export interface AppSidebarProps extends Omit<SidebarProps, 'children'> {
-  /** Brand / logo slot — only used with the declarative `groups` API. */
-  logo?: ReactNode;
-  /** Search field below header — prefer `<AppSidebarSearch />` or custom `SidebarInput`. */
-  search?: ReactNode;
-  /**
-   * Declarative nav config — convenient for static menus.
-   * Ignored when `children` is passed; prefer composing with
-   * `AppSidebar.Header`, `AppSidebar.Content`, and `AppSidebar.NavLink` for custom structure.
-   */
-  groups?: SidebarNavGroup[];
-  /** Footer — only used with the declarative `groups` API. */
-  footer?: ReactNode;
-  /** Override link component for this sidebar instance (and declarative `groups` items). */
+  /** Override link component for **`AppSidebar.NavLink`** (`BlockLink`). */
   linkComponent?: ElementType<AnchorHTMLAttributes<HTMLAnchorElement>>;
-  /**
-   * Compositional API: `AppSidebar.Header`, `AppSidebar.Content`, `AppSidebar.Footer`,
-   * and design-system `SidebarGroup` / `SidebarMenu` primitives as needed.
-   */
-  children?: ReactNode;
+  /** Compound layout — **`Header`**, **`Content`**, **`Footer`**, **`SidebarGroup`** / **`NavLink`**, etc. */
+  children: ReactNode;
 }
 
 const AppSidebarRoot = forwardRef<HTMLDivElement, AppSidebarProps>(function AppSidebar(
-  { logo, search, groups, footer, linkComponent, children, ...props },
+  { linkComponent, children, ...props },
   ref,
 ) {
-  const compositional = children != null;
-
   return (
     <AppSidebarLinkComponentContext.Provider value={linkComponent}>
       <Sidebar ref={ref} data-slot="app-sidebar" {...props}>
-        {compositional ? (
-          children
-        ) : (
-          <>
-            {logo ? <AppSidebarHeader>{logo}</AppSidebarHeader> : null}
-            <SidebarContent className="gap-0">
-              {search}
-              {(groups ?? []).map((group, groupIndex) => (
-                <SidebarGroup key={group.label ?? `group-${groupIndex}`}>
-                  {group.label ? <SidebarGroupLabel>{group.label}</SidebarGroupLabel> : null}
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      {group.items.map((item, itemIndex) => (
-                        <AppSidebarNavLink
-                          key={`${group.label ?? groupIndex}-${itemIndex}-${item.label}`}
-                          href={item.href}
-                          icon={item.icon}
-                          badge={item.badge}
-                          active={item.active}
-                          label={item.label}
-                        >
-                          {item.label}
-                        </AppSidebarNavLink>
-                      ))}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </SidebarGroup>
-              ))}
-            </SidebarContent>
-            {footer ? <AppSidebarFooter>{footer}</AppSidebarFooter> : null}
-          </>
-        )}
+        {children}
       </Sidebar>
     </AppSidebarLinkComponentContext.Provider>
   );
@@ -263,10 +281,8 @@ AppSidebarRoot.displayName = 'AppSidebar';
 AppSidebarNavLink.displayName = 'AppSidebarNavLink';
 
 /**
- * Opinionated dashboard sidebar — composes the `Sidebar` primitive with optional
- * compound slots (`Header`, `Brand`, `Search`, `Content`, `Footer`, `NavLink`) or declarative `groups`.
- *
- * Prefer composition when you need mixed content; use **`collapsible="none"`** in embedded previews so the rail stays in layout flow (see docs).
+ * Opinionated dashboard sidebar — composes **`Sidebar`** with **`Header`**, **`Brand`** (**`Icon`**, **`Body`**, **`Title`**, **`Subtitle`**, **`Action`**), **`Search`**, **`Content`**, **`Footer`**, **`NavLink`**.
+ * Use **`collapsible="none"`** in embedded previews so the rail stays in layout flow.
  */
 export const AppSidebar = Object.assign(AppSidebarRoot, {
   Header: AppSidebarHeader,

@@ -10,7 +10,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  Separator,
   SidebarProvider,
+  SidebarTrigger,
 } from '@uranus-workspace/design-system';
 import { Bell, ChevronRight, Search } from 'lucide-react';
 
@@ -18,26 +20,24 @@ export default function AppHeaderDefault() {
   return (
     <SidebarProvider className="min-h-0 w-full">
       <div className="flex w-full min-w-0 flex-col overflow-hidden rounded-lg border border-fd-border bg-background">
-        <AppHeader
-          breadcrumbs={
-            <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5 text-sm">
+        <AppHeader>
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="h-5" />
+          <AppHeader.Breadcrumbs>
+            <div className="flex min-w-0 items-center gap-1.5 text-sm">
               <span className="text-fd-muted-foreground">Produtos</span>
               <ChevronRight aria-hidden className="size-4 shrink-0 text-fd-muted-foreground" />
               <span className="truncate font-medium text-fd-foreground">Visão geral</span>
-            </nav>
-          }
-          searchTrigger={
+            </div>
+          </AppHeader.Breadcrumbs>
+          <AppHeader.Actions>
             <Button variant="outline" size="sm" className="gap-2">
               <Search className="size-4" aria-hidden />
               Buscar
             </Button>
-          }
-          notifications={
             <Button variant="ghost" size="icon" aria-label="Notificações">
               <Bell className="size-4" aria-hidden />
             </Button>
-          }
-          userMenu={
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -59,8 +59,8 @@ export default function AppHeaderDefault() {
                 <DropdownMenuItem>Sair</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          }
-        />
+          </AppHeader.Actions>
+        </AppHeader>
         <div className="border-t border-border px-4 py-3 text-xs text-fd-muted-foreground">
           Preview do chrome global — largura total do painel; trigger da sidebar à esquerda.
         </div>

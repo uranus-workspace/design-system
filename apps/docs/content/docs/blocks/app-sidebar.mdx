@@ -3,12 +3,16 @@ title: AppSidebar
 description: Navegação lateral opinada para dashboards — marca, busca, grupos e footer no padrão sidebar-01 (shadcn).
 ---
 
-`AppSidebar` compõe o primitivo `Sidebar` do `@uranus-workspace/design-system` com:
+`AppSidebar` compõe o primitivo `Sidebar` do `@uranus-workspace/design-system` com componentes nomeados:
 
-- **`AppSidebar.Brand`** — linha de produto (ícone em quadrante + título + subtítulo + ação à direita), como em [sidebar-01](https://ui.shadcn.com/blocks/sidebar).
+- **`AppSidebar.Header`** — topo do trilho (marca, workspace switcher).
+- **`AppSidebar.Brand`** — linha de produto: **`Brand.Icon`**, **`Brand.Body`** (**`Brand.Title`**, **`Brand.Subtitle`**), **`Brand.Action`** (densidade sidebar-01).
 - **`AppSidebar.Search`** — campo com ícone (`SidebarInput` + token).
-- **`groups`** + **`logo`** / **`search`** / **`footer`** — API declarativa para menus estáticos.
+- **`AppSidebar.Content`** — área rolável; dentro dela use **`SidebarGroup`**, **`SidebarGroupLabel`**, **`SidebarMenu`** e **`AppSidebar.NavLink`** (do `@uranus-workspace/design-system`).
+- **`AppSidebar.Footer`** — rodapé (usuário, versão).
 - **`AppSidebar.NavLink`** — links com `BlockLink`, `aria-current` e tooltip no modo ícone.
+
+Monte a árvore com **`children`** — não há menu serializado por props.
 
 Em **docs** ou iframe estreito, o `Sidebar` padrão é fixo na viewport — use **`collapsible="none"`** no preview para o trilho ficar no fluxo (como no exemplo abaixo). Em apps reais deixe o collapsible padrão.
 
@@ -19,36 +23,47 @@ O preview usa **`align="stretch"`** e altura mínima maior para o exemplo ocupar
 ## Uso
 
 ```tsx
-import { AppSidebar, AppSidebarBrand, AppSidebarSearch } from '@uranus-workspace/blocks';
-import { Button } from '@uranus-workspace/design-system';
+import { AppSidebar } from '@uranus-workspace/blocks';
+import {
+  Button,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+} from '@uranus-workspace/design-system';
 import { BookOpen, ChevronsUpDown, Home } from 'lucide-react';
 
-const groups = [
-  {
-    label: 'Getting started',
-    items: [
-      { label: 'Installation', href: '/docs/install', icon: <Home aria-hidden className="size-4" /> },
-    ],
-  },
-];
-
-<AppSidebar
-  collapsible="none"
-  logo={
-    <AppSidebar.Brand
-      icon={<BookOpen aria-hidden />}
-      title="Documentation"
-      subtitle="v1.0.1"
-      action={
+<AppSidebar collapsible="none">
+  <AppSidebar.Header>
+    <AppSidebar.Brand>
+      <AppSidebar.Brand.Icon>
+        <BookOpen aria-hidden />
+      </AppSidebar.Brand.Icon>
+      <AppSidebar.Brand.Body>
+        <AppSidebar.Brand.Title>Documentation</AppSidebar.Brand.Title>
+        <AppSidebar.Brand.Subtitle>v1.0.1</AppSidebar.Brand.Subtitle>
+      </AppSidebar.Brand.Body>
+      <AppSidebar.Brand.Action>
         <Button type="button" variant="ghost" size="icon" aria-label="Workspace">
           <ChevronsUpDown aria-hidden className="size-4" />
         </Button>
-      }
-    />
-  }
-  search={<AppSidebarSearch placeholder="Search the docs…" />}
-  groups={groups}
-/>
+      </AppSidebar.Brand.Action>
+    </AppSidebar.Brand>
+  </AppSidebar.Header>
+  <AppSidebar.Content>
+    <AppSidebar.Search placeholder="Search the docs…" />
+    <SidebarGroup>
+      <SidebarGroupLabel>Getting started</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          <AppSidebar.NavLink href="/docs/install" icon={<Home aria-hidden className="size-4" />} label="Installation">
+            Installation
+          </AppSidebar.NavLink>
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  </AppSidebar.Content>
+</AppSidebar>
 ```
 
 ## Roteamento
@@ -61,15 +76,27 @@ Os links resolvem o componente de âncora via `BlockLink` na seguinte ordem:
 
 ```tsx
 import Link from 'next/link';
-import { LinkProvider } from '@uranus-workspace/blocks';
+import { AppSidebar, LinkProvider } from '@uranus-workspace/blocks';
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu } from '@uranus-workspace/design-system';
 
 <LinkProvider linkComponent={Link}>
-  <AppSidebar groups={groups} />
+  <AppSidebar>
+    <AppSidebar.Content>
+      <SidebarGroup>
+        <SidebarGroupLabel>Conta</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <AppSidebar.NavLink href="/settings">Configurações</AppSidebar.NavLink>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </AppSidebar.Content>
+  </AppSidebar>
 </LinkProvider>
 ```
 
 ## Diretrizes
 
 - Use **ícones decorativos** (`aria-hidden`) — o label carrega o peso semântico.
-- `active: true` é responsabilidade do consumidor (geralmente derivado de `usePathname()`).
+- `active` em **`AppSidebar.NavLink`** é responsabilidade do consumidor (geralmente derivado de `usePathname()`).
 - Para densidade próxima ao bloco oficial: grupo com label em sentence case, ícones `size-4`, busca logo abaixo do header.

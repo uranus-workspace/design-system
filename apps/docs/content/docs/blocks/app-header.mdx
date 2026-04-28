@@ -3,8 +3,9 @@ title: AppHeader
 description: Top bar global - sidebar trigger, breadcrumbs, busca, notificações e user menu.
 ---
 
-`AppHeader` é a barra sticky no topo do `AppShell`. Renderiza como `<header role="banner">` e organiza, em ordem: sidebar trigger, separador, breadcrumbs, e (alinhado à direita) search, notifications e user menu.
+`AppHeader` é a barra sticky no topo do `AppShell`. Renderiza como `<header role="banner">` com o mesmo espaçamento do chrome do design system.
 
+**Preferência:** monte com **`children`** — **`SidebarTrigger`**, **`Separator`**, **`AppHeader.Breadcrumbs`** e **`AppHeader.Actions`** na ordem desejada. Rotas sem sidebar omitam o trigger e o separador.
 
 <ComponentPreview name="app-header-default" align="start" minHeight={180} previewClassName="!px-0 !py-0 sm:!px-0 sm:!py-0" />
 
@@ -12,37 +13,37 @@ description: Top bar global - sidebar trigger, breadcrumbs, busca, notificaçõe
 
 ```tsx
 import { AppHeader } from '@uranus-workspace/blocks';
-import { Button } from '@uranus-workspace/design-system';
+import { Button, Separator, SidebarTrigger } from '@uranus-workspace/design-system';
 import { Bell, Search } from 'lucide-react';
 
-<AppHeader
-  breadcrumbs={<Breadcrumbs />}
-  searchTrigger={
-    <Button variant="outline" size="sm" onClick={openCommand}>
+<AppHeader>
+  <SidebarTrigger />
+  <Separator orientation="vertical" className="h-5" />
+  <AppHeader.Breadcrumbs>{/* breadcrumb UI */}</AppHeader.Breadcrumbs>
+  <AppHeader.Actions>
+    <Button variant="outline" size="sm" type="button" onClick={openCommand}>
       <Search aria-hidden className="size-4" />
       <span>Buscar</span>
     </Button>
-  }
-  notifications={
-    <Button variant="ghost" size="icon" aria-label="Notificações">
+    <Button variant="ghost" size="icon" type="button" aria-label="Notificações">
       <Bell aria-hidden className="size-4" />
     </Button>
-  }
-  userMenu={<UserMenu />}
-/>
+    {/* user menu */}
+  </AppHeader.Actions>
+</AppHeader>
 ```
 
 ## Subcomponentes
 
-- **`AppHeader.Breadcrumbs`** — `<nav aria-label="Breadcrumb">` com overflow horizontal.
-- **`AppHeader.Actions`** — cluster à direita (use dentro de um `<header>` próprio se estiver montando chrome manual).
+- **`AppHeader.Breadcrumbs`** — `<nav aria-label="Breadcrumb">` com overflow horizontal e **`flex-1`** para empurrar ações à direita.
+- **`AppHeader.Actions`** — cluster à direita (busca, notificações, avatar).
 
 ## Diretrizes
 
 - Use **um** `AppHeader` dentro do `AppShell`. Não confunda com `PageHeader` (que vive no conteúdo).
 - A altura é fixa em `h-14` para casar com a `Sidebar` no estado collapsed.
 - O fundo usa `bg-background/80` com `backdrop-blur` — tokens, não cores cruas.
-- Para fluxos sem sidebar (ex.: páginas de marketing dentro do mesmo app) use `hideSidebarTrigger`.
+- Para fluxos sem sidebar (ex.: páginas de marketing dentro do mesmo app) omita **`SidebarTrigger`** e **`Separator`** no **`children`**.
 
 ## Distinção: AppHeader vs PageHeader
 

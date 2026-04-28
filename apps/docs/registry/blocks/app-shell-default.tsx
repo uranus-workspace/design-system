@@ -1,5 +1,13 @@
 'use client';
 import { AppHeader, AppShell, AppSidebar } from '@uranus-workspace/blocks';
+import {
+  Separator,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarTrigger,
+} from '@uranus-workspace/design-system';
 
 export default function AppShellDefault() {
   return (
@@ -9,27 +17,38 @@ export default function AppShellDefault() {
           <AppSidebar
             collapsible="none"
             className="h-full min-h-0 w-[min(100%,16rem)] shrink-0 border-r border-sidebar-border"
-            logo={<span className="font-semibold">Uranus</span>}
-            groups={[
-              {
-                label: 'Navegação',
-                items: [
-                  { label: 'Início', href: '#', active: true },
-                  { label: 'Projetos', href: '#' },
-                ],
-              },
-            ]}
-          />
+          >
+            <AppSidebar.Header>
+              <span className="px-2 font-semibold text-sidebar-foreground">Uranus</span>
+            </AppSidebar.Header>
+            <AppSidebar.Content>
+              <SidebarGroup>
+                <SidebarGroupLabel>Navegação</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    <AppSidebar.NavLink href="#" active label="Início">
+                      Início
+                    </AppSidebar.NavLink>
+                    <AppSidebar.NavLink href="#" label="Projetos">
+                      Projetos
+                    </AppSidebar.NavLink>
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </AppSidebar.Content>
+          </AppSidebar>
         </AppShell.Sidebar>
         <AppShell.Inset className="min-h-0 min-w-0 flex-1">
           <AppShell.Header>
-            <AppHeader
-              breadcrumbs={
+            <AppHeader>
+              <SidebarTrigger />
+              <Separator orientation="vertical" className="h-5" />
+              <AppHeader.Breadcrumbs>
                 <span className="truncate text-sm text-fd-muted-foreground">
                   Produtos / Visão geral
                 </span>
-              }
-            />
+              </AppHeader.Breadcrumbs>
+            </AppHeader>
           </AppShell.Header>
           <AppShell.Content className="bg-muted/15">
             <div className="space-y-3 p-6">

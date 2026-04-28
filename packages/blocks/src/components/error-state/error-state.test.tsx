@@ -38,11 +38,7 @@ describe('ErrorState', () => {
 
   it('has no a11y violations', async () => {
     const { container } = render(
-      <ErrorState
-        title="Error"
-        description="The dashboard could not load."
-        onRetry={() => {}}
-      />,
+      <ErrorState title="Error" description="The dashboard could not load." onRetry={() => {}} />,
     );
     expect(await axe(container)).toHaveNoViolations();
   });

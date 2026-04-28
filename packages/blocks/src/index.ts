@@ -34,5 +34,20 @@ export * from './components/form-section/index.js';
 export * from './components/settings-layout/index.js';
 export * from './components/search-command/index.js';
 
-// Tier 4 - Feedback (existing)
+// Tier 4 - Feedback
 export * from './components/empty-state/index.js';
+export * from './components/error-state/index.js';
+export * from './components/confirm-dialog/index.js';
+export * from './components/danger-confirm-dialog/index.js';
+export * from './components/detail-drawer/index.js';
+
+// Tier 5 - Onboarding & Growth
+export * from './components/onboarding-checklist/index.js';
+export * from './components/announcement-banner/index.js';
+export * from './components/upgrade-prompt/index.js';
+export * from './components/usage-card/index.js';
+
+// Tier 6 - Marketing
+export * from './components/hero/index.js';
+export * from './components/feature-grid/index.js';
+export * from './components/cta-section/index.js';

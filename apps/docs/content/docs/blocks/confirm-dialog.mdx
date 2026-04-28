@@ -1,0 +1,37 @@
+---
+title: ConfirmDialog
+description: Modal de confirmação opinativo sobre AlertDialog - title, description, confirm, cancel.
+---
+
+`ConfirmDialog` é o caminho rápido para qualquer ação reversível que ainda merece um pedido de confirmação ("Sair sem salvar?", "Cancelar assinatura?"). Para ações realmente destrutivas (apagar dados em produção), use `DangerConfirmDialog`.
+
+## Uso
+
+```tsx
+import { ConfirmDialog } from '@uranus-workspace/blocks';
+import { useState } from 'react';
+
+const [open, setOpen] = useState(false);
+
+<ConfirmDialog
+  open={open}
+  onOpenChange={setOpen}
+  title="Sair sem salvar?"
+  description="Você perderá as alterações."
+  confirmLabel="Sair"
+  onConfirm={() => discardChanges()}
+/>
+```
+
+## Props
+
+- `open` / `onOpenChange` — controlado.
+- `title` / `description` — copy do alerta.
+- `confirmLabel` / `cancelLabel` — overrides de texto. Defaults: `Confirm` / `Cancel`.
+- `intent` — `default | destructive`. `destructive` colore o botão de confirmar.
+- `onConfirm` — `() => void | Promise<void>`. Quando retorna Promise, o dialog espera resolver antes de fechar.
+- `loading` — exibe spinner no confirmar e desabilita ambos os botões.
+
+## Acessibilidade
+
+`AlertDialog` do Radix obriga `role="alertdialog"` + foco automático no botão de cancelar. Mantenha as labels claras (`Apagar projeto`, não `Sim`).

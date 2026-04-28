@@ -10,7 +10,7 @@ import {
   Spinner,
   buttonVariants,
 } from '@uranus-workspace/design-system';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { cn } from '../../lib/cn.js';
 
 export type ConfirmDialogIntent = 'default' | 'destructive';
@@ -64,7 +64,7 @@ export function ConfirmDialog({
   const confirmClass = cn(
     intent === 'destructive'
       ? buttonVariants({ variant: 'destructive' })
-      : buttonVariants({ variant: 'default' }),
+      : buttonVariants({ variant: 'primary' }),
     'gap-2',
   );
 
@@ -76,7 +76,7 @@ export function ConfirmDialog({
         onOpenChange(next);
       }}
     >
-      <AlertDialogContent>
+      <AlertDialogContent {...(description ? {} : { 'aria-describedby': undefined })}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           {description ? <AlertDialogDescription>{description}</AlertDialogDescription> : null}

@@ -1,0 +1,32 @@
+---
+title: CTASection
+description: CTA centralizada em fundo tingido - bloco que fecha a landing page.
+---
+
+`CTASection` é o bloco que fecha a landing: card centralizado em `bg-primary/5` com título grande, descrição curta e botões de ação.
+
+## Uso
+
+```tsx
+import { CTASection } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+
+<CTASection
+  eyebrow="Pronto para subir o nível?"
+  title="Comece a construir com a Uranus hoje"
+  description="Tokens, primitives e blocos prontos para painéis em produção."
+  actions={
+    <>
+      <Button>Começar grátis</Button>
+      <Button variant="ghost">Falar com vendas</Button>
+    </>
+  }
+/>
+```
+
+## Props
+
+- `eyebrow` — chip opcional acima do título.
+- `title` — h2 principal.
+- `description` — texto auxiliar.
+- `actions` — botões. Geralmente 1 primário + 1 secundário.

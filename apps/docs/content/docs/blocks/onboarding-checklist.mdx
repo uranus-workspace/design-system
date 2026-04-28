@@ -1,0 +1,38 @@
+---
+title: OnboardingChecklist
+description: Card de ativação dispensável com passos e barra de progresso.
+---
+
+`OnboardingChecklist` é o card que vive no topo do dashboard logo depois do signup, com a lista de passos para completar a primeira semana. Cada step tem `completed` controlado pelo consumer e um `action?` opcional. A barra de progresso é calculada automaticamente.
+
+## Uso
+
+```tsx
+import { OnboardingChecklist } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+
+<OnboardingChecklist
+  title="Comece por aqui"
+  description="Faltam 2 passos para usar 100%."
+  onDismiss={() => savePreference('onboarding-dismissed', true)}
+  steps={[
+    { id: 'repo', title: 'Conectar repositório', completed: true },
+    {
+      id: 'invite',
+      title: 'Convidar time',
+      completed: false,
+      action: <Button size="sm">Convidar</Button>,
+    },
+  ]}
+/>
+```
+
+## Props
+
+- `title` / `description` — copy do header.
+- `steps` — array de `OnboardingChecklistStep` com `id`, `title`, `description?`, `completed`, `action?`.
+- `onDismiss` — exibe o botão "X" no canto. Persistir o estado é responsabilidade do consumer.
+
+## Acessibilidade
+
+Cada step tem `role="checkbox"` + `aria-checked`. O progresso usa o `Progress` primitive com `aria-label` informando "X of Y steps completed".

@@ -1,0 +1,33 @@
+---
+title: DangerConfirmDialog
+description: Confirmação de alta fricção - exige que o usuário digite uma frase antes de habilitar o botão destrutivo.
+---
+
+`DangerConfirmDialog` é a versão de alta fricção do `ConfirmDialog`, inspirada no fluxo "delete repository" do GitHub. O botão destrutivo só é habilitado depois que o usuário digita a `confirmationText` exatamente.
+
+## Uso
+
+```tsx
+import { DangerConfirmDialog } from '@uranus-workspace/blocks';
+
+<DangerConfirmDialog
+  open={open}
+  onOpenChange={setOpen}
+  title="Apagar Apollo?"
+  description="Essa ação é permanente."
+  confirmationText="apollo"
+  confirmLabel="Apagar projeto"
+  onConfirm={() => deleteProject()}
+/>
+```
+
+## Props
+
+- `confirmationText` — frase exata que o usuário precisa digitar (case-sensitive).
+- `inputLabel` — sobrescreve o label do campo. Por padrão pede para `Type <text> to confirm`.
+- `confirmLabel` / `cancelLabel` / `intent` — overrides padrão.
+- `loading` — desabilita ambos os botões e mostra spinner.
+
+## Quando usar
+
+Para qualquer ação que **destrói dados em produção**: apagar tabela, dropar workspace, remover usuário com posts publicados. Para fluxos reversíveis use `ConfirmDialog`.

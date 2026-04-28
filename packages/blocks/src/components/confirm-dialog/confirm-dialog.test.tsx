@@ -40,13 +40,7 @@ describe('ConfirmDialog', () => {
 
   it('disables both buttons when loading is true', () => {
     render(
-      <ConfirmDialog
-        open
-        onOpenChange={() => {}}
-        title="Apagar"
-        onConfirm={() => {}}
-        loading
-      />,
+      <ConfirmDialog open onOpenChange={() => {}} title="Apagar" onConfirm={() => {}} loading />,
     );
     expect(screen.getByRole('button', { name: /Confirm/ })).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeDisabled();

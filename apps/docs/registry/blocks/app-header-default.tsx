@@ -1,3 +1,4 @@
+'use client';
 import { AppHeader } from '@uranus-workspace/blocks';
 import { Button, SidebarProvider } from '@uranus-workspace/design-system';
 import { Search } from 'lucide-react';

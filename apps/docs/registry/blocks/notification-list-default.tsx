@@ -1,3 +1,4 @@
+'use client';
 import { NotificationList } from '@uranus-workspace/blocks';
 
 export default function NotificationListDefault() {

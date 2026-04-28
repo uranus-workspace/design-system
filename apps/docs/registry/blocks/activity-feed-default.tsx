@@ -1,3 +1,4 @@
+'use client';
 import { ActivityFeed } from '@uranus-workspace/blocks';
 
 export default function ActivityFeedDefault() {

@@ -1,3 +1,4 @@
+'use client';
 import { AnnouncementBanner } from '@uranus-workspace/blocks';
 import { Button } from '@uranus-workspace/design-system';
 

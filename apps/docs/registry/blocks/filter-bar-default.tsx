@@ -1,3 +1,4 @@
+'use client';
 import { FilterBar } from '@uranus-workspace/blocks';
 import { Badge } from '@uranus-workspace/design-system';
 

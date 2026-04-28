@@ -1,3 +1,4 @@
+'use client';
 import { SettingsLayout } from '@uranus-workspace/blocks';
 import { User } from 'lucide-react';
 

@@ -1,3 +1,4 @@
+'use client';
 import { UsageCard } from '@uranus-workspace/blocks';
 import { Button } from '@uranus-workspace/design-system';
 

@@ -1,3 +1,4 @@
+'use client';
 import { SignInForm } from '@uranus-workspace/blocks';
 
 export default function SignInFormDefault() {

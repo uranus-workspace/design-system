@@ -14,12 +14,13 @@ interface ComponentPreviewProps {
    */
   name: string;
   /**
-   * Vertical alignment of the rendered component inside the preview pane.
-   * @default 'center'
+   * Cross-axis alignment inside the preview row (`items-*`).
+   * @default 'start'
    */
   align?: 'start' | 'center' | 'end';
   /**
-   * Optional minimum height override for the preview pane.
+   * Minimum height of the preview pane in pixels. Omit so the frame hugs the
+   * example (better for cards and narrow blocks). Pass e.g. 480 for chrome/layout demos.
    */
   minHeight?: number;
   /**
@@ -36,8 +37,8 @@ const alignClass = {
 
 export async function ComponentPreview({
   name,
-  align = 'center',
-  minHeight = 360,
+  align = 'start',
+  minHeight,
   previewClassName,
 }: ComponentPreviewProps): Promise<ReactNode> {
   const entry = registry[name];
@@ -70,13 +71,15 @@ export async function ComponentPreview({
         <Tab value="Preview">
           <div
             className={cn(
-              'flex w-full justify-center overflow-auto rounded-lg border border-fd-border bg-fd-card p-10',
+              'flex w-full min-w-0 justify-start overflow-auto rounded-lg border border-fd-border bg-fd-card px-4 py-4 sm:px-6 sm:py-5',
               alignClass[align],
               previewClassName,
             )}
-            style={{ minHeight }}
+            {...(minHeight != null && minHeight > 0 ? { style: { minHeight } } : {})}
           >
-            <Component />
+            <div className="min-w-0 max-w-full">
+              <Component />
+            </div>
           </div>
         </Tab>
         <Tab value="Código">

@@ -1,3 +1,4 @@
+'use client';
 import { OnboardingChecklist } from '@uranus-workspace/blocks';
 
 export default function OnboardingChecklistDefault() {

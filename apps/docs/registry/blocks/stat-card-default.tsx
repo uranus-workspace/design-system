@@ -1,3 +1,4 @@
+'use client';
 import { StatCard } from '@uranus-workspace/blocks';
 import { TrendingUp } from 'lucide-react';
 

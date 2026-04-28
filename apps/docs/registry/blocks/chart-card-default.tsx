@@ -1,3 +1,4 @@
+'use client';
 import { ChartCard } from '@uranus-workspace/blocks';
 
 export default function ChartCardDefault() {

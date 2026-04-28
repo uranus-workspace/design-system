@@ -1,3 +1,4 @@
+'use client';
 import { SignUpForm } from '@uranus-workspace/blocks';
 
 export default function SignUpFormDefault() {

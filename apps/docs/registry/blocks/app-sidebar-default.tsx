@@ -1,3 +1,4 @@
+'use client';
 import { AppSidebar } from '@uranus-workspace/blocks';
 import { SidebarProvider } from '@uranus-workspace/design-system';
 import { Home } from 'lucide-react';

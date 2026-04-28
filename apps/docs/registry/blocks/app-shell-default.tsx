@@ -1,3 +1,4 @@
+'use client';
 import { AppHeader, AppShell, AppSidebar } from '@uranus-workspace/blocks';
 
 export default function AppShellDefault() {

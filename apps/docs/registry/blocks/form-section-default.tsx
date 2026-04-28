@@ -1,3 +1,4 @@
+'use client';
 import { FormSection } from '@uranus-workspace/blocks';
 import { Button, Input, Label } from '@uranus-workspace/design-system';
 

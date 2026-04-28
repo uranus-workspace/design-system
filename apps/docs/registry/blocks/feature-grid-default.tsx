@@ -1,3 +1,4 @@
+'use client';
 import { FeatureGrid } from '@uranus-workspace/blocks';
 import { Sparkles } from 'lucide-react';
 

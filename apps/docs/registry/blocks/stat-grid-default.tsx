@@ -1,3 +1,4 @@
+'use client';
 import { StatCard, StatGrid } from '@uranus-workspace/blocks';
 import { Users } from 'lucide-react';
 

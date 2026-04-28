@@ -1,0 +1,48 @@
+---
+title: DataTable
+description: Tabela de dados genérica baseada em TanStack Table - sorting, paginação client-side, slot de toolbar e empty state.
+---
+
+`DataTable` é uma instância tipada de `<DataTable<TData>>` construída sobre [TanStack Table v8](https://tanstack.com/table). Compõe o primitivo `Table` do design system e adiciona sorting client-side, paginação e slots de toolbar/pagination via render-props.
+
+Esta é a única dependência **runtime** que o `@uranus-workspace/blocks` adiciona em relação ao primitivo `Table`.
+
+## Uso
+
+```tsx
+import { DataTable } from '@uranus-workspace/blocks';
+import type { ColumnDef } from '@tanstack/react-table';
+
+interface Customer {
+  id: string;
+  name: string;
+  email: string;
+}
+
+const columns: ColumnDef<Customer>[] = [
+  { accessorKey: 'name', header: 'Nome' },
+  { accessorKey: 'email', header: 'Email' },
+];
+
+<DataTable
+  data={customers}
+  columns={columns}
+  caption="Lista de clientes"
+/>
+```
+
+## Slots
+
+- `toolbar` — `(table) => ReactNode`. Renderizado acima da tabela, recebe a instância para acionar filtros, busca, etc.
+- `pagination` — `(table) => ReactNode`. Renderizado abaixo. Use com o primitivo `Pagination` ou seu próprio layout.
+- `emptyState` — exibido quando `data.length === 0`.
+
+## Acessibilidade
+
+- `caption` é obrigatório no nível semântico — passamos com `sr-only` para que a tabela tenha rótulo para leitores de tela.
+- Headers com sort renderizam como `<button>` dentro do `<th>`, e o `<th>` recebe `aria-sort="ascending|descending|none"`.
+- `onRowClick` adiciona `cursor-pointer` mas **não** torna a linha um botão — para ações principais use uma célula com botão real.
+
+## Server-side
+
+Para paginação/sorting server-side, passe `pageSize={0}` para desabilitar a paginação client-side e use o `state` controlado retornado por `toolbar`/`pagination` para refletir suas queries.

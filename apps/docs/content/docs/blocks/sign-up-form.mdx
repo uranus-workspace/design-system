@@ -1,0 +1,46 @@
+---
+title: SignUpForm
+description: Formulário de criação de conta com indicador de força de senha.
+---
+
+`SignUpForm` é apresentacional. Pede nome, email, senha e aceite dos termos. Mostra um medidor de força de senha em tempo real usando o primitivo `Progress`.
+
+## Uso
+
+```tsx
+import { SignUpForm } from '@uranus-workspace/blocks';
+
+<SignUpForm
+  signInHref="/sign-in"
+  termsLabel={
+    <>
+      Aceito os <a href="/terms">Termos</a> e a <a href="/privacy">Privacidade</a>.
+    </>
+  }
+  onSubmit={async (values) => {
+    await registerAction(values);
+  }}
+/>
+```
+
+## Valores
+
+```ts
+type SignUpFormValues = {
+  name: string;
+  email: string;
+  password: string;
+  acceptTerms: boolean;
+};
+```
+
+## Medidor de força
+
+A pontuação vai de 0 a 4 e é calculada localmente com regras simples:
+
+- ≥ 8 caracteres
+- letras maiúsculas e minúsculas
+- ao menos um dígito
+- ao menos um símbolo
+
+Para regras corporativas mais robustas, sobrescreva o conteúdo via composição (envolva o bloco e renderize seu próprio meter ao lado dele).

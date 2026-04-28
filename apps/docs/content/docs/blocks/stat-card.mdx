@@ -1,0 +1,34 @@
+---
+title: StatCard
+description: KPI card - label, valor, delta direcionado e sparkline opcional.
+---
+
+`StatCard` é o átomo de qualquer dashboard com métricas. Renderiza um label, um valor grande tabular-nums, e (opcionalmente) um delta com seta direcional + período de comparação.
+
+## Uso
+
+```tsx
+import { StatCard } from '@uranus-workspace/blocks';
+import { DollarSign } from 'lucide-react';
+
+<StatCard
+  label="MRR"
+  value="$48.2k"
+  icon={<DollarSign className="size-4" />}
+  delta={{ value: '+12%', direction: 'up', label: 'vs mês passado' }}
+/>
+```
+
+## Props
+
+- `label` — texto curto, geralmente em `text-sm` `text-muted-foreground`.
+- `value` — formate antes de passar (use `Intl.NumberFormat` do app).
+- `delta.direction` — `'up' | 'down' | 'neutral'`. Define a cor e o ícone.
+- `intent` — borda do card (`default | positive | negative | warning`).
+- `sparkline` — slot livre, geralmente um `ChartContainer` do `@uranus-workspace/design-system`.
+
+## Diretrizes
+
+- Mantenha o `value` significativo sozinho — leitores de tela podem pular o delta.
+- Use `intent: negative` quando o número é ruim (churn alto, erros), não quando o delta é negativo.
+- Para mais de uma métrica em grade, use [StatGrid](/docs/blocks/stat-grid).

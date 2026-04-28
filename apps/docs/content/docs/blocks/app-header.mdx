@@ -1,0 +1,42 @@
+---
+title: AppHeader
+description: Top bar global - sidebar trigger, breadcrumbs, busca, notificações e user menu.
+---
+
+`AppHeader` é a barra sticky no topo do `AppShell`. Renderiza como `<header role="banner">` e organiza, em ordem: sidebar trigger, separador, breadcrumbs, e (alinhado à direita) search, notifications e user menu.
+
+## Uso
+
+```tsx
+import { AppHeader } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+import { Bell, Search } from 'lucide-react';
+
+<AppHeader
+  breadcrumbs={<Breadcrumbs />}
+  searchTrigger={
+    <Button variant="outline" size="sm" onClick={openCommand}>
+      <Search aria-hidden className="size-4" />
+      <span>Buscar</span>
+    </Button>
+  }
+  notifications={
+    <Button variant="ghost" size="icon" aria-label="Notificações">
+      <Bell aria-hidden className="size-4" />
+    </Button>
+  }
+  userMenu={<UserMenu />}
+/>
+```
+
+## Diretrizes
+
+- Use **um** `AppHeader` dentro do `AppShell`. Não confunda com `PageHeader` (que vive no conteúdo).
+- A altura é fixa em `h-14` para casar com a `Sidebar` no estado collapsed.
+- O fundo usa `bg-background/80` com `backdrop-blur` — tokens, não cores cruas.
+- Para fluxos sem sidebar (ex.: páginas de marketing dentro do mesmo app) use `hideSidebarTrigger`.
+
+## Distinção: AppHeader vs PageHeader
+
+- `AppHeader` é **chrome global** — não muda entre rotas, hospeda navegação e ações pessoais.
+- [PageHeader](/docs/blocks/page-header) é **conteúdo de tela** — `<h1>` da rota, descrição e ações primárias do contexto.

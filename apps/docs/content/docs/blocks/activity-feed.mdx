@@ -1,0 +1,32 @@
+---
+title: ActivityFeed
+description: Linha do tempo vertical de eventos com avatar, ação, alvo e timestamp.
+---
+
+`ActivityFeed` renderiza uma `<ol>` de eventos (`actor` + `action` + opcional `target` + `timestamp`). Cada item compõe o primitivo `Avatar` e suporta um pequeno ícone decorativo no canto inferior direito do avatar.
+
+## Uso
+
+```tsx
+import { ActivityFeed } from '@uranus-workspace/blocks';
+import { Plus } from 'lucide-react';
+
+<ActivityFeed
+  items={[
+    {
+      id: '1',
+      actor: { name: 'Alice Costa' },
+      action: 'criou',
+      target: 'Projeto Apollo',
+      timestamp: 'há 2 minutos',
+      icon: <Plus className="size-2.5" />,
+    },
+  ]}
+/>
+```
+
+## Acessibilidade
+
+- A lista é uma `<ol>` para que tecnologias assistivas anunciem ordem cronológica.
+- O componente cai num painel `role="status"` quando não há itens — perfeito para "nenhuma atividade ainda".
+- Avatares mostram iniciais derivadas do nome quando `avatarUrl` ausente. Você pode passar `initials` explícito para overrides.

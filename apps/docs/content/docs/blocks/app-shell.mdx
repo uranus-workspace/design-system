@@ -1,0 +1,47 @@
+---
+title: AppShell
+description: A casca completa de uma aplicação dashboard - sidebar, header, conteúdo e painel lateral opcional.
+---
+
+`AppShell` orquestra `SidebarProvider`, `SidebarInset` e os slots de header e painel direito em um único bloco. Cada superfície de produto importa **um** `AppShell` no layout root e injeta nele o `AppSidebar`, `AppHeader` e o conteúdo da página.
+
+## Uso
+
+```tsx
+import { AppShell } from '@uranus-workspace/blocks';
+import { AppSidebar } from '@uranus-workspace/blocks';
+import { AppHeader } from '@uranus-workspace/blocks';
+
+<AppShell
+  sidebar={<AppSidebar groups={navigationGroups} logo={<Logo />} />}
+  header={<AppHeader breadcrumbs={<Breadcrumbs />} userMenu={<UserMenu />} />}
+>
+  {children}
+</AppShell>
+```
+
+## Anatomia
+
+- `sidebar` — bloco de navegação primária. Renderizado fora do landmark `<main>`.
+- `header` — opcional. Sticky, renderizado dentro do `<main>` para herdar o conteúdo da rota.
+- `rightPanel` — opcional. Painel de detalhe lateral, geralmente um `Sheet` ou `DetailDrawer`.
+- `children` — conteúdo da página.
+
+## Diretrizes
+
+- Use **um** `AppShell` por aplicação. O bloco assume que a navegação é única no nível raiz.
+- O bloco **não** define um `<h1>`. O `<h1>` da tela mora no `PageHeader`.
+- Para autenticação use `AuthLayout`, não `AppShell`.
+
+## Estado controlado vs. não controlado
+
+```tsx
+<AppShell
+  sidebar={<AppSidebar ... />}
+  defaultSidebarOpen={false}
+>
+  ...
+</AppShell>
+```
+
+Por padrão o estado da sidebar é persistido em cookie pelo `SidebarProvider` do `@uranus-workspace/design-system`. Para controlar via app state passe `sidebarOpen` + `onSidebarOpenChange`.

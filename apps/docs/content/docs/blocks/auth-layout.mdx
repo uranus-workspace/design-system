@@ -1,0 +1,34 @@
+---
+title: AuthLayout
+description: Wrapper para fluxos de autenticação - split-screen com painel de marca ou centered.
+---
+
+`AuthLayout` é o invólucro compartilhado por todos os formulários de autenticação. Renderiza um `<main>` com o formulário e, no variant `split`, um `<aside aria-hidden>` com o painel de marca à esquerda em telas grandes.
+
+## Variantes
+
+- **`split`** (default) — painel de marca + formulário lado a lado em `lg+`. No mobile só o formulário aparece.
+- **`centered`** — formulário centralizado, sem painel. Use para fluxos curtos como verificação de email.
+
+## Uso
+
+```tsx
+import { AuthLayout, SignInForm } from '@uranus-workspace/blocks';
+
+<AuthLayout
+  brandPanel={
+    <div className="flex h-full flex-col justify-between">
+      <Logo />
+      <p className="text-sm">O hub de serviços flexível e escalável da Uranus.</p>
+    </div>
+  }
+>
+  <SignInForm onSubmit={handleSignIn} />
+</AuthLayout>
+```
+
+## Diretrizes
+
+- O painel de marca é decorativo (`aria-hidden`). Toda informação importante mora no formulário.
+- O `<h1>` da tela é responsabilidade do **formulário**, não do layout.
+- Largura máxima do formulário: `max-w-sm` (`24rem`). Consistente entre todas as auth screens.

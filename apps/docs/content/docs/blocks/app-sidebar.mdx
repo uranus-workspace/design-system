@@ -1,0 +1,53 @@
+---
+title: AppSidebar
+description: Navegação lateral opinada para dashboards - logo, grupos, ícones, badges e footer.
+---
+
+`AppSidebar` é a receita pronta sobre o primitivo `Sidebar` do `@uranus-workspace/design-system`. Recebe `groups` declarativos com items, ícones e badges; renderiza tudo dentro de uma `Sidebar` configurada com tooltips no estado collapsed e marcação de item ativo via `aria-current="page"`.
+
+## Uso
+
+```tsx
+import { AppSidebar } from '@uranus-workspace/blocks';
+import { Home, Folder, Settings } from 'lucide-react';
+
+const groups = [
+  {
+    label: 'Workspace',
+    items: [
+      { label: 'Dashboard', href: '/', icon: <Home aria-hidden />, active: true },
+      { label: 'Projetos', href: '/projects', icon: <Folder aria-hidden />, badge: '3' },
+    ],
+  },
+  {
+    label: 'Conta',
+    items: [{ label: 'Configurações', href: '/settings', icon: <Settings aria-hidden /> }],
+  },
+];
+
+<AppSidebar logo={<Logo />} groups={groups} footer={<UserMenu />} />
+```
+
+## Roteamento
+
+Os links resolvem o componente de âncora via `BlockLink` na seguinte ordem:
+
+1. Prop `linkComponent` no `AppSidebar`.
+2. `LinkProvider` no topo da árvore.
+3. Elemento nativo `<a>`.
+
+```tsx
+import Link from 'next/link';
+import { LinkProvider } from '@uranus-workspace/blocks';
+
+<LinkProvider linkComponent={Link}>
+  <AppSidebar groups={groups} />
+</LinkProvider>
+```
+
+## Diretrizes
+
+- Use **ícones decorativos** (`aria-hidden`) — o label carrega o peso semântico.
+- Não aninhe grupos. Para sub-navegação, considere o `SidebarMenuSub` do primitivo diretamente.
+- `active: true` é responsabilidade do consumidor (geralmente derivado de `usePathname()`).
+- Footer ideal: user menu, link para configurações, ou indicador de versão.

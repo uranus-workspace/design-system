@@ -1,0 +1,33 @@
+---
+title: FilterBar
+description: Linha de chips removíveis para representar filtros aplicados em listas/tabelas.
+---
+
+`FilterBar` é uma `<div role="toolbar">` que mostra os filtros ativos como `Badges` removíveis. Cada chip tem um botão `X` com `aria-label` único, e um botão "Clear all" aparece quando há filtros + `onClearAll` é fornecido.
+
+## Uso
+
+```tsx
+import { FilterBar } from '@uranus-workspace/blocks';
+import { useState } from 'react';
+
+const [filters, setFilters] = useState([
+  { id: 'status', label: 'Status: Active' },
+]);
+
+<FilterBar
+  filters={filters}
+  onRemoveFilter={(id) => setFilters((curr) => curr.filter((f) => f.id !== id))}
+  onClearAll={() => setFilters([])}
+/>
+```
+
+## Slots
+
+- `leadingSlot` — slot antes dos chips. Use para um `Input` de busca.
+- `addFilterTrigger` — botão (geralmente um `Popover.Trigger`) para adicionar novos filtros. Default é um botão `disabled` com texto "Add filter".
+
+## Diretrizes
+
+- Cada `id` deve ser estável entre renderizações para o React não recriar o chip.
+- Para combinar com `DataTable`, ative paginação client-side e leia `filters` do estado de filtragem do TanStack Table.

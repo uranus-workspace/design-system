@@ -1,0 +1,44 @@
+---
+title: SearchCommand
+description: Paleta cmd+k pré-configurada sobre o command primitive.
+---
+
+`SearchCommand` é a opinião da Uranus sobre paletas de comando. Ele empacota o `Command` + `Dialog` primitives, registra o atalho `⌘K` / `Ctrl+K` e padroniza grupos com `heading` e itens com `icon`/`shortcut`/`keywords`.
+
+## Uso
+
+```tsx
+import { SearchCommand } from '@uranus-workspace/blocks';
+import { useState } from 'react';
+
+function App() {
+  const [open, setOpen] = useState(false);
+  return (
+    <SearchCommand
+      open={open}
+      onOpenChange={setOpen}
+      groups={[
+        {
+          heading: 'Navegação',
+          items: [
+            { id: 'home', label: 'Ir para Dashboard', shortcut: 'G H', onSelect: () => router.push('/') },
+            { id: 'projects', label: 'Projetos', onSelect: () => router.push('/projects') },
+          ],
+        },
+      ]}
+    />
+  );
+}
+```
+
+## Props
+
+- `open` / `onOpenChange` — controlado pelo consumidor.
+- `groups` — array de `SearchCommandGroup` com `heading` e `items[]`.
+- `placeholder`, `emptyState`, `ariaLabel` — overrides de copy.
+- `shortcutBinding` — desliga o atalho global se você quiser amarrar manualmente.
+
+## Acessibilidade
+
+- O dialog tem um `DialogTitle` visualmente oculto (`ariaLabel`), exigido pelo Radix.
+- Cada item executa `onSelect` e fecha o dialog em sequência.

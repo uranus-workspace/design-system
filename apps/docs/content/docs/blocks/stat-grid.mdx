@@ -1,0 +1,26 @@
+---
+title: StatGrid
+description: Grade responsiva para múltiplos StatCards com breakpoints opinados.
+---
+
+`StatGrid` centraliza o contrato de breakpoints para listas de KPI cards. Todo dashboard ganha o mesmo ritmo horizontal sem reimplementar `grid grid-cols-…` em cinco telas diferentes.
+
+## Uso
+
+```tsx
+import { StatGrid, StatCard } from '@uranus-workspace/blocks';
+
+<StatGrid columns={4}>
+  <StatCard label="MRR" value="$48.2k" />
+  <StatCard label="Churn" value="3.4%" />
+  <StatCard label="Active users" value="1,284" />
+  <StatCard label="Net new" value="148" />
+</StatGrid>
+```
+
+## Modos
+
+- `columns="auto"` (default) — `auto-fit` com largura mínima de 220px. Use quando o número de cards é variável.
+- `columns={1|2|3|4}` — colunas fixas no breakpoint `lg+`. Sempre 1 coluna no mobile e 2 em `sm`.
+
+Todos os modos usam `gap-4` consistente.

@@ -3,7 +3,7 @@ title: Blocos
 description: Layouts compostos construídos a partir dos primitivos do core.
 ---
 
-Blocos vivem em `@uranus-workspace/blocks` e são composições opinativas dos primitivos do `@uranus-workspace/design-system`. Eles existem para que times de produto não reimplementem o mesmo `PageHeader` ou `EmptyState` em cinco apps com cinco espaçamentos diferentes.
+Blocos vivem em `@uranus-workspace/blocks` e são composições opinativas dos primitivos do `@uranus-workspace/design-system`. Eles existem para que times de produto não reimplementem o mesmo `PageHeader` ou `SignInForm` em cinco apps com cinco espaçamentos diferentes.
 
 Um bloco é a abstração certa quando:
 
@@ -11,7 +11,65 @@ Um bloco é a abstração certa quando:
 - O layout tem um contrato de acessibilidade que vale a pena centralizar (landmarks, ordem de headings).
 - Ele compõe **apenas** primitivos existentes — um bloco nunca redefine um botão ou um input.
 
-## Blocos documentados
+## Princípios
 
-- [PageHeader](/docs/blocks/page-header)
+- **Apresentacionais por padrão.** Blocos de autenticação não conhecem NextAuth, Clerk ou Supabase. Eles aceitam `onSubmit`, `loading` e `error` como props.
+- **Roteamento agnóstico.** Blocos com links aceitam `linkComponent` ou se vinculam ao `LinkProvider` no topo da árvore. O default é `<a>`.
+- **Tokens, não cores cruas.** Toda cor passa pelos tokens semânticos do `@uranus-workspace/tailwind-config`.
+
+## Catálogo
+
+### Chrome
+
+Estrutura global de uma aplicação dashboard.
+
+- [AppShell](/docs/blocks/app-shell) — Wrapper que combina sidebar + header + main.
+- [AppSidebar](/docs/blocks/app-sidebar) — Navegação lateral opinada com grupos, ícones e footer.
+- [AppHeader](/docs/blocks/app-header) — Top bar com trigger, busca, notificações e user menu.
+- [AuthLayout](/docs/blocks/auth-layout) — Wrapper split-screen para fluxos de autenticação.
+- [PageHeader](/docs/blocks/page-header) — Cabeçalho por tela com `<h1>` e ações.
+
+### Autenticação
+
+- [SignInForm](/docs/blocks/sign-in-form)
+- [SignUpForm](/docs/blocks/sign-up-form)
+- [ForgotPasswordForm](/docs/blocks/forgot-password-form)
+- [ResetPasswordForm](/docs/blocks/reset-password-form)
+- [OtpVerificationForm](/docs/blocks/otp-verification-form)
+
+### Dados
+
+- [StatCard](/docs/blocks/stat-card)
+- [StatGrid](/docs/blocks/stat-grid)
+- [ChartCard](/docs/blocks/chart-card)
+- [DataTable](/docs/blocks/data-table)
+- [FilterBar](/docs/blocks/filter-bar)
+- [ActivityFeed](/docs/blocks/activity-feed)
+- [NotificationList](/docs/blocks/notification-list)
+
+### Formulários
+
+- [FormSection](/docs/blocks/form-section)
+- [SettingsLayout](/docs/blocks/settings-layout)
+- [SearchCommand](/docs/blocks/search-command)
+
+### Feedback
+
 - [EmptyState](/docs/blocks/empty-state)
+- [ErrorState](/docs/blocks/error-state)
+- [ConfirmDialog](/docs/blocks/confirm-dialog)
+- [DangerConfirmDialog](/docs/blocks/danger-confirm-dialog)
+- [DetailDrawer](/docs/blocks/detail-drawer)
+
+### Crescimento
+
+- [OnboardingChecklist](/docs/blocks/onboarding-checklist)
+- [AnnouncementBanner](/docs/blocks/announcement-banner)
+- [UpgradePrompt](/docs/blocks/upgrade-prompt)
+- [UsageCard](/docs/blocks/usage-card)
+
+### Marketing
+
+- [Hero](/docs/blocks/hero)
+- [FeatureGrid](/docs/blocks/feature-grid)
+- [CTASection](/docs/blocks/cta-section)

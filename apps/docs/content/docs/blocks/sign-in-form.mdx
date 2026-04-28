@@ -1,0 +1,45 @@
+---
+title: SignInForm
+description: Formulário de login apresentacional - 100% agnóstico de provedor de autenticação.
+---
+
+`SignInForm` é puramente apresentacional. Recebe `onSubmit(values)` e decide nada sobre como autenticar — cada app conecta o callback ao seu provedor (NextAuth, Clerk, Supabase, sua própria API).
+
+## Uso
+
+```tsx
+import { SignInForm } from '@uranus-workspace/blocks';
+
+<SignInForm
+  forgotPasswordHref="/forgot-password"
+  signUpHref="/sign-up"
+  loading={isPending}
+  error={error}
+  onSubmit={async (values) => {
+    await signInAction(values);
+  }}
+/>
+```
+
+## Valores
+
+```ts
+type SignInFormValues = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+};
+```
+
+## Slots
+
+- `socialProviders` — slot acima do email para botões OAuth/SSO.
+- `forgotPasswordHref` — link "Esqueci minha senha" (escondido se ausente).
+- `signUpHref` — link "Criar conta" (escondido se ausente).
+
+## Acessibilidade
+
+- Headings começam com `<h1>`. O `AuthLayout` não renderiza heading próprio.
+- Erros do servidor aparecem como `Alert role="alert"`, anunciado por leitores de tela.
+- `autoComplete="email"` e `autoComplete="current-password"` para preenchimento por gerenciadores de senhas.
+- Enquanto `loading`, todo o `<fieldset>` é desabilitado.

@@ -1,0 +1,29 @@
+---
+title: ErrorState
+description: Estado de erro pré-formatado - gêmeo do EmptyState com role="alert" e botão de retry padrão.
+---
+
+`ErrorState` espelha a API do `EmptyState`, mas troca o tom para erro: borda vermelha, ícone de alerta padrão, `role="alert"` para anúncio imediato pelo leitor de tela, e um botão de "Try again" automático quando você passa `onRetry`.
+
+## Uso
+
+```tsx
+import { ErrorState } from '@uranus-workspace/blocks';
+
+<ErrorState
+  title="Algo deu errado"
+  description="Não foi possível carregar o dashboard."
+  onRetry={() => refetch()}
+/>
+```
+
+## Props
+
+- `title`, `description`, `icon` — mesma API do `EmptyState`.
+- `onRetry` — adiciona o botão padrão "Try again" com ícone.
+- `retryLabel` — texto custom para o botão.
+- `actions` — slot livre. Quando passado, sobrescreve o botão default.
+
+## Acessibilidade
+
+Usa `role="alert"`, então fica em uma _live region_ que avisa imediatamente ao screen reader. Use só para erros reais — não exiba `ErrorState` em estados de carregamento ou estado vazio (use `Skeleton` e `EmptyState` respectivamente).

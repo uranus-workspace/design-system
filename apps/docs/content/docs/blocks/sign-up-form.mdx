@@ -1,9 +1,9 @@
 ---
 title: SignUpForm
-description: Formulário de criação de conta com indicador de força de senha.
+description: Formulário de cadastro com Zod, medidor de força de senha e modo somente SSO.
 ---
 
-`SignUpForm` é apresentacional. Pede nome, email, senha e aceite dos termos. Mostra um medidor de força de senha em tempo real usando o primitivo `Progress`.
+`SignUpForm` usa **`signUpFormSchema`** (Zod) e **`react-hook-form`** sobre os mesmos primitivos `Form` da lib base. Aceite dos termos é validado pelo schema.
 
 
 <ComponentPreview
@@ -17,6 +17,7 @@ description: Formulário de criação de conta com indicador de força de senha.
 
 ```tsx
 import { SignUpForm } from '@uranus-workspace/blocks';
+import type { SignUpFormValues } from '@uranus-workspace/blocks';
 
 <SignUpForm
   signInHref="/sign-in"
@@ -25,30 +26,36 @@ import { SignUpForm } from '@uranus-workspace/blocks';
       Aceito os <a href="/terms">Termos</a> e a <a href="/privacy">Privacidade</a>.
     </>
   }
-  onSubmit={async (values) => {
+  onSubmit={async (values: SignUpFormValues) => {
     await registerAction(values);
   }}
 />
 ```
 
+```ts
+import { signUpFormSchema } from '@uranus-workspace/blocks';
+
+signUpFormSchema.safeParse(body);
+```
+
+## Produtos só OAuth
+
+`credentials="hidden"` oculta nome, email, senha e envio correspondente — use com `OAuthProviderButton` / `socialProviders`:
+
+```tsx
+import { OAuthProviderButton, SignUpForm } from '@uranus-workspace/blocks';
+
+<SignUpForm
+  credentials="hidden"
+  signInHref="/sign-in"
+  socialProviders={<OAuthProviderButton provider="google">…</OAuthProviderButton>}
+/>
+```
+
 ## Valores
 
-```ts
-type SignUpFormValues = {
-  name: string;
-  email: string;
-  password: string;
-  acceptTerms: boolean;
-};
-```
+`SignUpFormValues` é exportado; corresponde a `z.infer<typeof signUpFormSchema>`.
 
 ## Medidor de força
 
-A pontuação vai de 0 a 4 e é calculada localmente com regras simples:
-
-- ≥ 8 caracteres
-- letras maiúsculas e minúsculas
-- ao menos um dígito
-- ao menos um símbolo
-
-Para regras corporativas mais robustas, sobrescreva o conteúdo via composição (envolva o bloco e renderize seu próprio meter ao lado dele).
+A pontuação 0–4 é apenas visual (UI), enquanto o mínimo de 8 caracteres vem do **schema Zod**. Para políticas enterprise, valide também no servidor com o mesmo `signUpFormSchema` ou um schema estendido.

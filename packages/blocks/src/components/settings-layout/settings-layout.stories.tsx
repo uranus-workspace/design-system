@@ -62,13 +62,20 @@ export const Compound: Story = {
       <SettingsLayout.Grid>
         <SettingsLayout.Nav>
           <SettingsLayout.Group label="Conta">
-            <SettingsLayout.Link href="#profile" icon={<User aria-hidden className="size-4" />} active>
+            <SettingsLayout.Link
+              href="#profile"
+              icon={<User aria-hidden className="size-4" />}
+              active
+            >
               Perfil
             </SettingsLayout.Link>
             <SettingsLayout.Link href="#security" icon={<Lock aria-hidden className="size-4" />}>
               Segurança
             </SettingsLayout.Link>
-            <SettingsLayout.Link href="#notifications" icon={<Bell aria-hidden className="size-4" />}>
+            <SettingsLayout.Link
+              href="#notifications"
+              icon={<Bell aria-hidden className="size-4" />}
+            >
               Notificações
             </SettingsLayout.Link>
           </SettingsLayout.Group>
@@ -79,7 +86,11 @@ export const Compound: Story = {
           </SettingsLayout.Group>
         </SettingsLayout.Nav>
         <SettingsLayout.Panel>
-          <FormSection title="Perfil" description="Informações exibidas na sua conta." layout="split">
+          <FormSection
+            title="Perfil"
+            description="Informações exibidas na sua conta."
+            layout="split"
+          >
             <div className="grid gap-4 sm:grid-cols-2">
               <input className="rounded-md border px-3 py-2" defaultValue="Gustavo" />
               <input className="rounded-md border px-3 py-2" defaultValue="Bertoi" />

@@ -13,7 +13,8 @@ export * from './components/app-header/index.js';
 export * from './components/auth-layout/index.js';
 export * from './components/page-header/index.js';
 
-// Tier 1 - Auth
+// Tier 1 - Auth & SSO composition
+export * from './components/auth-social/index.js';
 export * from './components/sign-in-form/index.js';
 export * from './components/sign-up-form/index.js';
 export * from './components/forgot-password-form/index.js';

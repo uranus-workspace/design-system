@@ -1,10 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@uranus-workspace/design-system';
-import {
-  type HTMLAttributes,
-  type LiHTMLAttributes,
-  type ReactNode,
-  forwardRef,
-} from 'react';
+import { type HTMLAttributes, type LiHTMLAttributes, type ReactNode, forwardRef } from 'react';
 import { cn } from '../../lib/cn.js';
 
 export interface ActivityActor {
@@ -54,9 +49,7 @@ export const ActivityFeedItem = forwardRef<HTMLLIElement, ActivityFeedItemProps>
       >
         <div className="relative flex flex-col items-center">
           <Avatar className="size-9">
-            {actor.avatarUrl ? (
-              <AvatarImage src={actor.avatarUrl} alt={actor.name} />
-            ) : null}
+            {actor.avatarUrl ? <AvatarImage src={actor.avatarUrl} alt={actor.name} /> : null}
             <AvatarFallback>{getInitials(actor)}</AvatarFallback>
           </Avatar>
           {icon ? (

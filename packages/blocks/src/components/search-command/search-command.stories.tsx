@@ -72,10 +72,20 @@ export const CompoundOpen: Story = {
   render: () => (
     <SearchCommand open onOpenChange={() => {}} shortcutBinding={false}>
       <SearchCommand.Group heading="Navegação">
-        <SearchCommand.Item value="dashboard" icon={<Home aria-hidden />} shortcut="G H" onSelect={() => {}}>
+        <SearchCommand.Item
+          value="dashboard"
+          icon={<Home aria-hidden />}
+          shortcut="G H"
+          onSelect={() => {}}
+        >
           Ir para Dashboard
         </SearchCommand.Item>
-        <SearchCommand.Item value="projects" icon={<Folder aria-hidden />} shortcut="G P" onSelect={() => {}}>
+        <SearchCommand.Item
+          value="projects"
+          icon={<Folder aria-hidden />}
+          shortcut="G P"
+          onSelect={() => {}}
+        >
           Projetos
         </SearchCommand.Item>
       </SearchCommand.Group>

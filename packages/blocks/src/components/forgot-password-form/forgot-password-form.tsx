@@ -1,19 +1,34 @@
-import { Alert, AlertDescription, Button, Input, Label } from '@uranus-workspace/design-system';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Alert,
+  AlertDescription,
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '@uranus-workspace/design-system';
 import { CheckCircle2 } from 'lucide-react';
-import { type FormEvent, type HTMLAttributes, type ReactNode, forwardRef, useId } from 'react';
+import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react';
+import { forwardRef } from 'react';
+import { useForm } from 'react-hook-form';
 import { cn } from '../../lib/cn.js';
 import { BlockLink } from '../../lib/link.js';
+import {
+  type ForgotPasswordFormValues,
+  forgotPasswordFormSchema,
+} from './forgot-password-form.schema.js';
 
-export interface ForgotPasswordFormValues {
-  email: string;
-}
+export type { ForgotPasswordFormValues };
 
 export interface ForgotPasswordFormProps
   extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit' | 'title'> {
   onSubmit: (values: ForgotPasswordFormValues) => void | Promise<void>;
   loading?: boolean;
   error?: string | null;
-  /** When true, hides the form and shows the success state instead. */
   success?: boolean;
   title?: ReactNode;
   description?: ReactNode;
@@ -22,41 +37,119 @@ export interface ForgotPasswordFormProps
   signInHref?: string;
 }
 
+type ForgotPasswordFieldsInnerProps = Omit<
+  ForgotPasswordFormProps,
+  'success' | 'successDescription' | 'successTitle'
+>;
+
+const ForgotPasswordFieldsInner = forwardRef<HTMLFormElement, ForgotPasswordFieldsInnerProps>(
+  function ForgotPasswordFieldsInner(props, forwardedRef) {
+    const {
+      className,
+      description = 'Enter your email and we’ll send you a reset link.',
+      error = null,
+      loading = false,
+      onSubmit,
+      signInHref,
+      title = 'Forgot your password?',
+      ...formAttrs
+    } = props;
+
+    const form = useForm<ForgotPasswordFormValues>({
+      resolver: zodResolver(forgotPasswordFormSchema),
+      defaultValues: { email: '' },
+    });
+
+    return (
+      <Form {...form}>
+        <form
+          {...formAttrs}
+          ref={forwardedRef}
+          data-slot="forgot-password-form"
+          className={cn('flex flex-col gap-6', className)}
+          noValidate
+          onSubmit={form.handleSubmit(async (values) => {
+            if (loading) return;
+            await onSubmit(values);
+          })}
+        >
+          <header className="flex flex-col gap-2">
+            <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
+            {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+          </header>
+
+          {error ? (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          ) : null}
+
+          <fieldset disabled={loading} className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-1.5">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      autoComplete="email"
+                      placeholder="you@uranus.com.br"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full">
+              {loading ? 'Sending…' : 'Send reset link'}
+            </Button>
+          </fieldset>
+
+          {signInHref ? (
+            <p className="text-center text-sm text-muted-foreground">
+              <BlockLink
+                href={signInHref}
+                className="font-medium text-foreground underline-offset-4 hover:underline"
+              >
+                Back to sign in
+              </BlockLink>
+            </p>
+          ) : null}
+        </form>
+      </Form>
+    );
+  },
+);
+
+ForgotPasswordFieldsInner.displayName = 'ForgotPasswordFieldsInner';
+
 /**
- * Presentational "forgot password" form. Renders a single email input;
- * consumers flip `success` to true once the request resolves so the form is
- * replaced by an inline confirmation panel.
+ * Presentational forgot-password email step (`success=false`) with exported Zod schema; success panel has no react-hook-form.
  */
 export const ForgotPasswordForm = forwardRef<HTMLFormElement, ForgotPasswordFormProps>(
-  function ForgotPasswordForm(
-    {
+  function ForgotPasswordForm(props, ref) {
+    const {
       onSubmit,
-      loading = false,
-      error = null,
-      success = false,
-      title = 'Forgot your password?',
-      description = 'Enter your email and we’ll send you a reset link.',
+      loading,
+      error,
+      success,
+      title,
+      description,
       successTitle = 'Check your inbox',
       successDescription = 'If an account exists for that email, we sent a password reset link to it.',
       signInHref,
       className,
-      ...props
-    },
-    ref,
-  ) {
-    const emailId = useId();
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (loading) return;
-      const formData = new FormData(event.currentTarget);
-      void onSubmit({ email: String(formData.get('email') ?? '') });
-    };
+      ...remaining
+    } = props;
 
     if (success) {
       return (
         <div
-          ref={ref as never}
+          ref={ref as ForwardedRef<HTMLDivElement>}
           data-slot="forgot-password-form-success"
           role="status"
           className={cn('flex flex-col gap-6 text-center', className)}
@@ -79,54 +172,17 @@ export const ForgotPasswordForm = forwardRef<HTMLFormElement, ForgotPasswordForm
       );
     }
 
-    return (
-      <form
-        ref={ref}
-        data-slot="forgot-password-form"
-        onSubmit={handleSubmit}
-        noValidate
-        className={cn('flex flex-col gap-6', className)}
-        {...props}
-      >
-        <header className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
-          {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
-        </header>
+    const innerProps = {
+      className,
+      description,
+      error,
+      loading,
+      onSubmit,
+      signInHref,
+      title,
+      ...remaining,
+    } satisfies ForgotPasswordFieldsInnerProps;
 
-        {error ? (
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        ) : null}
-
-        <fieldset disabled={loading} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={emailId}>Email</Label>
-            <Input
-              id={emailId}
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              placeholder="you@uranus.com.br"
-            />
-          </div>
-          <Button type="submit" className="w-full">
-            {loading ? 'Sending…' : 'Send reset link'}
-          </Button>
-        </fieldset>
-
-        {signInHref ? (
-          <p className="text-center text-sm text-muted-foreground">
-            <BlockLink
-              href={signInHref}
-              className="font-medium text-foreground underline-offset-4 hover:underline"
-            >
-              Back to sign in
-            </BlockLink>
-          </p>
-        ) : null}
-      </form>
-    );
+    return <ForgotPasswordFieldsInner {...innerProps} ref={ref} />;
   },
 );

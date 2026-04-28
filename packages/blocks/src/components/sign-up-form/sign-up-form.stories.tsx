@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { AuthDivider, OAuthProviderButton } from '../auth-social/index.js';
 import { SignUpForm } from './sign-up-form.js';
 
 const meta: Meta<typeof SignUpForm> = {
@@ -15,6 +16,35 @@ export const Default: Story = {
     description: 'Crie sua conta Uranus em menos de um minuto.',
     signInHref: '#',
     onSubmit: () => {},
+  },
+};
+
+export const HybridSocialAndCredentials: Story = {
+  args: {
+    signInHref: '#',
+    onSubmit: () => {},
+    socialProviders: (
+      <>
+        <OAuthProviderButton provider="google" onClick={() => {}}>
+          Continue with Google
+        </OAuthProviderButton>
+        <AuthDivider />
+      </>
+    ),
+  },
+};
+
+export const OAuthOnlyShell: Story = {
+  args: {
+    credentials: 'hidden',
+    signInHref: '#',
+    socialProviders: (
+      <>
+        <OAuthProviderButton provider="google" onClick={() => {}}>
+          Continue with Google
+        </OAuthProviderButton>
+      </>
+    ),
   },
 };
 

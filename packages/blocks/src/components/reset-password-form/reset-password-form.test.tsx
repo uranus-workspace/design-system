@@ -20,10 +20,9 @@ describe('ResetPasswordForm', () => {
     await user.type(screen.getByLabelText('New password'), 'StrongPass1!');
     await user.type(screen.getByLabelText('Confirm password'), 'Different1!');
 
-    expect(screen.getByText('Passwords do not match.')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Update password' })).toBeDisabled();
-
     await user.click(screen.getByRole('button', { name: 'Update password' }));
+
+    expect(screen.getByText('Passwords do not match.')).toBeInTheDocument();
     expect(onSubmit).not.toHaveBeenCalled();
   });
 

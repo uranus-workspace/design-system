@@ -1,5 +1,5 @@
+export { ForgotPasswordForm, type ForgotPasswordFormProps } from './forgot-password-form.js';
 export {
-  ForgotPasswordForm,
-  type ForgotPasswordFormProps,
+  forgotPasswordFormSchema,
   type ForgotPasswordFormValues,
-} from './forgot-password-form.js';
+} from './forgot-password-form.schema.js';

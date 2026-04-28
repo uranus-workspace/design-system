@@ -11,7 +11,16 @@ export default defineConfig({
   clean: true,
   treeshake: true,
   splitting: false,
-  external: ['react', 'react-dom', 'motion', '@uranus-workspace/design-system'],
+  external: [
+    'react',
+    'react-dom',
+    'motion',
+    '@uranus-workspace/design-system',
+    'react-hook-form',
+    '@hookform/resolvers',
+    '@hookform/resolvers/zod',
+    'zod',
+  ],
   async onSuccess() {
     for (const file of ['dist/index.js', 'dist/index.cjs']) {
       const content = await readFile(file, 'utf8');

@@ -1,175 +1,283 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Alert,
   AlertDescription,
   Button,
   Checkbox,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
 } from '@uranus-workspace/design-system';
-import { type FormEvent, type HTMLAttributes, type ReactNode, forwardRef, useId } from 'react';
+import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react';
+import { forwardRef } from 'react';
+import { useForm } from 'react-hook-form';
 import { cn } from '../../lib/cn.js';
 import { BlockLink } from '../../lib/link.js';
+import { type SignInFormValues, signInFormSchema } from './sign-in-form.schema.js';
 
-export interface SignInFormValues {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
-
-export interface SignInFormProps
-  extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit' | 'title'> {
-  /** Submit handler. Receives the typed values object. */
-  onSubmit: (values: SignInFormValues) => void | Promise<void>;
-  /** When true, the submit button shows a loading state and the form is disabled. */
-  loading?: boolean;
-  /** Server-side error message, rendered as a destructive `Alert` above the form. */
+interface SignInFormShared {
   error?: string | null;
-  /** Heading rendered above the form. Defaults to `"Welcome back"`. */
   title?: ReactNode;
-  /** Optional supporting copy below the heading. */
   description?: ReactNode;
-  /** Slot for OAuth/SSO buttons rendered above the email field. */
   socialProviders?: ReactNode;
-  /** href forwarded to the "forgot password" link. Hidden when omitted. */
   forgotPasswordHref?: string;
-  /** href forwarded to the "create account" link. Hidden when omitted. */
   signUpHref?: string;
-  /** Hide the "remember me" checkbox. Defaults to `false`. */
   hideRememberMe?: boolean;
+  loading?: boolean;
 }
 
-/**
- * Presentational sign-in form — composes design-system primitives, exposes a
- * typed `onSubmit` callback, and stays 100% provider-agnostic.
- *
- * Renders a destructive `Alert` for the `error` prop and disables every
- * control while `loading` is true.
- */
-export const SignInForm = forwardRef<HTMLFormElement, SignInFormProps>(function SignInForm(
-  {
-    onSubmit,
-    loading = false,
-    error = null,
-    title = 'Welcome back',
-    description,
-    socialProviders,
-    forgotPasswordHref,
-    signUpHref,
-    hideRememberMe = false,
-    className,
-    ...props
-  },
-  ref,
-) {
-  const emailId = useId();
-  const passwordId = useId();
-  const rememberMeId = useId();
+export type SignInFormCredentialProps = SignInFormShared & {
+  credentials?: 'visible';
+  onSubmit: (values: SignInFormValues) => void | Promise<void>;
+} & Omit<HTMLAttributes<HTMLFormElement>, 'title' | 'onSubmit'>;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (loading) return;
-    const formData = new FormData(event.currentTarget);
-    const values: SignInFormValues = {
-      email: String(formData.get('email') ?? ''),
-      password: String(formData.get('password') ?? ''),
-      rememberMe: formData.get('rememberMe') === 'on',
-    };
-    void onSubmit(values);
-  };
+export type SignInFormOAuthOnlyProps = SignInFormShared & {
+  credentials: 'hidden';
+  onSubmit?: undefined;
+  onReset?: HTMLAttributes<HTMLDivElement>['onReset'];
+  onSubmitCapture?: HTMLAttributes<HTMLDivElement>['onSubmitCapture'];
+} & Omit<HTMLAttributes<HTMLDivElement>, 'title'>;
 
+export type SignInFormProps = SignInFormCredentialProps | SignInFormOAuthOnlyProps;
+
+function ShellHeader({ title, description }: Pick<SignInFormShared, 'description' | 'title'>) {
   return (
-    <form
-      ref={ref}
-      data-slot="sign-in-form"
-      onSubmit={handleSubmit}
-      noValidate
-      className={cn('flex flex-col gap-6', className)}
-      {...props}
-    >
-      <header className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
-        {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
-      </header>
+    <header className="flex flex-col gap-2">
+      <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+        {title ?? 'Welcome back'}
+      </h1>
+      {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+    </header>
+  );
+}
 
-      {error ? (
-        <Alert variant="destructive" data-slot="sign-in-form-error">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      ) : null}
+const SignInOAuthOnlyInner = forwardRef<HTMLDivElement, SignInFormOAuthOnlyProps>(
+  function SignInOAuthOnlyInner(
+    {
+      className,
+      title = 'Welcome back',
+      description,
+      error,
+      socialProviders,
+      signUpHref,
+      loading,
+      credentials,
+      ...shellProps
+    },
+    ref,
+  ) {
+    void credentials;
 
-      {socialProviders ? (
-        <div data-slot="sign-in-form-social" className="flex flex-col gap-2">
-          {socialProviders}
-        </div>
-      ) : null}
+    return (
+      <div
+        ref={ref}
+        data-slot="sign-in-form"
+        data-credentials="hidden"
+        className={cn('flex flex-col gap-6', className)}
+        {...shellProps}
+      >
+        <ShellHeader description={description} title={title} />
 
-      <fieldset disabled={loading} className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor={emailId}>Email</Label>
-          <Input
-            id={emailId}
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="you@uranus.com.br"
-          />
-        </div>
+        {error ? (
+          <Alert variant="destructive" data-slot="sign-in-form-error">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        ) : null}
 
-        <div className="flex flex-col gap-1.5">
-          <div className="flex items-center justify-between">
-            <Label htmlFor={passwordId}>Password</Label>
-            {forgotPasswordHref ? (
-              <BlockLink
-                href={forgotPasswordHref}
-                className="text-xs font-medium text-muted-foreground underline-offset-4 hover:underline"
-              >
-                Forgot password?
-              </BlockLink>
-            ) : null}
-          </div>
-          <Input
-            id={passwordId}
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-          />
-        </div>
-
-        {!hideRememberMe ? (
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id={rememberMeId}
-              name="rememberMe"
-              aria-labelledby={`${rememberMeId}-label`}
-            />
-            <Label
-              id={`${rememberMeId}-label`}
-              htmlFor={rememberMeId}
-              className="text-sm font-normal"
-            >
-              Remember me
-            </Label>
+        {socialProviders ? (
+          <div data-slot="sign-in-form-social" className="flex flex-col gap-2">
+            {socialProviders}
           </div>
         ) : null}
 
-        <Button type="submit" className="w-full">
-          {loading ? 'Signing in…' : 'Sign in'}
-        </Button>
-      </fieldset>
+        {loading ? (
+          <p className="text-center text-sm text-muted-foreground" role="status">
+            Loading…
+          </p>
+        ) : null}
 
-      {signUpHref ? (
-        <p className="text-center text-sm text-muted-foreground">
-          {'Don’t have an account? '}
-          <BlockLink
-            href={signUpHref}
-            className="font-medium text-foreground underline-offset-4 hover:underline"
-          >
-            Create one
-          </BlockLink>
-        </p>
-      ) : null}
-    </form>
+        {signUpHref ? (
+          <p className="text-center text-sm text-muted-foreground">
+            {'Don’t have an account? '}
+            <BlockLink
+              href={signUpHref}
+              className="font-medium text-foreground underline-offset-4 hover:underline"
+            >
+              Create one
+            </BlockLink>
+          </p>
+        ) : null}
+      </div>
+    );
+  },
+);
+
+SignInOAuthOnlyInner.displayName = 'SignInOAuthOnlyInner';
+
+const SignInCredentialInner = forwardRef<HTMLFormElement, SignInFormCredentialProps>(
+  function SignInCredentialInner(props, forwardedRef: ForwardedRef<HTMLFormElement>) {
+    const {
+      onSubmit,
+      loading = false,
+      error = null,
+      title = 'Welcome back',
+      description,
+      socialProviders,
+      forgotPasswordHref,
+      signUpHref,
+      hideRememberMe = false,
+      className,
+      credentials,
+      ...formProps
+    } = props;
+
+    void credentials;
+
+    const form = useForm<SignInFormValues>({
+      resolver: zodResolver(signInFormSchema),
+      defaultValues: {
+        email: '',
+        password: '',
+        rememberMe: false,
+      },
+    });
+
+    return (
+      <Form {...form}>
+        <form
+          {...formProps}
+          ref={forwardedRef}
+          data-slot="sign-in-form"
+          data-credentials="visible"
+          className={cn('flex flex-col gap-6', className)}
+          noValidate
+          onSubmit={form.handleSubmit(async (values) => {
+            if (loading) return;
+            await onSubmit(values);
+          })}
+        >
+          <ShellHeader description={description} title={title} />
+
+          {error ? (
+            <Alert variant="destructive" data-slot="sign-in-form-error">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          ) : null}
+
+          {socialProviders ? (
+            <div data-slot="sign-in-form-social" className="flex flex-col gap-2">
+              {socialProviders}
+            </div>
+          ) : null}
+
+          <fieldset disabled={loading} className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-1.5">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      autoComplete="email"
+                      placeholder="you@uranus.com.br"
+                      required
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <FormLabel>Password</FormLabel>
+                    {forgotPasswordHref ? (
+                      <BlockLink
+                        href={forgotPasswordHref}
+                        className="text-xs font-medium text-muted-foreground underline-offset-4 hover:underline"
+                      >
+                        Forgot password?
+                      </BlockLink>
+                    ) : null}
+                  </div>
+                  <FormControl>
+                    <Input type="password" autoComplete="current-password" required {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {!hideRememberMe ? (
+              <FormField
+                control={form.control}
+                name="rememberMe"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start gap-2 space-y-0">
+                    <FormControl className="!mt-0.5 shrink-0 flex">
+                      <Checkbox
+                        aria-label="Remember me"
+                        checked={field.value}
+                        onCheckedChange={(checked) => field.onChange(checked === true)}
+                      />
+                    </FormControl>
+                    <span className="text-sm font-normal leading-snug pb-1.5 pt-1.5">
+                      Remember me
+                    </span>
+                  </FormItem>
+                )}
+              />
+            ) : null}
+
+            <Button type="submit" className="w-full">
+              {loading ? 'Signing in…' : 'Sign in'}
+            </Button>
+          </fieldset>
+
+          {signUpHref ? (
+            <p className="text-center text-sm text-muted-foreground">
+              {'Don’t have an account? '}
+              <BlockLink
+                href={signUpHref}
+                className="font-medium text-foreground underline-offset-4 hover:underline"
+              >
+                Create one
+              </BlockLink>
+            </p>
+          ) : null}
+        </form>
+      </Form>
+    );
+  },
+);
+
+SignInCredentialInner.displayName = 'SignInCredentialInner';
+
+/** Sign-in wired to exported `signInFormSchema`; set `credentials="hidden"` for SSO-only stacks. */
+export const SignInForm = forwardRef<HTMLElement, SignInFormProps>(function SignInForm(props, ref) {
+  if (props.credentials === 'hidden') {
+    return (
+      <SignInOAuthOnlyInner
+        {...(props as SignInFormOAuthOnlyProps)}
+        ref={ref as ForwardedRef<HTMLDivElement>}
+      />
+    );
+  }
+  return (
+    <SignInCredentialInner
+      {...(props as SignInFormCredentialProps)}
+      ref={ref as ForwardedRef<HTMLFormElement>}
+    />
   );
 });

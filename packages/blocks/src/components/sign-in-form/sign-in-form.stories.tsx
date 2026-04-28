@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@uranus-workspace/design-system';
+import { AuthDivider, OAuthProviderButton } from '../auth-social/index.js';
 import { SignInForm } from './sign-in-form.js';
 
 const meta: Meta<typeof SignInForm> = {
@@ -30,6 +31,43 @@ export const WithSocialProviders: Story = {
       </Button>
     ),
     onSubmit: () => {},
+  },
+};
+
+export const HybridDividerAndPrimitives: Story = {
+  args: {
+    description: 'SSO primeiro, ou email quando o produto permite credenciais.',
+    forgotPasswordHref: '#',
+    signUpHref: '#',
+    onSubmit: () => {},
+    socialProviders: (
+      <>
+        <OAuthProviderButton provider="google" onClick={() => {}}>
+          Continue with Google
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="microsoft" onClick={() => {}}>
+          Continue with Microsoft
+        </OAuthProviderButton>
+        <AuthDivider label="ou continue com email" />
+      </>
+    ),
+  },
+};
+
+export const OAuthOnlyShell: Story = {
+  args: {
+    credentials: 'hidden',
+    signUpHref: '#',
+    socialProviders: (
+      <>
+        <OAuthProviderButton provider="google" onClick={() => {}}>
+          Continue with Google
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="microsoft" onClick={() => {}}>
+          Continue with Microsoft
+        </OAuthProviderButton>
+      </>
+    ),
   },
 };
 

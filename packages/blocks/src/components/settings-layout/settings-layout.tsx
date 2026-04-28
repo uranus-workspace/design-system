@@ -31,8 +31,7 @@ const settingsLinkClass = cn(
 );
 
 const settingsLinkActiveClass = 'bg-accent text-accent-foreground';
-const settingsLinkInactiveClass =
-  'text-muted-foreground hover:bg-muted hover:text-foreground';
+const settingsLinkInactiveClass = 'text-muted-foreground hover:bg-muted hover:text-foreground';
 
 type LinkComponent = ElementType<AnchorHTMLAttributes<HTMLAnchorElement>> | undefined;
 
@@ -63,11 +62,7 @@ function NavFromGroups({
   linkComponent?: LinkComponent;
 }) {
   return (
-    <nav
-      aria-label="Settings"
-      data-slot="settings-layout-nav"
-      className="flex flex-col gap-6"
-    >
+    <nav aria-label="Settings" data-slot="settings-layout-nav" className="flex flex-col gap-6">
       {groups.map((group, index) => (
         <div
           // biome-ignore lint/suspicious/noArrayIndexKey: groups are stable by position
@@ -114,12 +109,7 @@ export interface SettingsLayoutHeaderProps extends HTMLAttributes<HTMLDivElement
 export const SettingsLayoutHeader = forwardRef<HTMLDivElement, SettingsLayoutHeaderProps>(
   function SettingsLayoutHeader({ children, className, ...props }, ref) {
     return (
-      <div
-        ref={ref}
-        data-slot="settings-layout-header"
-        className={cn(className)}
-        {...props}
-      >
+      <div ref={ref} data-slot="settings-layout-header" className={cn(className)} {...props}>
         {children}
       </div>
     );
@@ -200,10 +190,7 @@ export type SettingsLayoutLinkProps = {
 } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'children'>;
 
 export const SettingsLayoutLink = forwardRef<HTMLAnchorElement, SettingsLayoutLinkProps>(
-  function SettingsLayoutLink(
-    { href, icon, active, children, className, ...anchorProps },
-    ref,
-  ) {
+  function SettingsLayoutLink({ href, icon, active, children, className, ...anchorProps }, ref) {
     const { linkComponent } = useContext(SettingsLayoutContext);
     return (
       <li>
@@ -219,7 +206,11 @@ export const SettingsLayoutLink = forwardRef<HTMLAnchorElement, SettingsLayoutLi
           )}
           {...anchorProps}
         >
-          {icon ? <span aria-hidden className="text-current">{icon}</span> : null}
+          {icon ? (
+            <span aria-hidden className="text-current">
+              {icon}
+            </span>
+          ) : null}
           <span>{children}</span>
         </BlockLink>
       </li>
@@ -247,41 +238,37 @@ export const SettingsLayoutPanel = forwardRef<HTMLDivElement, SettingsLayoutPane
   },
 );
 
-const SettingsLayoutRoot = forwardRef<HTMLDivElement, SettingsLayoutProps>(
-  function SettingsLayout(
-    { groups, linkComponent, header, children, className, ...props },
-    ref,
-  ) {
-    const legacyLayout = groups !== undefined;
+const SettingsLayoutRoot = forwardRef<HTMLDivElement, SettingsLayoutProps>(function SettingsLayout(
+  { groups, linkComponent, header, children, className, ...props },
+  ref,
+) {
+  const legacyLayout = groups !== undefined;
 
-    return (
-      <SettingsLayoutContext.Provider value={{ linkComponent }}>
-        <div
-          ref={ref}
-          data-slot="settings-layout"
-          className={cn('flex flex-col gap-6 p-6', className)}
-          {...props}
-        >
-          {legacyLayout ? (
-            <>
-              {header ? (
-                <div data-slot="settings-layout-header">{header}</div>
-              ) : null}
-              <div className="flex flex-col gap-6 md:grid md:grid-cols-[220px_1fr] md:gap-8">
-                <NavFromGroups groups={groups} linkComponent={linkComponent} />
-                <div data-slot="settings-layout-content" className="flex flex-col">
-                  {children}
-                </div>
+  return (
+    <SettingsLayoutContext.Provider value={{ linkComponent }}>
+      <div
+        ref={ref}
+        data-slot="settings-layout"
+        className={cn('flex flex-col gap-6 p-6', className)}
+        {...props}
+      >
+        {legacyLayout ? (
+          <>
+            {header ? <div data-slot="settings-layout-header">{header}</div> : null}
+            <div className="flex flex-col gap-6 md:grid md:grid-cols-[220px_1fr] md:gap-8">
+              <NavFromGroups groups={groups} linkComponent={linkComponent} />
+              <div data-slot="settings-layout-content" className="flex flex-col">
+                {children}
               </div>
-            </>
-          ) : (
-            children
-          )}
-        </div>
-      </SettingsLayoutContext.Provider>
-    );
-  },
-);
+            </div>
+          </>
+        ) : (
+          children
+        )}
+      </div>
+    </SettingsLayoutContext.Provider>
+  );
+});
 
 SettingsLayoutRoot.displayName = 'SettingsLayout';
 SettingsLayoutHeader.displayName = 'SettingsLayout.Header';

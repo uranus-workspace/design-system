@@ -1,5 +1,6 @@
+export { OtpVerificationForm, type OtpVerificationFormProps } from './otp-verification-form.js';
 export {
-  OtpVerificationForm,
-  type OtpVerificationFormProps,
+  createOtpVerificationFormSchema,
+  type OtpVerificationFormSchemaReturn,
   type OtpVerificationFormValues,
-} from './otp-verification-form.js';
+} from './otp-verification-form.schema.js';

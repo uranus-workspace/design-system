@@ -125,10 +125,7 @@ export type SearchCommandItemSlotProps = Omit<
 export const SearchCommandItem = forwardRef<
   ElementRef<typeof CommandItem>,
   SearchCommandItemSlotProps
->(function SearchCommandItem(
-  { onSelect, shortcut, icon, children, className, ...props },
-  ref,
-) {
+>(function SearchCommandItem({ onSelect, shortcut, icon, children, className, ...props }, ref) {
   const ctx = useContext(SearchCommandContext);
   if (!ctx) {
     throw new Error('SearchCommand.Item must be used within SearchCommand');

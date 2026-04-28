@@ -69,6 +69,7 @@ When adding or refactoring `@uranus-workspace/blocks` components:
 - **Use compound components** (`Parent`, `Parent.Slot`) when you need clear placement without one undifferentiated `children` blob.
 - **Use render props sparingly** — only when parent state must flow into the child (`renderItem`, etc.); keep signatures narrow.
 - **Compose other blocks or primitives** instead of duplicating dialog/sheet/list wrappers; share a11y and Radix wiring in one place.
+- **Auth flows** — `SignInForm`, `SignUpForm`, `ForgotPasswordForm`, `ResetPasswordForm`, and `OtpVerificationForm` expose colocated Zod schemas (`*.schema.ts`) and rely on `react-hook-form` wired to `Form` primitives from the design-system package. Use `OAuthProviderButton` + `AuthDivider` for SSO + email composition. Peers: `react-hook-form`, `zod`, `@hookform/resolvers` (see `packages/blocks/package.json`).
 
 See [`packages/blocks/README.md`](packages/blocks/README.md) for a short package-level summary.
 

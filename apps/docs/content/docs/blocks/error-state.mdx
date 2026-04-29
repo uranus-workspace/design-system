@@ -3,10 +3,15 @@ title: ErrorState
 description: Estado de erro pré-formatado - gêmeo do EmptyState com role="alert" e botão de retry padrão.
 ---
 
-`ErrorState` espelha a API do `EmptyState`, mas troca o tom para erro: borda vermelha, ícone de alerta padrão, `role="alert"` para anúncio imediato pelo leitor de tela, e um botão de "Try again" automático quando você passa `onRetry`.
+`ErrorState` espelha a API do `EmptyState`, mas troca o tom para erro: borda vermelha, ícone de alerta padrão, `role="alert"` para anúncio imediato pelo leitor de tela, e um botão **"Tentar novamente"** automático quando você passa `onRetry`.
 
 
-<ComponentPreview name="error-state-default" align="start" />
+<ComponentPreview
+  name="error-state-default"
+  align="center"
+  previewClassName="justify-center py-10 sm:py-14"
+  minHeight={420}
+/>
 
 ## Uso
 
@@ -23,8 +28,8 @@ import { ErrorState } from '@uranus-workspace/blocks';
 ## Props
 
 - `title`, `description`, `icon` — mesma API do `EmptyState`.
-- `onRetry` — adiciona o botão padrão "Try again" com ícone.
-- `retryLabel` — texto custom para o botão.
+- `onRetry` — adiciona o botão padrão "Tentar novamente" com ícone.
+- `retryLabel` — texto custom para o botão (default: `"Tentar novamente"`).
 - `actions` — slot livre. Quando passado, sobrescreve o botão default.
 
 ## Acessibilidade

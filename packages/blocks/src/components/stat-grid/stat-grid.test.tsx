@@ -30,8 +30,8 @@ describe('StatGrid', () => {
   it('has no a11y violations', async () => {
     const { container } = render(
       <StatGrid>
-        <StatCard label="MRR" value="$1k" />
-        <StatCard label="ARR" value="$12k" />
+        <StatCard label="MRR" value="R$ 1.000" />
+        <StatCard label="ARR" value="R$ 12.000" />
       </StatGrid>,
     );
     expect(await axe(container)).toHaveNoViolations();

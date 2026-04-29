@@ -7,7 +7,7 @@ export default function UpgradePromptDefault() {
     <UpgradePrompt
       layout="card"
       title="Desbloqueie relatórios avançados"
-      description="Compare períodos e exporte em CSV no plano Pro."
+      description="Compare períodos, exporte em CSV e adicione visões personalizadas no plano Pro."
       action={<Button size="sm">Fazer upgrade</Button>}
     />
   );

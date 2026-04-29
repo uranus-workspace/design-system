@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DollarSign, Users } from 'lucide-react';
+import { TrendingUp, Users } from 'lucide-react';
 import { StatCard } from './stat-card.js';
 
 const meta: Meta<typeof StatCard> = {
@@ -13,34 +13,34 @@ type Story = StoryObj<typeof StatCard>;
 
 export const Default: Story = {
   args: {
-    label: 'MRR',
-    value: '$48.2k',
-    icon: <DollarSign className="size-4" />,
-    delta: { value: '+12%', direction: 'up', label: 'vs last month' },
+    label: 'Receita recorrente (MRR)',
+    value: 'R$ 48.200',
+    icon: <TrendingUp className="size-4" aria-hidden />,
+    delta: { value: '+12%', direction: 'up', label: 'vs. mês anterior' },
   },
 };
 
 export const Negative: Story = {
   args: {
     label: 'Churn',
-    value: '3.4%',
-    icon: <Users className="size-4" />,
-    delta: { value: '+0.4pp', direction: 'down', label: 'vs last month' },
+    value: '3,4%',
+    icon: <Users className="size-4" aria-hidden />,
+    delta: { value: '+0,4pp', direction: 'down', label: 'vs. mês anterior' },
     intent: 'negative',
   },
 };
 
 export const Neutral: Story = {
   args: {
-    label: 'Active users',
-    value: '1,284',
-    delta: { value: '0%', direction: 'neutral', label: 'no change' },
+    label: 'Usuários ativos',
+    value: '1.284',
+    delta: { value: '0%', direction: 'neutral', label: 'sem mudança' },
   },
 };
 
 export const ValueOnly: Story = {
   args: {
-    label: 'Total customers',
-    value: '12,841',
+    label: 'Clientes totais',
+    value: '12.841',
   },
 };

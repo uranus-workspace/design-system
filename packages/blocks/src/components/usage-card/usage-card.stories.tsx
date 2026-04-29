@@ -26,7 +26,7 @@ export const Warning: Story = {
     label: 'Chamadas de API',
     used: 8500,
     limit: 10000,
-    unit: 'requests',
+    unit: 'req/mês',
     cta: (
       <Button size="sm" variant="outline">
         Aumentar limite

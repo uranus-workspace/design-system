@@ -8,24 +8,24 @@ describe('ChartCard', () => {
   it('renders title, description, actions, body, and footer', () => {
     render(
       <ChartCard
-        title="Revenue"
-        description="Monthly revenue, last 12 months."
-        actions={<Button>Filter</Button>}
-        footer={<span>Footer text</span>}
+        title="Receita mensal"
+        description="Receita dos últimos 12 meses."
+        actions={<Button>Filtrar</Button>}
+        footer={<span>Rodapé</span>}
       >
         <div data-testid="chart-body">chart</div>
       </ChartCard>,
     );
-    expect(screen.getByText('Revenue')).toBeInTheDocument();
-    expect(screen.getByText('Monthly revenue, last 12 months.')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Filter' })).toBeInTheDocument();
+    expect(screen.getByText('Receita mensal')).toBeInTheDocument();
+    expect(screen.getByText('Receita dos últimos 12 meses.')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Filtrar' })).toBeInTheDocument();
     expect(screen.getByTestId('chart-body')).toBeInTheDocument();
-    expect(screen.getByText('Footer text')).toBeInTheDocument();
+    expect(screen.getByText('Rodapé')).toBeInTheDocument();
   });
 
   it('omits actions and footer when not provided', () => {
     const { container } = render(
-      <ChartCard title="Revenue">
+      <ChartCard title="Receita mensal">
         <div>chart</div>
       </ChartCard>,
     );
@@ -35,7 +35,7 @@ describe('ChartCard', () => {
 
   it('has no a11y violations', async () => {
     const { container } = render(
-      <ChartCard title="Revenue" description="Monthly">
+      <ChartCard title="Receita mensal" description="Mensal">
         <div>chart</div>
       </ChartCard>,
     );

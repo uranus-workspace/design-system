@@ -15,12 +15,12 @@ type Story = StoryObj<typeof EmptyState>;
 export const Default: Story = {
   args: {
     icon: <FolderPlus aria-hidden />,
-    title: 'No projects yet',
-    description: 'Create your first project to start collaborating with your team.',
+    title: 'Nenhum projeto ainda',
+    description: 'Crie seu primeiro projeto para começar a colaborar com a equipe.',
     actions: (
       <>
-        <Button variant="outline">Learn more</Button>
-        <Button>New project</Button>
+        <Button variant="outline">Saiba mais</Button>
+        <Button>Novo projeto</Button>
       </>
     ),
   },
@@ -28,6 +28,6 @@ export const Default: Story = {
 
 export const Minimal: Story = {
   args: {
-    title: 'Nothing to see here',
+    title: 'Sem dados por aqui',
   },
 };

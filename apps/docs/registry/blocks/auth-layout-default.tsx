@@ -32,7 +32,12 @@ export default function AuthLayoutDefault() {
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="demo-email">Email</Label>
-              <Input id="demo-email" type="email" autoComplete="off" placeholder="voce@empresa.com.br" />
+              <Input
+                id="demo-email"
+                type="email"
+                autoComplete="off"
+                placeholder="voce@empresa.com.br"
+              />
             </div>
             <Button type="submit" className="w-full">
               Continuar

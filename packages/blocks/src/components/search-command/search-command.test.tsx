@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { SearchCommand, type SearchCommandGroupConfig } from './search-command.js';
+import { SearchCommand } from './search-command.js';
 
 beforeAll(() => {
   // jsdom does not implement Element.prototype.scrollIntoView; cmdk uses it
@@ -12,35 +12,21 @@ beforeAll(() => {
   }
 });
 
-const buildGroups = (selectSpy: () => void): SearchCommandGroupConfig[] => [
-  {
-    heading: 'Suggestions',
-    items: [
-      { id: 'home', label: 'Go home', onSelect: selectSpy, shortcut: 'G H' },
-      { id: 'profile', label: 'Open profile', onSelect: () => {} },
-    ],
-  },
-  {
-    heading: 'Settings',
-    items: [
-      { id: 'theme', label: 'Toggle theme', onSelect: () => {}, keywords: ['dark', 'light'] },
-    ],
-  },
-];
-
 describe('SearchCommand', () => {
   it('renders groups, items and shortcut when open', () => {
     render(
-      <SearchCommand
-        open
-        onOpenChange={() => {}}
-        groups={buildGroups(() => {})}
-        shortcutBinding={false}
-      />,
+      <SearchCommand open onOpenChange={() => {}} shortcutBinding={false}>
+        <SearchCommand.Group heading="Sugestões">
+          <SearchCommand.Item value="home" shortcut="G H">
+            Ir para Início
+          </SearchCommand.Item>
+          <SearchCommand.Item value="profile">Abrir perfil</SearchCommand.Item>
+        </SearchCommand.Group>
+      </SearchCommand>,
     );
-    expect(screen.getByPlaceholderText(/Type a command/)).toBeInTheDocument();
-    expect(screen.getByText('Go home')).toBeInTheDocument();
-    expect(screen.getByText('Open profile')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Digite um comando/)).toBeInTheDocument();
+    expect(screen.getByText('Ir para Início')).toBeInTheDocument();
+    expect(screen.getByText('Abrir perfil')).toBeInTheDocument();
     expect(screen.getByText('G H')).toBeInTheDocument();
   });
 
@@ -49,14 +35,15 @@ describe('SearchCommand', () => {
     const onSelect = vi.fn();
     const user = userEvent.setup();
     render(
-      <SearchCommand
-        open
-        onOpenChange={onOpenChange}
-        groups={buildGroups(onSelect)}
-        shortcutBinding={false}
-      />,
+      <SearchCommand open onOpenChange={onOpenChange} shortcutBinding={false}>
+        <SearchCommand.Group heading="Sugestões">
+          <SearchCommand.Item value="home" onSelect={onSelect} shortcut="G H">
+            Ir para Início
+          </SearchCommand.Item>
+        </SearchCommand.Group>
+      </SearchCommand>,
     );
-    await user.click(screen.getByText('Go home'));
+    await user.click(screen.getByText('Ir para Início'));
     expect(onSelect).toHaveBeenCalled();
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
@@ -65,7 +52,11 @@ describe('SearchCommand', () => {
     const onOpenChange = vi.fn();
     const user = userEvent.setup();
     render(
-      <SearchCommand open={false} onOpenChange={onOpenChange} groups={buildGroups(() => {})} />,
+      <SearchCommand open={false} onOpenChange={onOpenChange}>
+        <SearchCommand.Group heading="Sugestões">
+          <SearchCommand.Item value="home">Ir para Início</SearchCommand.Item>
+        </SearchCommand.Group>
+      </SearchCommand>,
     );
     await user.keyboard('{Meta>}k{/Meta}');
     expect(onOpenChange).toHaveBeenCalledWith(true);
@@ -73,31 +64,12 @@ describe('SearchCommand', () => {
 
   it('has no a11y violations when open', async () => {
     const { container } = render(
-      <SearchCommand
-        open
-        onOpenChange={() => {}}
-        groups={buildGroups(() => {})}
-        shortcutBinding={false}
-      />,
-    );
-    expect(await axe(container)).toHaveNoViolations();
-  });
-
-  it('supports compositional Group and Item', async () => {
-    const onOpenChange = vi.fn();
-    const onSelect = vi.fn();
-    const user = userEvent.setup();
-    render(
-      <SearchCommand open onOpenChange={onOpenChange} shortcutBinding={false}>
-        <SearchCommand.Group heading="Suggestions">
-          <SearchCommand.Item value="home" onSelect={onSelect} shortcut="G H">
-            Go home
-          </SearchCommand.Item>
+      <SearchCommand open onOpenChange={() => {}} shortcutBinding={false}>
+        <SearchCommand.Group heading="Sugestões">
+          <SearchCommand.Item value="home">Ir para Início</SearchCommand.Item>
         </SearchCommand.Group>
       </SearchCommand>,
     );
-    await user.click(screen.getByText('Go home'));
-    expect(onSelect).toHaveBeenCalled();
-    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(await axe(container)).toHaveNoViolations();
   });
 });

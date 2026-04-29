@@ -2,53 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button, CommandSeparator } from '@uranus-workspace/design-system';
 import { Bell, Folder, Home, Settings, User } from 'lucide-react';
 import { useState } from 'react';
-import { SearchCommand, type SearchCommandGroupConfig } from './search-command.js';
-
-const groups: SearchCommandGroupConfig[] = [
-  {
-    heading: 'Navegação',
-    items: [
-      {
-        id: 'home',
-        label: 'Ir para Dashboard',
-        icon: <Home aria-hidden />,
-        shortcut: 'G H',
-        onSelect: () => {},
-      },
-      {
-        id: 'projects',
-        label: 'Projetos',
-        icon: <Folder aria-hidden />,
-        shortcut: 'G P',
-        onSelect: () => {},
-      },
-    ],
-  },
-  {
-    heading: 'Conta',
-    items: [
-      {
-        id: 'profile',
-        label: 'Meu perfil',
-        icon: <User aria-hidden />,
-        onSelect: () => {},
-      },
-      {
-        id: 'notifications',
-        label: 'Notificações',
-        icon: <Bell aria-hidden />,
-        onSelect: () => {},
-      },
-      {
-        id: 'settings',
-        label: 'Configurações',
-        icon: <Settings aria-hidden />,
-        keywords: ['preferências', 'theme'],
-        onSelect: () => {},
-      },
-    ],
-  },
-];
+import { SearchCommand } from './search-command.js';
 
 const meta: Meta<typeof SearchCommand> = {
   title: 'Blocks/Forms/SearchCommand',
@@ -60,15 +14,6 @@ export default meta;
 type Story = StoryObj<typeof SearchCommand>;
 
 export const Open: Story = {
-  args: {
-    open: true,
-    onOpenChange: () => {},
-    groups,
-    shortcutBinding: false,
-  },
-};
-
-export const CompoundOpen: Story = {
   render: () => (
     <SearchCommand open onOpenChange={() => {}} shortcutBinding={false}>
       <SearchCommand.Group heading="Navegação">
@@ -94,18 +39,48 @@ export const CompoundOpen: Story = {
         <SearchCommand.Item value="profile" icon={<User aria-hidden />} onSelect={() => {}}>
           Meu perfil
         </SearchCommand.Item>
+        <SearchCommand.Item value="notifications" icon={<Bell aria-hidden />} onSelect={() => {}}>
+          Notificações
+        </SearchCommand.Item>
+        <SearchCommand.Item
+          value="settings"
+          icon={<Settings aria-hidden />}
+          keywords={['preferências', 'theme']}
+          onSelect={() => {}}
+        >
+          Configurações
+        </SearchCommand.Item>
       </SearchCommand.Group>
     </SearchCommand>
   ),
 };
 
 export const Triggered: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     return (
       <div>
         <Button onClick={() => setOpen(true)}>Abrir paleta (⌘K)</Button>
-        <SearchCommand open={open} onOpenChange={setOpen} groups={groups} />
+        <SearchCommand open={open} onOpenChange={setOpen}>
+          <SearchCommand.Group heading="Navegação">
+            <SearchCommand.Item
+              value="dashboard"
+              icon={<Home aria-hidden />}
+              shortcut="G H"
+              onSelect={() => setOpen(false)}
+            >
+              Ir para Dashboard
+            </SearchCommand.Item>
+            <SearchCommand.Item
+              value="projects"
+              icon={<Folder aria-hidden />}
+              shortcut="G P"
+              onSelect={() => setOpen(false)}
+            >
+              Projetos
+            </SearchCommand.Item>
+          </SearchCommand.Group>
+        </SearchCommand>
       </div>
     );
   },

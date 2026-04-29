@@ -1,34 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Boxes, Layers3, Palette, Sparkles } from 'lucide-react';
-import { FeatureGrid, type FeatureItem } from './feature-grid.js';
-
-const features: FeatureItem[] = [
-  {
-    id: 'tokens',
-    icon: <Palette aria-hidden />,
-    title: 'Tokens semânticos',
-    description:
-      'Cores OKLCH, tipografia e radii em CSS-first. Trocar tema é editar variáveis CSS.',
-  },
-  {
-    id: 'primitives',
-    icon: <Boxes aria-hidden />,
-    title: 'Primitives donos',
-    description: 'Cada componente shadcn vive como código próprio do seu repositório.',
-  },
-  {
-    id: 'blocks',
-    icon: <Layers3 aria-hidden />,
-    title: 'Blocos compostos',
-    description: 'Layouts prontos para dashboards: AppShell, AppSidebar, DataTable, e mais.',
-  },
-  {
-    id: 'docs',
-    icon: <Sparkles aria-hidden />,
-    title: 'Docs interativos',
-    description: 'Storybook + Fumadocs com exemplos vivos importando o real do código.',
-  },
-];
+import { FeatureGrid } from './feature-grid.js';
 
 const meta: Meta<typeof FeatureGrid> = {
   title: 'Blocks/Marketing/FeatureGrid',
@@ -43,15 +15,52 @@ export default meta;
 type Story = StoryObj<typeof FeatureGrid>;
 
 export const Default: Story = {
-  args: {
-    features,
-    columns: 4,
-  },
+  args: { columns: 4 },
+  render: (args) => (
+    <FeatureGrid {...args}>
+      <FeatureGrid.Item
+        icon={<Palette aria-hidden />}
+        title="Tokens semânticos"
+        description="Cores OKLCH, tipografia e radii em CSS-first. Trocar tema é editar variáveis CSS."
+      />
+      <FeatureGrid.Item
+        icon={<Boxes aria-hidden />}
+        title="Primitives donos"
+        description="Cada componente shadcn vive como código próprio do seu repositório."
+      />
+      <FeatureGrid.Item
+        icon={<Layers3 aria-hidden />}
+        title="Blocos compostos"
+        description="Layouts prontos para dashboards: AppShell, AppSidebar, DataTable, e mais."
+      />
+      <FeatureGrid.Item
+        icon={<Sparkles aria-hidden />}
+        title="Docs interativos"
+        description="Storybook + Fumadocs com exemplos vivos importando o real do código."
+      />
+    </FeatureGrid>
+  ),
 };
 
 export const ThreeColumn: Story = {
-  args: {
-    features: features.slice(0, 3),
-    columns: 3,
-  },
+  args: { columns: 3 },
+  render: (args) => (
+    <FeatureGrid {...args}>
+      <FeatureGrid.Item
+        icon={<Palette aria-hidden />}
+        title="Tokens semânticos"
+        description="Cores OKLCH, tipografia e radii em CSS-first."
+      />
+      <FeatureGrid.Item
+        icon={<Boxes aria-hidden />}
+        title="Primitives donos"
+        description="Cada componente shadcn vive como código próprio do repositório."
+      />
+      <FeatureGrid.Item
+        icon={<Layers3 aria-hidden />}
+        title="Blocos compostos"
+        description="Layouts prontos para dashboards: AppShell, AppSidebar, DataTable."
+      />
+    </FeatureGrid>
+  ),
 };

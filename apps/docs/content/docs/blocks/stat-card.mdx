@@ -12,20 +12,20 @@ description: KPI card - label, valor, delta direcionado e sparkline opcional.
 
 ```tsx
 import { StatCard } from '@uranus-workspace/blocks';
-import { DollarSign } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 
 <StatCard
-  label="MRR"
-  value="$48.2k"
-  icon={<DollarSign className="size-4" />}
-  delta={{ value: '+12%', direction: 'up', label: 'vs mês passado' }}
+  label="Receita recorrente (MRR)"
+  value="R$ 48.200"
+  icon={<TrendingUp className="size-4" aria-hidden />}
+  delta={{ value: '+12%', direction: 'up', label: 'vs. mês anterior' }}
 />
 ```
 
 ## Props
 
 - `label` — texto curto, geralmente em `text-sm` `text-muted-foreground`.
-- `value` — formate antes de passar (use `Intl.NumberFormat` do app).
+- `value` — formate antes de passar (use `Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })`).
 - `delta.direction` — `'up' | 'down' | 'neutral'`. Define a cor e o ícone.
 - `intent` — borda do card (`default | positive | negative | warning`).
 - `sparkline` — slot livre, geralmente um `ChartContainer` do `@uranus-workspace/design-system`.

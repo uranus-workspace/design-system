@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from '@uranus-workspace/design-system';
+import { Button, Input } from '@uranus-workspace/design-system';
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { FilterBar } from './filter-bar.js';
 
@@ -12,50 +13,57 @@ const meta: Meta<typeof FilterBar> = {
 export default meta;
 type Story = StoryObj<typeof FilterBar>;
 
+const initialChips = [
+  { id: 'status', label: 'Status: Ativo' },
+  { id: 'plan', label: 'Plano: Pro' },
+  { id: 'region', label: 'Região: BR' },
+];
+
 export const Default: Story = {
   render: function Render() {
-    const [filters, setFilters] = useState([
-      { id: 'status', label: 'Status: Active' },
-      { id: 'plan', label: 'Plan: Pro' },
-      { id: 'region', label: 'Region: BR' },
-    ]);
+    const [chips, setChips] = useState(initialChips);
     return (
-      <FilterBar
-        filters={filters}
-        onRemoveFilter={(id) => setFilters((curr) => curr.filter((f) => f.id !== id))}
-        onClearAll={() => setFilters([])}
-        leadingSlot={<Input placeholder="Buscar…" className="w-48" />}
-      />
+      <FilterBar>
+        <Input placeholder="Buscar…" className="w-48" />
+        <Button variant="outline" size="sm" type="button">
+          <Plus aria-hidden className="size-3" />
+          <span>Adicionar filtro</span>
+        </Button>
+        <FilterBar.Chips>
+          {chips.map((c) => (
+            <FilterBar.Chip
+              key={c.id}
+              id={c.id}
+              label={c.label}
+              onRemove={(id) => setChips((curr) => curr.filter((x) => x.id !== id))}
+            />
+          ))}
+        </FilterBar.Chips>
+        {chips.length > 0 ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            type="button"
+            onClick={() => setChips([])}
+            className="ml-auto"
+          >
+            Limpar tudo
+          </Button>
+        ) : null}
+      </FilterBar>
     );
   },
 };
 
 export const Empty: Story = {
-  args: {
-    filters: [],
-    onRemoveFilter: () => {},
-  },
-};
-
-export const Compositional: Story = {
-  render: function Render() {
-    const [ids, setIds] = useState<string[]>(['status', 'plan']);
-    const chips = [
-      { id: 'status', label: 'Status: Active' },
-      { id: 'plan', label: 'Plan: Pro' },
-      { id: 'region', label: 'Region: BR' },
-    ].filter((c) => ids.includes(c.id));
-    return (
-      <FilterBar leadingSlot={<Input placeholder="Buscar…" className="w-48" />}>
-        {chips.map((c) => (
-          <FilterBar.Chip
-            key={c.id}
-            id={c.id}
-            label={c.label}
-            onRemove={(id) => setIds((curr) => curr.filter((x) => x !== id))}
-          />
-        ))}
-      </FilterBar>
-    );
-  },
+  render: () => (
+    <FilterBar>
+      <Input placeholder="Buscar…" className="w-48" />
+      <Button variant="outline" size="sm" type="button">
+        <Plus aria-hidden className="size-3" />
+        <span>Adicionar filtro</span>
+      </Button>
+      <FilterBar.Chips />
+    </FilterBar>
+  ),
 };

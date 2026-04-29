@@ -7,32 +7,40 @@ describe('StatCard', () => {
   it('renders label, value, and delta', () => {
     render(
       <StatCard
-        label="MRR"
-        value="$48.2k"
-        delta={{ value: '+12%', direction: 'up', label: 'vs last month' }}
+        label="Receita recorrente (MRR)"
+        value="R$ 48.200"
+        delta={{ value: '+12%', direction: 'up', label: 'vs. mês anterior' }}
       />,
     );
-    expect(screen.getByText('MRR')).toBeInTheDocument();
-    expect(screen.getByText('$48.2k')).toBeInTheDocument();
+    expect(screen.getByText('Receita recorrente (MRR)')).toBeInTheDocument();
+    expect(screen.getByText('R$ 48.200')).toBeInTheDocument();
     expect(screen.getByText('+12%')).toBeInTheDocument();
-    expect(screen.getByText('vs last month')).toBeInTheDocument();
+    expect(screen.getByText('vs. mês anterior')).toBeInTheDocument();
   });
 
   it('renders sparkline slot when provided', () => {
     render(
-      <StatCard label="Visitors" value="12.4k" sparkline={<div data-testid="spark">spark</div>} />,
+      <StatCard
+        label="Visitantes"
+        value="12.400"
+        sparkline={<div data-testid="spark">spark</div>}
+      />,
     );
     expect(screen.getByTestId('spark')).toBeInTheDocument();
   });
 
   it('omits delta when not provided', () => {
-    const { container } = render(<StatCard label="Users" value="42" />);
+    const { container } = render(<StatCard label="Usuários" value="42" />);
     expect(container.querySelector('[data-slot="stat-card-delta"]')).toBeNull();
   });
 
   it('has no a11y violations', async () => {
     const { container } = render(
-      <StatCard label="MRR" value="$48.2k" delta={{ value: '+12%', direction: 'up' }} />,
+      <StatCard
+        label="Receita recorrente (MRR)"
+        value="R$ 48.200"
+        delta={{ value: '+12%', direction: 'up' }}
+      />,
     );
     expect(await axe(container)).toHaveNoViolations();
   });

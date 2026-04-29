@@ -1,12 +1,17 @@
 ---
 title: NotificationList
-description: Lista de notificações para o popover do sino - rendered dentro de um Popover.
+description: Lista de notificações para o popover do sino — composta como Header + List + Item.
 ---
 
-`NotificationList` é a lista que vive dentro do `Popover` do sino no `AppHeader`. Cada item tem título, descrição opcional, timestamp e flag `unread`. Quando `unread: true`, mostra um ponto azul + `aria-current="true"`.
+`NotificationList` é a lista que vive dentro do `Popover` do sino no `AppHeader`. A composição é explícita com **`NotificationList.Header`**, **`NotificationList.List`** e **`NotificationList.Item`**. Itens com `unread` mostram um ponto azul e marcam `aria-current="true"`.
 
 
-<ComponentPreview name="notification-list-default" align="start" />
+<ComponentPreview
+  name="notification-list-default"
+  align="center"
+  previewClassName="justify-center py-8 sm:py-10"
+  minHeight={420}
+/>
 
 ## Uso
 
@@ -21,17 +26,34 @@ import { Bell } from 'lucide-react';
       <Bell aria-hidden className="size-4" />
     </Button>
   </PopoverTrigger>
-  <PopoverContent className="p-0" align="end">
-    <NotificationList
-      items={notifications}
-      onMarkAllRead={markAllRead}
-    />
+  <PopoverContent className="w-80 p-0" align="end">
+    <NotificationList>
+      <NotificationList.Header
+        title="Notificações"
+        unreadCount={2}
+        onMarkAllRead={markAllRead}
+      />
+      <NotificationList.List>
+        <NotificationList.Item
+          title="Novo comentário em Apollo"
+          description="Bruno: ficou ótimo!"
+          timestamp="há 2 minutos"
+          unread
+          onSelect={() => router.push('/comments/1')}
+        />
+        <NotificationList.Item
+          title="Build concluído"
+          description="main passou em 2m31s"
+          timestamp="há 1 hora"
+        />
+      </NotificationList.List>
+    </NotificationList>
   </PopoverContent>
 </Popover>
 ```
 
-## Props
+## Subcomponentes
 
-- `items` — lista. Cada item pode ter `onSelect` para virar um botão clicável.
-- `onMarkAllRead` — só aparece quando há ao menos um item `unread`.
-- `emptyState` — sobrescreve o `EmptyState` padrão ("You're all caught up").
+- **`NotificationList.Header`** — header com `title?`, `unreadCount?`, `onMarkAllRead?`. O botão "Marcar tudo como lido" só aparece quando `unreadCount > 0`.
+- **`NotificationList.List`** — `<ul>` rolável (`max-h-96 overflow-auto`).
+- **`NotificationList.Item`** — `<li>` com `title`, `description?`, `timestamp`, `unread?`, `onSelect?` (vira botão clicável).

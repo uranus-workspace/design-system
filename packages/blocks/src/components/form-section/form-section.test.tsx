@@ -7,45 +7,45 @@ describe('FormSection', () => {
   it('renders heading, description, fields and footer', () => {
     render(
       <FormSection
-        title="Profile"
-        description="Update your personal info."
-        footer={<button type="button">Save</button>}
+        title="Perfil"
+        description="Atualize suas informações pessoais."
+        footer={<button type="button">Salvar</button>}
       >
-        <input aria-label="Full name" />
+        <input aria-label="Nome completo" />
       </FormSection>,
     );
-    expect(screen.getByRole('heading', { name: 'Profile', level: 2 })).toBeInTheDocument();
-    expect(screen.getByText('Update your personal info.')).toBeInTheDocument();
-    expect(screen.getByLabelText('Full name')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Perfil', level: 2 })).toBeInTheDocument();
+    expect(screen.getByText('Atualize suas informações pessoais.')).toBeInTheDocument();
+    expect(screen.getByLabelText('Nome completo')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeInTheDocument();
   });
 
   it('links the section to the heading via aria-labelledby', () => {
     render(
-      <FormSection title="Notifications">
-        <input aria-label="Enable" />
+      <FormSection title="Notificações">
+        <input aria-label="Ativar" />
       </FormSection>,
     );
-    const heading = screen.getByRole('heading', { name: 'Notifications' });
+    const heading = screen.getByRole('heading', { name: 'Notificações' });
     const section = heading.closest('section');
     expect(section).toHaveAttribute('aria-labelledby', heading.id);
   });
 
   it('switches layout via data-layout attribute', () => {
     render(
-      <FormSection title="Split" layout="split">
+      <FormSection title="Dividido" layout="split">
         <input aria-label="x" />
       </FormSection>,
     );
-    const heading = screen.getByRole('heading', { name: 'Split' });
+    const heading = screen.getByRole('heading', { name: 'Dividido' });
     expect(heading.closest('section')).toHaveAttribute('data-layout', 'split');
   });
 
   it('has no a11y violations', async () => {
     const { container } = render(
-      <FormSection title="Profile" description="Some description.">
+      <FormSection title="Perfil" description="Descrição da seção.">
         <label>
-          Name
+          Nome
           <input />
         </label>
       </FormSection>,

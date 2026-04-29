@@ -1,63 +1,19 @@
 import { Button } from '@uranus-workspace/design-system';
 import { type HTMLAttributes, type LiHTMLAttributes, type ReactNode, forwardRef } from 'react';
 import { cn } from '../../lib/cn.js';
-import { EmptyState } from '../empty-state/empty-state.js';
 
-export interface NotificationItem {
-  id: string;
-  title: ReactNode;
-  description?: ReactNode;
-  timestamp: ReactNode;
-  unread?: boolean;
-  onSelect?: () => void;
-}
-
-export interface NotificationListProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** Legacy: notification rows. Omit when composing with `NotificationList.Item` inside `NotificationList.List`. */
-  items?: NotificationItem[];
-  /** Legacy / optional: header title when not using `NotificationList.Header`. */
-  title?: ReactNode;
-  onMarkAllRead?: () => void;
-  emptyState?: ReactNode;
-}
-
-function NotificationRowContent({
-  title,
-  description,
-  timestamp,
-  unread,
-}: Pick<NotificationItem, 'title' | 'description' | 'timestamp' | 'unread'>) {
-  return (
-    <>
-      <span className="flex items-center gap-2">
-        {unread ? (
-          <span aria-hidden className="size-2 rounded-full bg-primary" />
-        ) : (
-          <span aria-hidden className="size-2" />
-        )}
-        <span className="text-sm font-medium text-foreground">{title}</span>
-      </span>
-      {description ? (
-        <span className="block pl-4 text-sm text-muted-foreground">{description}</span>
-      ) : null}
-      <time className="block pl-4 text-xs text-muted-foreground">{timestamp}</time>
-    </>
-  );
-}
+export type NotificationListProps = Omit<HTMLAttributes<HTMLDivElement>, 'title'>;
 
 export interface NotificationListHeaderProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
   title?: ReactNode;
+  /** When set together with `unreadCount > 0`, renders a "Marcar tudo como lido" button. */
   onMarkAllRead?: () => void;
-  /**
-   * Number of unread items — when &gt; 0 with `onMarkAllRead`, shows "Mark all read".
-   * In the legacy API this is derived from `items`.
-   */
   unreadCount?: number;
 }
 
 export const NotificationListHeader = forwardRef<HTMLElement, NotificationListHeaderProps>(
   function NotificationListHeader(
-    { title = 'Notifications', onMarkAllRead, unreadCount = 0, className, ...props },
+    { title = 'Notificações', onMarkAllRead, unreadCount = 0, className, ...props },
     ref,
   ) {
     return (
@@ -70,7 +26,7 @@ export const NotificationListHeader = forwardRef<HTMLElement, NotificationListHe
         <span className="text-sm font-medium">{title}</span>
         {onMarkAllRead && unreadCount > 0 ? (
           <Button variant="ghost" size="sm" onClick={onMarkAllRead}>
-            Mark all read
+            Marcar tudo como lido
           </Button>
         ) : null}
       </header>
@@ -93,21 +49,35 @@ export const NotificationListList = forwardRef<HTMLUListElement, NotificationLis
   },
 );
 
-export type NotificationListItemProps = NotificationItem &
-  Omit<LiHTMLAttributes<HTMLLIElement>, 'id' | 'title'>;
+export interface NotificationListItemProps
+  extends Omit<LiHTMLAttributes<HTMLLIElement>, 'title' | 'children'> {
+  title: ReactNode;
+  description?: ReactNode;
+  timestamp: ReactNode;
+  unread?: boolean;
+  onSelect?: () => void;
+}
 
 export const NotificationListItem = forwardRef<HTMLLIElement, NotificationListItemProps>(
   function NotificationListItem(
-    { id: _id, title, description, timestamp, unread, onSelect, className, ...props },
+    { title, description, timestamp, unread, onSelect, className, ...props },
     ref,
   ) {
     const content = (
-      <NotificationRowContent
-        title={title}
-        description={description}
-        timestamp={timestamp}
-        unread={unread}
-      />
+      <>
+        <span className="flex items-center gap-2">
+          {unread ? (
+            <span aria-hidden className="size-2 rounded-full bg-primary" />
+          ) : (
+            <span aria-hidden className="size-2" />
+          )}
+          <span className="text-sm font-medium text-foreground">{title}</span>
+        </span>
+        {description ? (
+          <span className="block pl-4 text-sm text-muted-foreground">{description}</span>
+        ) : null}
+        <time className="block pl-4 text-xs text-muted-foreground">{timestamp}</time>
+      </>
     );
     return (
       <li
@@ -134,44 +104,7 @@ export const NotificationListItem = forwardRef<HTMLLIElement, NotificationListIt
 );
 
 const NotificationListRoot = forwardRef<HTMLDivElement, NotificationListProps>(
-  function NotificationList(
-    { items, title = 'Notifications', onMarkAllRead, emptyState, className, children, ...props },
-    ref,
-  ) {
-    const legacyLayout = items !== undefined;
-    const hasItems = legacyLayout && items.length > 0;
-    const unreadCount = legacyLayout ? items.filter((item) => item.unread).length : 0;
-
-    if (legacyLayout) {
-      return (
-        <div
-          ref={ref}
-          data-slot="notification-list"
-          className={cn('flex w-80 flex-col', className)}
-          {...props}
-        >
-          <NotificationListHeader
-            title={title}
-            onMarkAllRead={onMarkAllRead}
-            unreadCount={unreadCount}
-          />
-          {hasItems ? (
-            <NotificationListList>
-              {items.map((item) => (
-                <NotificationListItem key={item.id} {...item} />
-              ))}
-            </NotificationListList>
-          ) : (
-            <div className="px-4 py-6">
-              {emptyState ?? (
-                <EmptyState title="You're all caught up" description="No new notifications." />
-              )}
-            </div>
-          )}
-        </div>
-      );
-    }
-
+  function NotificationList({ className, children, ...props }, ref) {
     return (
       <div
         ref={ref}
@@ -191,8 +124,8 @@ NotificationListList.displayName = 'NotificationList.List';
 NotificationListItem.displayName = 'NotificationList.Item';
 
 /**
- * Notification dropdown / page list. Use **`items`** for static data or compose
- * with **`Header`**, **`List`**, and **`Item`**.
+ * Notification dropdown / page list. Compose with **`NotificationList.Header`**,
+ * **`NotificationList.List`**, and **`NotificationList.Item`**.
  */
 export const NotificationList = Object.assign(NotificationListRoot, {
   Header: NotificationListHeader,

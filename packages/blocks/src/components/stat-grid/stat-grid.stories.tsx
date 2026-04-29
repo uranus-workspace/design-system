@@ -13,10 +13,14 @@ type Story = StoryObj<typeof StatGrid>;
 
 const cards = (
   <>
-    <StatCard label="MRR" value="$48.2k" delta={{ value: '+12%', direction: 'up' }} />
-    <StatCard label="Churn" value="3.4%" delta={{ value: '+0.4pp', direction: 'down' }} />
-    <StatCard label="Active users" value="1,284" delta={{ value: '0%', direction: 'neutral' }} />
-    <StatCard label="Net new" value="148" delta={{ value: '+6', direction: 'up' }} />
+    <StatCard
+      label="Receita recorrente (MRR)"
+      value="R$ 48.200"
+      delta={{ value: '+12%', direction: 'up' }}
+    />
+    <StatCard label="Churn" value="3,4%" delta={{ value: '+0,4pp', direction: 'down' }} />
+    <StatCard label="Usuários ativos" value="1.284" delta={{ value: '0%', direction: 'neutral' }} />
+    <StatCard label="Novos clientes" value="148" delta={{ value: '+6', direction: 'up' }} />
   </>
 );
 

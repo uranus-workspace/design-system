@@ -1,16 +1,7 @@
 import { type HTMLAttributes, type ReactNode, forwardRef } from 'react';
 import { cn } from '../../lib/cn.js';
 
-export interface FeatureItem {
-  id: string;
-  icon?: ReactNode;
-  title: ReactNode;
-  description: ReactNode;
-}
-
 export interface FeatureGridProps extends HTMLAttributes<HTMLDivElement> {
-  /** Legacy cells. Omit when composing with `FeatureGrid.Item`. */
-  features?: FeatureItem[];
   columns?: 2 | 3 | 4;
 }
 
@@ -20,10 +11,14 @@ const columnClass: Record<NonNullable<FeatureGridProps['columns']>, string> = {
   4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
 };
 
-export type FeatureGridItemProps = FeatureItem & Omit<HTMLAttributes<HTMLDivElement>, 'title'>;
+export interface FeatureGridItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  icon?: ReactNode;
+  title: ReactNode;
+  description: ReactNode;
+}
 
 export const FeatureGridItem = forwardRef<HTMLDivElement, FeatureGridItemProps>(
-  function FeatureGridItem({ id: _id, icon, title, description, className, ...props }, ref) {
+  function FeatureGridItem({ icon, title, description, className, ...props }, ref) {
     return (
       <div
         ref={ref}
@@ -47,10 +42,9 @@ export const FeatureGridItem = forwardRef<HTMLDivElement, FeatureGridItemProps>(
 );
 
 const FeatureGridRoot = forwardRef<HTMLDivElement, FeatureGridProps>(function FeatureGrid(
-  { features, columns = 3, className, children, ...props },
+  { columns = 3, className, children, ...props },
   ref,
 ) {
-  const legacyLayout = features !== undefined;
   return (
     <div
       ref={ref}
@@ -58,9 +52,7 @@ const FeatureGridRoot = forwardRef<HTMLDivElement, FeatureGridProps>(function Fe
       className={cn('grid gap-8', columnClass[columns], className)}
       {...props}
     >
-      {legacyLayout
-        ? features.map((feature) => <FeatureGridItem key={feature.id} {...feature} />)
-        : children}
+      {children}
     </div>
   );
 });
@@ -69,7 +61,7 @@ FeatureGridRoot.displayName = 'FeatureGrid';
 FeatureGridItem.displayName = 'FeatureGrid.Item';
 
 /**
- * Marketing feature grid. Pass **`features`** or compose **`FeatureGrid.Item`** children.
+ * Marketing feature grid. Compose with **`FeatureGrid.Item`** children.
  */
 export const FeatureGrid = Object.assign(FeatureGridRoot, {
   Item: FeatureGridItem,

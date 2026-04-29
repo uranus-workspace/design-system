@@ -38,11 +38,11 @@ export const Inline: Story = {
 export const Banner: Story = {
   args: {
     layout: 'banner',
-    title: 'Black Friday: 30% off no plano anual',
-    description: 'Apenas até 30 de novembro.',
+    title: 'Plano Pro disponível',
+    description: 'Convide o time inteiro e libere integrações avançadas.',
     action: (
       <Button size="sm" variant="secondary">
-        Aproveitar
+        Ver planos
       </Button>
     ),
   },

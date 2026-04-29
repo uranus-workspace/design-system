@@ -3,33 +3,50 @@ title: SearchCommand
 description: Paleta cmd+k pré-configurada sobre o command primitive.
 ---
 
-`SearchCommand` é a opinião da Uranus sobre paletas de comando. Ele empacota o `Command` + `Dialog` primitives, registra o atalho `⌘K` / `Ctrl+K` e padroniza grupos com `heading` e itens com `icon`/`shortcut`/`keywords`.
+`SearchCommand` é a opinião da Uranus sobre paletas de comando. Ele empacota o `Command` + `Dialog` primitives, registra o atalho `⌘K` / `Ctrl+K` e padroniza grupos via composição com **`SearchCommand.Group`** e **`SearchCommand.Item`**.
 
 
-<ComponentPreview name="search-command-default" align="start" minHeight={420} />
+<ComponentPreview
+  name="search-command-default"
+  align="center"
+  previewClassName="justify-center py-8 sm:py-10"
+  minHeight={420}
+/>
 
 ## Uso
 
 ```tsx
 import { SearchCommand } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+import { Folder, Home } from 'lucide-react';
 import { useState } from 'react';
 
 function App() {
   const [open, setOpen] = useState(false);
   return (
-    <SearchCommand
-      open={open}
-      onOpenChange={setOpen}
-      groups={[
-        {
-          heading: 'Navegação',
-          items: [
-            { id: 'home', label: 'Ir para Dashboard', shortcut: 'G H', onSelect: () => router.push('/') },
-            { id: 'projects', label: 'Projetos', onSelect: () => router.push('/projects') },
-          ],
-        },
-      ]}
-    />
+    <>
+      <Button onClick={() => setOpen(true)}>Abrir paleta (⌘K)</Button>
+      <SearchCommand open={open} onOpenChange={setOpen}>
+        <SearchCommand.Group heading="Navegação">
+          <SearchCommand.Item
+            value="dashboard"
+            icon={<Home aria-hidden />}
+            shortcut="G H"
+            onSelect={() => router.push('/')}
+          >
+            Ir para Dashboard
+          </SearchCommand.Item>
+          <SearchCommand.Item
+            value="projects"
+            icon={<Folder aria-hidden />}
+            shortcut="G P"
+            onSelect={() => router.push('/projects')}
+          >
+            Projetos
+          </SearchCommand.Item>
+        </SearchCommand.Group>
+      </SearchCommand>
+    </>
   );
 }
 ```
@@ -37,9 +54,13 @@ function App() {
 ## Props
 
 - `open` / `onOpenChange` — controlado pelo consumidor.
-- `groups` — array de **`SearchCommandGroupConfig`** com `heading` e `items[]`.
 - `placeholder`, `emptyState`, `ariaLabel` — overrides de copy.
 - `shortcutBinding` — desliga o atalho global se você quiser amarrar manualmente.
+
+## Subcomponentes
+
+- **`SearchCommand.Group`** — wrapper com `heading`.
+- **`SearchCommand.Item`** — item com `value` (busca), `icon?`, `shortcut?`, `keywords?`, `onSelect?`. Após `onSelect`, o dialog fecha automaticamente.
 
 ## Acessibilidade
 

@@ -7,16 +7,29 @@ interface Customer {
   id: string;
   name: string;
   email: string;
-  status: 'active' | 'invited' | 'paused';
+  status: 'ativo' | 'convidado' | 'pausado';
   amount: number;
 }
 
-const customers: Customer[] = Array.from({ length: 25 }, (_, index) => ({
+const NAMES = [
+  'Alice Costa',
+  'Bruno Lima',
+  'Camila Souza',
+  'Diego Almeida',
+  'Erika Martins',
+  'Felipe Andrade',
+  'Gabriela Tavares',
+  'Henrique Pires',
+];
+const STATUSES = ['ativo', 'convidado', 'pausado'] as const;
+const AMOUNTS = [248, 512, 1280, 99, 740, 1990, 350, 615, 1240, 482, 870, 156];
+
+const customers: Customer[] = Array.from({ length: 12 }, (_, index) => ({
   id: String(index + 1),
-  name: ['Alice', 'Bruno', 'Camila', 'Diego', 'Erika'][index % 5] ?? 'Felipe',
-  email: `customer${index + 1}@uranus.com.br`,
-  status: (['active', 'invited', 'paused'] as const)[index % 3] ?? 'active',
-  amount: Math.round(Math.random() * 1000),
+  name: NAMES[index % NAMES.length] ?? 'Cliente',
+  email: `cliente${index + 1}@uranus.com.br`,
+  status: STATUSES[index % STATUSES.length] ?? 'ativo',
+  amount: AMOUNTS[index] ?? 100,
 }));
 
 const columns: ColumnDef<Customer, unknown>[] = [
@@ -37,69 +50,46 @@ const columns: ColumnDef<Customer, unknown>[] = [
   },
 ];
 
-const meta: Meta<typeof DataTable<Customer>> = {
+const meta: Meta = {
   title: 'Blocks/Data/DataTable',
-  component: DataTable<Customer>,
   parameters: { layout: 'padded', a11y: { test: 'error' } },
   tags: ['autodocs'],
 };
 export default meta;
-type Story = StoryObj<typeof DataTable<Customer>>;
+type Story = StoryObj;
 
 export const Default: Story = {
-  args: {
-    data: customers,
-    columns,
-    caption: 'Lista de clientes',
-  },
+  render: () => (
+    <DataTable.Provider data={customers} columns={columns} pageSize={5}>
+      <DataTable.Root caption="Lista de clientes" />
+    </DataTable.Provider>
+  ),
 };
 
 export const Empty: Story = {
-  args: {
-    data: [],
-    columns,
-    caption: 'Lista vazia',
-    emptyState: <span className="text-sm text-muted-foreground">Nenhum cliente encontrado.</span>,
-  },
+  render: () => (
+    <DataTable.Provider data={[]} columns={columns}>
+      <DataTable.Root
+        caption="Lista vazia"
+        emptyState={
+          <span className="text-sm text-muted-foreground">Nenhum cliente encontrado.</span>
+        }
+      />
+    </DataTable.Provider>
+  ),
 };
 
 export const WithToolbarAndPagination: Story = {
-  args: {
-    data: customers,
-    columns,
-    caption: 'Com toolbar',
-    toolbar: () => (
-      <div className="flex items-center gap-2">
+  render: () => (
+    <DataTable.Provider data={customers} columns={columns} pageSize={5}>
+      <DataTable.Toolbar>
         <Input placeholder="Buscar…" className="w-64" />
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" type="button">
           Exportar
         </Button>
-      </div>
-    ),
-    pagination: (table) => (
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-muted-foreground">
-          Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
-        </span>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={!table.getCanPreviousPage()}
-            onClick={() => table.previousPage()}
-          >
-            Anterior
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={!table.getCanNextPage()}
-            onClick={() => table.nextPage()}
-          >
-            Próxima
-          </Button>
-        </div>
-      </div>
-    ),
-  },
+      </DataTable.Toolbar>
+      <DataTable.Root caption="Com toolbar" />
+      <DataTable.Pagination />
+    </DataTable.Provider>
+  ),
 };

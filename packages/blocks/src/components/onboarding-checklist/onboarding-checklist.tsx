@@ -18,64 +18,23 @@ import {
 } from 'react';
 import { cn } from '../../lib/cn.js';
 
-export interface OnboardingChecklistStep {
-  id: string;
+export interface OnboardingChecklistProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  title?: ReactNode;
+  description?: ReactNode;
+  onDismiss?: () => void;
+}
+
+export interface OnboardingChecklistStepProps
+  extends Omit<LiHTMLAttributes<HTMLLIElement>, 'title' | 'children'> {
   title: ReactNode;
   description?: ReactNode;
   completed: boolean;
   action?: ReactNode;
 }
 
-export interface OnboardingChecklistProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
-  title?: ReactNode;
-  description?: ReactNode;
-  /** Legacy checklist rows. Omit when composing with `OnboardingChecklist.Step`. */
-  steps?: OnboardingChecklistStep[];
-  onDismiss?: () => void;
-}
-
-function StepRow({
-  completed,
-  title,
-  description,
-  action,
-}: Pick<OnboardingChecklistStep, 'completed' | 'title' | 'description' | 'action'>) {
-  return (
-    <>
-      <span
-        aria-hidden
-        className={cn(
-          'mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border',
-          completed
-            ? 'border-primary bg-primary text-primary-foreground'
-            : 'border-muted-foreground/40 text-transparent',
-        )}
-      >
-        <Check className="size-3" />
-      </span>
-      <span className="sr-only">{completed ? 'Completed: ' : 'Pending: '}</span>
-      <div className="flex-1">
-        <p
-          className={cn(
-            'text-sm font-medium',
-            completed ? 'text-muted-foreground line-through' : 'text-foreground',
-          )}
-        >
-          {title}
-        </p>
-        {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
-      </div>
-      {!completed && action ? <div className="shrink-0">{action}</div> : null}
-    </>
-  );
-}
-
-export type OnboardingChecklistStepProps = OnboardingChecklistStep &
-  Omit<LiHTMLAttributes<HTMLLIElement>, 'id' | 'title'>;
-
 const OnboardingChecklistStepRow = forwardRef<HTMLLIElement, OnboardingChecklistStepProps>(
   function OnboardingChecklistStepRow(
-    { id: _id, completed, title, description, action, className, ...props },
+    { completed, title, description, action, className, ...props },
     ref,
   ) {
     return (
@@ -89,7 +48,30 @@ const OnboardingChecklistStepRow = forwardRef<HTMLLIElement, OnboardingChecklist
         data-completed={completed}
         {...props}
       >
-        <StepRow completed={completed} title={title} description={description} action={action} />
+        <span
+          aria-hidden
+          className={cn(
+            'mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border',
+            completed
+              ? 'border-primary bg-primary text-primary-foreground'
+              : 'border-muted-foreground/40 text-transparent',
+          )}
+        >
+          <Check className="size-3" />
+        </span>
+        <span className="sr-only">{completed ? 'Concluído: ' : 'Pendente: '}</span>
+        <div className="flex-1">
+          <p
+            className={cn(
+              'text-sm font-medium',
+              completed ? 'text-muted-foreground line-through' : 'text-foreground',
+            )}
+          >
+            {title}
+          </p>
+          {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+        </div>
+        {!completed && action ? <div className="shrink-0">{action}</div> : null}
       </li>
     );
   },
@@ -101,7 +83,7 @@ function countStepsFromChildren(children: ReactNode): { total: number; completed
   Children.forEach(children, (node) => {
     if (isValidElement(node) && node.type === OnboardingChecklistStepRow) {
       total += 1;
-      const stepProps = node.props as OnboardingChecklistStep;
+      const stepProps = node.props as OnboardingChecklistStepProps;
       if (stepProps.completed) completed += 1;
     }
   });
@@ -110,13 +92,10 @@ function countStepsFromChildren(children: ReactNode): { total: number; completed
 
 const OnboardingChecklistRoot = forwardRef<HTMLDivElement, OnboardingChecklistProps>(
   function OnboardingChecklist(
-    { title = 'Get started', description, steps, onDismiss, children, className, ...props },
+    { title = 'Comece por aqui', description, onDismiss, children, className, ...props },
     ref,
   ) {
-    const legacyLayout = steps !== undefined;
-    const { total, completed } = legacyLayout
-      ? { total: steps.length, completed: steps.filter((s) => s.completed).length }
-      : countStepsFromChildren(children);
+    const { total, completed } = countStepsFromChildren(children);
     const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
 
     return (
@@ -130,7 +109,7 @@ const OnboardingChecklistRoot = forwardRef<HTMLDivElement, OnboardingChecklistPr
           <button
             type="button"
             onClick={onDismiss}
-            aria-label="Dismiss onboarding"
+            aria-label="Fechar onboarding"
             className="absolute right-3 top-3 rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
           >
             <X aria-hidden className="size-4" />
@@ -142,7 +121,7 @@ const OnboardingChecklistRoot = forwardRef<HTMLDivElement, OnboardingChecklistPr
           <div className="flex items-center gap-3 pt-2">
             <Progress
               value={percent}
-              aria-label={`${completed} of ${total} steps completed`}
+              aria-label={`${completed} de ${total} passos concluídos`}
               className="h-2 flex-1"
             />
             <span className="text-sm font-medium text-muted-foreground tabular-nums">
@@ -152,9 +131,7 @@ const OnboardingChecklistRoot = forwardRef<HTMLDivElement, OnboardingChecklistPr
         </CardHeader>
         <CardContent className="pt-2">
           <ol data-slot="onboarding-checklist-steps" className="flex flex-col">
-            {legacyLayout
-              ? steps.map((step) => <OnboardingChecklistStepRow key={step.id} {...step} />)
-              : children}
+            {children}
           </ol>
         </CardContent>
       </Card>
@@ -166,11 +143,12 @@ OnboardingChecklistRoot.displayName = 'OnboardingChecklist';
 OnboardingChecklistStepRow.displayName = 'OnboardingChecklist.Step';
 
 /**
- * Onboarding checklist card. Pass **`steps`** or compose **`OnboardingChecklist.Step`** rows.
+ * Onboarding checklist card. Compose with **`OnboardingChecklist.Step`** rows.
+ * Progress and counts are derived from the children automatically.
  */
 export const OnboardingChecklist = Object.assign(OnboardingChecklistRoot, {
   Step: OnboardingChecklistStepRow,
 });
 
-/** Default action button used by consumers. Re-exported for convenience. */
+/** Default action button used inside `OnboardingChecklist.Step` `action` slot. Re-exported. */
 export { Button as OnboardingChecklistAction };

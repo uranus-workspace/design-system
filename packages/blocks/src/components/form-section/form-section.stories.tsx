@@ -16,7 +16,7 @@ type Story = StoryObj<typeof FormSection>;
 
 export const Stacked: Story = {
   args: {
-    title: 'Profile',
+    title: 'Perfil',
     description: 'Atualize as suas informações pessoais.',
     layout: 'stacked',
     footer: (

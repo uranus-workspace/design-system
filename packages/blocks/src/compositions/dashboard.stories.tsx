@@ -16,17 +16,14 @@ import {
   SidebarTrigger,
 } from '@uranus-workspace/design-system';
 import { Activity, Bell, DollarSign, Folder, Home, Search, Settings, Users } from 'lucide-react';
-import { ActivityFeed, type ActivityItem } from '../components/activity-feed/activity-feed.js';
+import { ActivityFeed } from '../components/activity-feed/activity-feed.js';
 import { AppHeader } from '../components/app-header/app-header.js';
 import { AppShell } from '../components/app-shell/app-shell.js';
 import { AppSidebar } from '../components/app-sidebar/app-sidebar.js';
 import { ChartCard } from '../components/chart-card/chart-card.js';
 import { DataTable } from '../components/data-table/data-table.js';
 import { FilterBar } from '../components/filter-bar/filter-bar.js';
-import {
-  type NotificationItem,
-  NotificationList,
-} from '../components/notification-list/notification-list.js';
+import { NotificationList } from '../components/notification-list/notification-list.js';
 import { PageHeader } from '../components/page-header/page-header.js';
 import { StatCard } from '../components/stat-card/stat-card.js';
 import { StatGrid } from '../components/stat-grid/stat-grid.js';
@@ -45,21 +42,21 @@ function DemoSidebar() {
               <AppSidebar.NavLink href="#" icon={<Home aria-hidden />} active label="Dashboard">
                 Dashboard
               </AppSidebar.NavLink>
-              <AppSidebar.NavLink href="#" icon={<Folder aria-hidden />} badge="3" label="Projects">
-                Projects
+              <AppSidebar.NavLink href="#" icon={<Folder aria-hidden />} badge="3" label="Projetos">
+                Projetos
               </AppSidebar.NavLink>
-              <AppSidebar.NavLink href="#" icon={<Users aria-hidden />} label="Team">
-                Team
+              <AppSidebar.NavLink href="#" icon={<Users aria-hidden />} label="Time">
+                Time
               </AppSidebar.NavLink>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupLabel>Conta</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <AppSidebar.NavLink href="#" icon={<Settings aria-hidden />} label="Settings">
-                Settings
+              <AppSidebar.NavLink href="#" icon={<Settings aria-hidden />} label="Configurações">
+                Configurações
               </AppSidebar.NavLink>
             </SidebarMenu>
           </SidebarGroupContent>
@@ -80,15 +77,15 @@ interface Customer {
   id: string;
   name: string;
   email: string;
-  status: 'active' | 'invited' | 'paused';
+  status: 'ativo' | 'convidado' | 'pausado';
   amount: number;
 }
 
 const customers: Customer[] = Array.from({ length: 12 }, (_, index) => ({
   id: String(index + 1),
   name: ['Alice', 'Bruno', 'Camila', 'Diego', 'Erika'][index % 5] ?? 'Felipe',
-  email: `customer${index + 1}@uranus.com.br`,
-  status: (['active', 'invited', 'paused'] as const)[index % 3] ?? 'active',
+  email: `cliente${index + 1}@uranus.com.br`,
+  status: (['ativo', 'convidado', 'pausado'] as const)[index % 3] ?? 'ativo',
   amount: 250 + index * 73,
 }));
 
@@ -111,50 +108,8 @@ const customerColumns: ColumnDef<Customer, unknown>[] = [
 ];
 
 const activeFilters = [
-  { id: 'status', label: 'Status: Active' },
-  { id: 'plan', label: 'Plan: Pro' },
-];
-
-const activityItems: ActivityItem[] = [
-  {
-    id: '1',
-    actor: { name: 'Bruno' },
-    action: 'criou um novo projeto',
-    target: 'Apollo',
-    timestamp: 'há 2m',
-    icon: <Folder aria-hidden className="size-4" />,
-  },
-  {
-    id: '2',
-    actor: { name: 'Camila' },
-    action: 'comentou em',
-    target: 'Pull Request #142',
-    timestamp: 'há 1h',
-  },
-  {
-    id: '3',
-    actor: { name: 'Sistema', initials: 'SY' },
-    action: 'completou o deploy',
-    target: 'main',
-    timestamp: 'há 3h',
-    icon: <Activity aria-hidden className="size-4" />,
-  },
-];
-
-const notifications: NotificationItem[] = [
-  {
-    id: '1',
-    title: 'Novo comentário em Apollo',
-    description: 'Bruno: ficou ótimo!',
-    timestamp: 'há 2m',
-    unread: true,
-  },
-  {
-    id: '2',
-    title: 'Build concluído',
-    description: 'main passou em 2m31s',
-    timestamp: 'há 1h',
-  },
+  { id: 'status', label: 'Status: Ativo' },
+  { id: 'plan', label: 'Plano: Pro' },
 ];
 
 export const Empty: Story = {
@@ -178,12 +133,16 @@ export const Empty: Story = {
             <AppHeader.Actions>
               <Button variant="outline" size="sm" className="gap-2">
                 <Search aria-hidden className="size-4" />
-                <span>Search</span>
+                <span>Buscar</span>
               </Button>
-              <Button variant="ghost" size="icon" aria-label="Notifications">
+              <Button variant="ghost" size="icon" aria-label="Notificações">
                 <Bell aria-hidden className="size-4" />
               </Button>
-              <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
+              <Button
+                variant="ghost"
+                className="size-8 rounded-full p-0"
+                aria-label="Menu do usuário"
+              >
                 <Avatar className="size-8">
                   <AvatarFallback>UT</AvatarFallback>
                 </Avatar>
@@ -194,7 +153,7 @@ export const Empty: Story = {
         <AppShell.Content>
           <PageHeader
             title="Dashboard"
-            description="A composição completa do shell - chrome + page header. Dados serão adicionados em fases seguintes."
+            description="A composição completa do shell — chrome + page header. Dados serão adicionados em fases seguintes."
           />
           <div className="p-6">
             <p className="text-sm text-muted-foreground">Conteúdo da página vai aqui.</p>
@@ -226,19 +185,42 @@ export const WithData: Story = {
             <AppHeader.Actions>
               <Button variant="outline" size="sm" className="gap-2">
                 <Search aria-hidden className="size-4" />
-                <span>Search</span>
+                <span>Buscar</span>
               </Button>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="ghost" size="icon" aria-label="Notifications">
+                  <Button variant="ghost" size="icon" aria-label="Notificações">
                     <Bell aria-hidden className="size-4" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-80 p-0" align="end">
-                  <NotificationList items={notifications} onMarkAllRead={() => {}} />
+                  <NotificationList>
+                    <NotificationList.Header
+                      title="Notificações"
+                      unreadCount={1}
+                      onMarkAllRead={() => {}}
+                    />
+                    <NotificationList.List>
+                      <NotificationList.Item
+                        title="Novo comentário em Apollo"
+                        description="Bruno: ficou ótimo!"
+                        timestamp="há 2m"
+                        unread
+                      />
+                      <NotificationList.Item
+                        title="Build concluído"
+                        description="main passou em 2m31s"
+                        timestamp="há 1h"
+                      />
+                    </NotificationList.List>
+                  </NotificationList>
                 </PopoverContent>
               </Popover>
-              <Button variant="ghost" className="size-8 rounded-full p-0" aria-label="User menu">
+              <Button
+                variant="ghost"
+                className="size-8 rounded-full p-0"
+                aria-label="Menu do usuário"
+              >
                 <Avatar className="size-8">
                   <AvatarFallback>UT</AvatarFallback>
                 </Avatar>
@@ -299,18 +281,46 @@ export const WithData: Story = {
                 </div>
               </ChartCard>
               <ChartCard title="Atividade recente" description="Últimas movimentações">
-                <ActivityFeed items={activityItems} />
+                <ActivityFeed>
+                  <ActivityFeed.Item
+                    actor={{ name: 'Bruno' }}
+                    action="criou um novo projeto"
+                    target="Apollo"
+                    timestamp="há 2m"
+                    icon={<Folder aria-hidden className="size-4" />}
+                  />
+                  <ActivityFeed.Item
+                    actor={{ name: 'Camila' }}
+                    action="comentou em"
+                    target="Pull Request #142"
+                    timestamp="há 1h"
+                  />
+                  <ActivityFeed.Item
+                    actor={{ name: 'Sistema', initials: 'SY' }}
+                    action="completou o deploy"
+                    target="main"
+                    timestamp="há 3h"
+                    icon={<Activity aria-hidden className="size-4" />}
+                  />
+                </ActivityFeed>
               </ChartCard>
             </div>
 
             <div className="flex flex-col gap-3">
-              <FilterBar filters={activeFilters} onRemoveFilter={() => {}} onClearAll={() => {}} />
-              <DataTable
-                data={customers}
-                columns={customerColumns}
-                caption="Clientes ativos"
-                pageSize={5}
-              />
+              <FilterBar>
+                <FilterBar.Chips>
+                  {activeFilters.map((f) => (
+                    <FilterBar.Chip key={f.id} id={f.id} label={f.label} onRemove={() => {}} />
+                  ))}
+                </FilterBar.Chips>
+                <Button variant="ghost" size="sm" type="button" className="ml-auto">
+                  Limpar tudo
+                </Button>
+              </FilterBar>
+              <DataTable.Provider data={customers} columns={customerColumns} pageSize={5}>
+                <DataTable.Root caption="Clientes ativos" />
+                <DataTable.Pagination />
+              </DataTable.Provider>
             </div>
           </div>
         </AppShell.Content>

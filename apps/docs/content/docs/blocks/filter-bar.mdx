@@ -1,50 +1,59 @@
 ---
 title: FilterBar
-description: Linha de chips removíveis para representar filtros aplicados em listas/tabelas.
+description: Toolbar composicional com chips removíveis para filtros aplicados.
 ---
 
-`FilterBar` é uma `<div role="toolbar">` que mostra os filtros ativos como `Badges` removíveis. Cada chip tem um botão `X` com `aria-label` único, e um botão "Clear all" aparece quando há filtros + `onClearAll` é fornecido.
+`FilterBar` é uma `<div role="toolbar">` que hospeda livremente um `Input` de busca, um trigger de "adicionar filtro", a lista de chips ativos e um botão "Limpar tudo". Cada chip vem de **`FilterBar.Chip`**, com botão `X` e `aria-label` único.
 
 
-<ComponentPreview name="filter-bar-default" align="start" />
+<ComponentPreview
+  name="filter-bar-default"
+  align="stretch"
+  previewClassName="!px-0 !py-0"
+  minHeight={120}
+/>
 
 ## Uso
 
 ```tsx
 import { FilterBar } from '@uranus-workspace/blocks';
+import { Button, Input } from '@uranus-workspace/design-system';
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
-const [filters, setFilters] = useState([
-  { id: 'status', label: 'Status: Active' },
+const [chips, setChips] = useState([
+  { id: 'status', label: 'Status: Ativo' },
 ]);
 
-<FilterBar
-  filters={filters}
-  onRemoveFilter={(id) => setFilters((curr) => curr.filter((f) => f.id !== id))}
-  onClearAll={() => setFilters([])}
-/>
-```
-
-## Uso (composição)
-
-Para ordem livre de chips ou nós customizados dentro da `<ul>`, omita **`filters`** e **`onRemoveFilter`** e renderize **`FilterBar.Chip`** (ou `<li>`s próprios) como **`children`**. O botão "Clear all" só aparece no modo **`filters`**.
-
-```tsx
-<FilterBar leadingSlot={<Input placeholder="Buscar…" />}>
-  <FilterBar.Chip id="status" label="Status: Ativo" onRemove={(id) => remove(id)} />
+<FilterBar>
+  <Input placeholder="Buscar…" className="w-44" />
+  <Button variant="outline" size="sm">
+    <Plus aria-hidden className="size-3" />
+    <span>Adicionar filtro</span>
+  </Button>
+  <FilterBar.Chips>
+    {chips.map((c) => (
+      <FilterBar.Chip
+        key={c.id}
+        id={c.id}
+        label={c.label}
+        onRemove={(id) => setChips((curr) => curr.filter((x) => x.id !== id))}
+      />
+    ))}
+  </FilterBar.Chips>
+  {chips.length > 0 ? (
+    <Button variant="ghost" size="sm" className="ml-auto" onClick={() => setChips([])}>
+      Limpar tudo
+    </Button>
+  ) : null}
 </FilterBar>
 ```
 
-## Slots
-
-- `leadingSlot` — slot antes dos chips. Use para um `Input` de busca.
-- `addFilterTrigger` — botão (geralmente um `Popover.Trigger`) para adicionar novos filtros. Default é um botão `disabled` com texto "Add filter".
-
 ## Subcomponentes
 
-- **`FilterBar.Chip`** — um `<li>` com `Badge` removível; use no modo composicional.
+- **`FilterBar.Chips`** — `<ul>` que hospeda os chips.
+- **`FilterBar.Chip`** — `<li>` com `Badge` removível; recebe `id`, `label` e `onRemove`.
 
-## Diretrizes
+## Acessibilidade
 
-- Cada `id` deve ser estável entre renderizações para o React não recriar o chip.
-- Para combinar com `DataTable`, ative paginação client-side e leia `filters` do estado de filtragem do TanStack Table.
+A raiz aplica `role="toolbar"` com `aria-label="Filtros"` por padrão. Cada chip tem um `<button>` com `aria-label` `"Remover filtro <label>"`. `id` deve ser estável entre renderizações para o React não recriar o nó.

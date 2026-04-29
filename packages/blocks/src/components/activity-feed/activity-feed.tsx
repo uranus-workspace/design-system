@@ -8,8 +8,7 @@ export interface ActivityActor {
   initials?: string;
 }
 
-export interface ActivityItem {
-  id: string;
+export interface ActivityFeedItemProps extends Omit<LiHTMLAttributes<HTMLLIElement>, 'children'> {
   actor: ActivityActor;
   action: ReactNode;
   target?: ReactNode;
@@ -17,11 +16,7 @@ export interface ActivityItem {
   icon?: ReactNode;
 }
 
-export interface ActivityFeedProps extends HTMLAttributes<HTMLOListElement> {
-  /** Legacy timeline rows. Omit when composing with `ActivityFeed.Item` as children. */
-  items?: ActivityItem[];
-  emptyState?: ReactNode;
-}
+export type ActivityFeedProps = HTMLAttributes<HTMLOListElement>;
 
 function getInitials(actor: ActivityActor): string {
   if (actor.initials) return actor.initials;
@@ -33,13 +28,8 @@ function getInitials(actor: ActivityActor): string {
     .toUpperCase();
 }
 
-export type ActivityFeedItemProps = ActivityItem & Omit<LiHTMLAttributes<HTMLLIElement>, 'id'>;
-
 export const ActivityFeedItem = forwardRef<HTMLLIElement, ActivityFeedItemProps>(
-  function ActivityFeedItem(
-    { id: _id, actor, action, target, timestamp, icon, className, ...props },
-    ref,
-  ) {
+  function ActivityFeedItem({ actor, action, target, timestamp, icon, className, ...props }, ref) {
     return (
       <li
         ref={ref}
@@ -93,41 +83,16 @@ export const ActivityFeedEmpty = forwardRef<HTMLDivElement, ActivityFeedEmptyPro
         className={cn('rounded-md border bg-card p-6 text-center', className)}
         {...props}
       >
-        {children ?? <p className="text-sm text-muted-foreground">No activity yet.</p>}
+        {children ?? <p className="text-sm text-muted-foreground">Sem atividades ainda.</p>}
       </div>
     );
   },
 );
 
 const ActivityFeedRoot = forwardRef<HTMLOListElement, ActivityFeedProps>(function ActivityFeed(
-  { items, emptyState, className, children, ...props },
+  { className, children, ...props },
   ref,
 ) {
-  const legacyLayout = items !== undefined;
-
-  if (legacyLayout) {
-    if (items.length === 0) {
-      return (
-        <ActivityFeedEmpty>
-          {emptyState ?? <p className="text-sm text-muted-foreground">No activity yet.</p>}
-        </ActivityFeedEmpty>
-      );
-    }
-
-    return (
-      <ol
-        ref={ref}
-        data-slot="activity-feed"
-        className={cn('flex flex-col gap-4', className)}
-        {...props}
-      >
-        {items.map((item) => (
-          <ActivityFeedItem key={item.id} {...item} />
-        ))}
-      </ol>
-    );
-  }
-
   return (
     <ol
       ref={ref}
@@ -145,8 +110,8 @@ ActivityFeedItem.displayName = 'ActivityFeed.Item';
 ActivityFeedEmpty.displayName = 'ActivityFeed.Empty';
 
 /**
- * Activity timeline as an `<ol>`. Pass **`items`** or compose **`ActivityFeed.Item`** children.
- * For zero state in compound mode, render **`ActivityFeed.Empty`** instead of the list.
+ * Activity timeline as an `<ol>`. Compose with **`ActivityFeed.Item`** children.
+ * For the empty state, render **`ActivityFeed.Empty`** instead of the list.
  */
 export const ActivityFeed = Object.assign(ActivityFeedRoot, {
   Item: ActivityFeedItem,

@@ -1,8 +1,8 @@
 export {
   SearchCommand,
-  type SearchCommandGroupConfig,
+  SearchCommandGroup,
   type SearchCommandGroupProps,
-  type SearchCommandItemConfig,
-  type SearchCommandItemSlotProps,
+  SearchCommandItem,
+  type SearchCommandItemProps,
   type SearchCommandProps,
 } from './search-command.js';

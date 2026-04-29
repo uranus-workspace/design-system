@@ -8,11 +8,11 @@ export interface ErrorStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 't
   icon?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
-  /** Action slot. When omitted but `onRetry` is set, a default "Try again" button is rendered. */
+  /** Action slot. When omitted but `onRetry` is set, a default "Tentar novamente" button is rendered. */
   actions?: ReactNode;
   /** Click handler for the default retry button. Hidden when `actions` is provided. */
   onRetry?: () => void;
-  /** Label for the default retry button. Defaults to `"Try again"`. */
+  /** Label for the default retry button. Defaults to `"Tentar novamente"`. */
   retryLabel?: ReactNode;
 }
 
@@ -22,7 +22,16 @@ export interface ErrorStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 't
  * `role="alert"` so screen readers announce errors immediately.
  */
 export const ErrorState = forwardRef<HTMLDivElement, ErrorStateProps>(function ErrorState(
-  { icon, title, description, actions, onRetry, retryLabel = 'Try again', className, ...props },
+  {
+    icon,
+    title,
+    description,
+    actions,
+    onRetry,
+    retryLabel = 'Tentar novamente',
+    className,
+    ...props
+  },
   ref,
 ) {
   const renderedActions =

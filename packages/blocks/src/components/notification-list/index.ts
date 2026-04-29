@@ -7,5 +7,4 @@ export {
   NotificationListList,
   type NotificationListListProps,
   type NotificationListProps,
-  type NotificationItem,
 } from './notification-list.js';

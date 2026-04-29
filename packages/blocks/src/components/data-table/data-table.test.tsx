@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { describe, expect, it, vi } from 'vitest';
-import { DataTable } from './data-table.js';
+import { DataTable, useDataTable } from './data-table.js';
 
 interface Row {
   id: string;
@@ -18,23 +18,31 @@ const data: Row[] = [
 ];
 
 const columns: ColumnDef<Row, unknown>[] = [
-  { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'amount', header: 'Amount' },
+  { accessorKey: 'name', header: 'Nome' },
+  { accessorKey: 'amount', header: 'Valor' },
 ];
 
 describe('DataTable', () => {
   it('renders header and rows', () => {
-    render(<DataTable data={data} columns={columns} caption="Test table" />);
-    expect(screen.getByText('Name')).toBeInTheDocument();
+    render(
+      <DataTable.Provider data={data} columns={columns}>
+        <DataTable.Root caption="Tabela de teste" />
+      </DataTable.Provider>,
+    );
+    expect(screen.getByText('Nome')).toBeInTheDocument();
     expect(screen.getByText('Alice')).toBeInTheDocument();
     expect(screen.getByText('Carol')).toBeInTheDocument();
   });
 
   it('toggles sort when a sortable header is clicked', async () => {
     const user = userEvent.setup();
-    render(<DataTable data={data} columns={columns} caption="Sortable" />);
+    render(
+      <DataTable.Provider data={data} columns={columns}>
+        <DataTable.Root caption="Sortable" />
+      </DataTable.Provider>,
+    );
 
-    const header = screen.getByRole('button', { name: 'Name' });
+    const header = screen.getByRole('button', { name: 'Nome' });
     expect(header.closest('th')).toHaveAttribute('aria-sort', 'none');
 
     await user.click(header);
@@ -46,38 +54,65 @@ describe('DataTable', () => {
 
   it('renders the empty state when no rows', () => {
     render(
-      <DataTable
-        data={[]}
-        columns={columns}
-        caption="Empty"
-        emptyState={<span>Nothing here</span>}
-      />,
+      <DataTable.Provider data={[]} columns={columns}>
+        <DataTable.Root caption="Vazia" emptyState={<span>Nada por aqui</span>} />
+      </DataTable.Provider>,
     );
-    expect(screen.getByText('Nothing here')).toBeInTheDocument();
+    expect(screen.getByText('Nada por aqui')).toBeInTheDocument();
   });
 
   it('calls onRowClick when a row is clicked', async () => {
     const onRowClick = vi.fn();
     const user = userEvent.setup();
-    render(<DataTable data={data} columns={columns} caption="Clickable" onRowClick={onRowClick} />);
+    render(
+      <DataTable.Provider data={data} columns={columns}>
+        <DataTable.Root caption="Clicável" onRowClick={onRowClick} />
+      </DataTable.Provider>,
+    );
     await user.click(screen.getByText('Alice'));
     expect(onRowClick).toHaveBeenCalledWith(data[0]);
   });
 
-  it('renders the toolbar render-prop', () => {
+  it('lets toolbar children read the table instance via useDataTable', () => {
+    function RowCount() {
+      const { table } = useDataTable<Row>();
+      return <span data-testid="rows">Linhas: {table.getRowModel().rows.length}</span>;
+    }
     render(
-      <DataTable
-        data={data}
-        columns={columns}
-        caption="With toolbar"
-        toolbar={(table) => <span data-testid="rows">Rows: {table.getRowModel().rows.length}</span>}
-      />,
+      <DataTable.Provider data={data} columns={columns}>
+        <DataTable.Toolbar>
+          <RowCount />
+        </DataTable.Toolbar>
+        <DataTable.Root caption="Com toolbar" />
+      </DataTable.Provider>,
     );
-    expect(screen.getByTestId('rows')).toHaveTextContent('Rows: 3');
+    expect(screen.getByTestId('rows')).toHaveTextContent('Linhas: 3');
+  });
+
+  it('renders default pagination buttons', async () => {
+    const user = userEvent.setup();
+    const many = Array.from({ length: 12 }, (_, index) => ({
+      id: String(index + 1),
+      name: `Linha ${index + 1}`,
+      amount: index,
+    }));
+    render(
+      <DataTable.Provider data={many} columns={columns} pageSize={5}>
+        <DataTable.Root caption="Paginada" />
+        <DataTable.Pagination />
+      </DataTable.Provider>,
+    );
+    expect(screen.getByText('Página 1 de 3')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Próxima' }));
+    expect(screen.getByText('Página 2 de 3')).toBeInTheDocument();
   });
 
   it('has no a11y violations', async () => {
-    const { container } = render(<DataTable data={data} columns={columns} caption="A11y" />);
+    const { container } = render(
+      <DataTable.Provider data={data} columns={columns}>
+        <DataTable.Root caption="A11y" />
+      </DataTable.Provider>,
+    );
     expect(await axe(container)).toHaveNoViolations();
   });
 });

@@ -13,12 +13,12 @@ type Story = StoryObj<typeof PageHeader>;
 
 export const Default: Story = {
   args: {
-    title: 'Projects',
-    description: 'Manage every project inside your Uranus workspace.',
+    title: 'Projetos',
+    description: 'Gerencie todos os projetos do seu workspace Uranus.',
     actions: (
       <>
-        <Button variant="outline">Import</Button>
-        <Button>New project</Button>
+        <Button variant="outline">Importar</Button>
+        <Button>Novo projeto</Button>
       </>
     ),
   },
@@ -28,16 +28,16 @@ export const WithBreadcrumbs: Story = {
   args: {
     breadcrumbs: (
       <ol className="flex gap-2 text-xs text-muted-foreground">
-        <li>Home</li>
+        <li>Início</li>
         <li>/</li>
-        <li>Projects</li>
+        <li>Projetos</li>
       </ol>
     ),
-    title: 'Projects',
-    description: 'Every project you can access.',
+    title: 'Projetos',
+    description: 'Todos os projetos aos quais você tem acesso.',
   },
 };
 
 export const TitleOnly: Story = {
-  args: { title: 'Settings' },
+  args: { title: 'Configurações' },
 };

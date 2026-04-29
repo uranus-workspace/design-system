@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "cd ../.. && pnpm turbo run build-storybook --filter=@uranus-workspace/storybook",
+  "installCommand": "cd ../.. && pnpm install --frozen-lockfile --ignore-scripts=false",
+  "outputDirectory": "storybook-static",
+  "ignoreCommand": "cd ../.. && npx turbo-ignore @uranus-workspace/storybook"
+}

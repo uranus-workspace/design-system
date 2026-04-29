@@ -58,6 +58,13 @@
       "matchPackageNames": ["vite"],
       "allowedVersions": "<7.0.0",
       "matchUpdateTypes": ["major", "minor", "patch"]
+    },
+    {
+      "description": "Group OIDC stack updates under @uranus-workspace/auth",
+      "groupName": "auth-stack",
+      "matchPackageNames": ["oidc-client-ts", "jose"],
+      "matchPaths": ["packages/auth/package.json"],
+      "matchUpdateTypes": ["minor", "patch"]
     }
   ],
   "vulnerabilityAlerts": {

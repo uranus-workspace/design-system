@@ -1,0 +1,21 @@
+{
+  "title": "Auth",
+  "pages": [
+    "index",
+    "---Configuração---",
+    "getting-started",
+    "---Integrações---",
+    "vite",
+    "next-js",
+    "keycloak",
+    "---React---",
+    "provider",
+    "hooks",
+    "guards",
+    "silent-renew",
+    "---Screens---",
+    "screens",
+    "---API---",
+    "api-client"
+  ]
+}

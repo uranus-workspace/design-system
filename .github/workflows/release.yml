@@ -34,6 +34,8 @@ jobs:
             dir: packages/blocks
           - name: ai
             dir: packages/ai
+          - name: auth
+            dir: packages/auth
     steps:
       - uses: actions/checkout@v6
         with:

@@ -1,0 +1,51 @@
+---
+title: Getting started
+description: Instalação e provider mínimo do @uranus-workspace/auth.
+---
+
+```bash
+pnpm add @uranus-workspace/auth @uranus-workspace/design-system @uranus-workspace/blocks
+```
+
+`oidc-client-ts` é uma **dependência direta** do pacote — sem ação necessária. `jose` e `next` ficam atrás do subpath `/nextjs` e só precisam ser instalados quando você usar middleware/JWKS server-side.
+
+## Provider mínimo
+
+```tsx
+import { AuthProvider } from '@uranus-workspace/auth';
+
+const config = {
+  authority: 'https://auth.uranus.com.br/realms/uranus',
+  clientId: 'omnifisco-web',
+  redirectUri: `${window.location.origin}/callback`,
+  silentRedirectUri: `${window.location.origin}/silent-renew.html`,
+  postLogoutRedirectUri: window.location.origin,
+};
+
+export function Root({ children }: { children: React.ReactNode }) {
+  return <AuthProvider config={config}>{children}</AuthProvider>;
+}
+```
+
+O provider:
+
+- Detecta a sessão atual no mount (via `getUser()`).
+- Registra os eventos `userLoaded`, `userUnloaded`, `silentRenewError`, `accessTokenExpired`.
+- Expõe `{ status, user, error, login, logout, getToken, client }` via `useAuth()`.
+
+## Status normalizado
+
+| `status` | Significado |
+| --- | --- |
+| `loading` | Hidratando a sessão (uma vez no mount). |
+| `authenticated` | Existe um usuário válido em sessionStorage. |
+| `unauthenticated` | Sem token válido — renderize o sign-in. |
+| `error` | Falha durante a hidratação. Veja `error`. |
+
+Renderize `fallback` enquanto `status === 'loading'` se não quiser flash de tela em branco.
+
+## Próximos passos
+
+- [Configurar o roteador Vite SPA](/docs/auth/vite)
+- [Configurar o Next.js App Router](/docs/auth/next-js)
+- [Usar o preset Keycloak](/docs/auth/keycloak)

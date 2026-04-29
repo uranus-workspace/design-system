@@ -1,0 +1,61 @@
+---
+title: Auth
+description: Pacote de autenticação OIDC genérico com presets Keycloak — provider, hooks, guards, screens e suporte opt-in a Next.js.
+---
+
+`@uranus-workspace/auth` é a cola entre o IdP (Keycloak hoje, qualquer OIDC amanhã) e os blocos visuais já existentes em `@uranus-workspace/blocks`. Mora em um pacote separado de `blocks` porque adiciona peers específicos de autenticação (`oidc-client-ts`, opcionalmente `jose` + `next`) que nem todo app de produto precisa.
+
+Princípios:
+
+- **OIDC genérico, Keycloak por preset.** Núcleo nunca importa nada Keycloak-específico. Helpers opcionais ficam em `@uranus-workspace/auth/keycloak` (`kc_idp_hint`, `parseKeycloakRoles`, `keycloakLogoutUrl`).
+- **`oidc-client-ts` como única fonte da verdade.** PKCE S256 default, sessionStorage, silent renew via iframe.
+- **SSR-safe.** Tudo que toca `window`/`sessionStorage`/`location` está atrás de guards ou em `useEffect`. `<AuthProvider>` pode ser montado em layouts Server Components do Next.js sem quebrar o render do servidor.
+- **Roteamento agnóstico.** `<AuthCallback>` aceita `onSuccess(returnTo)` / `onError(err)`. O consumer Next.js troca por `router.replace`; o consumer Vite troca por `useNavigate()` do react-router.
+- **Multi-entrypoint.** Subpaths (`/core`, `/screens`, `/api`, `/keycloak`, `/nextjs`) evitam puxar peers desnecessários.
+
+## Compatibilidade
+
+| Stack | Caminho |
+| --- | --- |
+| **Vite SPA** (React 19 + react-router/tanstack-router/wouter) | Caminho default. Importa `@uranus-workspace/auth`, monta `<AuthProvider>`, declara rotas `/callback` e `/silent-renew` no router do consumer. |
+| **Next.js App Router** (15.x) | Mesmo provider e hooks rodam no client (`'use client'` no entry principal). Pode usar **só** o lado SPA (provider client em layout) ou **opcionalmente** o subpath `/nextjs` para validar tokens no edge/server e proteger Server Components com middleware. |
+
+## Catálogo
+
+### Configuração
+
+- [Getting started](/docs/auth/getting-started)
+- [Vite SPA](/docs/auth/vite)
+- [Next.js App Router](/docs/auth/next-js)
+- [Keycloak](/docs/auth/keycloak)
+
+### React
+
+- [AuthProvider](/docs/auth/provider)
+- [Hooks](/docs/auth/hooks) — `useAuth`, `useUser`, `useRoles`, `useHasRole`, `useIsAdmin`, `useAccessToken`
+- [Guards](/docs/auth/guards) — `RequireAuth`, `RequireRole`, `Authenticated`, `Unauthenticated`
+- [Silent renew](/docs/auth/silent-renew)
+
+### Screens
+
+- [Screens pré-conectados](/docs/auth/screens) — `OidcSignInScreen`, `OidcCallbackScreen`, `OidcErrorScreen`
+
+### API
+
+- [Cliente HTTP autorizado](/docs/auth/api-client) — `createAuthorizedFetch`, `createBearerInterceptor`
+
+## Instalação
+
+```bash
+pnpm add @uranus-workspace/auth @uranus-workspace/design-system @uranus-workspace/blocks
+```
+
+`jose` e `next` são opcionais — só precisam ser instalados quando você importa de `@uranus-workspace/auth/nextjs`.
+
+## Variáveis de ambiente recomendadas
+
+| Variável | Vite | Next.js | Descrição |
+| --- | --- | --- | --- |
+| `OIDC_AUTHORITY` | `VITE_OIDC_AUTHORITY` | `NEXT_PUBLIC_OIDC_AUTHORITY` | Realm URL (ex.: `https://auth.uranus.com.br/realms/uranus`). |
+| `OIDC_CLIENT_ID` | `VITE_OIDC_CLIENT_ID` | `NEXT_PUBLIC_OIDC_CLIENT_ID` | Client público SPA (ex.: `omnifisco-web`). |
+| `OIDC_AUDIENCE` | — | `OIDC_AUDIENCE` | Audience esperada no JWT (validada no middleware). |

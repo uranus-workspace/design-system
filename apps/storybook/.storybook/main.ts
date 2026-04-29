@@ -13,6 +13,7 @@ const config: StorybookConfig = {
     '../../../packages/design-system/src/**/*.stories.@(ts|tsx|mdx)',
     '../../../packages/blocks/src/**/*.stories.@(ts|tsx|mdx)',
     '../../../packages/ai/src/**/*.stories.@(ts|tsx|mdx)',
+    '../../../packages/auth/src/**/*.stories.@(ts|tsx|mdx)',
   ],
   addons: [
     '@storybook/addon-essentials',
@@ -35,6 +36,7 @@ const config: StorybookConfig = {
             resolve(__dirname, '../../../packages/design-system/tsconfig.json'),
             resolve(__dirname, '../../../packages/blocks/tsconfig.json'),
             resolve(__dirname, '../../../packages/ai/tsconfig.json'),
+            resolve(__dirname, '../../../packages/auth/tsconfig.json'),
           ],
         }),
       ],

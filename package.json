@@ -2,7 +2,7 @@
   "name": "uranus-design-system",
   "private": true,
   "version": "0.0.0",
-  "description": "Uranus Technologies design system monorepo — @uranus-workspace/design-system, @uranus-workspace/blocks, @uranus-workspace/ai",
+  "description": "Uranus Technologies design system monorepo — @uranus-workspace/design-system, @uranus-workspace/blocks, @uranus-workspace/ai, @uranus-workspace/auth",
   "packageManager": "pnpm@10.33.0",
   "engines": {
     "node": ">=22.0.0",
@@ -22,7 +22,7 @@
     "docs:dev": "turbo run docs:dev --filter=@uranus-workspace/docs",
     "docs:build": "turbo run docs:build --filter=@uranus-workspace/docs",
     "clean": "turbo run clean && rm -rf node_modules",
-    "release": "turbo run build --filter='./packages/*' && pnpm -r --filter='./packages/design-system' --filter='./packages/blocks' --filter='./packages/ai' exec semantic-release"
+    "release": "turbo run build --filter='./packages/*' && pnpm -r --filter='./packages/design-system' --filter='./packages/blocks' --filter='./packages/ai' --filter='./packages/auth' exec semantic-release"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

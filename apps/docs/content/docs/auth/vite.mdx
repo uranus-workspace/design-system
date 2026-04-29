@@ -1,0 +1,107 @@
+---
+title: Vite SPA
+description: Integração ponta-a-ponta com Vite + React Router (qualquer roteador serve).
+---
+
+Caminho default do pacote. Funciona com react-router, tanstack-router, wouter ou qualquer roteador client-side.
+
+## 1. Variáveis de ambiente
+
+`.env`:
+
+```
+VITE_OIDC_AUTHORITY=https://auth.uranus.com.br/realms/uranus
+VITE_OIDC_CLIENT_ID=omnifisco-web
+```
+
+## 2. Provider
+
+`src/main.tsx`:
+
+```tsx
+import { AuthProvider } from '@uranus-workspace/auth';
+import { RouterProvider } from 'react-router';
+import { router } from './router';
+
+const config = {
+  authority: import.meta.env.VITE_OIDC_AUTHORITY,
+  clientId: import.meta.env.VITE_OIDC_CLIENT_ID,
+  redirectUri: `${window.location.origin}/callback`,
+  silentRedirectUri: `${window.location.origin}/silent-renew.html`,
+  postLogoutRedirectUri: window.location.origin,
+};
+
+createRoot(document.getElementById('root')!).render(
+  <AuthProvider config={config}>
+    <RouterProvider router={router} />
+  </AuthProvider>,
+);
+```
+
+## 3. Rotas `/login` e `/callback`
+
+```tsx
+import { AuthCallback } from '@uranus-workspace/auth';
+import { OidcSignInScreen } from '@uranus-workspace/auth/screens';
+import { useNavigate } from 'react-router';
+
+export const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: (
+      <OidcSignInScreen
+        providers={['google']}
+        idpHints={{ google: 'google' }}
+        credentials="hidden"
+      />
+    ),
+  },
+  {
+    path: '/callback',
+    element: <AuthCallbackPage />,
+  },
+  {
+    path: '/',
+    element: (
+      <RequireAuth>
+        <Dashboard />
+      </RequireAuth>
+    ),
+  },
+]);
+
+function AuthCallbackPage() {
+  const navigate = useNavigate();
+  return (
+    <AuthCallback
+      onSuccess={(to) => navigate(to ?? '/', { replace: true })}
+      errorFallback={(error) => <pre>{error.message}</pre>}
+    />
+  );
+}
+```
+
+## 4. Silent renew
+
+Copie `node_modules/@uranus-workspace/auth/templates/silent-renew.html` para `public/silent-renew.html`. O Vite serve `public/` na raiz, então o iframe do oidc-client-ts encontra a página em `${origin}/silent-renew.html`.
+
+Alternativa SPA-only: use o componente React `<SilentRenewCallback />` em uma rota dedicada e aponte `silentRedirectUri` para ela.
+
+## 5. Cliente HTTP
+
+```tsx
+import { useAccessToken } from '@uranus-workspace/auth';
+import { createAuthorizedFetch } from '@uranus-workspace/auth/api';
+
+export function useApi() {
+  const getToken = useAccessToken();
+  return useMemo(() => createAuthorizedFetch(getToken), [getToken]);
+}
+```
+
+## Teste rápido
+
+1. `pnpm dev` no app.
+2. Abra `/login` e clique em **Continuar com Google**.
+3. Após o consent, o IdP redireciona para `/callback?code=...`.
+4. `<AuthCallback>` chama `signinRedirectCallback`, recupera `returnTo` do sessionStorage e navega para `/`.

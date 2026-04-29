@@ -1,6 +1,8 @@
 # @uranus-workspace/blocks
 
-Composite layout and product blocks built on `@uranus-workspace/design-system`.
+Composite layout and product blocks built on `@uranus-workspace/design-system` v2.
+
+> Tracks `@uranus-workspace/design-system@^2`. See [CHANGELOG](./CHANGELOG.md) for the changes shipped in each version.
 
 ## Peer dependencies
 

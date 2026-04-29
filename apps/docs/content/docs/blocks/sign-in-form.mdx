@@ -12,7 +12,7 @@ Para **SSO apenas** (produto sem email/senha), use `credentials="hidden"` e pass
   name="sign-in-form-default"
   align="center"
   previewClassName="justify-center py-10 sm:py-14"
-  minHeight={480}
+  minHeight={620}
 />
 
 ## Uso
@@ -51,7 +51,10 @@ import { OAuthProviderButton, SignInForm } from '@uranus-workspace/blocks';
   socialProviders={
     <>
       <OAuthProviderButton provider="google" onClick={() => signInWith('google')}>
-        Continue com Google
+        Continuar com Google
+      </OAuthProviderButton>
+      <OAuthProviderButton provider="microsoft" onClick={() => signInWith('microsoft')}>
+        Continuar com Microsoft
       </OAuthProviderButton>
     </>
   }

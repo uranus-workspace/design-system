@@ -1,0 +1,31 @@
+---
+title: Message
+description: Bolha de mensagem para conversas com IA — compound component com Content, Actions e Attachments.
+---
+
+`Message` é a bolha individual de uma conversa. Renderiza avatar, nome, timestamp e o conteúdo, com layout que se inverte para `role="user"`. Use **`Message.Content`**, **`Message.Actions`** e **`Message.Attachments`** como children quando precisar de slots dedicados.
+
+<ComponentPreview name="message-default" align="center" minHeight={220} />
+
+## Uso
+
+```tsx
+import { Message } from '@uranus-workspace/ai';
+
+<Message role="assistant" name="Uranus" timestamp="agora">
+  <Message.Content>
+    Resposta do modelo aqui — `prose` por padrão limita a largura confortável.
+  </Message.Content>
+</Message>
+```
+
+## Subcomponentes
+
+- **`Message.Content`** — bolha de texto. Aplica fundo `primary` para `role="user"` e fundo transparente para `assistant`.
+- **`Message.Actions`** — botões secundários (copiar, regenerar, votar). Aparecem ao hover/foco.
+- **`Message.Attachments`** — strip de chips para imagens, PDFs e áudio anexados pelo usuário.
+
+## A11y
+
+- O elemento raiz é um `<article>` com `aria-label` descrevendo papel e nome — evita múltiplos landmarks `banner` quando várias mensagens convivem na página.
+- Avatar é `aria-hidden`; o nome do autor já está no header da bolha.

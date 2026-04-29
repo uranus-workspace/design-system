@@ -12,5 +12,17 @@
       "**/.source",
       "pnpm-lock.yaml"
     ]
-  }
+  },
+  "overrides": [
+    {
+      "include": ["apps/docs/registry/ai/**", "packages/ai/**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useValidAriaRole": "off"
+          }
+        }
+      }
+    }
+  ]
 }

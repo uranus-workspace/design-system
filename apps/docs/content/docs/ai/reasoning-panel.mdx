@@ -1,0 +1,29 @@
+---
+title: ReasoningPanel
+description: Painel colapsável para o trace de "thinking" no estilo Anthropic / OpenAI.
+---
+
+`ReasoningPanel` é o invólucro padrão para `ReasoningUIPart` do AI SDK. Enquanto `streaming` é `true`, o trigger ganha um shimmer "Pensando…"; ao terminar, o usuário pode expandir e ver o trace completo.
+
+<ComponentPreview name="reasoning-panel-default" align="center" minHeight={260} />
+
+## Uso
+
+```tsx
+import { ReasoningPanel } from '@uranus-workspace/ai';
+
+{message.reasoning ? (
+  <ReasoningPanel
+    text={message.reasoning}
+    streaming={message.streaming}
+    defaultOpen={false}
+  />
+) : null}
+```
+
+`useUranusChat` já agrupa os parts de raciocínio em `message.reasoning` para você.
+
+## A11y
+
+- O trigger é um `<button>` com `aria-label` "Mostrar/Ocultar raciocínio".
+- O conteúdo é um `<pre>` para preservar quebras do trace.

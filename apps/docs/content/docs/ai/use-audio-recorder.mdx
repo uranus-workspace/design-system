@@ -1,0 +1,61 @@
+---
+title: useAudioRecorder
+description: Hook MediaRecorder com level meter — apresentacional por padrão, com transcribe opcional.
+---
+
+`useAudioRecorder` cuida do ciclo de vida da `MediaRecorder` API: pede permissão, grava chunks, expõe `level` (0–1) para a barra de volume e devolve o `Blob` final. **Não** transcreve por padrão — você passa um `transcribe(blob) => Promise<string>` quando quiser texto direto, ou usa o blob como anexo (`attachOnStop`).
+
+<ComponentPreview name="use-audio-recorder-default" align="center" minHeight={420} />
+
+## Uso direto
+
+```tsx
+'use client';
+import { useAudioRecorder } from '@uranus-workspace/ai';
+
+const recorder = useAudioRecorder({
+  transcribe: async (blob) => {
+    const fd = new FormData();
+    fd.append('audio', blob);
+    const res = await fetch('/api/transcribe', { method: 'POST', body: fd });
+    const { text } = await res.json();
+    return text;
+  },
+});
+
+<button onClick={recorder.start}>Gravar</button>
+<button onClick={recorder.stop}>Parar</button>
+<span>{recorder.level.toFixed(2)}</span>
+```
+
+## Via `Composer.RecordButton`
+
+`Composer.RecordButton` consome este hook internamente. Você só precisa decidir entre:
+
+```tsx
+{/* Anexa o blob — você processa no submit */}
+<Composer.RecordButton attachOnStop />
+
+{/* Transcreve para o textarea */}
+<Composer.RecordButton transcribe={transcribeAudio} />
+```
+
+## Server route (opcional)
+
+```ts
+export async function POST(req: Request) {
+  const form = await req.formData();
+  const audio = form.get('audio') as File;
+  const transcript = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+    body: form,
+  }).then((r) => r.json());
+  return Response.json({ text: transcript.text });
+}
+```
+
+## A11y
+
+- O botão de gravação altera `aria-pressed` enquanto está ativo.
+- Em `prefers-reduced-motion: reduce`, o waveform pulsa de forma reduzida e a barra usa só fade.

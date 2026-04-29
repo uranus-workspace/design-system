@@ -1,0 +1,37 @@
+---
+title: ChatThreadList
+description: Sidebar com a lista de conversas salvas — botão "Nova conversa" e estado ativo.
+---
+
+`ChatThreadList` é a coluna esquerda padrão do `Chat`. Recebe um array de threads, destaca o ativo e expõe `onCreate` para iniciar uma nova conversa. Persistir e ordenar threads é responsabilidade do consumidor.
+
+<ComponentPreview name="chat-thread-list-default" align="center" minHeight={400} />
+
+## Uso
+
+```tsx
+import { Chat, ChatThreadList } from '@uranus-workspace/ai';
+
+<Chat
+  messages={chat.messages}
+  status={chat.status}
+  onSend={chat.sendMessage}
+  sidebar={
+    <ChatThreadList
+      threads={threads}
+      activeId={threadId}
+      onSelect={(thread) => router.push(`/chat/${thread.id}`)}
+      onCreate={() => router.push('/chat/new')}
+    />
+  }
+/>
+```
+
+## API
+
+- **`threads`** — `{ id, title, description?, updatedAt?, unread? }[]`.
+- **`activeId`** — id da thread destacada.
+- **`onSelect`** — clique no thread.
+- **`onCreate`** — clique em "Nova conversa". Sem ele, o botão fica desabilitado.
+- **`header`** — slot opcional acima da lista (ex.: `<Input placeholder="Buscar…" />`).
+- **`emptyState`** — texto/JSX quando não há threads.

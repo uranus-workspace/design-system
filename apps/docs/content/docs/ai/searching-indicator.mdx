@@ -1,0 +1,23 @@
+---
+title: SearchingIndicator
+description: Pílula que cicla pelas fontes em consulta enquanto o modelo pesquisa.
+---
+
+`SearchingIndicator` mostra "Pesquisando…" mais o título da fonte atual, que troca em cadência. Use enquanto `status === 'searching'` ou enquanto `useUranusChat` reportar tool calls de busca.
+
+<ComponentPreview name="searching-indicator-default" align="center" minHeight={120} />
+
+## Uso
+
+```tsx
+import { SearchingIndicator } from '@uranus-workspace/ai';
+
+<SearchingIndicator
+  sources={['design.uranus.com.br', 'docs.anthropic.com', 'wikipedia.org']}
+/>
+```
+
+## API
+
+- **`sources`** — array opcional de strings; o primeiro item aparece imediatamente, e os seguintes a cada `intervalMs` (default `1500`).
+- **`label`** — texto principal. Default `"Pesquisando…"`.

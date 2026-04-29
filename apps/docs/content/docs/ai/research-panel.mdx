@@ -1,0 +1,30 @@
+---
+title: ResearchPanel
+description: Card que combina StageList + CitationList para o modo "research".
+---
+
+`ResearchPanel` é o complemento (ou a substituição) da coluna de chat quando `mode === 'research'`. Exibe **etapas em andamento** + **fontes consultadas** lado a lado, com um header sumarizado.
+
+<ComponentPreview name="research-panel-default" align="center" minHeight={420} />
+
+## Uso
+
+```tsx
+import { ResearchPanel, useUranusChat } from '@uranus-workspace/ai';
+
+const chat = useUranusChat({ api: '/api/research', defaultMode: 'research' });
+
+<ResearchPanel
+  title={`Pesquisando: ${chat.research?.query}`}
+  stages={chat.research?.stages ?? []}
+  citations={chat.research?.citations ?? []}
+  summary={chat.research?.summary}
+/>
+```
+
+## API
+
+- **`stages`** — `UranusStage[]`, mesma forma de `StageList`.
+- **`citations`** — `UranusCitation[]`.
+- **`title`** — default `"Pesquisa"`.
+- **`summary`** — texto/JSX renderizado abaixo das fontes (ex.: TLDR final).

@@ -1,0 +1,33 @@
+---
+title: Citation
+description: Chip de citação inline e CitationList para renderizar todas as fontes consultadas.
+---
+
+`Citation` é um chip pequeno com número, título da fonte e link externo opcional. Quando há `snippet` ou `source`, mostra um tooltip com o trecho. **`CitationList`** agrupa as fontes sob um label "Fontes".
+
+<ComponentPreview name="citation-default" align="center" minHeight={140} />
+
+## Uso
+
+```tsx
+import { Citation, CitationList } from '@uranus-workspace/ai';
+
+<CitationList
+  citations={message.citations}
+/>
+```
+
+## Vindo de `useUranusChat`
+
+Mensagens normalizadas pelo hook expõem `message.citations: UranusCitation[]`. Na prática:
+
+```tsx
+{message.citations && message.citations.length > 0 ? (
+  <CitationList citations={message.citations} />
+) : null}
+```
+
+## API
+
+- **`Citation`** — recebe um `UranusCitation` e um `index` (1-based) para o número visível.
+- **`CitationList`** — recebe um array e um `label` opcional. Não renderiza nada quando vazio.

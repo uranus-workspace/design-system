@@ -1,0 +1,34 @@
+---
+title: PlanPanel
+description: Card de plano live-updating para o modo "plan" do useUranusChat.
+---
+
+`PlanPanel` exibe um plano em formato de cartão com `StageList` interno e um summary "X de Y etapas concluídas". Use enquanto `mode === 'plan'` no `useUranusChat`, recebendo `stages` do server (via `UIMessage` data parts ou um endpoint dedicado).
+
+<ComponentPreview name="plan-panel-default" align="center" minHeight={400} />
+
+## Uso
+
+```tsx
+import { Chat, PlanPanel, useUranusChat } from '@uranus-workspace/ai';
+
+const chat = useUranusChat({ api: '/api/chat', defaultMode: 'plan' });
+
+<Chat
+  messages={chat.messages}
+  status={chat.status}
+  mode={chat.mode}
+  onModeChange={chat.setMode}
+  onSend={chat.sendMessage}
+  composerToolbar={
+    <PlanPanel stages={chat.plan?.stages ?? []} actions={<Button size="sm">Editar</Button>} />
+  }
+/>
+```
+
+## API
+
+- **`stages`** — `UranusStage[]`.
+- **`title`** — default `"Plano"`.
+- **`description`** — sobrescreve o summary automático.
+- **`actions`** — slot à direita do título (ex.: "Editar plano").

@@ -1,6 +1,25 @@
 import type { ComponentType } from 'react';
 import AccordionDefault from './accordion/accordion-default';
 import AccordionMultiple from './accordion/accordion-multiple';
+import ChatDefault from './ai/chat-default';
+import ChatThreadListDefault from './ai/chat-thread-list-default';
+import CitationDefault from './ai/citation-default';
+import CodeBlockDefault from './ai/code-block-default';
+import ComposerDefault from './ai/composer-default';
+import MessageDefault from './ai/message-default';
+import MessageListDefault from './ai/message-list-default';
+import MessageMarkdownDefault from './ai/message-markdown-default';
+import PlanPanelDefault from './ai/plan-panel-default';
+import ReasoningPanelDefault from './ai/reasoning-panel-default';
+import ResearchPanelDefault from './ai/research-panel-default';
+import SearchingIndicatorDefault from './ai/searching-indicator-default';
+import StageListDefault from './ai/stage-list-default';
+import StreamingTextDefault from './ai/streaming-text-default';
+import SuggestedPromptsDefault from './ai/suggested-prompts-default';
+import ThinkingIndicatorDefault from './ai/thinking-indicator-default';
+import ToolCallCardDefault from './ai/tool-call-card-default';
+import UseAudioRecorderDefault from './ai/use-audio-recorder-default';
+import UseUranusChatDefault from './ai/use-uranus-chat-default';
 import AlertDialogDefault from './alert-dialog/alert-dialog-default';
 import AlertDialogDestructive from './alert-dialog/alert-dialog-destructive';
 import AlertDefault from './alert/alert-default';
@@ -120,6 +139,25 @@ interface RegistryEntry {
  */
 export const registry: Record<string, RegistryEntry> = {
   'accordion-default': { Component: AccordionDefault, folder: 'accordion' },
+  'chat-default': { Component: ChatDefault, folder: 'ai' },
+  'chat-thread-list-default': { Component: ChatThreadListDefault, folder: 'ai' },
+  'citation-default': { Component: CitationDefault, folder: 'ai' },
+  'code-block-default': { Component: CodeBlockDefault, folder: 'ai' },
+  'composer-default': { Component: ComposerDefault, folder: 'ai' },
+  'message-default': { Component: MessageDefault, folder: 'ai' },
+  'message-list-default': { Component: MessageListDefault, folder: 'ai' },
+  'message-markdown-default': { Component: MessageMarkdownDefault, folder: 'ai' },
+  'plan-panel-default': { Component: PlanPanelDefault, folder: 'ai' },
+  'reasoning-panel-default': { Component: ReasoningPanelDefault, folder: 'ai' },
+  'research-panel-default': { Component: ResearchPanelDefault, folder: 'ai' },
+  'searching-indicator-default': { Component: SearchingIndicatorDefault, folder: 'ai' },
+  'stage-list-default': { Component: StageListDefault, folder: 'ai' },
+  'streaming-text-default': { Component: StreamingTextDefault, folder: 'ai' },
+  'suggested-prompts-default': { Component: SuggestedPromptsDefault, folder: 'ai' },
+  'thinking-indicator-default': { Component: ThinkingIndicatorDefault, folder: 'ai' },
+  'tool-call-card-default': { Component: ToolCallCardDefault, folder: 'ai' },
+  'use-audio-recorder-default': { Component: UseAudioRecorderDefault, folder: 'ai' },
+  'use-uranus-chat-default': { Component: UseUranusChatDefault, folder: 'ai' },
   'accordion-multiple': { Component: AccordionMultiple, folder: 'accordion' },
   'activity-feed-default': { Component: ActivityFeedDefault, folder: 'blocks' },
   'announcement-banner-default': { Component: AnnouncementBannerDefault, folder: 'blocks' },

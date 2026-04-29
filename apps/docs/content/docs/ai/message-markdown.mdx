@@ -1,0 +1,26 @@
+---
+title: MessageMarkdown
+description: Renderização de markdown opt-in usando react-markdown como peer opcional.
+---
+
+`MessageMarkdown` é um wrapper fino: você passa o **default export do `react-markdown`** (peer opcional) via `markdownComponent`, e o componente injeta os mappings necessários para que `code`, `pre`, `a` e listas sigam o estilo Uranus.
+
+> O pacote **não** importa `react-markdown` direto — ele entra apenas como peer opcional para manter o bundle do `@uranus-workspace/ai` enxuto.
+
+<ComponentPreview name="message-markdown-default" align="center" minHeight={260} />
+
+## Uso
+
+```tsx
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { MessageMarkdown } from '@uranus-workspace/ai';
+
+<MessageMarkdown markdownComponent={ReactMarkdown} remarkPlugins={[remarkGfm]}>
+  {message.text}
+</MessageMarkdown>
+```
+
+## Por que opt-in?
+
+A maioria das respostas de modelos é texto + parágrafos quebrados — `whitespace-pre-wrap` resolve. Habilite Markdown só nas conversas em que tabelas, código, listas e links são frequentes. Assim quem não usa, não paga o custo.

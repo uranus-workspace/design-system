@@ -25,7 +25,7 @@
     "@uranus-workspace/tokens": "workspace:*",
     "ai": "^5.0.0",
     "fumadocs-core": "^15.8.5",
-    "fumadocs-mdx": "^14.2.13",
+    "fumadocs-mdx": "14.2.13",
     "fumadocs-ui": "^15.8.5",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "lucide-react": "^0.469.0",
@@ -50,7 +50,7 @@
     "@types/react-dom": "^19.0.2",
     "@uranus-workspace/biome-config": "workspace:*",
     "@uranus-workspace/tsconfig": "workspace:*",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.12",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.2"
   }

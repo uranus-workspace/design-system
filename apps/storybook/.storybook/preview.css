@@ -9,6 +9,7 @@
  */
 @source "../../../packages/design-system/src/**/*.{ts,tsx,mdx}";
 @source "../../../packages/blocks/src/**/*.{ts,tsx,mdx}";
+@source "../../../packages/ai/src/**/*.{ts,tsx,mdx}";
 @source "../../src/**/*.{ts,tsx}";
 
 /* Uranus is a single-typeface system on Poppins. Storybook pulls the font

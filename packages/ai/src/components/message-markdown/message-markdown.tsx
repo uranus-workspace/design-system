@@ -93,7 +93,7 @@ export const MessageMarkdown = forwardRef<HTMLDivElement, MessageMarkdownProps>(
         <a
           {...anchorProps}
           className={cn(
-            'font-medium text-primary underline underline-offset-2 hover:text-primary/80',
+            'font-medium text-link underline underline-offset-2 hover:text-link-hover',
             anchorProps.className,
           )}
           target={anchorProps.target ?? '_blank'}

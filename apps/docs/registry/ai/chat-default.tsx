@@ -22,7 +22,7 @@ export default function ChatDefault() {
   const [messages, setMessages] = useState<UranusMessage[]>(seed);
   const [status, setStatus] = useState<UranusChatStatus>('idle');
   return (
-    <div className="mx-auto flex h-full min-h-[420px] w-full max-w-4xl flex-col rounded-lg border bg-background">
+    <div className="flex h-full min-h-[420px] w-full flex-1 flex-col rounded-lg border bg-background">
       <Chat
         messages={messages}
         status={status}

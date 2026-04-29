@@ -5,7 +5,9 @@ description: Bloco de código com label de linguagem e botão "Copiar" — sem h
 
 `CodeBlock` deliberadamente **não embrulha um syntax highlighter**. Você controla a renderização via `renderCode`: passe Shiki, Prism, Highlight.js ou qualquer outro. Isso mantém o pacote leve e evita decisões de tema que invariavelmente brigam com o branding.
 
-<ComponentPreview name="code-block-default" align="center" minHeight={220} />
+No site de docs, o preview usa **Shiki** com tema `github-dark` e várias gramáticas carregadas de uma vez (TypeScript/TSX, JavaScript/JSX, JSON, SQL, YAML, Markdown, Bash, Python, Ruby, HTML, CSS, SCSS, Vue e plaintext). Rótulos curtos como `ts`, `json` e `sql` são aceitos no `language`.
+
+<ComponentPreview name="code-block-default" align="center" minHeight={560} />
 
 ## Uso
 
@@ -20,15 +22,19 @@ import { CodeBlock } from '@uranus-workspace/ai';
 
 ## Com seu próprio highlighter
 
+Instale por exemplo `shiki` (e, no React, `hast-util-to-jsx-runtime` se quiser converter `codeToHast` em JSX sem HTML cru). O próprio site de docs inclui uma referência em `apps/docs/components/shiki-code-body.tsx`.
+
 ```tsx
+import { CodeBlock } from '@uranus-workspace/ai';
+
 <CodeBlock
   code={code}
-  language="ts"
-  renderCode={(source) => <ShikiHighlight code={source} lang="ts" theme="github-dark" />}
+  language="json"
+  renderCode={(source) => <YourHighlighter code={source} language="json" />}
 />
 ```
 
-`ShikiHighlight` (ou equivalente) é seu componente: ele recebe a string e devolve um `ReactNode` já com sanitização adequada. O slot `renderCode` é apenas uma porta — quem decide como renderizar é o consumidor.
+`YourHighlighter` é seu componente (Shiki, Prism, Highlight.js, …): ele recebe a string `source` e devolve um `ReactNode`. O slot `renderCode` é só essa porta.
 
 ## API
 

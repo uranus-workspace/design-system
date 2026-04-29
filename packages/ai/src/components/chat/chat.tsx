@@ -120,7 +120,10 @@ const ChatRoot = forwardRef<HTMLDivElement, ChatProps>(function Chat(
 
       <div className="flex min-w-0 flex-1 flex-col">
         {header ? (
-          <div data-slot="chat-header" className="border-b bg-background px-4 py-2">
+          <div
+            data-slot="chat-header"
+            className="border-b border-border/40 bg-background px-4 py-2.5"
+          >
             {header}
           </div>
         ) : null}
@@ -140,7 +143,10 @@ const ChatRoot = forwardRef<HTMLDivElement, ChatProps>(function Chat(
           ) : null}
         </MessageList>
 
-        <div data-slot="chat-footer" className="space-y-2 border-t bg-background px-4 py-3">
+        <div
+          data-slot="chat-footer"
+          className="space-y-2 border-t border-border/40 bg-muted/5 px-4 py-3"
+        >
           {error ? (
             <Alert variant="destructive">
               <AlertDescription>{error}</AlertDescription>
@@ -155,7 +161,7 @@ const ChatRoot = forwardRef<HTMLDivElement, ChatProps>(function Chat(
             </div>
           ) : null}
 
-          <div className="mx-auto w-full max-w-3xl">
+          <div className="mx-auto w-full max-w-[min(80rem,100%)] px-1">
             <Composer.Root
               status={status}
               onSubmit={onSend}
@@ -167,16 +173,20 @@ const ChatRoot = forwardRef<HTMLDivElement, ChatProps>(function Chat(
               <Composer.Textarea />
               {composerToolbar ??
                 (defaultToolbar ? (
-                  <Composer.Toolbar>
-                    <Composer.AttachButton />
-                    {transcribeAudio ? (
-                      <Composer.RecordButton transcribe={transcribeAudio} />
-                    ) : (
-                      <Composer.RecordButton attachOnStop />
-                    )}
-                    <Composer.ModeToggle />
-                    <span className="flex-1" />
-                    <Composer.SubmitButton />
+                  <Composer.Toolbar className="mt-1 gap-2 border-t border-border/40 px-0 pb-0 pt-2">
+                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                      <Composer.MoreMenu />
+                      <Composer.ModeToggle />
+                    </div>
+                    <div className="flex shrink-0 items-center gap-0.5">
+                      <Composer.AttachButton />
+                      {transcribeAudio ? (
+                        <Composer.RecordButton transcribe={transcribeAudio} />
+                      ) : (
+                        <Composer.RecordButton attachOnStop />
+                      )}
+                      <Composer.SubmitButton />
+                    </div>
                   </Composer.Toolbar>
                 ) : null)}
               {composerHint ?? <Composer.Hints />}

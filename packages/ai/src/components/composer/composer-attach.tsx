@@ -1,5 +1,5 @@
 import { Button } from '@uranus-workspace/design-system';
-import { Paperclip } from 'lucide-react';
+import { ImagePlus } from 'lucide-react';
 import { type ChangeEvent, type ComponentProps, forwardRef, useRef } from 'react';
 import { cn } from '../../lib/cn.js';
 import { useComposer } from './context.js';
@@ -10,13 +10,20 @@ export interface ComposerAttachButtonProps
   accept?: string;
   /** Allow multiple file selection. Default `true`. */
   multiple?: boolean;
-  /** Label (sr-only). Default "Anexar arquivo". */
+  /** Label (sr-only). Default "Anexar foto ou arquivo". */
   label?: string;
 }
 
 export const ComposerAttachButton = forwardRef<HTMLButtonElement, ComposerAttachButtonProps>(
   function ComposerAttachButton(
-    { accept = '*/*', multiple = true, label = 'Anexar arquivo', className, disabled, ...props },
+    {
+      accept = '*/*',
+      multiple = true,
+      label = 'Anexar foto ou arquivo',
+      className,
+      disabled,
+      ...props
+    },
     ref,
   ) {
     const { addAttachments, busy, disabled: composerDisabled } = useComposer();
@@ -38,11 +45,14 @@ export const ComposerAttachButton = forwardRef<HTMLButtonElement, ComposerAttach
           size="icon"
           aria-label={label}
           disabled={disabled || composerDisabled || busy}
-          className={cn('h-9 w-9 shrink-0 text-muted-foreground hover:text-foreground', className)}
+          className={cn(
+            'h-9 w-9 shrink-0 rounded-full text-muted-foreground hover:bg-muted/80 hover:text-foreground',
+            className,
+          )}
           onClick={() => inputRef.current?.click()}
           data-slot="composer-attach-button"
         >
-          <Paperclip aria-hidden className="size-4" />
+          <ImagePlus aria-hidden className="size-[18px] stroke-[2]" />
         </Button>
         <input
           ref={inputRef}

@@ -12,3 +12,4 @@ export type { ComposerAttachButtonProps } from './composer-attach.js';
 export type { ComposerAttachmentsProps } from './composer-attachments.js';
 export type { ComposerRecordButtonProps } from './composer-record.js';
 export type { ComposerModeToggleProps } from './composer-mode.js';
+export type { ComposerMoreMenuProps } from './composer-more.js';

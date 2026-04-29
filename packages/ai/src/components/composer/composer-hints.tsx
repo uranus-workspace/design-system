@@ -13,7 +13,7 @@ export const ComposerHints = forwardRef<HTMLDivElement, ComposerHintsProps>(func
       ref={ref}
       data-slot="composer-hints"
       className={cn(
-        'flex items-center gap-2 px-2 pb-1 text-[11px] text-muted-foreground',
+        'flex items-center gap-2 px-3 pb-1 pt-0.5 text-[11px] text-muted-foreground/85',
         className,
       )}
       {...props}

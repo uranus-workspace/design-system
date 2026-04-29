@@ -17,7 +17,7 @@ describe('Composer', () => {
     await user.type(screen.getByLabelText('mensagem'), 'Olá Uranus');
     await user.keyboard('{Enter}');
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit.mock.calls[0]![0]).toMatchObject({ text: 'Olá Uranus', mode: 'chat' });
+    expect(onSubmit.mock.calls[0]?.[0]).toMatchObject({ text: 'Olá Uranus', mode: 'chat' });
   });
 
   it('inserts a newline on Shift+Enter without submitting', async () => {
@@ -55,6 +55,7 @@ describe('Composer', () => {
       <Composer.Root onSubmit={() => {}}>
         <Composer.Textarea aria-label="mensagem" />
         <Composer.Toolbar>
+          <Composer.MoreMenu />
           <Composer.SubmitButton />
         </Composer.Toolbar>
         <Composer.Hints />

@@ -1,7 +1,9 @@
+import type { FunctionComponent } from 'react';
 import { ComposerAttachButton } from './composer-attach.js';
 import { ComposerAttachments } from './composer-attachments.js';
 import { ComposerHints } from './composer-hints.js';
 import { ComposerModeToggle } from './composer-mode.js';
+import { ComposerMoreMenu, type ComposerMoreMenuProps } from './composer-more.js';
 import { ComposerRecordButton } from './composer-record.js';
 import { ComposerRoot } from './composer-root.js';
 import { ComposerSubmitButton } from './composer-submit.js';
@@ -17,6 +19,7 @@ ComposerAttachButton.displayName = 'Composer.AttachButton';
 ComposerAttachments.displayName = 'Composer.Attachments';
 ComposerRecordButton.displayName = 'Composer.RecordButton';
 ComposerModeToggle.displayName = 'Composer.ModeToggle';
+(ComposerMoreMenu as FunctionComponent<ComposerMoreMenuProps>).displayName = 'Composer.MoreMenu';
 
 /**
  * Compound input bar for AI surfaces. Always wrap your sub-components in
@@ -29,10 +32,11 @@ ComposerModeToggle.displayName = 'Composer.ModeToggle';
  *   <Composer.Attachments />
  *   <Composer.Textarea />
  *   <Composer.Toolbar>
- *     <Composer.AttachButton />
- *     <Composer.RecordButton transcribe={whisper} />
+ *     <Composer.MoreMenu />
  *     <Composer.ModeToggle />
  *     <span className="flex-1" />
+ *     <Composer.AttachButton />
+ *     <Composer.RecordButton transcribe={whisper} />
  *     <Composer.SubmitButton />
  *   </Composer.Toolbar>
  *   <Composer.Hints />
@@ -49,4 +53,5 @@ export const Composer = Object.assign(ComposerRoot, {
   Attachments: ComposerAttachments,
   RecordButton: ComposerRecordButton,
   ModeToggle: ComposerModeToggle,
+  MoreMenu: ComposerMoreMenu,
 });

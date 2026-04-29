@@ -26,6 +26,7 @@ export const ComposerTextarea = forwardRef<HTMLTextAreaElement, ComposerTextarea
     const { value, setValue, submit, disabled, busy } = useComposer();
     const innerRef = useRef<HTMLTextAreaElement | null>(null);
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: autosize must run when controlled value or maxHeight changes
     useEffect(() => {
       const node = innerRef.current;
       if (!node) return;
@@ -64,7 +65,7 @@ export const ComposerTextarea = forwardRef<HTMLTextAreaElement, ComposerTextarea
         onChange={(event) => setValue(event.target.value)}
         onKeyDown={handleKeyDown}
         className={cn(
-          'min-h-10 resize-none border-0 bg-transparent px-2 py-1.5 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0',
+          'min-h-11 resize-none border-0 bg-transparent px-3 py-2 text-[15px] leading-relaxed shadow-none placeholder:text-muted-foreground/60 focus-visible:ring-0 focus-visible:ring-offset-0',
           className,
         )}
       />

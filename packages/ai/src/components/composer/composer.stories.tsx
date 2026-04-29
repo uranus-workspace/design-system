@@ -19,11 +19,15 @@ export const Default: Story = {
     >
       <Composer.Attachments />
       <Composer.Textarea />
-      <Composer.Toolbar>
-        <Composer.AttachButton accept="image/*,application/pdf" />
-        <Composer.ModeToggle />
-        <span className="flex-1" />
-        <Composer.SubmitButton />
+      <Composer.Toolbar className="mt-1 gap-2 border-t border-border/40 px-0 pb-0 pt-2">
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <Composer.MoreMenu />
+          <Composer.ModeToggle />
+        </div>
+        <div className="flex shrink-0 items-center gap-0.5">
+          <Composer.AttachButton accept="image/*,application/pdf" />
+          <Composer.SubmitButton />
+        </div>
       </Composer.Toolbar>
       <Composer.Hints />
     </Composer.Root>
@@ -37,11 +41,16 @@ export const WithRecord: Story = {
     >
       <Composer.Attachments />
       <Composer.Textarea placeholder="Pergunte ou grave um áudio…" />
-      <Composer.Toolbar>
-        <Composer.AttachButton />
-        <Composer.RecordButton attachOnStop />
-        <span className="flex-1" />
-        <Composer.SubmitButton />
+      <Composer.Toolbar className="mt-1 gap-2 border-t border-border/40 px-0 pb-0 pt-2">
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <Composer.MoreMenu />
+          <Composer.ModeToggle />
+        </div>
+        <div className="flex shrink-0 items-center gap-0.5">
+          <Composer.AttachButton />
+          <Composer.RecordButton attachOnStop />
+          <Composer.SubmitButton />
+        </div>
       </Composer.Toolbar>
       <Composer.Hints />
     </Composer.Root>

@@ -27,3 +27,34 @@
      face later without touching every component. */
   --font-display: var(--font-sans);
 }
+
+/*
+ * Docs em modo escuro: corpo/descrições legíveis (prose + tokens FD).
+ * Sem isso, mistura Fumadocs + `@tailwindcss/typography` pode deixar parágrafos
+ * quase invisíveis sobre fundo cosmic escuro.
+ */
+.dark {
+  --color-fd-muted-foreground: hsl(0 0% 93%);
+}
+
+.dark #nd-sidebar {
+  --color-fd-muted-foreground: hsl(0 0% 82%);
+}
+
+.prose {
+  --tw-prose-links: var(--color-link);
+}
+
+.dark .prose {
+  --tw-prose-body: hsl(0 0% 96%);
+  --tw-prose-headings: hsl(0 0% 100%);
+  --tw-prose-lead: hsl(0 0% 96%);
+  --tw-prose-links: var(--color-link);
+  --tw-prose-bold: hsl(0 0% 100%);
+  --tw-prose-counters: hsl(0 0% 78%);
+  --tw-prose-bullets: hsl(0 0% 82%);
+  --tw-prose-quotes: hsl(0 0% 94%);
+  --tw-prose-quote-borders: hsl(0 0% 42%);
+  --tw-prose-code: hsl(0 0% 96%);
+  --tw-prose-kbd: hsl(0 0% 96%);
+}

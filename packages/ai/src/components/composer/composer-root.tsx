@@ -7,6 +7,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { cn } from '../../lib/cn.js';
@@ -84,6 +85,8 @@ export const ComposerRoot = forwardRef<HTMLFormElement, ComposerRootProps>(funct
   const [internalValue, setInternalValue] = useState(defaultValue ?? '');
   const [internalMode, setInternalMode] = useState<UranusChatMode>(defaultMode);
   const [attachments, setAttachments] = useState<UranusAttachment[]>([]);
+  const attachmentsRef = useRef<UranusAttachment[]>(attachments);
+  attachmentsRef.current = attachments;
   const [recording, setRecording] = useState(false);
 
   const value = controlledValue ?? internalValue;
@@ -152,12 +155,10 @@ export const ComposerRoot = forwardRef<HTMLFormElement, ComposerRootProps>(funct
 
   useEffect(() => {
     return () => {
-      for (const att of attachments) {
+      for (const att of attachmentsRef.current) {
         if (att.previewUrl) URL.revokeObjectURL(att.previewUrl);
       }
     };
-    // intentional: cleanup only on unmount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const ctx: ComposerContextValue = useMemo(
@@ -224,7 +225,7 @@ export const ComposerRoot = forwardRef<HTMLFormElement, ComposerRootProps>(funct
         data-recording={recording || undefined}
         data-accept={accept}
         className={cn(
-          'flex w-full flex-col gap-2 rounded-2xl border bg-background p-2 shadow-sm transition focus-within:ring-1 focus-within:ring-ring',
+          'flex w-full flex-col gap-1 rounded-xl border border-border/50 bg-muted/10 p-1.5 shadow-none transition focus-within:border-border focus-within:ring-1 focus-within:ring-ring/40',
           disabled && 'opacity-60',
           className,
         )}

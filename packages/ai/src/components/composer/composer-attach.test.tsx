@@ -12,7 +12,7 @@ describe('Composer.AttachButton', () => {
         <Composer.AttachButton />
       </Composer.Root>,
     );
-    expect(screen.getByRole('button', { name: 'Anexar arquivo' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Anexar foto ou arquivo' })).toBeInTheDocument();
   });
 
   it('opens the file picker on click', async () => {
@@ -28,7 +28,7 @@ describe('Composer.AttachButton', () => {
     ) as HTMLInputElement;
     expect(input).toBeInTheDocument();
     expect(input.type).toBe('file');
-    await user.click(screen.getByRole('button', { name: 'Anexar arquivo' }));
+    await user.click(screen.getByRole('button', { name: 'Anexar foto ou arquivo' }));
     // Click handler was wired (jsdom doesn't open the picker, but the click propagates).
   });
 

@@ -4,8 +4,8 @@ import { cn } from '../../lib/cn.js';
 export interface ComposerToolbarProps extends HTMLAttributes<HTMLDivElement> {}
 
 /**
- * Bottom row of the composer that hosts attach / record / mode / submit
- * controls. Children are laid out in a `flex` row with `items-center`.
+ * Bottom row of the composer that hosts overflow menu, mode, attach / record /
+ * submit controls. Children are laid out in a `flex` row with `items-center`.
  */
 export const ComposerToolbar = forwardRef<HTMLDivElement, ComposerToolbarProps>(
   function ComposerToolbar({ className, ...props }, ref) {

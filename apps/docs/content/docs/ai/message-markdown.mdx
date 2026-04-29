@@ -24,3 +24,7 @@ import { MessageMarkdown } from '@uranus-workspace/ai';
 ## Por que opt-in?
 
 A maioria das respostas de modelos é texto + parágrafos quebrados — `whitespace-pre-wrap` resolve. Habilite Markdown só nas conversas em que tabelas, código, listas e links são frequentes. Assim quem não usa, não paga o custo.
+
+## Links e tema
+
+Âncoras usam os tokens semânticos `link` e `link-hover` do `@uranus-workspace/tailwind-config`, separados do `primary` dos CTAs: em modo claro o link é um azul um tom mais suave que o marinho dos botões; em modo escuro o texto do link evita o turquesa pleno dos superfícies primárias para leitura mais confortável no cosmic.

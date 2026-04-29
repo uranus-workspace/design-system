@@ -106,8 +106,8 @@ export const ComposerRecordButton = forwardRef<HTMLButtonElement, ComposerRecord
           aria-label={isRecording ? 'Parar gravação' : label}
           disabled={disabled || composer.disabled || isBusy}
           className={cn(
-            'h-9 w-9 shrink-0',
-            !isRecording && 'text-muted-foreground hover:text-foreground',
+            'h-9 w-9 shrink-0 rounded-full',
+            !isRecording && 'text-muted-foreground hover:bg-muted/80 hover:text-foreground',
             className,
           )}
           onClick={() => {

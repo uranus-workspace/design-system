@@ -15,7 +15,7 @@ interface ModeOption {
 const DEFAULT_OPTIONS: ModeOption[] = [
   {
     value: 'chat',
-    label: 'Chat',
+    label: 'Agente',
     icon: <MessageSquare aria-hidden className="size-3.5" />,
     description: 'Resposta direta',
   },
@@ -55,7 +55,7 @@ export const ComposerModeToggle = forwardRef<HTMLDivElement, ComposerModeToggleP
         disabled={disabled || busy}
         data-slot="composer-mode-toggle"
         className={cn(
-          'rounded-full border bg-muted/40 p-0.5 [&>button]:h-7 [&>button]:rounded-full [&>button]:px-2 [&>button]:text-xs',
+          'rounded-xl border border-border/50 bg-muted/25 p-0.5 shadow-none [&>button]:h-8 [&>button]:rounded-lg [&>button]:px-2.5 [&>button]:text-xs [&>button]:font-medium [&>button]:shadow-none',
           className,
         )}
       >

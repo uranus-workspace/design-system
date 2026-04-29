@@ -16,12 +16,17 @@
   --color-input: color-mix(in oklab, var(--color-brand-800) 55%, transparent);
   --color-ring: var(--color-brand-400);
 
+  /* Links inline — mais suaves que o primário turquesa dos CTAs sobre fundos cosmic. */
+  --color-link: var(--color-brand-200);
+  --color-link-hover: var(--color-brand-400);
+
+  /* Primary/accent/info em modo escuro = turquesa — texto sempre preto (#000) para contraste. */
   --color-primary: var(--color-brand-400);
-  --color-primary-foreground: var(--color-brand-950);
+  --color-primary-foreground: var(--color-neutral-950);
   --color-secondary: var(--color-brand-900);
   --color-secondary-foreground: var(--color-neutral-50);
   --color-accent: var(--color-brand-400);
-  --color-accent-foreground: var(--color-brand-950);
+  --color-accent-foreground: var(--color-neutral-950);
   --color-highlight: var(--color-accent-200);
   --color-highlight-foreground: var(--color-brand-950);
 
@@ -32,7 +37,7 @@
   --color-warning: var(--color-warning-400);
   --color-warning-foreground: var(--color-brand-950);
   --color-info: var(--color-brand-400);
-  --color-info-foreground: var(--color-brand-950);
+  --color-info-foreground: var(--color-neutral-950);
 
   --color-card: var(--color-brand-900);
   --color-card-foreground: var(--color-neutral-50);
@@ -42,7 +47,7 @@
   --color-sidebar: var(--color-brand-950);
   --color-sidebar-foreground: var(--color-neutral-50);
   --color-sidebar-primary: var(--color-brand-400);
-  --color-sidebar-primary-foreground: var(--color-brand-950);
+  --color-sidebar-primary-foreground: var(--color-neutral-950);
   --color-sidebar-accent: var(--color-brand-900);
   --color-sidebar-accent-foreground: var(--color-neutral-50);
   --color-sidebar-border: color-mix(in oklab, var(--color-brand-700) 45%, transparent);

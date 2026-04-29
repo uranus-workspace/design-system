@@ -39,7 +39,7 @@ export const ComposerSubmitButton = forwardRef<HTMLButtonElement, ComposerSubmit
           }
         }}
         data-slot="composer-submit"
-        className={cn('h-9 w-9 shrink-0', className)}
+        className={cn('h-9 w-9 shrink-0 rounded-full shadow-sm', className)}
       >
         {busy ? (
           <Square aria-hidden className="size-3.5 fill-current" />

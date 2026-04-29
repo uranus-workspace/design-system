@@ -1,10 +1,12 @@
 import {
   type ColumnDef,
+  type ColumnFiltersState,
   type RowSelectionState,
   type SortingState,
   type Table as TanStackTable,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -61,17 +63,20 @@ function DataTableProvider<TData>({
 }: DataTableProviderProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable<TData>({
     data,
     columns,
-    state: { sorting, rowSelection },
+    state: { sorting, rowSelection, columnFilters },
     onSortingChange: setSorting,
     onRowSelectionChange: setRowSelection,
+    onColumnFiltersChange: setColumnFilters,
     enableRowSelection,
     enableSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: pageSize > 0 ? getPaginationRowModel() : undefined,
     initialState: pageSize > 0 ? { pagination: { pageSize, pageIndex: 0 } } : undefined,
   });

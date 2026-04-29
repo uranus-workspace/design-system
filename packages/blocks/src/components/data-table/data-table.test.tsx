@@ -89,6 +89,35 @@ describe('DataTable', () => {
     expect(screen.getByTestId('rows')).toHaveTextContent('Linhas: 3');
   });
 
+  it('filters rows when a column filter value is set via useDataTable', async () => {
+    const user = userEvent.setup();
+    function NameFilter() {
+      const { table } = useDataTable<Row>();
+      const value = (table.getColumn('name')?.getFilterValue() as string) ?? '';
+      return (
+        <input
+          aria-label="Filtrar nome"
+          value={value}
+          onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+        />
+      );
+    }
+    render(
+      <DataTable.Provider data={data} columns={columns}>
+        <DataTable.Toolbar>
+          <NameFilter />
+        </DataTable.Toolbar>
+        <DataTable.Root caption="Filtrável" />
+      </DataTable.Provider>,
+    );
+    expect(screen.getByText('Alice')).toBeInTheDocument();
+    expect(screen.getByText('Bob')).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText('Filtrar nome'), 'Ali');
+    expect(screen.getByText('Alice')).toBeInTheDocument();
+    expect(screen.queryByText('Bob')).not.toBeInTheDocument();
+  });
+
   it('renders default pagination buttons', async () => {
     const user = userEvent.setup();
     const many = Array.from({ length: 12 }, (_, index) => ({

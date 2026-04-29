@@ -3,9 +3,7 @@ import { z } from 'zod';
 export function createResetPasswordFormSchema(minLength: number) {
   return z
     .object({
-      password: z
-        .string()
-        .min(minLength, `A senha precisa ter ao menos ${minLength} caracteres.`),
+      password: z.string().min(minLength, `A senha precisa ter ao menos ${minLength} caracteres.`),
       confirmPassword: z
         .string()
         .min(minLength, `A senha precisa ter ao menos ${minLength} caracteres.`),

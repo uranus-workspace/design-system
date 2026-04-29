@@ -9,9 +9,7 @@ describe('ForgotPasswordForm', () => {
     render(<ForgotPasswordForm onSubmit={vi.fn()} />);
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: 'Enviar link de redefinição' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Enviar link de redefinição' })).toBeInTheDocument();
   });
 
   it('calls onSubmit with the typed email', async () => {

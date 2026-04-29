@@ -1,3 +1,10 @@
+# [@uranus-workspace/blocks-v1.0.2](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/blocks@1.0.1...@uranus-workspace/blocks@1.0.2) (2026-04-29)
+
+
+### Bug Fixes
+
+* **blocks:** align peer compatibility with @uranus-workspace/design-system v2 ([#8](https://github.com/uranus-workspace/design-system/issues/8)) ([518e29e](https://github.com/uranus-workspace/design-system/commit/518e29e4f67eced3d00b9f5f16c76e8eb7421f0e))
+
 # [@uranus-workspace/blocks-v1.0.1](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/blocks@1.0.0...@uranus-workspace/blocks@1.0.1) (2026-04-13)
 
 

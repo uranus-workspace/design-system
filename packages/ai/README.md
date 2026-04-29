@@ -10,3 +10,11 @@ Princípios:
 - **A11y.** Indicadores de status anunciam via `role="status"` com `aria-live="polite"`. Reduzimos animação quando `prefers-reduced-motion: reduce`.
 
 Veja a documentação completa em [Design Uranus → AI](/docs/ai).
+
+## Compatibility
+
+- Peer dependency em `@uranus-workspace/design-system@^2`.
+- Peer dependency em `@ai-sdk/react@^2` e `ai@^5` (Vercel AI SDK).
+- React 19+, Motion 11+.
+
+Veja [CHANGELOG](./CHANGELOG.md) para mudanças por versão.

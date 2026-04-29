@@ -3,16 +3,18 @@ import { z } from 'zod';
 export function createResetPasswordFormSchema(minLength: number) {
   return z
     .object({
-      password: z.string().min(minLength, `Password must be at least ${minLength} characters.`),
+      password: z
+        .string()
+        .min(minLength, `A senha precisa ter ao menos ${minLength} caracteres.`),
       confirmPassword: z
         .string()
-        .min(minLength, `Password must be at least ${minLength} characters.`),
+        .min(minLength, `A senha precisa ter ao menos ${minLength} caracteres.`),
     })
     .superRefine((data, ctx) => {
       if (data.password !== data.confirmPassword) {
         ctx.addIssue({
           code: 'custom',
-          message: 'Passwords do not match.',
+          message: 'As senhas não coincidem.',
           path: ['confirmPassword'],
         });
       }

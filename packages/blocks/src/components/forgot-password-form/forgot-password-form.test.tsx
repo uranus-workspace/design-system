@@ -9,7 +9,9 @@ describe('ForgotPasswordForm', () => {
     render(<ForgotPasswordForm onSubmit={vi.fn()} />);
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Send reset link' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Enviar link de redefinição' }),
+    ).toBeInTheDocument();
   });
 
   it('calls onSubmit with the typed email', async () => {
@@ -17,15 +19,15 @@ describe('ForgotPasswordForm', () => {
     const user = userEvent.setup();
     render(<ForgotPasswordForm onSubmit={onSubmit} />);
     await user.type(screen.getByLabelText('Email'), 'gus@uranus.com.br');
-    await user.click(screen.getByRole('button', { name: 'Send reset link' }));
+    await user.click(screen.getByRole('button', { name: 'Enviar link de redefinição' }));
     expect(onSubmit).toHaveBeenCalledWith({ email: 'gus@uranus.com.br' });
   });
 
   it('renders the success panel when success is true', () => {
     render(<ForgotPasswordForm onSubmit={vi.fn()} success signInHref="/sign-in" />);
     expect(screen.queryByLabelText('Email')).not.toBeInTheDocument();
-    expect(screen.getByRole('status')).toHaveTextContent(/Check your inbox/);
-    expect(screen.getByRole('link', { name: 'Back to sign in' })).toHaveAttribute(
+    expect(screen.getByRole('status')).toHaveTextContent(/Verifique seu email/);
+    expect(screen.getByRole('link', { name: 'Voltar para entrar' })).toHaveAttribute(
       'href',
       '/sign-in',
     );

@@ -7,9 +7,9 @@ import { ResetPasswordForm } from './reset-password-form.js';
 describe('ResetPasswordForm', () => {
   it('renders new password and confirm fields', () => {
     render(<ResetPasswordForm onSubmit={vi.fn()} />);
-    expect(screen.getByLabelText('New password')).toBeInTheDocument();
-    expect(screen.getByLabelText('Confirm password')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Update password' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Nova senha')).toBeInTheDocument();
+    expect(screen.getByLabelText('Confirmar senha')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Atualizar senha' })).toBeInTheDocument();
   });
 
   it('blocks submit and shows mismatch message when passwords differ', async () => {
@@ -17,12 +17,12 @@ describe('ResetPasswordForm', () => {
     const user = userEvent.setup();
     render(<ResetPasswordForm onSubmit={onSubmit} />);
 
-    await user.type(screen.getByLabelText('New password'), 'StrongPass1!');
-    await user.type(screen.getByLabelText('Confirm password'), 'Different1!');
+    await user.type(screen.getByLabelText('Nova senha'), 'StrongPass1!');
+    await user.type(screen.getByLabelText('Confirmar senha'), 'Different1!');
 
-    await user.click(screen.getByRole('button', { name: 'Update password' }));
+    await user.click(screen.getByRole('button', { name: 'Atualizar senha' }));
 
-    expect(screen.getByText('Passwords do not match.')).toBeInTheDocument();
+    expect(screen.getByText('As senhas não coincidem.')).toBeInTheDocument();
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
@@ -31,9 +31,9 @@ describe('ResetPasswordForm', () => {
     const user = userEvent.setup();
     render(<ResetPasswordForm onSubmit={onSubmit} />);
 
-    await user.type(screen.getByLabelText('New password'), 'StrongPass1!');
-    await user.type(screen.getByLabelText('Confirm password'), 'StrongPass1!');
-    await user.click(screen.getByRole('button', { name: 'Update password' }));
+    await user.type(screen.getByLabelText('Nova senha'), 'StrongPass1!');
+    await user.type(screen.getByLabelText('Confirmar senha'), 'StrongPass1!');
+    await user.click(screen.getByRole('button', { name: 'Atualizar senha' }));
 
     expect(onSubmit).toHaveBeenCalledWith({
       password: 'StrongPass1!',

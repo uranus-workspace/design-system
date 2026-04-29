@@ -15,7 +15,12 @@ description: Wrapper para fluxos de autenticação - split-screen com painel de 
 No variant `split`, o painel usa gradientes do preset Uranus (`packages/tailwind-config/preset.css`): **`cosmic`**, **`aurora`**, **`nebula`**, **`galaxy`**. Controle com a prop **`brandTone`** (default `cosmic`). Os utilitários (`bg-cosmic`, etc.) vêm dos tokens — não use hex nos produtos.
 
 
-<ComponentPreview name="auth-layout-default" align="start" minHeight={520} previewClassName="!px-0 !py-0 sm:!px-0 sm:!py-0" />
+<ComponentPreview
+  name="auth-layout-default"
+  align="stretch"
+  previewClassName="!px-0 !py-0 sm:!px-0 sm:!py-0"
+  minHeight={620}
+/>
 
 ## Uso
 
@@ -40,3 +45,4 @@ import { AuthLayout, SignInForm } from '@uranus-workspace/blocks';
 - O painel de marca é decorativo (`aria-hidden`). Toda informação importante mora no formulário.
 - O `<h1>` da tela é responsabilidade do **formulário**, não do layout.
 - Largura máxima do formulário: `max-w-sm` (`24rem`). Consistente entre todas as auth screens.
+- O texto do painel é **sempre branco** (`text-white`) porque os gradientes são sempre escuros, em qualquer tema. Não use `text-primary-foreground` aqui — em dark mode ele inverteria para navy e sumiria sobre o gradiente.

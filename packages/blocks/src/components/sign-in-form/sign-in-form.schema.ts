@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const signInFormSchema = z.object({
-  email: z.email({ error: 'Enter a valid email.' }),
-  password: z.string().min(1, 'Enter your password.'),
+  email: z.email({ error: 'Informe um email válido.' }),
+  password: z.string().min(1, 'Informe sua senha.'),
   rememberMe: z.boolean(),
 });
 

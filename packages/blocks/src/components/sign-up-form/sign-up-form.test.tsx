@@ -8,17 +8,17 @@ describe('SignUpForm', () => {
   it('renders all required fields and the submit button', () => {
     render(<SignUpForm onSubmit={vi.fn()} />);
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-    expect(screen.getByLabelText('Full name')).toBeRequired();
+    expect(screen.getByLabelText('Nome completo')).toBeRequired();
     expect(screen.getByLabelText('Email')).toBeRequired();
-    expect(screen.getByLabelText('Password')).toBeRequired();
-    expect(screen.getByRole('button', { name: 'Create account' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Senha')).toBeRequired();
+    expect(screen.getByRole('button', { name: 'Criar conta' })).toBeInTheDocument();
   });
 
   it('updates the password strength meter while typing', async () => {
     const user = userEvent.setup();
     render(<SignUpForm onSubmit={vi.fn()} />);
-    await user.type(screen.getByLabelText('Password'), 'Aa1!aaaa');
-    expect(screen.getByText('Strong')).toBeInTheDocument();
+    await user.type(screen.getByLabelText('Senha'), 'Aa1!aaaa');
+    expect(screen.getByText('Forte')).toBeInTheDocument();
   });
 
   it('calls onSubmit with typed values when accepted', async () => {
@@ -26,11 +26,11 @@ describe('SignUpForm', () => {
     const user = userEvent.setup();
     render(<SignUpForm onSubmit={onSubmit} />);
 
-    await user.type(screen.getByLabelText('Full name'), 'Gustavo');
+    await user.type(screen.getByLabelText('Nome completo'), 'Gustavo');
     await user.type(screen.getByLabelText('Email'), 'gus@uranus.com.br');
-    await user.type(screen.getByLabelText('Password'), 'StrongPass1!');
-    await user.click(screen.getByLabelText(/I accept the Terms/));
-    await user.click(screen.getByRole('button', { name: 'Create account' }));
+    await user.type(screen.getByLabelText('Senha'), 'StrongPass1!');
+    await user.click(screen.getByLabelText(/Aceito os Termos/));
+    await user.click(screen.getByRole('button', { name: 'Criar conta' }));
 
     expect(onSubmit).toHaveBeenCalledWith({
       name: 'Gustavo',
@@ -41,8 +41,8 @@ describe('SignUpForm', () => {
   });
 
   it('renders the destructive error alert', () => {
-    render(<SignUpForm onSubmit={vi.fn()} error="Email already in use" />);
-    expect(screen.getByRole('alert')).toHaveTextContent('Email already in use');
+    render(<SignUpForm onSubmit={vi.fn()} error="Email já em uso" />);
+    expect(screen.getByRole('alert')).toHaveTextContent('Email já em uso');
   });
 
   it('has no a11y violations', async () => {

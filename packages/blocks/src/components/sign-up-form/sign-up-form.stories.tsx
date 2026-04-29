@@ -26,9 +26,12 @@ export const HybridSocialAndCredentials: Story = {
     socialProviders: (
       <>
         <OAuthProviderButton provider="google" onClick={() => {}}>
-          Continue with Google
+          Continuar com Google
         </OAuthProviderButton>
-        <AuthDivider />
+        <OAuthProviderButton provider="microsoft" onClick={() => {}}>
+          Continuar com Microsoft
+        </OAuthProviderButton>
+        <AuthDivider label="ou continue com email" />
       </>
     ),
   },
@@ -41,7 +44,10 @@ export const OAuthOnlyShell: Story = {
     socialProviders: (
       <>
         <OAuthProviderButton provider="google" onClick={() => {}}>
-          Continue with Google
+          Continuar com Google
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="microsoft" onClick={() => {}}>
+          Continuar com Microsoft
         </OAuthProviderButton>
       </>
     ),

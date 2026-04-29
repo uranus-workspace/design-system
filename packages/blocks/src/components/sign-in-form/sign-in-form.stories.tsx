@@ -43,10 +43,10 @@ export const HybridDividerAndPrimitives: Story = {
     socialProviders: (
       <>
         <OAuthProviderButton provider="google" onClick={() => {}}>
-          Continue with Google
+          Continuar com Google
         </OAuthProviderButton>
         <OAuthProviderButton provider="microsoft" onClick={() => {}}>
-          Continue with Microsoft
+          Continuar com Microsoft
         </OAuthProviderButton>
         <AuthDivider label="ou continue com email" />
       </>
@@ -61,10 +61,10 @@ export const OAuthOnlyShell: Story = {
     socialProviders: (
       <>
         <OAuthProviderButton provider="google" onClick={() => {}}>
-          Continue with Google
+          Continuar com Google
         </OAuthProviderButton>
         <OAuthProviderButton provider="microsoft" onClick={() => {}}>
-          Continue with Microsoft
+          Continuar com Microsoft
         </OAuthProviderButton>
       </>
     ),

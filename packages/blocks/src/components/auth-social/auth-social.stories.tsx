@@ -14,10 +14,10 @@ export const OAuthProviderButtonAndDivider: StoryObj = {
   render: () => (
     <div className="flex w-[min(360px,calc(100vw-32px))] flex-col gap-2">
       <OAuthProviderButton onClick={() => {}} provider="google">
-        Continue with Google
+        Continuar com Google
       </OAuthProviderButton>
       <OAuthProviderButton onClick={() => {}} provider="microsoft">
-        Continue with Microsoft
+        Continuar com Microsoft
       </OAuthProviderButton>
       <AuthDivider label="ou continue com" />
       <p className="text-center text-xs text-muted-foreground">

@@ -17,7 +17,7 @@ describe('OtpVerificationForm', () => {
   it('renders heading and verify button disabled until full code', () => {
     render(<OtpVerificationForm onSubmit={vi.fn()} />);
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Verify' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Verificar' })).toBeDisabled();
   });
 
   it('submits when the user types the full code and clicks verify', async () => {
@@ -25,10 +25,10 @@ describe('OtpVerificationForm', () => {
     const user = userEvent.setup();
     render(<OtpVerificationForm onSubmit={onSubmit} />);
 
-    const input = screen.getByLabelText('Verification code');
+    const input = screen.getByLabelText('Código de verificação');
     await user.click(input);
     await user.keyboard('123456');
-    await user.click(screen.getByRole('button', { name: 'Verify' }));
+    await user.click(screen.getByRole('button', { name: 'Verificar' }));
     expect(onSubmit).toHaveBeenCalledWith({ code: '123456' });
   });
 
@@ -37,7 +37,7 @@ describe('OtpVerificationForm', () => {
     const user = userEvent.setup();
     render(<OtpVerificationForm onSubmit={onSubmit} autoSubmit />);
 
-    const input = screen.getByLabelText('Verification code');
+    const input = screen.getByLabelText('Código de verificação');
     await user.click(input);
     await user.keyboard('123456');
     expect(onSubmit).toHaveBeenCalledWith({ code: '123456' });
@@ -54,16 +54,16 @@ describe('OtpVerificationForm', () => {
     it('disables resend during cooldown', async () => {
       const onResend = vi.fn();
       render(<OtpVerificationForm onSubmit={vi.fn()} onResend={onResend} resendCooldown={3} />);
-      const resend = screen.getByRole('button', { name: 'Resend' });
+      const resend = screen.getByRole('button', { name: 'Reenviar' });
       await act(async () => {
         resend.click();
       });
       expect(onResend).toHaveBeenCalledTimes(1);
-      expect(screen.getByRole('button', { name: 'Resend in 3s' })).toBeDisabled();
+      expect(screen.getByRole('button', { name: 'Reenviar em 3s' })).toBeDisabled();
       act(() => {
         vi.advanceTimersByTime(3000);
       });
-      expect(screen.getByRole('button', { name: 'Resend' })).not.toBeDisabled();
+      expect(screen.getByRole('button', { name: 'Reenviar' })).not.toBeDisabled();
     });
   });
 

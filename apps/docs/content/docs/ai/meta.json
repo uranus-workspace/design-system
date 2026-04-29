@@ -1,0 +1,30 @@
+{
+  "title": "AI",
+  "pages": [
+    "index",
+    "---Mensagens---",
+    "message",
+    "message-list",
+    "message-markdown",
+    "code-block",
+    "streaming-text",
+    "citation",
+    "---Status---",
+    "thinking-indicator",
+    "searching-indicator",
+    "reasoning-panel",
+    "tool-call-card",
+    "stage-list",
+    "---Composer---",
+    "composer",
+    "suggested-prompts",
+    "---Fluxos---",
+    "chat",
+    "chat-thread-list",
+    "plan-panel",
+    "research-panel",
+    "---Hooks---",
+    "use-uranus-chat",
+    "use-audio-recorder"
+  ]
+}

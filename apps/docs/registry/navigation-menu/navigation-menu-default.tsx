@@ -53,7 +53,7 @@ export default function NavigationMenuDefault() {
                 <li key={item.href}>
                   <NavigationMenuLink asChild>
                     <a
-                      className="block rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent"
+                      className="block rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
                       href={item.href}
                     >
                       <div className="font-medium">{item.title}</div>
@@ -75,7 +75,7 @@ export default function NavigationMenuDefault() {
                 <li key={item.href}>
                   <NavigationMenuLink asChild>
                     <a
-                      className="block rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent"
+                      className="block rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
                       href={item.href}
                     >
                       <div className="font-medium">{item.title}</div>

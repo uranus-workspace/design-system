@@ -1,0 +1,23 @@
+---
+title: ThinkingIndicator
+description: Pílula com três pontos respirando para sinalizar "o modelo está pensando".
+---
+
+`ThinkingIndicator` é o indicador padrão para os estados `submitted` e `thinking` do `useUranusChat`. Três pontos pulsam em cadência e respeitam `prefers-reduced-motion`.
+
+<ComponentPreview name="thinking-indicator-default" align="center" minHeight={120} />
+
+## Uso
+
+```tsx
+import { ThinkingIndicator } from '@uranus-workspace/ai';
+
+{(status === 'submitted' || status === 'thinking') ? (
+  <ThinkingIndicator label="Pensando…" />
+) : null}
+```
+
+## API
+
+- **`label`** — texto exibido ao lado dos pontos. Default `"Pensando…"`.
+- **`role="status"`** + `aria-live="polite"` — anuncia mudanças sem interromper o leitor de tela.

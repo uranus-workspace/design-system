@@ -1,0 +1,41 @@
+---
+title: ChartCard
+description: Card preset para gráficos - header com título, descrição, slot de actions e footer.
+---
+
+`ChartCard` envolve `Card` com um header padronizado para gráficos. Usa `<h3>` no título (ordem de heading entre `PageHeader` `<h1>` e seções internas) e alinha um slot de actions à direita para filtros, range pickers ou menus de overflow.
+
+
+<ComponentPreview name="chart-card-default" align="center" minHeight={460} />
+
+## Uso
+
+```tsx
+import { ChartCard } from '@uranus-workspace/blocks';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@uranus-workspace/design-system';
+import { Bar, BarChart } from 'recharts';
+
+<ChartCard
+  title="Receita"
+  description="Receita mensal nos últimos 12 meses"
+>
+  <ChartContainer config={chartConfig} className="h-64">
+    <BarChart data={data}>
+      <ChartTooltip content={<ChartTooltipContent />} />
+      <Bar dataKey="amount" fill="var(--color-primary)" />
+    </BarChart>
+  </ChartContainer>
+</ChartCard>
+```
+
+## Slots
+
+- `title` (obrigatório) — `<h3>` do card.
+- `description` — texto opcional logo abaixo do título.
+- `actions` — renderizado no canto superior direito.
+- `children` — corpo do gráfico.
+- `footer` — barra inferior opcional com `border-t`.

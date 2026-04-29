@@ -1,0 +1,78 @@
+---
+title: AppShell
+description: A casca completa de uma aplicação dashboard - sidebar, header, conteúdo e painel lateral opcional.
+---
+
+`AppShell` orquestra `SidebarProvider`, `SidebarInset` e os slots compostos. Monte a árvore com **`AppShell.Sidebar`**, **`AppShell.Inset`**, **`AppShell.Header`**, **`AppShell.Content`** e opcionalmente **`AppShell.RightPanel`**.
+
+A área principal fica em **`AppShell.Content`**, com **rolagem vertical** (`overflow-y-auto`) para o header não competir com o scroll da página.
+
+Em demos embutidas (docs, Storybook estreito), passe **`collapsible="none"`** no **`AppSidebar`** ou **`Sidebar`** para o painel ficar no fluxo do layout — o modo padrão do primitivo usa posição fixa na viewport, o que pode sair do quadro de preview.
+
+<ComponentPreview name="app-shell-default" align="stretch" minHeight={640} previewClassName="!px-0 !py-0 sm:!px-0 sm:!py-0" />
+
+O preview usa **`align="stretch"`** para o exemplo ocupar toda a largura útil (sem ficar como uma faixa estreita no centro).
+
+## Uso
+
+```tsx
+import { AppHeader, AppShell, AppSidebar } from '@uranus-workspace/blocks';
+import { Separator, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarTrigger } from '@uranus-workspace/design-system';
+
+<AppShell defaultSidebarOpen>
+  <AppShell.Sidebar>
+    <AppSidebar>
+      <AppSidebar.Header>{/* marca */}</AppSidebar.Header>
+      <AppSidebar.Content>
+        <SidebarGroup>
+          <SidebarGroupLabel>Principal</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <AppSidebar.NavLink href="/dashboard" label="Início">
+                Início
+              </AppSidebar.NavLink>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </AppSidebar.Content>
+    </AppSidebar>
+  </AppShell.Sidebar>
+  <AppShell.Inset>
+    <AppShell.Header>
+      <AppHeader>
+        <SidebarTrigger />
+        <Separator orientation="vertical" className="h-5" />
+        <AppHeader.Breadcrumbs>{/* breadcrumbs */}</AppHeader.Breadcrumbs>
+        <AppHeader.Actions>{/* ações globais */}</AppHeader.Actions>
+      </AppHeader>
+    </AppShell.Header>
+    <AppShell.Content>{children}</AppShell.Content>
+  </AppShell.Inset>
+  <AppShell.RightPanel>{/* opcional: DetailDrawer */}</AppShell.RightPanel>
+</AppShell>
+```
+
+## Anatomia
+
+- `AppShell.Sidebar` — navegação primária (fora do `<main>`).
+- `AppShell.Inset` — região principal ao lado da sidebar (usa `SidebarInset` / `<main>`).
+- `AppShell.Header` — opcional, dentro do inset (sticky quando o conteúdo é `AppHeader`).
+- `AppShell.Content` — corpo rolável da página.
+- `AppShell.RightPanel` — opcional, irmão do inset (painel direito).
+
+## Diretrizes
+
+- Use **um** `AppShell` por aplicação. O bloco assume que a navegação é única no nível raiz.
+- O bloco **não** define um `<h1>`. O `<h1>` da tela mora no `PageHeader`.
+- Para autenticação use `AuthLayout`, não `AppShell`.
+
+## Estado controlado vs. não controlado
+
+```tsx
+<AppShell defaultSidebarOpen={false}>
+  <AppShell.Sidebar>...</AppShell.Sidebar>
+  ...
+</AppShell>
+```
+
+Por padrão o estado da sidebar é persistido em cookie pelo `SidebarProvider` do `@uranus-workspace/design-system`. Para controlar via app state passe `sidebarOpen` + `onSidebarOpenChange`.

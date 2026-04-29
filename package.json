@@ -22,7 +22,7 @@
     "docs:dev": "turbo run docs:dev --filter=@uranus-workspace/docs",
     "docs:build": "turbo run docs:build --filter=@uranus-workspace/docs",
     "clean": "turbo run clean && rm -rf node_modules",
-    "release": "turbo run build --filter='./packages/*' && pnpm -r --filter='./packages/design-system' --filter='./packages/blocks' exec semantic-release"
+    "release": "turbo run build --filter='./packages/*' && pnpm -r --filter='./packages/design-system' --filter='./packages/blocks' --filter='./packages/ai' exec semantic-release"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

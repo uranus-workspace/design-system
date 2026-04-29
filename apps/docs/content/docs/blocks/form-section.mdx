@@ -1,0 +1,37 @@
+---
+title: FormSection
+description: Bloco básico para construir páginas de configuração - título, descrição, campos e footer com ações.
+---
+
+`FormSection` é o átomo das páginas de settings. Ele junta um `<h2>` de seção, uma descrição opcional, os campos do formulário e um footer com as ações de Salvar/Cancelar. Use `layout="split"` para o padrão GitHub/Linear (heading à esquerda, campos à direita) em telas `md+`.
+
+
+<ComponentPreview name="form-section-default" align="start" />
+
+## Uso
+
+```tsx
+import { FormSection } from '@uranus-workspace/blocks';
+import { Button, Input, Label } from '@uranus-workspace/design-system';
+
+<FormSection
+  title="Profile"
+  description="Atualize as suas informações pessoais."
+  footer={<Button>Salvar alterações</Button>}
+>
+  <Label htmlFor="name">Nome</Label>
+  <Input id="name" />
+</FormSection>
+```
+
+## Props
+
+- `title` — heading da seção (renderizado como `<h2>`).
+- `description` — texto auxiliar abaixo do título.
+- `children` — campos do formulário.
+- `footer` — slot para botões de ação. Geralmente fica à direita.
+- `layout` — `"stacked"` (default) ou `"split"`.
+
+## Acessibilidade
+
+A seção tem `aria-labelledby` apontando para o heading e, quando há descrição, `aria-describedby` apontando para o parágrafo. Não use mais de um `FormSection` aninhado.

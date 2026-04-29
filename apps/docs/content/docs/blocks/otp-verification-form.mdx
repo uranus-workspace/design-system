@@ -1,0 +1,44 @@
+---
+title: OtpVerificationForm
+description: Verificação por código OTP - 2FA, magic link, confirmação de email.
+---
+
+`OtpVerificationForm` envolve o primitivo `InputOTP` em um formulário pronto para uso. Inclui timer de cooldown para reenvio, suporte a auto-submit quando o código é completado e mensagens de erro inline.
+
+
+<ComponentPreview
+  name="otp-verification-form-default"
+  align="center"
+  previewClassName="justify-center py-10 sm:py-14"
+  minHeight={460}
+/>
+
+## Uso
+
+```tsx
+import { OtpVerificationForm } from '@uranus-workspace/blocks';
+
+<OtpVerificationForm
+  length={6}
+  autoSubmit
+  onSubmit={async ({ code }) => {
+    await verifyCode(code);
+  }}
+  onResend={async () => {
+    await resendCode();
+  }}
+/>
+```
+
+## Props
+
+- `length` — número de dígitos (default: 6).
+- `autoSubmit` — submete automaticamente quando o usuário completa o código.
+- `onResend` — quando passado, exibe link "Reenviar" com cooldown.
+- `resendCooldown` — duração do cooldown em segundos (default: 30).
+
+## Acessibilidade
+
+- O input tem um `<label>` `sr-only` ("Código de verificação") para leitores de tela.
+- `autoFocus` no primeiro dígito ao montar.
+- Botão "Reenviar" mostra contagem regressiva e fica desabilitado durante o cooldown.

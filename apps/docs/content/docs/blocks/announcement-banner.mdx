@@ -1,0 +1,36 @@
+---
+title: AnnouncementBanner
+description: Banner global no topo do app - suporta intents (info, success, warning, danger, neutral) e dismiss.
+---
+
+`AnnouncementBanner` é o banner global que vive no topo do app: lançamentos, manutenção, problemas de pagamento. Cinco variantes via `cva`: `info | success | warning | danger | neutral`. Quando `intent="danger"` o banner usa `role="alert"`; nos demais usa `role="status"`.
+
+
+<ComponentPreview
+  name="announcement-banner-default"
+  align="stretch"
+  previewClassName="!px-0 !py-0"
+  minHeight={120}
+/>
+
+## Uso
+
+```tsx
+import { AnnouncementBanner } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+
+<AnnouncementBanner
+  title="Nova versão disponível"
+  description="Veja o que mudou na 2.0."
+  action={<Button size="sm" variant="ghost">Ler changelog</Button>}
+  onDismiss={() => persist('dismissed-2.0', true)}
+/>
+```
+
+## Props
+
+- `title` / `description` — copy.
+- `action` — slot para CTA.
+- `intent` — variante visual.
+- `icon` — sobrescreve o ícone padrão do intent.
+- `onDismiss` — exibe o botão "X". Persistir o dismissal é responsabilidade do consumer.

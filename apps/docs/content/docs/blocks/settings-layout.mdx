@@ -1,0 +1,42 @@
+---
+title: SettingsLayout
+description: Layout de duas colunas para páginas de configuração com nav lateral e conteúdo.
+---
+
+`SettingsLayout` resolve o padrão "settings" que aparece em qualquer painel: uma nav vertical do lado esquerdo + conteúdo no centro, com um cabeçalho opcional no topo. Cada item da nav usa o `BlockLink` (router-agnostic).
+
+
+<ComponentPreview name="settings-layout-default" align="start" />
+
+## Uso
+
+```tsx
+import { SettingsLayout, FormSection } from '@uranus-workspace/blocks';
+
+<SettingsLayout
+  header={<h1>Configurações</h1>}
+  groups={[
+    {
+      label: 'Conta',
+      items: [
+        { id: 'profile', label: 'Perfil', href: '/settings/profile', active: true },
+        { id: 'security', label: 'Segurança', href: '/settings/security' },
+      ],
+    },
+  ]}
+>
+  <FormSection title="Perfil" layout="split">
+    {/* fields */}
+  </FormSection>
+</SettingsLayout>
+```
+
+## Props
+
+- `groups` — lista de grupos com `label` e `items: SettingsNavItem[]`.
+- `linkComponent` — `next/link` ou similar; use `LinkProvider` para configurar globalmente.
+- `header` — slot livre acima do layout (geralmente um `PageHeader`).
+
+## Acessibilidade
+
+A `<nav>` tem `aria-label="Settings"`. O item ativo recebe `aria-current="page"` automaticamente.

@@ -9,28 +9,28 @@ describe('EmptyState', () => {
     render(
       <EmptyState
         icon={<span data-testid="icon">★</span>}
-        title="No projects yet"
-        description="Create your first project to get started."
-        actions={<Button>New project</Button>}
+        title="Nenhum projeto ainda"
+        description="Crie seu primeiro projeto para começar."
+        actions={<Button>Novo projeto</Button>}
       />,
     );
-    expect(screen.getByRole('heading', { name: 'No projects yet' })).toBeInTheDocument();
-    expect(screen.getByText('Create your first project to get started.')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Nenhum projeto ainda' })).toBeInTheDocument();
+    expect(screen.getByText('Crie seu primeiro projeto para começar.')).toBeInTheDocument();
     expect(screen.getByTestId('icon')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'New project' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Novo projeto' })).toBeInTheDocument();
   });
 
   it('has the status landmark', () => {
-    render(<EmptyState title="Empty" />);
+    render(<EmptyState title="Vazio" />);
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
   it('has no a11y violations', async () => {
     const { container } = render(
       <EmptyState
-        title="Empty"
-        description="Nothing to see here."
-        actions={<Button>Do it</Button>}
+        title="Vazio"
+        description="Sem dados por aqui."
+        actions={<Button>Adicionar</Button>}
       />,
     );
     expect(await axe(container)).toHaveNoViolations();

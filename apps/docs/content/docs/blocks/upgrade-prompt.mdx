@@ -1,0 +1,33 @@
+---
+title: UpgradePrompt
+description: Card promocional para conversão paga - inline, card ou banner.
+---
+
+`UpgradePrompt` é o card que pede para o usuário fazer upgrade. Três layouts via `cva`:
+
+- `inline` — entre conteúdo, em paywalls e feature gates.
+- `card` — standalone, no dashboard ou em settings.
+- `banner` — strip no topo do app, com fundo `bg-primary`.
+
+
+<ComponentPreview name="upgrade-prompt-default" align="start" />
+
+## Uso
+
+```tsx
+import { UpgradePrompt } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+
+<UpgradePrompt
+  title="Desbloqueie projetos ilimitados"
+  description="Faça upgrade para Pro e remova o limite de 3 projetos."
+  action={<Button>Fazer upgrade</Button>}
+/>
+```
+
+## Props
+
+- `title` / `description` — copy do upsell.
+- `icon` — ícone à esquerda (ignorado quando `layout="banner"`).
+- `action` — slot livre para CTAs.
+- `layout` — `inline | card | banner`.

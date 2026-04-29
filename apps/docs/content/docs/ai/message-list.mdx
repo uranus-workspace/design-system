@@ -1,0 +1,38 @@
+---
+title: MessageList
+description: Container rolável que mantém o usuário no fim da conversa enquanto novos tokens chegam.
+---
+
+`MessageList` envolve as mensagens com um `ScrollArea` e cuida do **auto-scroll inteligente**: enquanto o usuário estiver no fim, novas mensagens são reveladas automaticamente; assim que ele rola pra cima, mostramos um pílula "↓ Novas mensagens" sem forçar scroll.
+
+<ComponentPreview
+  name="message-list-default"
+  align="stretch"
+  minHeight={400}
+  previewMode="modal"
+  modalTitle="MessageList"
+  modalDescription="Lista rolável com auto-scroll — use o scroll para ver o comportamento."
+/>
+
+## Uso
+
+```tsx
+import { Message, MessageList } from '@uranus-workspace/ai';
+
+<MessageList scrollKey={`${messages.length}-${status}`}>
+  {messages.map((message) => (
+    <Message key={message.id} role={message.role} name={message.authorName}>
+      <Message.Content>{message.text}</Message.Content>
+    </Message>
+  ))}
+</MessageList>
+```
+
+## API
+
+- **`scrollKey`** — qualquer valor que muda quando há novas mensagens (use `messages.length`). É a única dependência do auto-scroll para evitar loops.
+- **`renderMessage`** — opcional, recebe a mensagem e devolve o nó renderizado. Útil para injetar `ToolCallCard`, `ReasoningPanel` ou markdown sem reimplementar o layout.
+
+## Hooks relacionados
+
+- **`useAutoScroll`** — exposto separadamente, caso você queira aplicar a mesma heurística em outro container (logs, terminal).

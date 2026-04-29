@@ -1,0 +1,24 @@
+---
+title: ToolCallCard
+description: Cartão compacto para invocações de ferramentas — nome, status, args e resultado expansíveis.
+---
+
+`ToolCallCard` mapeia diretamente um `UranusToolCall` (proveniente de `ToolUIPart` do AI SDK). Ele mostra o nome da ferramenta, um badge de estado (`Preparando entrada`, `Executando`, `Concluído`, `Falhou`), e expande para revelar `args` e `result` em JSON formatado por padrão.
+
+<ComponentPreview name="tool-call-card-default" align="center" minHeight={260} />
+
+## Uso
+
+```tsx
+import { ToolCallCard } from '@uranus-workspace/ai';
+
+{message.toolCalls?.map((call) => (
+  <ToolCallCard key={call.id} toolCall={call} defaultOpen />
+))}
+```
+
+## API
+
+- **`toolCall`** — `UranusToolCall` com `name`, `state`, `args?`, `result?`, `errorText?`.
+- **`renderInput` / `renderResult`** — slots opcionais quando o JSON cru não dá conta (tabelas, charts, imagens).
+- **`defaultOpen`** — começa expandido; útil em demos e em ferramentas que retornam pouco volume.

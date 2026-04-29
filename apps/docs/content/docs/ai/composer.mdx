@@ -1,0 +1,67 @@
+---
+title: Composer
+description: Barra de input compound com Textarea, anexos, gravação de áudio, modos e atalhos.
+---
+
+`Composer` é o input bar oficial. É um **compound component** — você sempre começa com `Composer.Root` e compõe as ferramentas como children. O estado (texto, anexos, modo, gravação) vive no contexto e é exposto via **`useComposer()`** se precisar customizar algum slot.
+
+<ComponentPreview
+  name="composer-default"
+  align="stretch"
+  minHeight={420}
+  previewMode="modal"
+  modalTitle="Composer"
+  modalDescription="Barra de entrada com anexos, gravação e modo (chat / plano / pesquisa)."
+/>
+
+## Uso
+
+```tsx
+import { Composer } from '@uranus-workspace/ai';
+
+<Composer.Root status={status} onSubmit={handleSend}>
+  <Composer.Attachments />
+  <Composer.Textarea placeholder="Pergunte qualquer coisa…" />
+  <Composer.Toolbar>
+    <Composer.AttachButton />
+    <Composer.RecordButton attachOnStop />
+    <Composer.ModeToggle />
+    <span className="flex-1" />
+    <Composer.SubmitButton />
+  </Composer.Toolbar>
+  <Composer.Hints />
+</Composer.Root>
+```
+
+## Subcomponentes
+
+- **`Composer.Root`** — provider + `<form>`. Recebe `status`, `onSubmit`, `onStop`, `mode`, `accept`, `maxAttachments`.
+- **`Composer.Textarea`** — auto-grow, submit on Enter (Shift+Enter quebra linha).
+- **`Composer.AttachButton`** — abre file picker; aceita o mesmo `accept` do root.
+- **`Composer.Attachments`** — strip de chips com preview de imagem e botão de remover.
+- **`Composer.RecordButton`** — gravação via `MediaRecorder`. Pode anexar o blob (`attachOnStop`) ou rodar `transcribe(blob) => string`.
+- **`Composer.ModeToggle`** — pills `chat | plan | research` controladas/uncontrolled.
+- **`Composer.SubmitButton`** — vira "Parar" enquanto o status é busy.
+- **`Composer.Hints`** — dica de teclado (`Enter` para enviar, `Shift+Enter` para nova linha).
+- **`Composer.Toolbar`** — wrapper opcional com layout horizontal padrão.
+
+## Drag & drop
+
+`Composer.Root` aceita arquivos arrastados — eles entram em `attachments` automaticamente respeitando `accept` e `maxAttachments`.
+
+## Atalhos
+
+- `Enter` envia.
+- `Shift + Enter` insere nova linha.
+- `Esc` durante gravação cancela.
+
+## Hook companheiro
+
+```tsx
+import { useComposer } from '@uranus-workspace/ai';
+
+function CustomToolbar() {
+  const { mode, setMode, attachments, busy } = useComposer();
+  return /* … */;
+}
+```

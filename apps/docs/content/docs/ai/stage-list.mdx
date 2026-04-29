@@ -1,0 +1,26 @@
+---
+title: StageList
+description: Linha do tempo vertical com etapas queued / running / done para fluxos de plano e pesquisa.
+---
+
+`StageList` é a peça base de **`PlanPanel`** e **`ResearchPanel`**. Cada item é um passo com `status` que troca o ícone e a cor sem reordenar a lista. Use diretamente quando precisar embutir o progresso em outro layout.
+
+<ComponentPreview name="stage-list-default" align="center" minHeight={260} />
+
+## Uso
+
+```tsx
+import { StageList } from '@uranus-workspace/ai';
+
+<StageList
+  stages={[
+    { id: '1', title: 'Coletar requisitos', status: 'done' },
+    { id: '2', title: 'Pesquisar fontes', status: 'running' },
+    { id: '3', title: 'Esboçar resposta', status: 'queued' },
+  ]}
+/>
+```
+
+## Estados
+
+`queued`, `running`, `done`, `error`, `skipped` — cada um tem ícone, cor e label próprios. O passo em `running` recebe `aria-current="step"` para leitores de tela.

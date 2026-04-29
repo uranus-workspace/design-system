@@ -34,17 +34,24 @@
     "clean": "rm -rf dist .turbo coverage"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.20.5",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.469.0",
     "tailwind-merge": "^2.5.5"
   },
   "peerDependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@uranus-workspace/design-system": "workspace:*",
     "motion": "^11.15.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.72.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@storybook/react": "^8.4.7",
     "@uranus-workspace/biome-config": "workspace:*",
     "@uranus-workspace/design-system": "workspace:*",
     "@uranus-workspace/test-config": "workspace:*",
@@ -52,14 +59,17 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
+    "@types/jest-axe": "^3.5.9",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
     "jest-axe": "^9.0.0",
+    "react-hook-form": "^7.72.1",
     "jsdom": "^25.0.1",
     "motion": "^11.15.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsup": "^8.3.5",
+    "zod": "^4.3.6",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   }

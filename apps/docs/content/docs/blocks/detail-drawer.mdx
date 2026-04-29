@@ -1,0 +1,44 @@
+---
+title: DetailDrawer
+description: Painel lateral para "ver detalhes" - composição opinativa do Sheet com header, body e footer.
+---
+
+`DetailDrawer` é o padrão "abrir detalhe" do row click em uma `DataTable`: um painel lateral à direita com título, descrição opcional, ações no header, body com scroll e footer com ações. Tamanhos disponíveis via `cva`: `sm | md | lg`.
+
+
+<ComponentPreview name="detail-drawer-default" align="start" />
+
+## Uso
+
+```tsx
+import { DetailDrawer } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+
+<DetailDrawer
+  open={open}
+  onOpenChange={setOpen}
+  title="Cliente: Apollo SA"
+  description="Criado em 12 de jan, 2025"
+  headerActions={<Button size="sm">Editar</Button>}
+  footer={
+    <>
+      <Button variant="ghost" onClick={() => setOpen(false)}>Fechar</Button>
+      <Button>Salvar</Button>
+    </>
+  }
+>
+  <dl>...</dl>
+</DetailDrawer>
+```
+
+## Props
+
+- `title` — required, atribui `aria-labelledby` ao container (via `SheetTitle`).
+- `description` — sub-texto do header.
+- `headerActions`, `footer` — slots livres.
+- `size` — `sm | md | lg`. Default `md` (`sm:max-w-md`).
+- `side` — `left | right`. Default `right`.
+
+## Acessibilidade
+
+Foco é movido para dentro do drawer no abrir e devolvido ao trigger no fechar (Radix Dialog). Sempre passe `title` — nunca deixe um drawer sem título acessível.

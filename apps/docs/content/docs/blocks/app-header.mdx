@@ -1,0 +1,56 @@
+---
+title: AppHeader
+description: Top bar global - sidebar trigger, breadcrumbs, busca, notificações e user menu.
+---
+
+`AppHeader` é a barra sticky no topo do `AppShell`. Renderiza como `<header role="banner">` com o mesmo espaçamento do chrome do design system.
+
+**Preferência:** monte com **`children`** — **`SidebarTrigger`**, **`Separator`**, **`AppHeader.Breadcrumbs`** e **`AppHeader.Actions`** na ordem desejada. Rotas sem sidebar omitam o trigger e o separador.
+
+<ComponentPreview
+  name="app-header-default"
+  align="stretch"
+  previewClassName="!px-0 !py-0 sm:!px-0 sm:!py-0"
+  minHeight={320}
+/>
+
+## Uso
+
+```tsx
+import { AppHeader } from '@uranus-workspace/blocks';
+import { Button, Separator, SidebarTrigger } from '@uranus-workspace/design-system';
+import { Bell, Search } from 'lucide-react';
+
+<AppHeader>
+  <SidebarTrigger />
+  <Separator orientation="vertical" className="h-5" />
+  <AppHeader.Breadcrumbs>{/* breadcrumb UI */}</AppHeader.Breadcrumbs>
+  <AppHeader.Actions>
+    <Button variant="outline" size="sm" type="button" onClick={openCommand}>
+      <Search aria-hidden className="size-4" />
+      <span>Buscar</span>
+    </Button>
+    <Button variant="ghost" size="icon" type="button" aria-label="Notificações">
+      <Bell aria-hidden className="size-4" />
+    </Button>
+    {/* user menu */}
+  </AppHeader.Actions>
+</AppHeader>
+```
+
+## Subcomponentes
+
+- **`AppHeader.Breadcrumbs`** — `<nav aria-label="Breadcrumb">` com overflow horizontal e **`flex-1`** para empurrar ações à direita.
+- **`AppHeader.Actions`** — cluster à direita (busca, notificações, avatar).
+
+## Diretrizes
+
+- Use **um** `AppHeader` dentro do `AppShell`. Não confunda com `PageHeader` (que vive no conteúdo).
+- A altura é fixa em `h-14` para casar com a `Sidebar` no estado collapsed.
+- O fundo usa `bg-background/80` com `backdrop-blur` — tokens, não cores cruas.
+- Para fluxos sem sidebar (ex.: páginas de marketing dentro do mesmo app) omita **`SidebarTrigger`** e **`Separator`** no **`children`**.
+
+## Distinção: AppHeader vs PageHeader
+
+- `AppHeader` é **chrome global** — não muda entre rotas, hospeda navegação e ações pessoais.
+- [PageHeader](/docs/blocks/page-header) é **conteúdo de tela** — `<h1>` da rota, descrição e ações primárias do contexto.

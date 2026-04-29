@@ -1,0 +1,64 @@
+---
+title: useUranusChat
+description: Hook que envolve useChat do @ai-sdk/react, normaliza status e expõe attachments e modos.
+---
+
+`useUranusChat` é a única integração que o pacote oferece com o **Vercel AI SDK**. Ele:
+
+- Envolve `useChat` de `@ai-sdk/react` (peer dependency).
+- **Normaliza o status** para `idle | submitted | thinking | searching | streaming | error`.
+- Transforma `UIMessage` em **`UranusMessage`** com `text`, `reasoning`, `toolCalls`, `citations` e `attachments` já agrupados.
+- Mantém o estado de **`attachments`** independente das mensagens — só vai junto no `sendMessage`.
+- Propaga `mode` (`chat | plan | research`) via `body` para a sua route handler.
+
+<ComponentPreview name="use-uranus-chat-default" align="center" minHeight={360} />
+
+## Setup
+
+```tsx
+'use client';
+import { useUranusChat } from '@uranus-workspace/ai';
+
+const chat = useUranusChat({
+  api: '/api/chat',
+  defaultMode: 'chat',
+  body: { workspaceId },
+});
+```
+
+## Retorno
+
+```ts
+{
+  messages: UranusMessage[];
+  status: UranusChatStatus;     // 'idle' | 'submitted' | 'thinking' | 'searching' | 'streaming' | 'error'
+  mode: UranusChatMode;         // 'chat' | 'plan' | 'research'
+  setMode: (mode: UranusChatMode) => void;
+  sendMessage: (input: { text: string; attachments?: UranusAttachment[] }) => void;
+  stop: () => void;
+  regenerate: () => void;
+  error?: Error;
+}
+```
+
+## Server route
+
+```ts
+import { streamText } from 'ai';
+
+export async function POST(req: Request) {
+  const { messages, mode } = await req.json();
+  const system =
+    mode === 'plan'
+      ? 'Você é um planejador. Retorne stages.'
+      : mode === 'research'
+        ? 'Você é um pesquisador. Cite fontes.'
+        : 'Você é o assistente Uranus.';
+
+  return streamText({ model: 'anthropic/claude-sonnet-4', system, messages }).toUIMessageStreamResponse();
+}
+```
+
+## Por que normalizar?
+
+`useChat` retorna `status: 'submitted' | 'streaming' | 'ready' | 'error'`. Para a UI de chat, `submitted` precisa virar "Pensando…" e `streaming` durante uma `tool-call` precisa virar "Pesquisando…". O hook faz esse mapeamento olhando os `parts` da mensagem mais recente.

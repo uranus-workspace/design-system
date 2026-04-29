@@ -1,0 +1,52 @@
+---
+title: OnboardingChecklist
+description: Card de ativação dispensável com passos e barra de progresso.
+---
+
+`OnboardingChecklist` é o card que vive no topo do dashboard logo depois do signup, com a lista de passos para completar a primeira semana. Cada passo é um **`OnboardingChecklist.Step`**, com `completed` controlado pelo consumer e um `action?` opcional. A barra de progresso é calculada automaticamente a partir dos children.
+
+
+<ComponentPreview
+  name="onboarding-checklist-default"
+  align="center"
+  previewClassName="justify-center py-8 sm:py-10"
+  minHeight={420}
+/>
+
+## Uso
+
+```tsx
+import { OnboardingChecklist } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+
+<OnboardingChecklist
+  title="Comece por aqui"
+  description="Faltam 2 passos para você usar 100% do app."
+  onDismiss={() => savePreference('onboarding-dismissed', true)}
+>
+  <OnboardingChecklist.Step title="Conectar repositório" completed />
+  <OnboardingChecklist.Step
+    title="Convidar time"
+    completed={false}
+    action={<Button size="sm">Convidar</Button>}
+  />
+  <OnboardingChecklist.Step
+    title="Fazer o primeiro deploy"
+    completed={false}
+    action={<Button size="sm">Deploy</Button>}
+  />
+</OnboardingChecklist>
+```
+
+## Props
+
+- `title` / `description` — copy do header.
+- `onDismiss` — exibe o botão "X" no canto. Persistir o estado é responsabilidade do consumer.
+
+## Subcomponentes
+
+- **`OnboardingChecklist.Step`** — `<li>` com `title`, `description?`, `completed`, `action?`. O `action` é ocultado quando `completed`.
+
+## Acessibilidade
+
+O progresso usa o `Progress` primitive com `aria-label` informando "X de Y passos concluídos". O label `sr-only` antes de cada step anuncia o status para leitores de tela.

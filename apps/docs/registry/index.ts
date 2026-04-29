@@ -1,6 +1,25 @@
 import type { ComponentType } from 'react';
 import AccordionDefault from './accordion/accordion-default';
 import AccordionMultiple from './accordion/accordion-multiple';
+import ChatDefault from './ai/chat-default';
+import ChatThreadListDefault from './ai/chat-thread-list-default';
+import CitationDefault from './ai/citation-default';
+import CodeBlockDefault from './ai/code-block-default';
+import ComposerDefault from './ai/composer-default';
+import MessageDefault from './ai/message-default';
+import MessageListDefault from './ai/message-list-default';
+import MessageMarkdownDefault from './ai/message-markdown-default';
+import PlanPanelDefault from './ai/plan-panel-default';
+import ReasoningPanelDefault from './ai/reasoning-panel-default';
+import ResearchPanelDefault from './ai/research-panel-default';
+import SearchingIndicatorDefault from './ai/searching-indicator-default';
+import StageListDefault from './ai/stage-list-default';
+import StreamingTextDefault from './ai/streaming-text-default';
+import SuggestedPromptsDefault from './ai/suggested-prompts-default';
+import ThinkingIndicatorDefault from './ai/thinking-indicator-default';
+import ToolCallCardDefault from './ai/tool-call-card-default';
+import UseAudioRecorderDefault from './ai/use-audio-recorder-default';
+import UseUranusChatDefault from './ai/use-uranus-chat-default';
 import AlertDialogDefault from './alert-dialog/alert-dialog-default';
 import AlertDialogDestructive from './alert-dialog/alert-dialog-destructive';
 import AlertDefault from './alert/alert-default';
@@ -10,6 +29,36 @@ import AvatarDefault from './avatar/avatar-default';
 import AvatarGroup from './avatar/avatar-group';
 import BadgeDefault from './badge/badge-default';
 import BadgeVariants from './badge/badge-variants';
+import ActivityFeedDefault from './blocks/activity-feed-default';
+import AnnouncementBannerDefault from './blocks/announcement-banner-default';
+import AppHeaderDefault from './blocks/app-header-default';
+import AppShellDefault from './blocks/app-shell-default';
+import AppSidebarDefault from './blocks/app-sidebar-default';
+import AuthLayoutDefault from './blocks/auth-layout-default';
+import ChartCardDefault from './blocks/chart-card-default';
+import ConfirmDialogDefault from './blocks/confirm-dialog-default';
+import CTASectionDefault from './blocks/cta-section-default';
+import DangerConfirmDialogDefault from './blocks/danger-confirm-dialog-default';
+import DataTableDefault from './blocks/data-table-default';
+import DetailDrawerDefault from './blocks/detail-drawer-default';
+import ErrorStateDefault from './blocks/error-state-default';
+import FeatureGridDefault from './blocks/feature-grid-default';
+import FilterBarDefault from './blocks/filter-bar-default';
+import ForgotPasswordFormDefault from './blocks/forgot-password-form-default';
+import FormSectionDefault from './blocks/form-section-default';
+import HeroDefault from './blocks/hero-default';
+import NotificationListDefault from './blocks/notification-list-default';
+import OnboardingChecklistDefault from './blocks/onboarding-checklist-default';
+import OtpVerificationFormDefault from './blocks/otp-verification-form-default';
+import ResetPasswordFormDefault from './blocks/reset-password-form-default';
+import SearchCommandDefault from './blocks/search-command-default';
+import SettingsLayoutDefault from './blocks/settings-layout-default';
+import SignInFormDefault from './blocks/sign-in-form-default';
+import SignUpFormDefault from './blocks/sign-up-form-default';
+import StatCardDefault from './blocks/stat-card-default';
+import StatGridDefault from './blocks/stat-grid-default';
+import UpgradePromptDefault from './blocks/upgrade-prompt-default';
+import UsageCardDefault from './blocks/usage-card-default';
 import BreadcrumbDefault from './breadcrumb/breadcrumb-default';
 import BreadcrumbEllipsisExample from './breadcrumb/breadcrumb-ellipsis';
 import ButtonGroupDefault from './button-group/button-group-default';
@@ -90,7 +139,32 @@ interface RegistryEntry {
  */
 export const registry: Record<string, RegistryEntry> = {
   'accordion-default': { Component: AccordionDefault, folder: 'accordion' },
+  'chat-default': { Component: ChatDefault, folder: 'ai' },
+  'chat-thread-list-default': { Component: ChatThreadListDefault, folder: 'ai' },
+  'citation-default': { Component: CitationDefault, folder: 'ai' },
+  'code-block-default': { Component: CodeBlockDefault, folder: 'ai' },
+  'composer-default': { Component: ComposerDefault, folder: 'ai' },
+  'message-default': { Component: MessageDefault, folder: 'ai' },
+  'message-list-default': { Component: MessageListDefault, folder: 'ai' },
+  'message-markdown-default': { Component: MessageMarkdownDefault, folder: 'ai' },
+  'plan-panel-default': { Component: PlanPanelDefault, folder: 'ai' },
+  'reasoning-panel-default': { Component: ReasoningPanelDefault, folder: 'ai' },
+  'research-panel-default': { Component: ResearchPanelDefault, folder: 'ai' },
+  'searching-indicator-default': { Component: SearchingIndicatorDefault, folder: 'ai' },
+  'stage-list-default': { Component: StageListDefault, folder: 'ai' },
+  'streaming-text-default': { Component: StreamingTextDefault, folder: 'ai' },
+  'suggested-prompts-default': { Component: SuggestedPromptsDefault, folder: 'ai' },
+  'thinking-indicator-default': { Component: ThinkingIndicatorDefault, folder: 'ai' },
+  'tool-call-card-default': { Component: ToolCallCardDefault, folder: 'ai' },
+  'use-audio-recorder-default': { Component: UseAudioRecorderDefault, folder: 'ai' },
+  'use-uranus-chat-default': { Component: UseUranusChatDefault, folder: 'ai' },
   'accordion-multiple': { Component: AccordionMultiple, folder: 'accordion' },
+  'activity-feed-default': { Component: ActivityFeedDefault, folder: 'blocks' },
+  'announcement-banner-default': { Component: AnnouncementBannerDefault, folder: 'blocks' },
+  'app-header-default': { Component: AppHeaderDefault, folder: 'blocks' },
+  'app-shell-default': { Component: AppShellDefault, folder: 'blocks' },
+  'app-sidebar-default': { Component: AppSidebarDefault, folder: 'blocks' },
+  'auth-layout-default': { Component: AuthLayoutDefault, folder: 'blocks' },
   'alert-default': { Component: AlertDefault, folder: 'alert' },
   'alert-destructive': { Component: AlertDestructive, folder: 'alert' },
   'alert-dialog-default': { Component: AlertDialogDefault, folder: 'alert-dialog' },
@@ -112,8 +186,8 @@ export const registry: Record<string, RegistryEntry> = {
   'calendar-range': { Component: CalendarRange, folder: 'calendar' },
   'card-default': { Component: CardDefault, folder: 'card' },
   'carousel-default': { Component: CarouselDefault, folder: 'carousel' },
+  'chart-card-default': { Component: ChartCardDefault, folder: 'blocks' },
   'checkbox-default': { Component: CheckboxDefault, folder: 'checkbox' },
-  'checkbox-states': { Component: CheckboxStates, folder: 'checkbox' },
   'collapsible-default': { Component: CollapsibleDefault, folder: 'collapsible' },
   'command-default': { Component: CommandDefault, folder: 'command' },
   'context-menu-default': { Component: ContextMenuDefault, folder: 'context-menu' },
@@ -163,5 +237,28 @@ export const registry: Record<string, RegistryEntry> = {
   'toggle-default': { Component: ToggleDefault, folder: 'toggle' },
   'toggle-group-default': { Component: ToggleGroupDefault, folder: 'toggle-group' },
   'toggle-outline': { Component: ToggleOutline, folder: 'toggle' },
+  'confirm-dialog-default': { Component: ConfirmDialogDefault, folder: 'blocks' },
+  'cta-section-default': { Component: CTASectionDefault, folder: 'blocks' },
+  'danger-confirm-dialog-default': { Component: DangerConfirmDialogDefault, folder: 'blocks' },
+  'data-table-default': { Component: DataTableDefault, folder: 'blocks' },
+  'detail-drawer-default': { Component: DetailDrawerDefault, folder: 'blocks' },
+  'error-state-default': { Component: ErrorStateDefault, folder: 'blocks' },
+  'feature-grid-default': { Component: FeatureGridDefault, folder: 'blocks' },
+  'filter-bar-default': { Component: FilterBarDefault, folder: 'blocks' },
+  'forgot-password-form-default': { Component: ForgotPasswordFormDefault, folder: 'blocks' },
+  'form-section-default': { Component: FormSectionDefault, folder: 'blocks' },
+  'hero-default': { Component: HeroDefault, folder: 'blocks' },
+  'notification-list-default': { Component: NotificationListDefault, folder: 'blocks' },
+  'onboarding-checklist-default': { Component: OnboardingChecklistDefault, folder: 'blocks' },
+  'otp-verification-form-default': { Component: OtpVerificationFormDefault, folder: 'blocks' },
+  'reset-password-form-default': { Component: ResetPasswordFormDefault, folder: 'blocks' },
+  'search-command-default': { Component: SearchCommandDefault, folder: 'blocks' },
+  'settings-layout-default': { Component: SettingsLayoutDefault, folder: 'blocks' },
+  'sign-in-form-default': { Component: SignInFormDefault, folder: 'blocks' },
+  'sign-up-form-default': { Component: SignUpFormDefault, folder: 'blocks' },
+  'stat-card-default': { Component: StatCardDefault, folder: 'blocks' },
+  'stat-grid-default': { Component: StatGridDefault, folder: 'blocks' },
+  'upgrade-prompt-default': { Component: UpgradePromptDefault, folder: 'blocks' },
+  'usage-card-default': { Component: UsageCardDefault, folder: 'blocks' },
   'tooltip-default': { Component: TooltipDefault, folder: 'tooltip' },
 };

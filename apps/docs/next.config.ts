@@ -11,6 +11,24 @@ const config: NextConfig = {
     '@uranus-workspace/tokens',
     '@uranus-workspace/tailwind-config',
   ],
+  async headers() {
+    return [
+      {
+        source: '/',
+        headers: [
+          {
+            key: 'Link',
+            value: [
+              '</.well-known/api-catalog>; rel="api-catalog"',
+              '</docs>; rel="service-doc"',
+              '</.well-known/agent-skills/index.json>; rel="describedby"',
+              '</llms.txt>; rel="describedby"',
+            ].join(', '),
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withMDX(config);

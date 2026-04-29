@@ -1,0 +1,59 @@
+---
+title: FilterBar
+description: Toolbar composicional com chips removíveis para filtros aplicados.
+---
+
+`FilterBar` é uma `<div role="toolbar">` que hospeda livremente um `Input` de busca, um trigger de "adicionar filtro", a lista de chips ativos e um botão "Limpar tudo". Cada chip vem de **`FilterBar.Chip`**, com botão `X` e `aria-label` único.
+
+
+<ComponentPreview
+  name="filter-bar-default"
+  align="stretch"
+  previewClassName="!px-0 !py-0"
+  minHeight={120}
+/>
+
+## Uso
+
+```tsx
+import { FilterBar } from '@uranus-workspace/blocks';
+import { Button, Input } from '@uranus-workspace/design-system';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
+
+const [chips, setChips] = useState([
+  { id: 'status', label: 'Status: Ativo' },
+]);
+
+<FilterBar>
+  <Input placeholder="Buscar…" className="w-44" />
+  <Button variant="outline" size="sm">
+    <Plus aria-hidden className="size-3" />
+    <span>Adicionar filtro</span>
+  </Button>
+  <FilterBar.Chips>
+    {chips.map((c) => (
+      <FilterBar.Chip
+        key={c.id}
+        id={c.id}
+        label={c.label}
+        onRemove={(id) => setChips((curr) => curr.filter((x) => x.id !== id))}
+      />
+    ))}
+  </FilterBar.Chips>
+  {chips.length > 0 ? (
+    <Button variant="ghost" size="sm" className="ml-auto" onClick={() => setChips([])}>
+      Limpar tudo
+    </Button>
+  ) : null}
+</FilterBar>
+```
+
+## Subcomponentes
+
+- **`FilterBar.Chips`** — `<ul>` que hospeda os chips.
+- **`FilterBar.Chip`** — `<li>` com `Badge` removível; recebe `id`, `label` e `onRemove`.
+
+## Acessibilidade
+
+A raiz aplica `role="toolbar"` com `aria-label="Filtros"` por padrão. Cada chip tem um `<button>` com `aria-label` `"Remover filtro <label>"`. `id` deve ser estável entre renderizações para o React não recriar o nó.

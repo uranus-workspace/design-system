@@ -1,0 +1,81 @@
+---
+title: DataTable
+description: Tabela de dados genérica baseada em TanStack Table com API composicional - sorting, paginação client-side, toolbar e pagination como children.
+---
+
+`DataTable` é a opinião da Uranus sobre tabelas de dados, construída sobre [TanStack Table v8](https://tanstack.com/table) e o primitivo `Table` do design system. A API é **composicional**: você combina **`DataTable.Provider`**, **`DataTable.Root`**, **`DataTable.Toolbar`** e **`DataTable.Pagination`** como children, e qualquer célula custom acessa a `Table` instance via **`useDataTable<T>()`**.
+
+Esta é a única dependência **runtime** que o `@uranus-workspace/blocks` adiciona em relação ao primitivo `Table`.
+
+
+<ComponentPreview name="data-table-default" align="center" minHeight={620} />
+
+## Uso
+
+```tsx
+import { DataTable } from '@uranus-workspace/blocks';
+import type { ColumnDef } from '@tanstack/react-table';
+
+interface Customer {
+  id: string;
+  name: string;
+  email: string;
+}
+
+const columns: ColumnDef<Customer>[] = [
+  { accessorKey: 'name', header: 'Nome' },
+  { accessorKey: 'email', header: 'Email' },
+];
+
+<DataTable.Provider data={customers} columns={columns} pageSize={10}>
+  <DataTable.Root caption="Lista de clientes" />
+  <DataTable.Pagination />
+</DataTable.Provider>
+```
+
+## Toolbar com acesso à `Table`
+
+O `useDataTable<T>()` lê a instância TanStack do contexto, com o `T` re-aplicado no call-site para tipagem das linhas:
+
+```tsx
+import { DataTable, useDataTable } from '@uranus-workspace/blocks';
+import { Input } from '@uranus-workspace/design-system';
+
+function SearchInput() {
+  const { table } = useDataTable<Customer>();
+  return (
+    <Input
+      placeholder="Buscar por nome…"
+      value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+      onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+      className="w-64"
+    />
+  );
+}
+
+<DataTable.Provider data={customers} columns={columns}>
+  <DataTable.Toolbar>
+    <SearchInput />
+  </DataTable.Toolbar>
+  <DataTable.Root caption="Clientes" />
+  <DataTable.Pagination />
+</DataTable.Provider>
+```
+
+## Subcomponentes
+
+- **`DataTable.Provider`** — cria o `useReactTable` e provê o contexto. Aceita `data`, `columns`, `enableSorting?`, `enableRowSelection?`, `pageSize?` (padrão `10`, `0` desabilita paginação client-side).
+- **`DataTable.Root`** — renderiza a tabela. Requer `caption` (a11y), aceita `emptyState?`, `onRowClick?`.
+- **`DataTable.Toolbar`** — wrapper composicional com `flex gap-2`. Children acessam a `Table` via `useDataTable`.
+- **`DataTable.Pagination`** — controles default ("Anterior" / "Próxima"). Aceita `previousLabel?` e `nextLabel?` para custom copy.
+- **`useDataTable<T>()`** — hook para custom toolbar/pagination cells.
+
+## Acessibilidade
+
+- `caption` é obrigatório no `DataTable.Root` — passamos com `sr-only` para que a tabela tenha rótulo para leitores de tela.
+- Headers com sort renderizam como `<button>` dentro do `<th>`, e o `<th>` recebe `aria-sort="ascending|descending|none"`.
+- `onRowClick` adiciona `cursor-pointer` mas **não** torna a linha um botão — para ações principais use uma célula com botão real.
+
+## Server-side
+
+Para paginação/sorting server-side, passe `pageSize={0}` para desabilitar a paginação client-side e use `useDataTable` em uma toolbar custom para refletir suas queries.

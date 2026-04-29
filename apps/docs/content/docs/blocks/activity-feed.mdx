@@ -1,0 +1,58 @@
+---
+title: ActivityFeed
+description: Linha do tempo vertical de eventos com avatar, ação, alvo e timestamp.
+---
+
+`ActivityFeed` renderiza uma `<ol>` de eventos (`actor` + `action` + opcional `target` + `timestamp`). Cada item compõe o primitivo `Avatar` e suporta um pequeno ícone decorativo no canto inferior direito do avatar. A composição usa **`ActivityFeed.Item`** como children — sem array de configuração.
+
+
+<ComponentPreview
+  name="activity-feed-default"
+  align="center"
+  previewClassName="justify-center py-8 sm:py-10"
+  minHeight={420}
+/>
+
+## Uso
+
+```tsx
+import { ActivityFeed } from '@uranus-workspace/blocks';
+import { CheckCircle2, Plus } from 'lucide-react';
+
+<ActivityFeed>
+  <ActivityFeed.Item
+    actor={{ name: 'Alice Costa' }}
+    action="criou"
+    target="Projeto Apollo"
+    timestamp="há 2 minutos"
+    icon={<Plus className="size-2.5" />}
+  />
+  <ActivityFeed.Item
+    actor={{ name: 'Bruno Lima' }}
+    action="aprovou"
+    target="PR #142"
+    timestamp="há 1 hora"
+    icon={<CheckCircle2 className="size-2.5" />}
+  />
+</ActivityFeed>
+```
+
+## Estado vazio
+
+Quando não houver itens, renderize **`ActivityFeed.Empty`** no lugar da lista:
+
+```tsx
+<ActivityFeed.Empty>
+  <p className="text-sm text-muted-foreground">Sem atividades ainda.</p>
+</ActivityFeed.Empty>
+```
+
+## Subcomponentes
+
+- **`ActivityFeed.Item`** — `<li>` com `actor`, `action`, `target?`, `timestamp`, `icon?`.
+- **`ActivityFeed.Empty`** — `role="status"` para anunciar a lista vazia.
+
+## Acessibilidade
+
+- A lista é uma `<ol>` para que tecnologias assistivas anunciem ordem cronológica.
+- Avatares mostram iniciais derivadas do nome quando `avatarUrl` ausente. Você pode passar `initials` explícito para overrides.

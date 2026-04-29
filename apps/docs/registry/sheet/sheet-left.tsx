@@ -25,16 +25,28 @@ export default function SheetLeft() {
           <SheetDescription>Acesse rapidamente as principais áreas do produto.</SheetDescription>
         </SheetHeader>
         <nav className="mt-6 flex flex-col gap-1 text-sm">
-          <a className="rounded-md px-2 py-2 hover:bg-accent" href="#inicio">
+          <a
+            className="rounded-md px-2 py-2 hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            href="#inicio"
+          >
             Início
           </a>
-          <a className="rounded-md px-2 py-2 hover:bg-accent" href="#projetos">
+          <a
+            className="rounded-md px-2 py-2 hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            href="#projetos"
+          >
             Projetos
           </a>
-          <a className="rounded-md px-2 py-2 hover:bg-accent" href="#equipe">
+          <a
+            className="rounded-md px-2 py-2 hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            href="#equipe"
+          >
             Equipe
           </a>
-          <a className="rounded-md px-2 py-2 hover:bg-accent" href="#configuracoes">
+          <a
+            className="rounded-md px-2 py-2 hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            href="#configuracoes"
+          >
             Configurações
           </a>
         </nav>

@@ -1,0 +1,60 @@
+---
+title: Chat
+description: Superfície completa de conversa estilo Anthropic / OpenAI — header, lista, indicador, composer e sidebar opcional.
+---
+
+`Chat` é o fluxo de mais alto nível: combina **`MessageList`**, **`ThinkingIndicator`**, **`Composer`** e um cabeçalho opcional. É puramente apresentacional — você passa `messages`, `status` e `onSend`. Em produção você quase sempre liga a um **`useUranusChat`**.
+
+<ComponentPreview
+  name="chat-default"
+  align="stretch"
+  minHeight={560}
+  previewMode="modal"
+  modalTitle="Chat"
+  modalDescription="Superfície completa com header, mensagens e composer — interaja como em produção."
+/>
+
+## Uso com `useUranusChat`
+
+```tsx
+'use client';
+import { Chat, useUranusChat } from '@uranus-workspace/ai';
+
+export function ChatPage() {
+  const chat = useUranusChat({ api: '/api/chat' });
+
+  return (
+    <Chat
+      messages={chat.messages}
+      status={chat.status}
+      mode={chat.mode}
+      onModeChange={chat.setMode}
+      onSend={({ text, attachments }) =>
+        chat.sendMessage({ text, attachments })
+      }
+      onStop={chat.stop}
+      onRegenerate={chat.regenerate}
+      header={<Chat.Header title="Conversar com Uranus" description="Modelo Sonnet · streaming" />}
+      error={chat.error?.message}
+    />
+  );
+}
+```
+
+## Slots
+
+- **`header`** — usar com `Chat.Header` para title/description/actions tipados, ou um `ReactNode` arbitrário.
+- **`sidebar`** — coluna esquerda fixa (esconde em mobile). Combine com `ChatThreadList`.
+- **`composerToolbar`** — substitui a toolbar padrão quando você quer controles diferentes.
+- **`emptyState`** — exibido quando `messages.length === 0`. Use com `SuggestedPrompts`.
+- **`renderMessage`** — override por mensagem (ex.: anexar `ToolCallCard`, `ReasoningPanel`).
+
+## Slot `Chat.Header`
+
+```tsx
+<Chat.Header
+  title="Conversar com Uranus"
+  description="Sonnet 4 · streaming"
+  actions={<Button variant="ghost" size="sm">Nova conversa</Button>}
+/>
+```

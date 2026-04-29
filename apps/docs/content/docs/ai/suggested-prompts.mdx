@@ -1,0 +1,28 @@
+---
+title: SuggestedPrompts
+description: Grade de cards "o que posso perguntar?" para o estado vazio do chat.
+---
+
+`SuggestedPrompts` é o atalho de onboarding: aparece quando `messages.length === 0` e ajuda o usuário a descobrir o que vale perguntar. Cada card emite o `prompt` literal via `onSelect`, e você decide se chama `useUranusChat.sendMessage` direto ou apenas pré-preenche o composer.
+
+<ComponentPreview name="suggested-prompts-default" align="center" minHeight={220} />
+
+## Uso
+
+```tsx
+import { SuggestedPrompts } from '@uranus-workspace/ai';
+
+<SuggestedPrompts
+  prompts={[
+    { id: '1', title: 'Resumir reunião', prompt: 'Resuma essa transcrição em bullets.' },
+    { id: '2', title: 'Planejar experimento', prompt: 'Crie um plano para validar onboarding.' },
+  ]}
+  onSelect={(prompt) => chat.sendMessage({ text: prompt })}
+/>
+```
+
+## API
+
+- **`prompts`** — array de `{ id?, title, description?, prompt }`.
+- **`onSelect`** — recebe a string `prompt` (o `title`/`description` são só visuais).
+- **`columns`** — força N colunas; sem ele, o grid é responsivo (`auto-fit minmax(220px,1fr)`).

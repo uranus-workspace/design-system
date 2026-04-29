@@ -1,0 +1,57 @@
+---
+title: AI
+description: Componentes para aplicações de IA — chat, composer, streaming, áudio, anexos, raciocínio, planejamento e pesquisa.
+---
+
+`@uranus-workspace/ai` é a opinião da Uranus para superfícies de IA. Mora em um pacote separado de `@uranus-workspace/blocks` porque adiciona peers específicos de IA (Vercel AI SDK, opcionalmente `react-markdown`) que nem todo app de produto precisa.
+
+Princípios:
+
+- **Apresentacional por padrão.** Qualquer componente aceita `messages` + `status` + `onSend` quando você quiser controlar o estado manualmente.
+- **AI SDK first-class.** O hook `useUranusChat` envolve `useChat` do `@ai-sdk/react`, normaliza o status para `idle | thinking | searching | streaming | submitted | error` e propaga `mode` (`chat | plan | research`) via `body` para a sua route handler.
+- **Composição.** `Composer` e `Chat` são compound components com slots nomeados (`Composer.Textarea`, `Composer.AttachButton`, `Composer.RecordButton`, `Composer.ModeToggle`, `Chat.Header`, `Chat.Sidebar`, …), seguindo o mesmo padrão do `DataTable` em `@uranus-workspace/blocks`.
+- **A11y.** Indicadores de status anunciam com `role="status"` + `aria-live="polite"`; toda animação respeita `prefers-reduced-motion: reduce`.
+
+## Catálogo
+
+### Mensagens
+
+- [Message](/docs/ai/message)
+- [MessageList](/docs/ai/message-list)
+- [MessageMarkdown](/docs/ai/message-markdown)
+- [CodeBlock](/docs/ai/code-block)
+- [StreamingText](/docs/ai/streaming-text)
+- [Citation](/docs/ai/citation)
+
+### Status & animações
+
+- [ThinkingIndicator](/docs/ai/thinking-indicator)
+- [SearchingIndicator](/docs/ai/searching-indicator)
+- [ReasoningPanel](/docs/ai/reasoning-panel)
+- [ToolCallCard](/docs/ai/tool-call-card)
+- [StageList](/docs/ai/stage-list)
+
+### Composer
+
+- [Composer](/docs/ai/composer)
+- [SuggestedPrompts](/docs/ai/suggested-prompts)
+
+### Fluxos compostos
+
+- [Chat](/docs/ai/chat)
+- [ChatThreadList](/docs/ai/chat-thread-list)
+- [PlanPanel](/docs/ai/plan-panel)
+- [ResearchPanel](/docs/ai/research-panel)
+
+### Hooks
+
+- [useUranusChat](/docs/ai/use-uranus-chat)
+- [useAudioRecorder](/docs/ai/use-audio-recorder)
+
+## Instalação
+
+```bash
+pnpm add @uranus-workspace/ai @uranus-workspace/design-system ai @ai-sdk/react motion react-hook-form zod
+```
+
+`react-markdown` e `remark-gfm` são opcionais — só precisam ser instalados se você importar `MessageMarkdown`.

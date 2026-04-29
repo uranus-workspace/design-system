@@ -1,0 +1,35 @@
+---
+title: UsageCard
+description: Card de quota com Progress bar que muda de cor conforme o uso se aproxima do limite.
+---
+
+`UsageCard` mostra `used / limit` com uma `Progress` bar e troca o intent automaticamente quando o uso passa dos thresholds (`0.8` warning, `0.95` danger por padrão).
+
+
+<ComponentPreview name="usage-card-default" align="start" />
+
+## Uso
+
+```tsx
+import { UsageCard } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+
+<UsageCard
+  label="Armazenamento"
+  used={8.5}
+  limit={10}
+  unit="GB"
+  cta={<Button size="sm">Aumentar limite</Button>}
+/>
+```
+
+## Props
+
+- `label` / `description` — copy.
+- `used`, `limit`, `unit` — números brutos. `unit` é exibido depois do valor.
+- `cta` — slot livre, geralmente exibido apenas quando o uso está próximo do limite.
+- `warningThreshold` / `dangerThreshold` — frações entre 0 e 1 para customizar a troca de intent.
+
+## Acessibilidade
+
+A `Progress` bar tem `aria-label` informando o percentual atual. Para muitos cards lado-a-lado, considere usar o `StatGrid`.

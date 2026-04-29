@@ -1,6 +1,8 @@
+import { getSiteUrl } from '@/lib/site';
 import { source } from '@/lib/source';
 
 export async function GET() {
+  const base = getSiteUrl();
   const pages = source.getPages();
 
   const lines = [
@@ -15,7 +17,7 @@ export async function GET() {
   for (const page of pages) {
     const title = page.data.title || 'Sem título';
     const description = page.data.description || '';
-    const url = `https://uranus.com.br${page.url}`;
+    const url = `${base}${page.url}`;
     lines.push(`- [${title}](${url}): ${description}`);
   }
 

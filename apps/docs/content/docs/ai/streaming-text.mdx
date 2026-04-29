@@ -1,0 +1,28 @@
+---
+title: StreamingText
+description: Texto com caret pulsante enquanto novos tokens chegam.
+---
+
+`StreamingText` é o renderer mais simples para resposta em streaming. Recebe `text` + `streaming`, mostra o caret só enquanto `streaming` é `true` e o respeita `prefers-reduced-motion`. Combine com **`useStreamingText`** quando quiser simular o efeito a partir de um texto já completo (testes, demos, animações de boas-vindas).
+
+<ComponentPreview name="streaming-text-default" align="center" minHeight={120} />
+
+## Uso
+
+```tsx
+import { StreamingText, useStreamingText } from '@uranus-workspace/ai';
+
+const text = useStreamingText(targetText, { charsPerTick: 6 });
+const streaming = text.length < targetText.length;
+
+<StreamingText text={text} streaming={streaming} />
+```
+
+## Quando usar
+
+- Direto, quando você já tem mensagens parciais vindas do AI SDK (`message.text` e `message.streaming` do `useUranusChat`).
+- Via `useStreamingText`, quando o seu provider entrega o texto inteiro em uma só chamada e você quer manter a sensação de streaming.
+
+## Acessibilidade
+
+O caret tem `aria-hidden`; quem usa leitor de tela percebe a mudança via o texto em si. Em `prefers-reduced-motion: reduce`, o caret estabiliza visível.

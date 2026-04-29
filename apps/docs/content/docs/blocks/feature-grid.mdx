@@ -1,0 +1,42 @@
+---
+title: FeatureGrid
+description: Grid responsivo de features com ícone, título e descrição.
+---
+
+`FeatureGrid` é o "porque escolher a Uranus" das landing pages: ícones + títulos + descrições curtas em grid responsivo. A composição é feita com **`FeatureGrid.Item`** como children — cada item é explícito, sem array de configuração.
+
+
+<ComponentPreview
+  name="feature-grid-default"
+  align="stretch"
+  previewClassName="!px-0 !py-0"
+  minHeight={360}
+/>
+
+## Uso
+
+```tsx
+import { FeatureGrid } from '@uranus-workspace/blocks';
+import { Palette, Sparkles } from 'lucide-react';
+
+<FeatureGrid columns={3}>
+  <FeatureGrid.Item
+    icon={<Palette aria-hidden />}
+    title="Tokens semânticos"
+    description="Cores OKLCH, tipografia e radii em CSS-first."
+  />
+  <FeatureGrid.Item
+    icon={<Sparkles aria-hidden />}
+    title="Docs interativos"
+    description="Storybook + Fumadocs com exemplos vivos."
+  />
+</FeatureGrid>
+```
+
+## Props
+
+- `columns` — `2 | 3 | 4`. Default `3`. Sempre 1 no mobile e 2 no `sm`.
+
+## Subcomponentes
+
+- **`FeatureGrid.Item`** — célula com `icon?`, `title`, `description`. Aceita props HTML padrão.

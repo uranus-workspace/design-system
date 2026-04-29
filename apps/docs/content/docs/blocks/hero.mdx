@@ -1,0 +1,42 @@
+---
+title: Hero
+description: Hero de página - eyebrow, título, descrição, actions e mídia opcional.
+---
+
+`Hero` é o bloco de abertura típico de marketing e docs. Quando você passa `media`, vira layout de duas colunas em `lg+`.
+
+
+<ComponentPreview
+  name="hero-default"
+  align="stretch"
+  previewClassName="!px-0 !py-0"
+  minHeight={520}
+/>
+
+## Uso
+
+```tsx
+import { Hero } from '@uranus-workspace/blocks';
+import { Button } from '@uranus-workspace/design-system';
+
+<Hero
+  eyebrow="Beta"
+  title="Construa painéis com a velocidade da Uranus"
+  description="Tokens, primitives e blocos prontos para focar no produto."
+  actions={
+    <>
+      <Button>Começar</Button>
+      <Button variant="ghost">Ver docs</Button>
+    </>
+  }
+/>
+```
+
+## Props
+
+- `eyebrow`, `title`, `description`, `actions`, `media` — slots livres.
+- `align` — `start | center`. Default `center` quando não há `media`.
+
+## Acessibilidade
+
+`title` é renderizado como `<h1>`. Use apenas um `Hero` por página para evitar múltiplos h1.

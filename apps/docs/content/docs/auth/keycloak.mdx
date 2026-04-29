@@ -45,7 +45,7 @@ import { hasRealmRole, hasClientRole } from '@uranus-workspace/auth/keycloak';
 
 const profile = useUser()?.profile;
 hasRealmRole(profile, 'admin');                     // realm-level
-hasClientRole(profile, 'omnifisco-api', 'reporter'); // client-scoped
+hasClientRole(profile, 'acme-api', 'reporter'); // client-scoped
 ```
 
 ## `keycloakLogoutUrl`
@@ -57,19 +57,19 @@ import { keycloakLogoutUrl } from '@uranus-workspace/auth/keycloak';
 
 window.location.href = keycloakLogoutUrl({
   authority: process.env.NEXT_PUBLIC_OIDC_AUTHORITY!,
-  clientId: 'omnifisco-web',
+  clientId: 'acme-web',
   postLogoutRedirectUri: window.location.origin,
   idTokenHint: idToken,
 });
 ```
 
-## Exemplo Omnifisco
+## Exemplo de configuração
 
 | Componente | Valor sugerido |
 | --- | --- |
-| Realm | `uranus` |
-| Authority | `https://auth.uranus.com.br/realms/uranus` |
-| Client web | `omnifisco-web` (public, PKCE S256) |
-| Audience da API | `omnifisco-api` |
+| Realm | `acme` |
+| Authority | `https://auth.example.com/realms/acme` |
+| Client web | `acme-web` (public, PKCE S256) |
+| Audience da API | `acme-api` |
 | IdP brokering | Google (`kc_idp_hint=google`) |
 | Roles | `admin`, `analyst`, `reporter` (realm-level) |

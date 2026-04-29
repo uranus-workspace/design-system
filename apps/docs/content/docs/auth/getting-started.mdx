@@ -15,8 +15,8 @@ pnpm add @uranus-workspace/auth @uranus-workspace/design-system @uranus-workspac
 import { AuthProvider } from '@uranus-workspace/auth';
 
 const config = {
-  authority: 'https://auth.uranus.com.br/realms/uranus',
-  clientId: 'omnifisco-web',
+  authority: 'https://auth.example.com/realms/acme',
+  clientId: 'acme-web',
   redirectUri: `${window.location.origin}/callback`,
   silentRedirectUri: `${window.location.origin}/silent-renew.html`,
   postLogoutRedirectUri: window.location.origin,

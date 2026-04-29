@@ -1,0 +1,13 @@
+version: 2
+
+# npm/pnpm deps are managed by Renovate (see renovate.json at repo root).
+# Dependabot only bumps GitHub Actions to avoid duplicate npm PRs alongside Renovate.
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+      timezone: "America/Sao_Paulo"
+    open-pull-requests-limit: 5

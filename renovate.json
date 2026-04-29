@@ -1,0 +1,66 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "rangeStrategy": "auto",
+  "timezone": "America/Sao_Paulo",
+  "schedule": ["before 6am on monday"],
+  "prConcurrentLimit": 6,
+  "prHourlyLimit": 4,
+  "labels": ["dependencies"],
+  "semanticCommits": true,
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "description": "Group Storybook packages",
+      "groupName": "storybook",
+      "matchPackagePatterns": ["^@storybook/", "^storybook$"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "Group Vitest + Testing Library + jsdom stack",
+      "groupName": "vitest-test-stack",
+      "matchPackageNames": [
+        "vitest",
+        "jsdom",
+        "jest-axe",
+        "@testing-library/react",
+        "@testing-library/dom",
+        "@testing-library/user-event",
+        "@testing-library/jest-dom"
+      ],
+      "matchPackagePatterns": ["^@vitest/"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "Group Radix UI patches under design-system",
+      "groupName": "radix-ui",
+      "matchPackagePatterns": ["^@radix-ui/"],
+      "matchPaths": ["packages/design-system/package.json"],
+      "matchUpdateTypes": ["patch"]
+    },
+    {
+      "description": "Fumadocs core + ui + mdx together (avoid mdx/core skew)",
+      "groupName": "fumadocs",
+      "matchPackageNames": ["fumadocs-core", "fumadocs-ui", "fumadocs-mdx"],
+      "matchPaths": ["apps/docs/package.json"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "PostCSS security patches",
+      "matchPackageNames": ["postcss"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": false
+    },
+    {
+      "description": "Hold Vite to 6.x until Vitest major + override policy is reviewed",
+      "matchPackageNames": ["vite"],
+      "allowedVersions": "<7.0.0",
+      "matchUpdateTypes": ["major", "minor", "patch"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  }
+}

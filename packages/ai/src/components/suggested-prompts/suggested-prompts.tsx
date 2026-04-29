@@ -42,11 +42,18 @@ export const SuggestedPrompts = forwardRef<HTMLDivElement, SuggestedPromptsProps
             key={suggestion.id ?? index}
             type="button"
             variant="outline"
-            className="h-auto items-start justify-start gap-2 px-3 py-3 text-left"
+            className={cn(
+              'group h-auto items-start justify-start gap-2 px-3 py-3 text-left',
+              // Avoid outline’s hover:bg-accent (turquoise in dark) — it clashes with muted body text. Muted lift keeps title + description readable.
+              'hover:bg-muted hover:text-foreground',
+            )}
             onClick={() => onSelect(suggestion.prompt)}
             data-slot="suggested-prompt"
           >
-            <Sparkles aria-hidden className="mt-0.5 size-3.5 shrink-0 text-primary" />
+            <Sparkles
+              aria-hidden
+              className="mt-0.5 size-3.5 shrink-0 text-muted-foreground group-hover:text-foreground"
+            />
             <span className="flex flex-col gap-0.5">
               <span className="text-sm font-medium text-foreground">{suggestion.title}</span>
               {suggestion.description ? (

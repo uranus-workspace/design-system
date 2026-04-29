@@ -3,6 +3,9 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 
+/* Enables `prose` utilities used by `@uranus-workspace/ai` MessageMarkdown + docs previews. */
+@plugin "@tailwindcss/typography";
+
 /*
  * Tailwind v4's auto-detection only scans the package that owns this CSS
  * file (apps/docs). The actual components are imported from workspace
@@ -11,6 +14,7 @@
  */
 @source "../../../packages/design-system/src/**/*.{ts,tsx}";
 @source "../../../packages/blocks/src/**/*.{ts,tsx}";
+@source "../../../packages/ai/src/**/*.{ts,tsx}";
 
 /* Next.js next/font injects these as runtime CSS variables; we map them onto
    the Uranus typography tokens so design-system components pick them up. */

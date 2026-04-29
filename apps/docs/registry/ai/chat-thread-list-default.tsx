@@ -13,7 +13,7 @@ const threads = [
 export default function ChatThreadListDefault() {
   const [active, setActive] = useState('1');
   return (
-    <div className="mx-auto h-[360px] w-full max-w-xs rounded-lg border bg-background">
+    <div className="mx-auto flex h-full min-h-[340px] w-full max-w-xs flex-col rounded-lg border bg-background">
       <ChatThreadList
         threads={threads}
         activeId={active}

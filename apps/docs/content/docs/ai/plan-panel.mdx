@@ -5,7 +5,14 @@ description: Card de plano live-updating para o modo "plan" do useUranusChat.
 
 `PlanPanel` exibe um plano em formato de cartão com `StageList` interno e um summary "X de Y etapas concluídas". Use enquanto `mode === 'plan'` no `useUranusChat`, recebendo `stages` do server (via `UIMessage` data parts ou um endpoint dedicado).
 
-<ComponentPreview name="plan-panel-default" align="center" minHeight={400} />
+<ComponentPreview
+  name="plan-panel-default"
+  align="stretch"
+  minHeight={440}
+  previewMode="modal"
+  modalTitle="PlanPanel"
+  modalDescription="Plano estruturado em etapas com estados de progresso."
+/>
 
 ## Uso
 

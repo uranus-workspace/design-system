@@ -5,7 +5,14 @@ description: Superfície completa de conversa estilo Anthropic / OpenAI — head
 
 `Chat` é o fluxo de mais alto nível: combina **`MessageList`**, **`ThinkingIndicator`**, **`Composer`** e um cabeçalho opcional. É puramente apresentacional — você passa `messages`, `status` e `onSend`. Em produção você quase sempre liga a um **`useUranusChat`**.
 
-<ComponentPreview name="chat-default" align="center" minHeight={520} />
+<ComponentPreview
+  name="chat-default"
+  align="stretch"
+  minHeight={560}
+  previewMode="modal"
+  modalTitle="Chat"
+  modalDescription="Superfície completa com header, mensagens e composer — interaja como em produção."
+/>
 
 ## Uso com `useUranusChat`
 

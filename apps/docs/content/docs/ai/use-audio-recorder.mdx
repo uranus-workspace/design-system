@@ -5,7 +5,14 @@ description: Hook MediaRecorder com level meter — apresentacional por padrão,
 
 `useAudioRecorder` cuida do ciclo de vida da `MediaRecorder` API: pede permissão, grava chunks, expõe `level` (0–1) para a barra de volume e devolve o `Blob` final. **Não** transcreve por padrão — você passa um `transcribe(blob) => Promise<string>` quando quiser texto direto, ou usa o blob como anexo (`attachOnStop`).
 
-<ComponentPreview name="use-audio-recorder-default" align="center" minHeight={420} />
+<ComponentPreview
+  name="use-audio-recorder-default"
+  align="stretch"
+  minHeight={560}
+  previewMode="modal"
+  modalTitle="Gravação de áudio"
+  modalDescription="Composer com botão de gravação — use o microfone para testar o fluxo."
+/>
 
 ## Uso direto
 

@@ -21,7 +21,7 @@ const items = [
 
 export default function MessageListDefault() {
   return (
-    <div className="mx-auto h-[280px] w-full max-w-2xl rounded-lg border bg-background">
+    <div className="mx-auto flex h-full min-h-[320px] w-full max-w-2xl flex-col rounded-lg border bg-background">
       <MessageList scrollKey={items.length}>
         {items.map((item) => (
           <Message key={item.id} role={item.role} name={item.name}>

@@ -6,6 +6,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import type { ReactNode } from 'react';
 import { cn } from '../lib/utils';
 import { registry } from '../registry';
+import { ComponentPreviewModal } from './component-preview-modal';
 
 interface ComponentPreviewProps {
   /**
@@ -28,6 +29,18 @@ interface ComponentPreviewProps {
    * Extra classes applied to the preview pane wrapper (not the code).
    */
   previewClassName?: string;
+  /**
+   * When `modal`, the interactive example opens in a full-width dialog so tall
+   * surfaces (chat, composer, thread list) are usable; the Preview tab shows a
+   * short hint and an "open" button instead of a cramped inline frame.
+   * @default 'inline'
+   */
+  previewMode?: 'inline' | 'modal';
+  /** Dialog title when `previewMode="modal"`. Defaults to "Exemplo interativo". */
+  modalTitle?: string;
+  modalDescription?: string;
+  /** Optional override for the hint above the open button when `previewMode="modal"`. */
+  modalHint?: string;
 }
 
 const alignClass = {
@@ -42,6 +55,10 @@ export async function ComponentPreview({
   align = 'start',
   minHeight,
   previewClassName,
+  previewMode = 'inline',
+  modalTitle = 'Exemplo interativo',
+  modalDescription,
+  modalHint,
 }: ComponentPreviewProps): Promise<ReactNode> {
   const entry = registry[name];
 
@@ -71,24 +88,37 @@ export async function ComponentPreview({
     <div className="group relative my-6 flex flex-col gap-4">
       <Tabs items={['Preview', 'Código']}>
         <Tab value="Preview">
-          <div
-            className={cn(
-              'flex w-full min-w-0 justify-start overflow-auto rounded-lg border border-fd-border bg-fd-card px-4 py-4 sm:px-6 sm:py-5',
-              alignClass[align],
-              previewClassName,
-            )}
-            {...(minHeight != null && minHeight > 0 ? { style: { minHeight } } : {})}
-          >
-            <div
-              className={cn(
-                align === 'stretch'
-                  ? 'flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col'
-                  : 'min-w-0 max-w-full',
-              )}
+          {previewMode === 'modal' ? (
+            <ComponentPreviewModal
+              align={align}
+              minHeight={minHeight}
+              previewClassName={previewClassName}
+              modalTitle={modalTitle}
+              modalDescription={modalDescription}
+              hint={modalHint}
             >
               <Component />
+            </ComponentPreviewModal>
+          ) : (
+            <div
+              className={cn(
+                'flex w-full min-w-0 justify-start overflow-auto rounded-lg border border-fd-border bg-fd-card px-4 py-4 sm:px-6 sm:py-5',
+                alignClass[align],
+                previewClassName,
+              )}
+              {...(minHeight != null && minHeight > 0 ? { style: { minHeight } } : {})}
+            >
+              <div
+                className={cn(
+                  align === 'stretch'
+                    ? 'flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col'
+                    : 'min-w-0 max-w-full',
+                )}
+              >
+                <Component />
+              </div>
             </div>
-          </div>
+          )}
         </Tab>
         <Tab value="Código">
           <CodeBlock>{highlighted}</CodeBlock>

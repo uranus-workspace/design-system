@@ -6,7 +6,7 @@ import { useState } from 'react';
 export default function ComposerDefault() {
   const [last, setLast] = useState<string | null>(null);
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-3">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-3">
       <Composer.Root status="idle" onSubmit={(payload) => setLast(payload.text)}>
         <Composer.Textarea placeholder="Pergunte algo ao Uranus…" />
         <Composer.Toolbar>

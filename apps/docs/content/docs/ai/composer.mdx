@@ -5,7 +5,14 @@ description: Barra de input compound com Textarea, anexos, gravação de áudio,
 
 `Composer` é o input bar oficial. É um **compound component** — você sempre começa com `Composer.Root` e compõe as ferramentas como children. O estado (texto, anexos, modo, gravação) vive no contexto e é exposto via **`useComposer()`** se precisar customizar algum slot.
 
-<ComponentPreview name="composer-default" align="center" minHeight={260} />
+<ComponentPreview
+  name="composer-default"
+  align="stretch"
+  minHeight={420}
+  previewMode="modal"
+  modalTitle="Composer"
+  modalDescription="Barra de entrada com anexos, gravação e modo (chat / plano / pesquisa)."
+/>
 
 ## Uso
 

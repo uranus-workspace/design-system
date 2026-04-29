@@ -1,0 +1,76 @@
+---
+title: Screens
+description: OidcSignInScreen, OidcCallbackScreen e OidcErrorScreen — composições zero-config dos blocks.
+---
+
+Telas pré-conectadas que compõem `AuthLayout` + `SignInForm` + `OAuthProviderButton` (todos de `@uranus-workspace/blocks`) com cliques de SSO já wired ao `useAuth().login`.
+
+## `OidcSignInScreen`
+
+```tsx
+import { OidcSignInScreen } from '@uranus-workspace/auth/screens';
+
+<OidcSignInScreen
+  brandPanel={<UranusBrand />}
+  providers={['google', 'microsoft']}
+  idpHints={{ google: 'google', microsoft: 'azure-ad' }}
+  credentials="hidden"
+  signUpHref="/sign-up"
+/>
+```
+
+Cada provider vira um `OAuthProviderButton`. O `idpHint` é passado para `signinRedirect` como `extraQueryParams.kc_idp_hint`.
+
+### Props principais
+
+| Prop | Notas |
+| --- | --- |
+| `providers` | Array de ids (`'google' \| 'microsoft' \| 'github' \| 'apple' \| 'generic'`) ou objetos `{ id, label?, icon?, idpHint? }`. |
+| `idpHints` | Override por id (ex.: `{ google: 'google' }`). Cai no id quando ausente. |
+| `credentials` | `'hidden'` (default, SSO-only) ou `'visible'` (mostra email/senha + divisor automático). |
+| `onCredentialsSubmit` | Obrigatório quando `credentials='visible'`. Recebe `{ email, password, rememberMe }` validados via Zod. |
+| `brandPanel`, `variant`, `brandTone` | Forwardados para `AuthLayout`. |
+
+## `OidcCallbackScreen`
+
+Wrapper de `<AuthCallback>` dentro de `<AuthLayout>` com loader + mensagem polite. Aceita as mesmas props de `<AuthCallback>` (`onSuccess`, `onError`, `errorFallback`).
+
+```tsx
+<OidcCallbackScreen
+  message="Conectando…"
+  onSuccess={(to) => router.replace(to ?? '/')}
+  errorFallback={(err) => <OidcErrorScreen error={err} onRetry={() => router.replace('/login')} />}
+/>
+```
+
+## `OidcErrorScreen`
+
+Tela presentacional para falhas. O caller decide o que `onRetry` faz (`() => login()` ou `router.replace('/login')`).
+
+```tsx
+<OidcErrorScreen
+  title="Não foi possível continuar"
+  error={error}
+  onRetry={() => login()}
+  secondaryAction={<BlockLink href="/">Voltar para a home</BlockLink>}
+/>
+```
+
+## Composição manual
+
+Se as screens não cobrem seu caso, importe diretamente de `@uranus-workspace/blocks`:
+
+```tsx
+<AuthLayout brandPanel={<UranusBrand />}>
+  <SignInForm
+    credentials="hidden"
+    socialProviders={
+      <>
+        <OAuthProviderButton provider="google" onClick={() => login({ idpHint: 'google' })}>
+          Continuar com Google
+        </OAuthProviderButton>
+      </>
+    }
+  />
+</AuthLayout>
+```

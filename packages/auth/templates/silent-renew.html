@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Silent renew</title>
+  </head>
+  <body>
+    <!--
+      Static silent-renew page consumed by oidc-client-ts in a hidden iframe.
+      Two ways to wire it up — pick one:
+
+      1) RECOMMENDED FOR SPAs WITH A CLIENT-SIDE ROUTER
+
+         Drop a route at `/silent-renew` rendering the
+         <SilentRenewCallback /> React component:
+
+         import { SilentRenewCallback } from '@uranus-workspace/auth';
+         <Route path="/silent-renew" element={<SilentRenewCallback />} />
+
+         Then point `silentRedirectUri` of <AuthProvider> at that route — and
+         delete this file.
+
+      2) STATIC HTML — NO REACT ROUTE
+
+         Replace the inline script with one that imports the same
+         oidc-client-ts bundle your app already ships and calls
+         `new UserManager(yourConfig).signinSilentCallback()`. Keep it minimal:
+         this iframe must not run your full app shell.
+    -->
+    <script>
+      // Intentionally empty — wire up per the comment above.
+    </script>
+  </body>
+</html>

@@ -8,8 +8,10 @@ This is the design system monorepo for **Uranus Technologies** (https://uranus.c
 
 - **`@uranus-workspace/design-system`** — publishable core primitives (shadcn/ui sources + Tailwind v4 + Motion).
 - **`@uranus-workspace/blocks`** — publishable composite components built on top of the core package.
+- **`@uranus-workspace/ai`** — publishable AI surfaces (chat, composer, streaming, reasoning) built on the design-system package and the Vercel AI SDK.
+- **`@uranus-workspace/auth`** — publishable OIDC authentication package (oidc-client-ts + Keycloak presets, React provider/hooks/guards, pre-wired screens, optional Next.js JWKS middleware).
 - **`apps/docs`** — public docs site (Next.js 15 + Fumadocs MDX).
-- **`apps/storybook`** — Storybook 8 component browser for both packages.
+- **`apps/storybook`** — Storybook 8 component browser for all packages.
 
 The Uranus branding manual PDF is the source of truth for visual identity. Placeholder tokens ship in `packages/tokens/src/*.ts` until the manual is ingested.
 
@@ -36,6 +38,8 @@ design-system/
 ├── packages/
 │   ├── design-system/              # @uranus-workspace/design-system
 │   ├── blocks/                     # @uranus-workspace/blocks
+│   ├── ai/                         # @uranus-workspace/ai
+│   ├── auth/                       # @uranus-workspace/auth (OIDC + Keycloak presets)
 │   ├── tokens/                     # @uranus-workspace/tokens (TS + generated CSS)
 │   ├── tailwind-config/            # @uranus-workspace/tailwind-config (v4 preset + dark.css)
 │   ├── biome-config/               # @uranus-workspace/biome-config

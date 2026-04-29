@@ -1,0 +1,107 @@
+{
+  "name": "@uranus-workspace/auth",
+  "version": "0.0.1",
+  "description": "Uranus Technologies authentication package — generic OIDC (oidc-client-ts) with Keycloak presets, React provider, hooks, guards, pre-wired screens, API helpers and optional Next.js App Router middleware.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uranus-workspace/design-system.git",
+    "directory": "packages/auth"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js",
+      "require": "./dist/core.cjs"
+    },
+    "./screens": {
+      "types": "./dist/screens.d.ts",
+      "import": "./dist/screens.js",
+      "require": "./dist/screens.cjs"
+    },
+    "./api": {
+      "types": "./dist/api.d.ts",
+      "import": "./dist/api.js",
+      "require": "./dist/api.cjs"
+    },
+    "./keycloak": {
+      "types": "./dist/keycloak.d.ts",
+      "import": "./dist/keycloak.js",
+      "require": "./dist/keycloak.cjs"
+    },
+    "./nextjs": {
+      "types": "./dist/nextjs.d.ts",
+      "import": "./dist/nextjs.js",
+      "require": "./dist/nextjs.cjs"
+    },
+    "./templates/silent-renew.html": "./templates/silent-renew.html"
+  },
+  "files": ["dist", "src", "templates", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist .turbo coverage"
+  },
+  "dependencies": {
+    "oidc-client-ts": "^3.0.1"
+  },
+  "peerDependencies": {
+    "@uranus-workspace/blocks": "workspace:*",
+    "@uranus-workspace/design-system": "workspace:*",
+    "jose": "^5.9.6",
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@uranus-workspace/blocks": {
+      "optional": true
+    },
+    "jose": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@storybook/react": "^8.4.7",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/jest-axe": "^3.5.9",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "@uranus-workspace/biome-config": "workspace:*",
+    "@uranus-workspace/blocks": "workspace:*",
+    "@uranus-workspace/design-system": "workspace:*",
+    "@uranus-workspace/test-config": "workspace:*",
+    "@uranus-workspace/tsconfig": "workspace:*",
+    "jest-axe": "^9.0.0",
+    "jose": "^5.9.6",
+    "jsdom": "^25.0.1",
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

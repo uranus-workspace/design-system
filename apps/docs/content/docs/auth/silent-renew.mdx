@@ -1,0 +1,57 @@
+---
+title: Silent renew
+description: Renovação silenciosa de access tokens via iframe.
+---
+
+Por que silent renew? `oidc-client-ts` mantém o access token atualizado em background — quando ele está prestes a expirar, abre um iframe escondido em `silentRedirectUri`, completa o code exchange e dispara `userLoaded` com o novo token. Sem flicker, sem re-login.
+
+`automaticSilentRenew: true` é o default em `<AuthProvider>`.
+
+## Duas formas de wirar
+
+### 1) HTML estático (recomendado)
+
+Copie `node_modules/@uranus-workspace/auth/templates/silent-renew.html` para `public/silent-renew.html` e aponte `silentRedirectUri: ${origin}/silent-renew.html`.
+
+O template é minimalista — sem app shell, sem React. Evita custo de carregar a aplicação inteira só para o iframe.
+
+Adapte o script para importar o `oidc-client-ts` que sua app já bundla. Para Vite/Next.js em produção, a forma mais simples é incluir um pequeno bundle dedicado via build customizado, ou trocar para a abordagem React abaixo.
+
+### 2) Componente React
+
+Mais simples se você não quer um asset estático separado:
+
+```tsx
+// app/silent-renew/page.tsx (Next.js) ou rota /silent-renew (router SPA)
+'use client';
+import { SilentRenewCallback } from '@uranus-workspace/auth';
+
+export default function Page() {
+  return <SilentRenewCallback />;
+}
+```
+
+E aponte `silentRedirectUri: ${origin}/silent-renew`.
+
+Só renderize o componente nessa rota — não inclua o app shell completo, ou o iframe vai carregar o seu Next.js inteiro a cada renovação.
+
+## Tratando falhas
+
+```tsx
+<AuthProvider
+  config={config}
+  parseRoles={parseKeycloakRoles}
+  onReady={(status) => analytics.track('auth_ready', { status })}
+>
+```
+
+```tsx
+const config = {
+  // …
+  onSilentRenewError: (error) => {
+    Sentry.captureException(error);
+  },
+};
+```
+
+Quando o silent renew falha, `useAuth().error` é populado com `code: 'silent-renew-failed'` mas o status **continua** authenticated até o token de fato expirar. Use isso para mostrar um banner discreto pedindo re-auth voluntário antes que a sessão caia.

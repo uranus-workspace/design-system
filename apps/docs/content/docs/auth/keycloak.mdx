@@ -1,0 +1,75 @@
+---
+title: Keycloak
+description: Helpers opcionais para Keycloak — kc_idp_hint, roles e logout.
+---
+
+`@uranus-workspace/auth/keycloak` é a cola Keycloak-específica. Importe só quando o IdP for o Keycloak — o subpath é tree-shakeable e o core nunca depende dele.
+
+## `keycloakSignIn`
+
+Wrapper sobre `client.signinRedirect()` que mapeia opções Keycloak-shaped para a config OIDC genérica.
+
+```ts
+import { keycloakSignIn } from '@uranus-workspace/auth/keycloak';
+import { useAuth } from '@uranus-workspace/auth';
+
+const { client } = useAuth();
+
+await keycloakSignIn(client, {
+  idpHint: 'google',  // → kc_idp_hint=google
+  forceLogin: true,   // → prompt=login
+  returnTo: '/dashboard',
+});
+```
+
+## `parseKeycloakRoles`
+
+Agrega `realm_access.roles` + cada `resource_access[clientId].roles` em um array deduplicado. Use no `<AuthProvider>` via prop `parseRoles`.
+
+```tsx
+import { parseKeycloakRoles } from '@uranus-workspace/auth/keycloak';
+
+<AuthProvider config={config} parseRoles={parseKeycloakRoles}>
+  {children}
+</AuthProvider>
+```
+
+Depois disso, `useRoles()`, `useHasRole(...)` e `useIsAdmin()` funcionam transparentemente.
+
+## `hasRealmRole` / `hasClientRole`
+
+Predicados para checks finos quando você precisa diferenciar o escopo da role.
+
+```ts
+import { hasRealmRole, hasClientRole } from '@uranus-workspace/auth/keycloak';
+
+const profile = useUser()?.profile;
+hasRealmRole(profile, 'admin');                     // realm-level
+hasClientRole(profile, 'omnifisco-api', 'reporter'); // client-scoped
+```
+
+## `keycloakLogoutUrl`
+
+Constrói a URL de end-session do Keycloak (`<authority>/protocol/openid-connect/logout`). Útil quando você quer redirecionar manualmente em vez de chamar `signoutRedirect`.
+
+```ts
+import { keycloakLogoutUrl } from '@uranus-workspace/auth/keycloak';
+
+window.location.href = keycloakLogoutUrl({
+  authority: process.env.NEXT_PUBLIC_OIDC_AUTHORITY!,
+  clientId: 'omnifisco-web',
+  postLogoutRedirectUri: window.location.origin,
+  idTokenHint: idToken,
+});
+```
+
+## Exemplo Omnifisco
+
+| Componente | Valor sugerido |
+| --- | --- |
+| Realm | `uranus` |
+| Authority | `https://auth.uranus.com.br/realms/uranus` |
+| Client web | `omnifisco-web` (public, PKCE S256) |
+| Audience da API | `omnifisco-api` |
+| IdP brokering | Google (`kc_idp_hint=google`) |
+| Roles | `admin`, `analyst`, `reporter` (realm-level) |

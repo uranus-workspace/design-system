@@ -1,0 +1,47 @@
+---
+title: Guards
+description: RequireAuth, RequireRole, Authenticated e Unauthenticated.
+---
+
+Componentes presentacionais para gating em árvore. Não substituem validação server-side — autorização real fica no middleware (Next.js) ou no backend, sempre.
+
+## `<RequireAuth>`
+
+Usa para proteger uma rota inteira. Enquanto `loading`, renderiza `fallback` (default: `null`). Quando `unauthenticated`, chama `login({ returnTo })` com o pathname atual salvo em sessionStorage.
+
+```tsx
+<Route path="/" element={
+  <RequireAuth fallback={<FullscreenSpinner />}>
+    <Dashboard />
+  </RequireAuth>
+} />
+```
+
+Override completo: passe `onUnauthenticated` para mostrar uma tela inline em vez de redirecionar.
+
+## `<RequireRole>`
+
+Compõe `<RequireAuth>` com um check de role. Autenticação é mandatória; o gate de role só roda depois do sign-in. Falta de role renderiza `forbidden` em vez de tentar re-login.
+
+```tsx
+<RequireRole role="admin" forbidden={<ErrorState code={403} />}>
+  <AdminPanel />
+</RequireRole>
+```
+
+## `<Authenticated>` / `<Unauthenticated>`
+
+Para slots condicionais — ex. botão de logout só para usuários logados, link de login para anônimos.
+
+```tsx
+<Authenticated>
+  <UserMenu />
+</Authenticated>
+<Unauthenticated>
+  <BlockLink href="/login">Entrar</BlockLink>
+</Unauthenticated>
+```
+
+## Padrões com Next.js
+
+No App Router prefira o middleware JWKS (`createAuthMiddleware`) para o gate principal — ele bloqueia a rota antes do render do Server Component, é mais rápido e não vaza a página privada como flash. Use `<RequireAuth>` apenas em sub-árvores que dependem de estado client-side (filtros, formulários, etc.).

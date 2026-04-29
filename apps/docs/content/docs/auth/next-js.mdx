@@ -1,0 +1,135 @@
+---
+title: Next.js App Router
+description: Integração ponta-a-ponta com Next.js 15 — provider client, route handlers e middleware JWKS opcional.
+---
+
+O `@uranus-workspace/auth` foi desenhado para o caminho client-side primeiro: o provider, hooks e screens rodam em Client Components. O subpath `/nextjs` é opt-in para times que querem validar JWT no edge ou em Server Components.
+
+## 1. Variáveis de ambiente
+
+`.env.local`:
+
+```
+NEXT_PUBLIC_OIDC_AUTHORITY=https://auth.uranus.com.br/realms/uranus
+NEXT_PUBLIC_OIDC_CLIENT_ID=omnifisco-web
+OIDC_AUDIENCE=omnifisco-api
+```
+
+## 2. Provider client
+
+`app/providers.tsx`:
+
+```tsx
+'use client';
+import { AuthProvider } from '@uranus-workspace/auth';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const config = {
+    authority: process.env.NEXT_PUBLIC_OIDC_AUTHORITY!,
+    clientId: process.env.NEXT_PUBLIC_OIDC_CLIENT_ID!,
+    redirectUri: typeof window !== 'undefined' ? `${window.location.origin}/callback` : '',
+    silentRedirectUri:
+      typeof window !== 'undefined' ? `${window.location.origin}/silent-renew.html` : '',
+    postLogoutRedirectUri: typeof window !== 'undefined' ? window.location.origin : '',
+  };
+  return <AuthProvider config={config}>{children}</AuthProvider>;
+}
+```
+
+`app/layout.tsx`:
+
+```tsx
+import { Providers } from './providers';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="pt-BR">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+> **SSR-safe.** O `UserManager` só é instanciado dentro de `useEffect`. Mesmo que `<AuthProvider>` esteja em um Server Component layout, nada quebra durante o render no servidor.
+
+## 3. Páginas `/login` e `/callback`
+
+`app/login/page.tsx`:
+
+```tsx
+'use client';
+import { OidcSignInScreen } from '@uranus-workspace/auth/screens';
+
+export default function Page() {
+  return (
+    <OidcSignInScreen
+      providers={['google']}
+      idpHints={{ google: 'google' }}
+      credentials="hidden"
+      title="Bem-vindo de volta"
+      description="Continue com sua conta corporativa."
+    />
+  );
+}
+```
+
+`app/callback/page.tsx`:
+
+```tsx
+'use client';
+import { AuthCallback } from '@uranus-workspace/auth';
+import { useRouter } from 'next/navigation';
+
+export default function Page() {
+  const router = useRouter();
+  return <AuthCallback onSuccess={(to) => router.replace(to ?? '/')} />;
+}
+```
+
+`public/silent-renew.html`: copie `node_modules/@uranus-workspace/auth/templates/silent-renew.html`.
+
+## 4. Middleware JWKS (opcional)
+
+`middleware.ts`:
+
+```ts
+import { createAuthMiddleware } from '@uranus-workspace/auth/nextjs';
+
+export default createAuthMiddleware({
+  publicPaths: ['/login', '/callback', '/silent-renew.html', '/api/health'],
+  loginPath: '/login',
+  jwksUri: `${process.env.NEXT_PUBLIC_OIDC_AUTHORITY}/protocol/openid-connect/certs`,
+  audience: process.env.OIDC_AUDIENCE,
+  issuer: process.env.NEXT_PUBLIC_OIDC_AUTHORITY,
+});
+
+export const config = { matcher: ['/((?!_next|favicon.ico).*)'] };
+```
+
+Verifica JWT via `jose.jwtVerify` com `createRemoteJWKSet` (cache automático e rotação de chaves). Lê o token de `Authorization: Bearer …` ou do cookie `access_token`. Sem token / inválido → redirect para `loginPath?returnTo=...`.
+
+## 5. Server Components com sessão verificada
+
+```tsx
+import { getSession } from '@uranus-workspace/auth/nextjs';
+import { cookies } from 'next/headers';
+
+export default async function Profile() {
+  const session = await getSession({
+    jwksUri: `${process.env.NEXT_PUBLIC_OIDC_AUTHORITY}/protocol/openid-connect/certs`,
+    audience: process.env.OIDC_AUDIENCE,
+    getAccessToken: async () => (await cookies()).get('access_token')?.value,
+  });
+  if (!session) redirect('/login');
+  return <h1>Olá, {session.user.name}</h1>;
+}
+```
+
+## Teste rápido
+
+1. `pnpm dev` no app Next.
+2. Abra `/login`, clique no provider, complete o flow.
+3. `/callback` chama `router.replace(returnTo)`.
+4. Rotas privadas passam pelo middleware — token expirado redireciona com `?error=session-expired`.

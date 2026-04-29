@@ -1,0 +1,56 @@
+---
+title: AuthProvider
+description: O provider que hidrata a sessão OIDC e expõe contexto.
+---
+
+`<AuthProvider>` é o ponto único de integração. Ele aceita `config` (cria um `AuthClient` internamente) **ou** `client` (use quando precisa compartilhar o cliente fora da árvore React).
+
+## Props
+
+| Prop | Tipo | Descrição |
+| --- | --- | --- |
+| `config` | `AuthClientConfig` | Configuração — autoridade, client id, URIs. Ver tabela abaixo. |
+| `client` | `AuthClient` | Cliente já construído via `createAuthClient(config)`. |
+| `children` | `ReactNode` | Conteúdo da app. |
+| `parseRoles` | `(profile) => string[]` | Estratégia de extração de roles. Default: `getRoles` (lê `roles` ou `realm_access.roles`). |
+| `fallback` | `ReactNode` | Render durante `status === 'loading'`. |
+| `onReady` | `(status, user) => void` | Disparado uma única vez quando a sessão é resolvida. |
+
+### `AuthClientConfig`
+
+| Campo | Default | Notas |
+| --- | --- | --- |
+| `authority` | — | URL completa do realm. |
+| `clientId` | — | Client public id no IdP. |
+| `redirectUri` | — | Callback do app (`/callback`). |
+| `postLogoutRedirectUri` | — | Para onde voltar após logout. |
+| `silentRedirectUri` | — | Página de silent renew. |
+| `scope` | `'openid email profile'` | |
+| `automaticSilentRenew` | `true` | |
+| `storage` | `'session'` | `'session'` recomendado. `'local'` ou um `Storage` custom. |
+| `extraQueryParams` | — | Mesclado em todo `signinRedirect`. |
+| `onSilentRenewError` | — | Callback para falhas de renovação silenciosa. |
+
+## API exposta no contexto
+
+```ts
+const { status, user, error, login, logout, getToken, client } = useAuth();
+```
+
+| Membro | Descrição |
+| --- | --- |
+| `status` | `'loading' \| 'authenticated' \| 'unauthenticated' \| 'error'`. |
+| `user` | `AuthUser \| null` — id, email, nome, foto, roles, profile. |
+| `error` | Última falha (sign-in, callback ou silent renew). |
+| `login(opts?)` | `signinRedirect`. Aceita `{ returnTo, idpHint, prompt, extraQueryParams }`. |
+| `logout(opts?)` | `signoutRedirect`. `{ localOnly: true }` apenas remove o usuário local. |
+| `getToken()` | `Promise<string \| null>` com o access token atual. |
+| `client` | O `AuthClient` subjacente — útil para integrações fora do React. |
+
+## Padrão SSR
+
+`createAuthClient` é lazy. No servidor, `userManager` é `null` e qualquer chamada que toque o IdP rejeita com mensagem clara. Em runtime client, `useEffect` instancia o `UserManager`. Isso permite montar o provider em layouts Server Component do Next.js sem `'use client'` no layout — você só precisa do `'use client'` no `Providers`.
+
+## Provider de teste
+
+`@uranus-workspace/auth` exporta um `MockAuthProvider` em `screens/_testing` para stories e testes — não importa `oidc-client-ts` e aceita `status`, `user`, `onLogin`, `onLogout` como props.

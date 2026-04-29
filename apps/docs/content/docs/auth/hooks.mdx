@@ -1,0 +1,65 @@
+---
+title: Hooks
+description: useAuth, useUser, useRoles, useHasRole, useIsAdmin, useAccessToken.
+---
+
+Todos os hooks vivem em `@uranus-workspace/auth` e exigem que `<AuthProvider>` esteja montado acima.
+
+## `useAuth()`
+
+```ts
+const { status, user, error, login, logout, getToken, client } = useAuth();
+```
+
+Lança erro se chamado fora do provider — falha em render-time, não em runtime.
+
+## `useUser()`
+
+```ts
+const user = useUser(); // AuthUser | null
+```
+
+`AuthUser`:
+
+```ts
+interface AuthUser {
+  id: string;
+  email?: string;
+  name?: string;
+  givenName?: string;
+  familyName?: string;
+  picture?: string;
+  roles: string[];
+  profile: Record<string, unknown>; // claims raw
+}
+```
+
+## `useRoles()`
+
+```ts
+const roles = useRoles(); // string[]
+```
+
+Vazio quando `unauthenticated`. Populado conforme a estratégia `parseRoles` do provider — passe `parseKeycloakRoles` para agregar `realm_access` + `resource_access`.
+
+## `useHasRole(role)`
+
+```ts
+useHasRole('admin');                    // true se 'admin' está em roles
+useHasRole(['editor', 'reviewer']);     // true se QUALQUER uma matchar (OR)
+```
+
+Para AND, componha: `useHasRole('a') && useHasRole('b')`.
+
+## `useIsAdmin()`
+
+Atalho para `useHasRole(['admin', 'realm-admin'])`. Cobre tanto a convenção genérica quanto o nome canônico do Keycloak.
+
+## `useAccessToken()`
+
+```ts
+const getToken = useAccessToken();      // () => Promise<string | null>
+const fetcher  = createAuthorizedFetch(getToken);
+```
+
+Retorna um getter estável (ref-stable). Útil quando você precisa passar para `createAuthorizedFetch` ou `createBearerInterceptor`.

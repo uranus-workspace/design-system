@@ -1,0 +1,49 @@
+---
+title: Cliente HTTP
+description: createAuthorizedFetch e createBearerInterceptor — wrappers para chamadas autenticadas.
+---
+
+Helpers em `@uranus-workspace/auth/api`. Não dependem de React — você escolhe a fonte do token.
+
+## `createAuthorizedFetch`
+
+```ts
+import { createAuthorizedFetch } from '@uranus-workspace/auth/api';
+import { useAccessToken } from '@uranus-workspace/auth';
+
+function useApi() {
+  const getToken = useAccessToken();
+  return useMemo(() => createAuthorizedFetch(getToken, {
+    onUnauthorized: () => login({ returnTo: window.location.pathname }),
+  }), [getToken]);
+}
+```
+
+Comportamento:
+
+- Adiciona `Authorization: Bearer <token>` quando o getter retorna string.
+- Pula a header se o consumer já a setou (não sobrescreve).
+- Em 401, invoca `onUnauthorized(response, request)` mas **re-emite a Response** — quem chamou decide se redireciona, mostra toast ou re-tenta.
+
+### Opções
+
+| Opção | Default | |
+| --- | --- | --- |
+| `fetch` | `globalThis.fetch` | Útil para testes (`vi.fn`). |
+| `headerName` | `'Authorization'` | |
+| `scheme` | `'Bearer '` | |
+| `onUnauthorized` | — | Hook para 401. |
+
+## `createBearerInterceptor`
+
+Para libs HTTP estilo axios / ky que aceitam interceptors:
+
+```ts
+import axios from 'axios';
+import { createBearerInterceptor } from '@uranus-workspace/auth/api';
+
+const attachBearer = createBearerInterceptor(getToken);
+axios.interceptors.request.use(attachBearer);
+```
+
+Apenas adiciona a header. Tratamento de erro 401 fica com a lib (cada uma reporta diferente).

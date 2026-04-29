@@ -32,6 +32,8 @@ jobs:
             dir: packages/design-system
           - name: blocks
             dir: packages/blocks
+          - name: ai
+            dir: packages/ai
     steps:
       - uses: actions/checkout@v4
         with:

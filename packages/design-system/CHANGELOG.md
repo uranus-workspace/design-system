@@ -1,3 +1,10 @@
+# [@uranus-workspace/design-system-v2.0.1](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/design-system@2.0.0...@uranus-workspace/design-system@2.0.1) (2026-04-29)
+
+
+### Bug Fixes
+
+* **design-system:** preserve hover/focus text contrast across compound primitives ([#7](https://github.com/uranus-workspace/design-system/issues/7)) ([078964c](https://github.com/uranus-workspace/design-system/commit/078964ce4efc22ee51b93490e470dabbb3ce4ca2))
+
 # [@uranus-workspace/design-system-v2.0.0](https://github.com/uranus-workspace/design-system/compare/@uranus-workspace/design-system@1.0.2...@uranus-workspace/design-system@2.0.0) (2026-04-13)
 
 

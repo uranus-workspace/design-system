@@ -50,7 +50,7 @@
     "@types/react-dom": "^19.0.2",
     "@uranus-workspace/biome-config": "workspace:*",
     "@uranus-workspace/tsconfig": "workspace:*",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.10",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.2"
   }

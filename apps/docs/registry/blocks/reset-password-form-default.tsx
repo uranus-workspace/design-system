@@ -5,14 +5,16 @@ import { Card, CardContent } from '@uranus-workspace/design-system';
 
 export default function ResetPasswordFormDefault() {
   return (
-    <Card className="w-full max-w-md shadow-md">
-      <CardContent className="p-6 sm:p-8">
-        <ResetPasswordForm
-          title="Nova senha"
-          description="Escolha uma senha forte para sua conta."
-          onSubmit={() => {}}
-        />
-      </CardContent>
-    </Card>
+    <div className="flex w-full justify-center">
+      <Card className="w-full max-w-md border-border/60 shadow-lg">
+        <CardContent className="p-6 sm:p-8">
+          <ResetPasswordForm
+            title="Definir nova senha"
+            description="Escolha uma senha forte com ao menos 8 caracteres."
+            onSubmit={() => {}}
+          />
+        </CardContent>
+      </Card>
+    </div>
   );
 }

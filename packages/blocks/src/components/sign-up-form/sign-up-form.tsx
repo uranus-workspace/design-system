@@ -56,7 +56,7 @@ function evaluatePassword(password: string): PasswordStrength {
   if (/[A-Z]/.test(password) && /[a-z]/.test(password)) score += 1;
   if (/\d/.test(password)) score += 1;
   if (/[^A-Za-z0-9]/.test(password)) score += 1;
-  const labels = ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'];
+  const labels = ['Muito fraca', 'Fraca', 'Razoável', 'Boa', 'Forte'];
   return { score, label: labels[score] ?? '' };
 }
 
@@ -64,7 +64,7 @@ const SignUpOAuthOnlyInner = forwardRef<HTMLDivElement, SignUpFormOAuthOnlyProps
   function SignUpOAuthOnlyInner(
     {
       className,
-      title = 'Create your account',
+      title = 'Criar sua conta',
       description,
       error,
       socialProviders,
@@ -87,7 +87,7 @@ const SignUpOAuthOnlyInner = forwardRef<HTMLDivElement, SignUpFormOAuthOnlyProps
         className={cn('flex flex-col gap-6', className)}
         {...shellProps}
       >
-        <header className="flex flex-col gap-2">
+        <header className="flex flex-col gap-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
           {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
         </header>
@@ -106,18 +106,18 @@ const SignUpOAuthOnlyInner = forwardRef<HTMLDivElement, SignUpFormOAuthOnlyProps
 
         {loading ? (
           <p className="text-center text-sm text-muted-foreground" role="status">
-            Loading…
+            Carregando…
           </p>
         ) : null}
 
         {signInHref ? (
           <p className="text-center text-sm text-muted-foreground">
-            {'Already have an account? '}
+            {'Já tem uma conta? '}
             <BlockLink
               href={signInHref}
               className="font-medium text-foreground underline-offset-4 hover:underline"
             >
-              Sign in
+              Entrar
             </BlockLink>
           </p>
         ) : null}
@@ -134,11 +134,11 @@ const SignUpCredentialInner = forwardRef<HTMLFormElement, SignUpFormCredentialPr
       onSubmit,
       loading = false,
       error = null,
-      title = 'Create your account',
+      title = 'Criar sua conta',
       description,
       socialProviders,
       signInHref,
-      termsLabel = 'I accept the Terms of Service and Privacy Policy.',
+      termsLabel = 'Aceito os Termos de Serviço e a Política de Privacidade.',
       className,
       credentials,
       ...formProps
@@ -174,7 +174,7 @@ const SignUpCredentialInner = forwardRef<HTMLFormElement, SignUpFormCredentialPr
             await onSubmit(values);
           })}
         >
-          <header className="flex flex-col gap-2">
+          <header className="flex flex-col gap-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
             {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
           </header>
@@ -197,7 +197,7 @@ const SignUpCredentialInner = forwardRef<HTMLFormElement, SignUpFormCredentialPr
               name="name"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-1.5">
-                  <FormLabel>Full name</FormLabel>
+                  <FormLabel>Nome completo</FormLabel>
                   <FormControl>
                     <Input autoComplete="name" required {...field} />
                   </FormControl>
@@ -216,7 +216,7 @@ const SignUpCredentialInner = forwardRef<HTMLFormElement, SignUpFormCredentialPr
                     <Input
                       type="email"
                       autoComplete="email"
-                      placeholder="you@uranus.com.br"
+                      placeholder="voce@uranus.com.br"
                       required
                       {...field}
                     />
@@ -231,7 +231,7 @@ const SignUpCredentialInner = forwardRef<HTMLFormElement, SignUpFormCredentialPr
               name="password"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-1.5">
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Senha</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -245,8 +245,8 @@ const SignUpCredentialInner = forwardRef<HTMLFormElement, SignUpFormCredentialPr
                   <div id="sign-up-password-strength" className="flex flex-col gap-1">
                     <Progress
                       value={meterValue}
-                      aria-label="Password strength"
-                      aria-valuetext={strength.label || 'Empty'}
+                      aria-label="Força da senha"
+                      aria-valuetext={strength.label || 'Vazia'}
                       className="h-1"
                     />
                     <span className="text-xs text-muted-foreground">{strength.label}</span>
@@ -265,7 +265,7 @@ const SignUpCredentialInner = forwardRef<HTMLFormElement, SignUpFormCredentialPr
                       aria-label={
                         typeof termsLabel === 'string'
                           ? termsLabel
-                          : 'Accept the terms of service and privacy policy'
+                          : 'Aceitar os termos de serviço e a política de privacidade'
                       }
                       checked={field.value}
                       onCheckedChange={(checked) => field.onChange(checked === true)}
@@ -282,18 +282,18 @@ const SignUpCredentialInner = forwardRef<HTMLFormElement, SignUpFormCredentialPr
             />
 
             <Button type="submit" className="w-full">
-              {loading ? 'Creating account…' : 'Create account'}
+              {loading ? 'Criando conta…' : 'Criar conta'}
             </Button>
           </fieldset>
 
           {signInHref ? (
             <p className="text-center text-sm text-muted-foreground">
-              {'Already have an account? '}
+              {'Já tem uma conta? '}
               <BlockLink
                 href={signInHref}
                 className="font-medium text-foreground underline-offset-4 hover:underline"
               >
-                Sign in
+                Entrar
               </BlockLink>
             </p>
           ) : null}

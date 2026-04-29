@@ -47,8 +47,8 @@ export const OtpVerificationForm = forwardRef<HTMLFormElement, OtpVerificationFo
       onSubmit,
       loading = false,
       error = null,
-      title = 'Verify your email',
-      description = 'We sent a verification code to your email.',
+      title = 'Verificar seu email',
+      description = 'Enviamos um código de verificação para seu email.',
       length = 6,
       onResend,
       resendCooldown = 30,
@@ -103,7 +103,7 @@ export const OtpVerificationForm = forwardRef<HTMLFormElement, OtpVerificationFo
 
           <fieldset disabled={loading} className="flex flex-col items-center gap-4">
             <label htmlFor={codeFieldId} className="sr-only">
-              Verification code
+              Código de verificação
             </label>
             <FormField
               control={form.control}
@@ -142,13 +142,13 @@ export const OtpVerificationForm = forwardRef<HTMLFormElement, OtpVerificationFo
             />
 
             <Button type="submit" className="w-full" disabled={codeValue.length !== length}>
-              {loading ? 'Verifying…' : 'Verify'}
+              {loading ? 'Verificando…' : 'Verificar'}
             </Button>
           </fieldset>
 
           {onResend ? (
             <p className="text-sm text-muted-foreground">
-              Didn’t receive a code?{' '}
+              Não recebeu o código?{' '}
               <button
                 type="button"
                 onClick={async () => {
@@ -159,7 +159,7 @@ export const OtpVerificationForm = forwardRef<HTMLFormElement, OtpVerificationFo
                 disabled={secondsLeft > 0}
                 className="font-medium text-foreground underline-offset-4 hover:underline disabled:cursor-not-allowed disabled:text-muted-foreground disabled:no-underline"
               >
-                {secondsLeft > 0 ? `Resend in ${secondsLeft}s` : 'Resend'}
+                {secondsLeft > 0 ? `Reenviar em ${secondsLeft}s` : 'Reenviar'}
               </button>
             </p>
           ) : null}

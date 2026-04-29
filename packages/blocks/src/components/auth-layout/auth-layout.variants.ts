@@ -12,9 +12,14 @@ export const authLayoutVariants = cva('grid min-h-svh w-full bg-background', {
   },
 });
 
-/** Brand gradients from the Uranus preset (`packages/tailwind-config/preset.css`). */
+/**
+ * Brand gradients from the Uranus preset (`packages/tailwind-config/preset.css`).
+ * The gradients are always dark, so the panel intentionally pins to `text-white`
+ * regardless of the active theme — `text-primary-foreground` would flip to navy
+ * in dark mode and disappear.
+ */
 export const authLayoutBrandPanelVariants = cva(
-  'hidden flex-col justify-between p-10 text-primary-foreground lg:flex',
+  'hidden flex-col justify-between p-10 text-white lg:flex',
   {
     variants: {
       brandTone: {

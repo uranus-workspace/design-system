@@ -46,12 +46,12 @@ const ForgotPasswordFieldsInner = forwardRef<HTMLFormElement, ForgotPasswordFiel
   function ForgotPasswordFieldsInner(props, forwardedRef) {
     const {
       className,
-      description = 'Enter your email and we’ll send you a reset link.',
+      description = 'Informe seu email e enviaremos um link para redefinir sua senha.',
       error = null,
       loading = false,
       onSubmit,
       signInHref,
-      title = 'Forgot your password?',
+      title = 'Esqueceu sua senha?',
       ...formAttrs
     } = props;
 
@@ -73,7 +73,7 @@ const ForgotPasswordFieldsInner = forwardRef<HTMLFormElement, ForgotPasswordFiel
             await onSubmit(values);
           })}
         >
-          <header className="flex flex-col gap-2">
+          <header className="flex flex-col gap-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
             {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
           </header>
@@ -95,7 +95,7 @@ const ForgotPasswordFieldsInner = forwardRef<HTMLFormElement, ForgotPasswordFiel
                     <Input
                       type="email"
                       autoComplete="email"
-                      placeholder="you@uranus.com.br"
+                      placeholder="voce@uranus.com.br"
                       {...field}
                     />
                   </FormControl>
@@ -105,7 +105,7 @@ const ForgotPasswordFieldsInner = forwardRef<HTMLFormElement, ForgotPasswordFiel
             />
 
             <Button type="submit" className="w-full">
-              {loading ? 'Sending…' : 'Send reset link'}
+              {loading ? 'Enviando…' : 'Enviar link de redefinição'}
             </Button>
           </fieldset>
 
@@ -115,7 +115,7 @@ const ForgotPasswordFieldsInner = forwardRef<HTMLFormElement, ForgotPasswordFiel
                 href={signInHref}
                 className="font-medium text-foreground underline-offset-4 hover:underline"
               >
-                Back to sign in
+                Voltar para entrar
               </BlockLink>
             </p>
           ) : null}
@@ -139,8 +139,8 @@ export const ForgotPasswordForm = forwardRef<HTMLFormElement, ForgotPasswordForm
       success,
       title,
       description,
-      successTitle = 'Check your inbox',
-      successDescription = 'If an account exists for that email, we sent a password reset link to it.',
+      successTitle = 'Verifique seu email',
+      successDescription = 'Se uma conta existir para esse email, enviamos um link de redefinição de senha.',
       signInHref,
       className,
       ...remaining
@@ -165,7 +165,7 @@ export const ForgotPasswordForm = forwardRef<HTMLFormElement, ForgotPasswordForm
           </div>
           {signInHref ? (
             <Button asChild variant="outline">
-              <BlockLink href={signInHref}>Back to sign in</BlockLink>
+              <BlockLink href={signInHref}>Voltar para entrar</BlockLink>
             </Button>
           ) : null}
         </div>

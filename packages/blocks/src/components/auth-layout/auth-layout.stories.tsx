@@ -12,16 +12,16 @@ export default meta;
 type Story = StoryObj<typeof AuthLayout>;
 
 const BrandMark = () => (
-  <div className="flex h-full min-h-[240px] flex-col justify-between gap-6">
+  <div className="flex h-full min-h-[240px] flex-col justify-between gap-6 text-white">
     <div>
-      <p className="text-xs font-medium uppercase tracking-wider text-primary-foreground/80">
+      <p className="text-xs font-medium uppercase tracking-wider text-white/80">
         Uranus Technologies
       </p>
-      <p className="mt-3 max-w-sm text-balance text-2xl font-semibold leading-tight text-primary-foreground">
+      <p className="mt-3 max-w-sm text-balance text-2xl font-semibold leading-tight text-white">
         Design system que escala com o produto.
       </p>
     </div>
-    <p className="max-w-xs text-sm text-primary-foreground/85">
+    <p className="max-w-xs text-sm text-white/85">
       Gradientes de marca via tokens — sem hex solto nos componentes.
     </p>
   </div>

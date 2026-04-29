@@ -42,8 +42,8 @@ export const ResetPasswordForm = forwardRef<HTMLFormElement, ResetPasswordFormPr
       onSubmit,
       loading = false,
       error = null,
-      title = 'Set a new password',
-      description = 'Choose a strong password to secure your account.',
+      title = 'Definir nova senha',
+      description = 'Escolha uma senha forte para proteger sua conta.',
       minLength = 8,
       className,
       ...rest
@@ -69,7 +69,7 @@ export const ResetPasswordForm = forwardRef<HTMLFormElement, ResetPasswordFormPr
             await onSubmit(values);
           })}
         >
-          <header className="flex flex-col gap-2">
+          <header className="flex flex-col gap-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
             {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
           </header>
@@ -86,7 +86,7 @@ export const ResetPasswordForm = forwardRef<HTMLFormElement, ResetPasswordFormPr
               name="password"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-1.5">
-                  <FormLabel>New password</FormLabel>
+                  <FormLabel>Nova senha</FormLabel>
                   <FormControl>
                     <Input type="password" autoComplete="new-password" {...field} />
                   </FormControl>
@@ -100,7 +100,7 @@ export const ResetPasswordForm = forwardRef<HTMLFormElement, ResetPasswordFormPr
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-1.5">
-                  <FormLabel>Confirm password</FormLabel>
+                  <FormLabel>Confirmar senha</FormLabel>
                   <FormControl>
                     <Input type="password" autoComplete="new-password" {...field} />
                   </FormControl>
@@ -110,7 +110,7 @@ export const ResetPasswordForm = forwardRef<HTMLFormElement, ResetPasswordFormPr
             />
 
             <Button type="submit" className="w-full">
-              {loading ? 'Updating…' : 'Update password'}
+              {loading ? 'Atualizando…' : 'Atualizar senha'}
             </Button>
           </fieldset>
         </form>

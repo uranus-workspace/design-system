@@ -46,9 +46,9 @@ export type SignInFormProps = SignInFormCredentialProps | SignInFormOAuthOnlyPro
 
 function ShellHeader({ title, description }: Pick<SignInFormShared, 'description' | 'title'>) {
   return (
-    <header className="flex flex-col gap-2">
+    <header className="flex flex-col gap-2 text-center">
       <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-        {title ?? 'Welcome back'}
+        {title ?? 'Bem-vindo de volta'}
       </h1>
       {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
     </header>
@@ -59,7 +59,7 @@ const SignInOAuthOnlyInner = forwardRef<HTMLDivElement, SignInFormOAuthOnlyProps
   function SignInOAuthOnlyInner(
     {
       className,
-      title = 'Welcome back',
+      title = 'Bem-vindo de volta',
       description,
       error,
       socialProviders,
@@ -96,18 +96,18 @@ const SignInOAuthOnlyInner = forwardRef<HTMLDivElement, SignInFormOAuthOnlyProps
 
         {loading ? (
           <p className="text-center text-sm text-muted-foreground" role="status">
-            Loading…
+            Carregando…
           </p>
         ) : null}
 
         {signUpHref ? (
           <p className="text-center text-sm text-muted-foreground">
-            {'Don’t have an account? '}
+            {'Ainda não tem conta? '}
             <BlockLink
               href={signUpHref}
               className="font-medium text-foreground underline-offset-4 hover:underline"
             >
-              Create one
+              Criar conta
             </BlockLink>
           </p>
         ) : null}
@@ -124,7 +124,7 @@ const SignInCredentialInner = forwardRef<HTMLFormElement, SignInFormCredentialPr
       onSubmit,
       loading = false,
       error = null,
-      title = 'Welcome back',
+      title = 'Bem-vindo de volta',
       description,
       socialProviders,
       forgotPasswordHref,
@@ -185,7 +185,7 @@ const SignInCredentialInner = forwardRef<HTMLFormElement, SignInFormCredentialPr
                     <Input
                       type="email"
                       autoComplete="email"
-                      placeholder="you@uranus.com.br"
+                      placeholder="voce@uranus.com.br"
                       required
                       {...field}
                     />
@@ -201,13 +201,13 @@ const SignInCredentialInner = forwardRef<HTMLFormElement, SignInFormCredentialPr
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Senha</FormLabel>
                     {forgotPasswordHref ? (
                       <BlockLink
                         href={forgotPasswordHref}
                         className="text-xs font-medium text-muted-foreground underline-offset-4 hover:underline"
                       >
-                        Forgot password?
+                        Esqueceu a senha?
                       </BlockLink>
                     ) : null}
                   </div>
@@ -227,13 +227,13 @@ const SignInCredentialInner = forwardRef<HTMLFormElement, SignInFormCredentialPr
                   <FormItem className="flex flex-row items-start gap-2 space-y-0">
                     <FormControl className="!mt-0.5 shrink-0 flex">
                       <Checkbox
-                        aria-label="Remember me"
+                        aria-label="Manter conectado"
                         checked={field.value}
                         onCheckedChange={(checked) => field.onChange(checked === true)}
                       />
                     </FormControl>
                     <span className="text-sm font-normal leading-snug pb-1.5 pt-1.5">
-                      Remember me
+                      Manter conectado
                     </span>
                   </FormItem>
                 )}
@@ -241,18 +241,18 @@ const SignInCredentialInner = forwardRef<HTMLFormElement, SignInFormCredentialPr
             ) : null}
 
             <Button type="submit" className="w-full">
-              {loading ? 'Signing in…' : 'Sign in'}
+              {loading ? 'Entrando…' : 'Entrar'}
             </Button>
           </fieldset>
 
           {signUpHref ? (
             <p className="text-center text-sm text-muted-foreground">
-              {'Don’t have an account? '}
+              {'Ainda não tem conta? '}
               <BlockLink
                 href={signUpHref}
                 className="font-medium text-foreground underline-offset-4 hover:underline"
               >
-                Create one
+                Criar conta
               </BlockLink>
             </p>
           ) : null}
